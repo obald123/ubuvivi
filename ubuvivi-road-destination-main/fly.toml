@@ -1,0 +1,50 @@
+# fly.toml app configuration file generated for ubuvivi-rd on 2023-07-20T11:17:30+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "ubuvivi-rd"
+primary_region = "jnb"
+console_command = "php /var/www/html/artisan tinker"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.1"
+
+[deploy]
+  strategy = "bluegreen"
+
+[env]
+  APP_ENV = "production"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  SESSION_DRIVER = "cookie"
+  SESSION_SECURE_COOKIE = "true"
+  PORT = "8080"
+  APP_URL = "https://ubuvivitours.com"
+
+[[services]]
+  internal_port = 8080
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 8080
+    force_https = false
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.http_checks]]
+    grace_period = "5s"
+    interval = 45000
+    method = "GET"
+    path = "/"
+    protocol = "http"
+    timeout = 2000
+    tls_skip_verify = false

@@ -1,0 +1,10 @@
+php artisan infyom:scaffold BookingType --seeder --factory --views=create,edit,index --fromTable --tableName=booking_types --prefix=types -n
+php artisan infyom:scaffold FuelType --seeder --factory --views=create,edit,index --fromTable --tableName=fuel_types --prefix=types -n
+php artisan infyom:scaffold Transmission --seeder --factory --views=create,edit,index --fromTable --tableName=transmissions --prefix=types -n
+php artisan infyom:scaffold VehicleBrand --seeder --factory --views=create,edit,index --fromTable --tableName=vehicle_brands --prefix=types -n
+php artisan infyom:scaffold VehicleModel --seeder --factory --views=create,edit,index --fromTable --tableName=vehicle_models --prefix=types -n
+php artisan infyom:scaffold Booking --seeder --factory --fromTable --tableName=bookings -n
+php artisan infyom:scaffold Package --seeder --factory --fromTable --tableName=packages -n
+php artisan infyom:scaffold Payment --seeder --factory --fromTable --tableName=payments -n
+php artisan infyom:scaffold User --seeder --factory --fromTable --tableName=users -n
+php artisan infyom:scaffold Vehicle --seeder --factory --fromTable --tableName=vehicles -n

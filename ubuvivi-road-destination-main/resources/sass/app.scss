@@ -1,0 +1,74 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;0,800;0,900;0,1000;1,600;1,700;1,800;1,900;1,1000&display=swap');
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+@import "~datatables.net-bs4/css/dataTables.bootstrap4.css";
+@import "~datatables.net-buttons-bs4/css/buttons.bootstrap4.css";
+
+
+table {
+    min-width: max-content;
+
+    tbody tr {
+        td:last-child {
+            width: 0px;
+        }
+    }
+    thead tr {
+        th:last-child {
+            text-align: end;
+        }
+    }
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button-bevel !important;
+}
+
+.w-1 {
+    width: 1px;
+}
+.dz-progress {
+    display: none;
+}
+
+.book-btn {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.lh-30 {
+    line-height: 30 !important;
+}
+
+textarea.form-control {
+    height: auto !important;
+}
+
+.font-primary {
+    font-family: var(--font-family-sans-serif) !important;
+}
+
+.nice-select.small {
+    font-size: 14px !important;
+    height: 48px !important;
+    line-height: 48px !important;
+    display: flex !important;
+}
+.font-15 {
+    font-size: 15px !important;
+}
+.page__heading {
+    color: #ffffff;
+}
+
+.section_header {
+    background-color: #b28138 !important;
+}
