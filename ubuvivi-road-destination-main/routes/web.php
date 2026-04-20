@@ -29,6 +29,8 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/services", 'services')->name("guest.services");
 
+    Route::get("/events", 'events')->name("guest.events");
+
     Route::get("/contact", 'contact')->name("guest.contact");
 
     Route::get("/cars", 'car_list')->name("car.list");

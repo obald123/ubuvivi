@@ -1,89 +1,68 @@
 @extends('layouts.auth_app')
-@section('title')
-    Register
-@endsection
+
+@section('title', 'Register')
+
 @section('content')
-    <div class="card card-primary" style="border-radius: 15px">
-        <div class="card-header justify-content-center">
-            <h4>Agent Registration</h4>
+
+    @if ($errors->any())
+        <div class="auth-errors">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
+
+        {{-- Full Name --}}
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-user"></i></div>
+            <input type="text" name="name" placeholder="Enter your Full names"
+                value="{{ old('name') }}" required autofocus>
         </div>
 
-        <div class="card-body pt-1">
-            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-                @csrf
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="first_name">Full Name:</label><span class="text-danger">*</span>
-                            <input id="firstName" type="text"
-                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                tabindex="1" placeholder="Enter Full Name" value="{{ old('name') }}" autofocus required>
-                            <div class="invalid-feedback">
-                                {{ $errors->first('name') }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="email">Email:</label><span class="text-danger">*</span>
-                            <input id="email" type="email"
-                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                placeholder="Enter Email address" name="email" tabindex="1" value="{{ old('email') }}"
-                                required autofocus>
-                            <div class="invalid-feedback">
-                                {{ $errors->first('email') }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="phone">Phone number:</label><span class="text-danger">*</span>
-                            <input id="phone_number" type="number"
-                                class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}"
-                                placeholder="Enter Phone number" name="phone_number" tabindex="1"
-                                value="{{ old('phone_number') }}" required autofocus>
-                            <div class="invalid-feedback">
-                                {{ $errors->first('phone_number') }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="password" class="control-label">Password
-                                :</label><span class="text-danger">*</span>
-                            <input id="password" type="password"
-                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                placeholder="Set account password" name="password" tabindex="2" required>
-                            <div class="invalid-feedback">
-                                {{ $errors->first('password') }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="password_confirmation" class="control-label">Confirm Password:</label><span
-                                class="text-danger">*</span>
-                            <input id="password_confirmation" type="password" placeholder="Confirm account password"
-                                class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
-                                name="password_confirmation" tabindex="2">
-                            <div class="invalid-feedback">
-                                {{ $errors->first('password_confirmation') }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt-4">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                                Register
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+        {{-- Email --}}
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-envelope"></i></div>
+            <input type="email" name="email" placeholder="Enter your email address"
+                value="{{ old('email') }}" required>
         </div>
-    </div>
-    <div class="mt-5 text-muted text-center">
-        Already have an account ? <a class="bg-primary px-2 py-1 rounded text-light" href="{{ route('login') }}">Log
-            in</a>
-    </div>
+
+        {{-- Phone --}}
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-phone"></i></div>
+            <input type="tel" name="phone_number" placeholder="Enter your phone number"
+                value="{{ old('phone_number') }}" required>
+        </div>
+
+        {{-- Password --}}
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-lock"></i></div>
+            <input type="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        {{-- Confirm Password --}}
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-lock"></i></div>
+            <input type="password" name="password_confirmation" placeholder="Re-enter your password" required>
+        </div>
+
+        {{-- Terms --}}
+        <div class="auth-row" style="justify-content: flex-start;">
+            <label>
+                <input type="checkbox" required>
+                I agree to Terms &amp; Conditions
+            </label>
+        </div>
+
+        <button type="submit" class="auth-submit">Sign Up</button>
+    </form>
+
+    <p class="auth-footer-link">
+        Already have an account? <a href="{{ route('login') }}">Sign in</a>
+    </p>
+
 @endsection

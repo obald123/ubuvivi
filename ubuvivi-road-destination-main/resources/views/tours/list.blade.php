@@ -10,92 +10,214 @@
     <meta name="keywords" content="ubuvivi, Rwanda tourism services, Tour & Travels Agents Rwanda">
 @endsection
 
-@section('css')
-    <style>
-        .clamp-text {
-            margin: 0;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            height: 65px;
-        }
-    </style>
-@endsection
+@section('body-class', 'hero-page')
 
+@section('css')
+<style>
+    /* ── Hero ── */
+    .tours-hero {
+        position: relative;
+        height: 100vh;
+        min-height: 560px;
+        background: url('{{ asset("assets/images/backgrounds/bg_11.jpg") }}') center center / cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .tours-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,.38);
+    }
+    .tours-hero-content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+    }
+    .tours-hero-content h1 {
+        font-size: clamp(42px, 7vw, 72px);
+        font-weight: 800;
+        margin-bottom: 16px;
+        text-shadow: 0 2px 12px rgba(0,0,0,.3);
+    }
+    .tours-hero-content p {
+        font-size: clamp(16px, 2.5vw, 20px);
+        color: rgba(255,255,255,.92);
+        max-width: 640px;
+        margin: 0 auto 28px;
+        line-height: 1.6;
+    }
+    .tours-hero-link {
+        color: #C85A2A;
+        font-weight: 700;
+        font-size: 18px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color .2s;
+    }
+    .tours-hero-link:hover { color: #e8794a; }
+
+    /* Decorative wave bottom */
+    .hero-wave {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        z-index: 2;
+        line-height: 0;
+    }
+    .hero-wave svg { display: block; }
+
+    /* ── Tour Cards ── */
+    .tours-grid-section {
+        background: #fff;
+        padding: 70px 0 80px;
+    }
+    .tour-card {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 2px 20px rgba(0,0,0,.08);
+        transition: transform .25s, box-shadow .25s;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .tour-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 40px rgba(0,0,0,.14);
+    }
+    .tour-card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        display: block;
+    }
+    .tour-card-img-placeholder {
+        width: 100%;
+        height: 220px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .tour-card-body {
+        padding: 18px 18px 0;
+        flex: 1;
+    }
+    .tour-card-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0;
+        line-height: 1.3;
+    }
+    .tour-card-footer {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #C85A2A;
+        border-radius: 50px;
+        padding: 12px 20px;
+        margin: 16px 18px 18px;
+        text-decoration: none;
+        transition: background .2s;
+    }
+    .tour-card-footer:hover { background: #a84520; text-decoration: none; }
+    .tour-card-price {
+        color: #fff;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    .tour-card-price span {
+        font-size: 13px;
+        font-weight: 400;
+        opacity: .85;
+    }
+    .tour-card-cta {
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .no-tours {
+        text-align: center;
+        padding: 80px 0;
+        color: #888;
+        font-size: 18px;
+    }
+</style>
+@endsection
 
 @section('content')
-    <section class="search_section clearfix pb-5" data-bg-color="#161829"
-        style="background-color: rgb(22, 24, 41);padding-top: 150px">
-    </section>
-    <section style="background-color: rgb(255, 245, 175)">
-        <div class="container py-4">
-            <h1 class="h3 font-weight-bold mb-5 text-center">Rwanda Tourism Services</h1>
-            <div class="clearfix">
-                @if ($tours->count())
-                    <div class="row justify-content-start">
-                        @foreach ($tours as $tour)
-                            <div class="col-12 col-md-6 col-lg-4 d-flex">
-                                <div class="d-flex flex-column flex-grow-1 bg-light mb-3 rounded shadow">
-                                    <div class="card-img-top rounded-top"
-                                        style="height: 150px;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url('{{ $tour->images ? $tour->images[0] : asset('/assets/images/vehicles/not_found.png') }}');">
-                                    </div>
-                                    <div class="card-body overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                                        <div class="row flex-column no-gutters align-items-start justify-content-start"
-                                            style="font-size: 16px;line-height: 1.5;height:100%;">
-                                            <h4 class="font-primary">{{ $tour->title }}</h4>
-                                            @if (!$tour->price == 0)
-                                                <h6>$ {{ $tour->price }} / person sharing</h6>
-                                            @else
-                                                <h6>-</h6>
-                                            @endif
-                                            <pre class="clamp-text font-primary">
-                                                {{ $tour->description }}
-                                            </pre>
-                                            <div class="flex-grow-1"></div>
-                                            <div style="width:100%">
-                                                <a href="{{ route('tour.booking', $tour->id) }}"
-                                                    class="btn btn-block btn-primary book-btn font-primary mt-3"
-                                                    type="button">
-                                                    See Details
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="container py-5">
-                        <div class="row align-items-center justify-content-center">
-                            <h4 class="text-center">No Tours available</h4>
-                        </div>
-                    </div>
-                @endisset
+
+    {{-- ── Hero ── --}}
+    <section class="tours-hero">
+        <div class="tours-hero-content">
+            <h1>Explore Rwanda</h1>
+            <p>Discover unforgettable tours across Rwanda's most iconic destinations.</p>
+            <a href="#tours-grid" class="tours-hero-link">
+                View Tours
+                <i class="fas fa-arrow-down"></i>
+            </a>
         </div>
-    </div>
-</section>
-@endsection
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 60" fill="white" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" height="60" width="100%">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z"/>
+            </svg>
+        </div>
+    </section>
 
-@section('script')
-<script>
-    function lineclamp() {
-        var lineheight = parseFloat($('p').css('line-height'));
-        var articleheight = $('.clamp-text').height();
-        var calc = parseInt(articleheight / lineheight);
-        $("p").css({
-            "-webkit-line-clamp": "" + calc + ""
-        });
-    }
+    {{-- ── Tours Grid ── --}}
+    <section class="tours-grid-section" id="tours-grid">
+        <div class="container">
+            @if ($tours->count())
+                <div class="row">
+                    @foreach ($tours as $tour)
+                        <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
+                            <div class="tour-card w-100">
+                                @if ($tour->images && count($tour->images))
+                                    <div class="tour-card-img-placeholder"
+                                         style="background-image: url('{{ $tour->images[0] }}')">
+                                    </div>
+                                @else
+                                    <img src="{{ asset('assets/images/vehicles/not_found.png') }}"
+                                         alt="{{ $tour->title }}"
+                                         class="tour-card-img">
+                                @endif
 
+                                <div class="tour-card-body">
+                                    <h3 class="tour-card-title">{{ $tour->title }}</h3>
+                                </div>
 
-    $(document).ready(function() {
-        lineclamp();
-    });
+                                <a href="{{ route('tour.booking', $tour->id) }}" class="tour-card-footer">
+                                    <div class="tour-card-price">
+                                        @if ($tour->price > 0)
+                                            ${{ number_format($tour->price) }} <span>/person</span>
+                                        @else
+                                            <span>Contact for price</span>
+                                        @endif
+                                    </div>
+                                    <div class="tour-card-cta">
+                                        View Details
+                                        <i class="fas fa-chevron-right" style="font-size:11px;"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="no-tours">
+                    <i class="fas fa-map-marker-alt" style="font-size:40px; color:#C85A2A; display:block; margin-bottom:16px;"></i>
+                    No tours available at the moment. Check back soon!
+                </div>
+            @endif
+        </div>
+    </section>
 
-    $(window).resize(function() {
-        lineclamp();
-    });
-</script>
 @endsection

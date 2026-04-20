@@ -1,121 +1,199 @@
 @extends('layouts.guest')
 
 @section('title')
-    Best Airport Transfer Services Rwanda - Ubuvivi
+    Best Transfer Services Rwanda - Ubuvivi
 @endsection
 
 @section('meta')
     <meta name="description"
-        content="Providing hassle-free Rwanda airport transfers services seven days a week, Our services are 24/7 so any time you get to the airport">
+        content="Providing hassle-free Rwanda transfer services seven days a week, Our services are 24/7 so any time you get to the airport">
     <meta name="keywords" content="ubuvivi, Rwanda Airport Transfers, Airport Transfer Services Rwanda, Airport Car Services Rwanda">
 @endsection
 
+@section('body-class', 'hero-page')
+
 @section('css')
-    <style>
-        .about img {
-            max-height: 350px;
-            object-fit: cover;
-            width: 100%;
-        }
-    </style>
+<style>
+    /* ── Hero ── */
+    .transfers-hero {
+        position: relative;
+        height: 100vh;
+        min-height: 520px;
+        background: url('{{ asset("assets/images/backgrounds/bg_7.jpg") }}') center center / cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .transfers-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,.52);
+    }
+    .transfers-hero-content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+    }
+    .transfers-hero-content h1 {
+        font-size: clamp(32px, 5.5vw, 62px);
+        font-weight: 800;
+        text-shadow: 0 2px 16px rgba(0,0,0,.4);
+        max-width: 760px;
+        margin: 0 auto;
+        line-height: 1.2;
+    }
+
+    /* ── Shared section styles ── */
+    .transfers-content { background: #fff; padding: 80px 0; }
+    .transfer-row { padding: 50px 0; border-bottom: 1px solid #f0f0f0; }
+    .transfer-row:last-child { border-bottom: none; }
+
+    .orange-dash {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #C85A2A;
+        font-weight: 600;
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+    .orange-dash::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 2px;
+        background: #C85A2A;
+    }
+    .transfer-row h2 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 14px;
+    }
+    .transfer-row p {
+        color: #555;
+        font-size: 15px;
+        line-height: 1.8;
+        margin-bottom: 8px;
+    }
+    .transfer-row .includes-label {
+        font-weight: 700;
+        color: #1a1a1a;
+        font-size: 15px;
+        margin: 12px 0 6px;
+    }
+    .transfer-row ul {
+        padding-left: 0;
+        list-style: none;
+        margin-bottom: 0;
+    }
+    .transfer-row ul li {
+        color: #555;
+        font-size: 15px;
+        padding: 3px 0;
+    }
+    .transfer-row ul li::before {
+        content: '• ';
+        color: #1a1a1a;
+    }
+    .transfer-link {
+        display: inline-block;
+        color: #C85A2A;
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+        margin-top: 20px;
+        transition: color .2s;
+    }
+    .transfer-link:hover { color: #a84520; }
+    .transfer-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+    .transfer-img.round-tr { border-radius: 60px 20px 20px 20px; }
+    .transfer-img.round-tl { border-radius: 20px 60px 20px 20px; }
+    .transfer-img.round-br { border-radius: 20px 20px 60px 20px; }
+</style>
 @endsection
 
 @section('content')
-    <section class="search_section clearfix pb-5" data-bg-color="#161829"
-        style="background-color: rgb(22, 24, 41);padding-top: 90px">
 
+    {{-- ── Hero ── --}}
+    <section class="transfers-hero">
+        <div class="transfers-hero-content">
+            <h1>Move Around Rwanda with Ease</h1>
+        </div>
     </section>
-    <section style="background-color: rgb(255, 245, 175)" class="pt-md-5 about pt-0">
-        <section>
-            <div class="container mb-5">
-                <div class="clearfix">
-                    <div class="row justify-content-center">
-                        <div class="col-12 col-md-8" data-aos="fade-up" data-aos-delay="300">
-                            <h1 class="mb-3 text-center">Rwanda Airport Transfers</h1>
-                            <div>
-                                UBUVIVI Car Rental and Tours, we
-                                offer Self drive cars, car with a driver,
-                                We also provide tours services such
-                                as professional tour guidence, to the
-                                different touristic destinations like
-                                Rubavu, Karongi, Nyungwe national
-                                Park, Akagera national park and
-                                Volcanoes national Park
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="container py-5">
 
-                <div class="row">
-                    <div class="col-12 col-md-6 d-flex justify-content-start order-md-2 mb-4" data-aos="fade-up"
-                        data-aos-delay="300">
-                        <img src="{{ asset('assets/images/about/3.jpg') }}" class="img img-fluid rounded" alt="">
-                    </div>
-                    <div class="col" data-aos="fade-up" data-aos-delay="500">
-                        <h2 class="mb-3">
-                            Car Rental
-                        </h2>
-                        <div>
-                            we offer Self drive cars, car with a driver. Our cars are in a pristine conditions
-                            and installed with the state of art technology, with all the required Authority Documentation.
-                            <br>
-                            We also have professional drivers who
-                            know all attractive places in Kigali and
-                            paradise-like sceneries throughout
-                            Rwanda.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="container py-5">
-                <div class="clearfix">
-                    <div class="row">
-                        <div class="col-12 col-md-6 d-flex justify-content-end2 mb-4" data-aos="fade-up"
-                            data-aos-delay="300">
-                            <img src="{{ asset('assets/images/about/4.png') }}" class="img img-fluid rounded"
-                                alt="">
-                        </div>
-                        <div class="col" data-aos="fade-up" data-aos-delay="500">
-                            <h2 class="mb-3">Tours and travels</h2>
-                            <div>
-                                Travelers visiting this beautiful
-                                country are usually taken aback by her beauty;
-                                the stud lush green and well-terraced hills in the
-                                countryside, the dazzling blue crystal lakes such
-                                as Lake Kivu, her rivers that meander through hills
-                                and mountains, stunning national parks and her
-                                hospitable people.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="container py-5">
+    {{-- ── Transfer Services ── --}}
+    <section class="transfers-content">
+        <div class="container">
 
-                <div class="row">
-                    <div class="col-12 col-md-6 d-flex justify-content-start order-md-2 mb-4" data-aos="fade-up"
-                        data-aos-delay="300">
-                        <img src="{{ asset('assets/images/about/5.jpg') }}" class="img img-fluid rounded" alt="">
-                    </div>
-                    <div class="col" data-aos="fade-up" data-aos-delay="500">
-                        <h2 class="mb-3">
-                            Airport transfers
-                        </h2>
-                        <div>
-                            We provide pre-booked methods of transport for picking up passengers from
-                            an airport and dropping them off at their holiday resort or chosen destination.
-                        </div>
-                    </div>
+            {{-- Airport Transfers --}}
+            <div class="transfer-row row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
+                    <span class="orange-dash">Airport Transfers</span>
+                    <h2>Airport Transfers</h2>
+                    <p>Pickup and drop-off services to and from the airport with comfort and reliability.</p>
+                    <p class="includes-label">Includes:</p>
+                    <ul>
+                        <li>Meet &amp; greet</li>
+                        <li>Luggage assistance</li>
+                        <li>On-time pickup</li>
+                    </ul>
+                    <a href="{{ url('/cars') }}" class="transfer-link">Book Your Transfer &raquo;</a>
+                </div>
+                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
+                    <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}"
+                         alt="Airport Transfers" class="transfer-img round-tr">
                 </div>
             </div>
-        </section>
+
+            {{-- Hotel Transfers --}}
+            <div class="transfer-row row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
+                    <img src="{{ asset('assets/images/about/3.jpg') }}"
+                         alt="Hotel Transfers" class="transfer-img round-br">
+                </div>
+                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
+                    <span class="orange-dash">Hotel Transfers</span>
+                    <h2>Hotel Transfers</h2>
+                    <p>Easy transportation between hotels, city locations, and nearby destinations.</p>
+                    <p class="includes-label">Includes:</p>
+                    <ul>
+                        <li>Door-to-door service</li>
+                        <li>Comfortable vehicles</li>
+                        <li>Flexible timing</li>
+                    </ul>
+                    <a href="{{ url('/cars') }}" class="transfer-link">Book Your Transfer &raquo;</a>
+                </div>
+            </div>
+
+            {{-- City & Long-Distance Transfers --}}
+            <div class="transfer-row row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
+                    <span class="orange-dash">City &amp; Long-Distance Transfers</span>
+                    <h2>City &amp; Long-Distance Transfers</h2>
+                    <p>Travel between cities or tourist destinations with safe and convenient transport.</p>
+                    <p class="includes-label">Includes:</p>
+                    <ul>
+                        <li>Private vehicle</li>
+                        <li>Professional driver</li>
+                        <li>Scenic routes across Rwanda</li>
+                    </ul>
+                    <a href="{{ url('/cars') }}" class="transfer-link">Book Your Transfer &raquo;</a>
+                </div>
+                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
+                    <img src="{{ asset('assets/images/backgrounds/bg_10.jpg') }}"
+                         alt="City Transfers" class="transfer-img round-tr">
+                </div>
+            </div>
+
+        </div>
     </section>
+
 @endsection

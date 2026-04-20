@@ -91,6 +91,11 @@ class GuestController extends Controller
         return view("services");
     }
 
+    public function events()
+    {
+        return view("events");
+    }
+
     public function contact()
     {
 

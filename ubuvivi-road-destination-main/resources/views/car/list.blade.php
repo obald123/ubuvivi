@@ -7,202 +7,393 @@
 @section('meta')
     <meta name="description"
         content="Car Rentals in Kigali, Rwanda - UBUVIVI We offer the best Car hire Rwanda, 4X4 rent a car Rwanda, and self drive Rwanda services">
-    <meta name="keywords" content="ubuvivi, Rwanda Cars for Rental, Car Rentals in Kigali, Car Rentals in Kigali, Kigali Car Rentals">
+    <meta name="keywords" content="ubuvivi, Rwanda Cars for Rental, Car Rentals in Kigali, Kigali Car Rentals">
+@endsection
+
+@section('body-class', 'hero-page')
+
+@section('css')
+<style>
+    /* ── Hero ── */
+    .cars-hero {
+        position: relative;
+        height: 80vh;
+        min-height: 500px;
+        background: url('{{ asset("assets/images/backgrounds/bg_8.jpg") }}') center center / cover no-repeat;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .cars-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,.55);
+    }
+    .cars-hero-content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        padding-bottom: 80px;
+    }
+    .cars-hero-content h1 {
+        font-size: clamp(36px, 6vw, 64px);
+        font-weight: 800;
+        margin-bottom: 0;
+        text-shadow: 0 2px 16px rgba(0,0,0,.4);
+    }
+
+    /* ── Search bar ── */
+    .search-bar-wrap {
+        position: absolute;
+        bottom: -36px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        width: 90%;
+        max-width: 860px;
+    }
+    .search-bar {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 8px 40px rgba(0,0,0,.18);
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .search-bar .filter-group {
+        flex: 1;
+        min-width: 160px;
+        position: relative;
+    }
+    .search-bar .filter-select {
+        width: 100%;
+        appearance: none;
+        -webkit-appearance: none;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 12px 36px 12px 14px;
+        font-size: 14px;
+        color: #444;
+        background: #f9f9f9;
+        cursor: pointer;
+        outline: none;
+        transition: border-color .2s;
+    }
+    .search-bar .filter-select:focus { border-color: #C85A2A; }
+    .search-bar .filter-group::after {
+        content: '\f107';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        pointer-events: none;
+        font-size: 13px;
+    }
+    .search-bar .search-btn {
+        background: #0D1F35;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 28px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background .2s;
+        white-space: nowrap;
+    }
+    .search-bar .search-btn:hover { background: #C85A2A; }
+
+    /* ── Cars Grid ── */
+    .cars-grid-section {
+        background: #f7f7f7;
+        padding: 100px 0 80px;
+    }
+    .car-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(0,0,0,.07);
+        overflow: hidden;
+        transition: transform .25s, box-shadow .25s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .car-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 36px rgba(0,0,0,.13);
+    }
+    .car-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 18px 8px;
+    }
+    .car-card-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0;
+        line-height: 1.3;
+    }
+    .car-year-badge {
+        border: 2px dashed #bbb;
+        border-radius: 50px;
+        padding: 4px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #555;
+        white-space: nowrap;
+    }
+    .car-card-img-wrap {
+        padding: 10px 24px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 160px;
+    }
+    .car-card-img-wrap img {
+        max-height: 150px;
+        max-width: 100%;
+        object-fit: contain;
+        display: block;
+    }
+    .car-card-img-wrap .img-bg {
+        width: 100%;
+        height: 160px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .car-card-specs {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        padding: 12px 18px;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .spec-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+    .spec-item .spec-icon {
+        font-size: 26px;
+        color: #1a1a1a;
+        line-height: 1;
+    }
+    .spec-item .spec-label {
+        font-size: 12px;
+        color: #555;
+        font-weight: 500;
+    }
+    .car-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        margin-top: auto;
+    }
+    .car-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+    .car-price span { font-size: 13px; color: #888; font-weight: 400; }
+    .rent-car-btn {
+        background: #C85A2A;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background .2s;
+        display: inline-block;
+    }
+    .rent-car-btn:hover { background: #a84520; color: #fff; text-decoration: none; }
+    .no-cars {
+        text-align: center;
+        padding: 80px 0;
+        color: #888;
+        font-size: 18px;
+    }
+</style>
 @endsection
 
 @section('content')
-    <section class="search_section clearfix pb-3" data-bg-color="#161829"
-        style="background-color: rgb(22, 24, 41);padding-top: 180px">
-        <div class="container">
-            <h1 class="h3 font-weight-bold mb-5 text-center text-white">Rwanda Cars for Rental</h1>
-            <div class="advance_search_form2 mt-0 p-0 shadow-none">
-                <form action="/cars">
-                    {{ csrf_field() }}
-                    <div class="row align-items-start justify-content-center">
-                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" style="z-index: 45">
-                            <div class="form_item aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
-                                <h4 class="input_title text-white">Vehicle Brand</h4>
-                                <div class="position-relative">
-                                    <select id="brand_select" name="vehicle_brand"
-                                        class="text-capitalize small justify-content-between">
-                                        <option value="" selected>Select Vehicle Brand</option>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand->name }}"
-                                                @if (request()->has('vehicle_brand') && request()->get('vehicle_brand') == $brand->name) selected @endif>
-                                                {{ $brand->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" style="z-index: 4">
-                            <div class="form_item aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
-                                <h4 class="input_title text-white">Vehicle Model</h4>
-                                <div class="position-relative">
-                                    <select id="model_select" name="vehicle_model"
-                                        class="text-capitalize small justify-content-between">
-                                        <option value="" selected>Select Vehicle Model</option>
-                                        @if (request()->has('vehicle_model') && request()->get('vehicle_model'))
-                                            <option value="{{ request()->get('vehicle_model') }}" selected>
-                                                {{ request()->get('vehicle_model') }}
-                                            </option>
-                                        @endif
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center col-lg-auto col-md-6 col-sm-12 col-xs-12 aos-init aos-animate mt-4 flex-wrap"
-                            data-aos="fade-up" data-aos-delay="600">
-                            <a href="{{ route('car.list') }}"
-                                style="font-family: 'nunito', Arial, cursive;height: 48px; line-height: 50px;"
-                                class="font-weight-bold font-15 bg_default_red text-uppercase my-2 mr-2 rounded px-3 text-white">
-                                Back
-                            </a>
-                            <button id="sbmt_btn" type="submit" class="custom_btn bg_default_red text-uppercase my-2 ms-2"
-                                style="height: 48px;line-height: 50px;min-width: 0; width: fit-content">
-                                <span id="sbmt_btn_loading" class="fa fa-spinner fa-spin"></span>
-                                <span id="sbmt_btn_text">Search</span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+
+    {{-- ── Hero ── --}}
+    <section class="cars-hero">
+        <div class="cars-hero-content">
+            <h1>Find Your Perfect Car</h1>
         </div>
 
+        {{-- Search bar --}}
+        <div class="search-bar-wrap">
+            <form action="/cars" method="GET">
+                <div class="search-bar">
+                    <div class="filter-group">
+                        <select id="brand_select" name="vehicle_brand" class="filter-select">
+                            <option value="">Vehicle Brand</option>
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->name }}"
+                                    @if(request('vehicle_brand') == $brand->name) selected @endif>
+                                    {{ $brand->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="model_select" name="vehicle_model" class="filter-select">
+                            <option value="">Vehicle Model</option>
+                            @if(request('vehicle_model'))
+                                <option value="{{ request('vehicle_model') }}" selected>{{ request('vehicle_model') }}</option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select name="price" class="filter-select">
+                            <option value="">Price</option>
+                            <option value="low" @if(request('price')=='low') selected @endif>Low to High</option>
+                            <option value="high" @if(request('price')=='high') selected @endif>High to Low</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn" id="sbmt_btn">
+                        <span id="sbmt_btn_loading" class="fas fa-spinner fa-spin" style="display:none;"></span>
+                        <i class="fas fa-search"></i>
+                        <span id="sbmt_btn_text">Search</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </section>
-    <section style="background-color: rgb(255, 245, 175)">
+
+    {{-- ── Cars Grid ── --}}
+    <section class="cars-grid-section">
         <div class="container">
-            <div class="row clearfix">
-                @if ($vehicles->count())
+            @if ($vehicles->count())
+                <div class="row">
                     @foreach ($vehicles as $vehicle)
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="feature_vehicle_item bg-light overflow-hidden rounded shadow" data-aos="fade-up"
-                                data-aos-delay="100">
-                                <div class="title bg-dark-1 text-light px-3 py-2">
-                                    <h5 style="line-height: 1.7" class="font-primary mb-0 text-white">
-                                        {{ $vehicle->brand->name ?? '' }}
-                                        {{ $vehicle->model->name ?? '' }}
-                                        {{ $vehicle->production_year }}
-                                    </h5>
+                        <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
+                            <div class="car-card w-100">
+                                {{-- Header: name + year --}}
+                                <div class="car-card-header">
+                                    <h3 class="car-card-name">
+                                        {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}
+                                    </h3>
+                                    @if($vehicle->production_year)
+                                        <span class="car-year-badge">{{ $vehicle->production_year }}</span>
+                                    @endif
                                 </div>
-                                <div class="card-img-top rounded-0"
-                                    style="height: 180px;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:  @if ($vehicle->images) url({{ $vehicle->images[0] }}), @endif url('{{ asset('/assets/images/vehicles/not_found.png') }}')">
+
+                                {{-- Car image --}}
+                                <div class="car-card-img-wrap">
+                                    @if($vehicle->images && count($vehicle->images))
+                                        <div class="img-bg" style="background-image: url('{{ $vehicle->images[0] }}')"></div>
+                                    @else
+                                        <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}">
+                                    @endif
                                 </div>
-                                <div class="row no-gutters flex-nowrap" style="font-size: 14px;line-height: 1.5;">
-                                    <div class="col border">
-                                        <div class="p-1">
-                                            <p class="font-weight-bold mb-1" style="white-space: nowrap">Transmission</p>
-                                            <span>{{ $vehicle->transmission->name ?? 'N/A' }}</span>
-                                        </div>
+
+                                {{-- Specs --}}
+                                <div class="car-card-specs">
+                                    <div class="spec-item">
+                                        @if(strtolower($vehicle->transmission->name ?? '') == 'automatic')
+                                            <span class="spec-icon">&#x2684;</span>
+                                        @else
+                                            <span class="spec-icon" style="font-size:22px;">
+                                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="7" cy="7" r="3" fill="#1a1a1a"/><circle cx="14" cy="7" r="3" fill="#1a1a1a"/>
+                                                    <circle cx="21" cy="7" r="3" fill="#1a1a1a"/><circle cx="7" cy="21" r="3" fill="#1a1a1a"/>
+                                                    <circle cx="14" cy="21" r="3" fill="#1a1a1a"/><circle cx="21" cy="21" r="3" fill="#1a1a1a"/>
+                                                    <line x1="14" y1="10" x2="14" y2="18" stroke="#1a1a1a" stroke-width="2"/>
+                                                </svg>
+                                            </span>
+                                        @endif
+                                        <span class="spec-label">{{ $vehicle->transmission->name ?? 'N/A' }}</span>
                                     </div>
-                                    <div class="col border">
-                                        <div class="p-1">
-                                            <p class="font-weight-bold mb-1" style="white-space: nowrap">Fuel type</p>
-                                            <span>{{ $vehicle->fuelType->name ?? 'N/A' }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col border">
-                                        <div class="p-1">
-                                            <p class="font-weight-bold mb-1" style="white-space: nowrap">Price / Day</p>
-                                            <span><span style="">$</span>
-                                                {{ $vehicle->price ?? 'N/A' }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col border">
-                                        <div class="p-1">
-                                            <p class="font-weight-bold mb-1" style="white-space: nowrap">Caution</p>
-                                            <span><span style="">$</span>
-                                                {{ $vehicle->one_day_caution ?? 'N/A' }}</span>
-                                        </div>
+                                    <div class="spec-item">
+                                        <span class="spec-icon"><i class="fas fa-gas-pump" style="font-size:22px;"></i></span>
+                                        <span class="spec-label">{{ $vehicle->fuelType->name ?? 'N/A' }}</span>
                                     </div>
                                 </div>
-                                <div class="col-12 p-3">
-                                    <a href="{{ route('car.booking', $vehicle->id) }}"
-                                        class="btn d-block btn-primary font-15 book-btn" type="button">
-                                        Book Now
+
+                                {{-- Footer: price + CTA --}}
+                                <div class="car-card-footer">
+                                    <div class="car-price">
+                                        $ {{ number_format($vehicle->price ?? 0) }}
+                                        <span>/ day</span>
+                                    </div>
+                                    <a href="{{ route('car.booking', $vehicle->id) }}" class="rent-car-btn">
+                                        Rent Car
                                     </a>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-                @else
-                    <div class="container">
-                        <div class="row align-items-center justify-content-center py-5">
-                            <h4 class="text-center">No vehicles available</h4>
-                        </div>
-                    </div>
-                @endisset
+                </div>
+            @else
+                <div class="no-cars">
+                    <i class="fas fa-car" style="font-size:40px; color:#C85A2A; display:block; margin-bottom:16px;"></i>
+                    No vehicles available at the moment.
+                </div>
+            @endif
         </div>
-    </div>
-</section>
+    </section>
+
 @endsection
 
 @section('scripts')
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         getModels();
         $('#brand_select').on('change', getModels);
 
         function getModels() {
+            var brand = $('#brand_select').val();
             $('#sbmt_btn_loading').show();
             $('#sbmt_btn_text').hide();
             $('#sbmt_btn').attr('disabled', true);
             $('#model_select').attr('disabled', true);
-            $('#model_select').niceSelect('update');
 
-
-            var brand = $('#brand_select').val();
             $.ajax({
                 url: `{{ route('brand.models', ':brand_id') }}`.replace(':brand_id', brand),
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
+                data: { _token: "{{ csrf_token() }}" },
                 type: "POST",
-                success: function(data) {
-                    data = $.map(data, function(value, index) {
-                        return {
-                            id: index,
-                            name: value
-                        }
+                success: function (data) {
+                    data = $.map(data, function (value, index) { return { id: index, name: value }; });
+                    $('#model_select option:not(:first)').remove();
+                    data.forEach(function (value) {
+                        var isSelected = "{{ request('vehicle_model') }}" == value.name;
+                        $('#model_select').append($('<option>', { value: value.name, text: value.name, selected: isSelected }));
                     });
-
-                    var options = $('#model_select option');
-
-                    for (var i = 0; i < options.length; i++) {
-                        if (i > 0) {
-                            $('#model_select option').last().remove();
-                        }
-                    }
-                    data.forEach(function(value) {
-                        var isSelected =
-                            "{{ request()->has('vehicle_model') ? request()->get('vehicle_model') : '' }}" ==
-                            value.name;
-                        $('#model_select').append($('<option>', {
-                            value: value.name,
-                            text: value.name,
-                            selected: isSelected
-                        }));
-                    });
-
-
                     $('#sbmt_btn_loading').hide();
                     $('#sbmt_btn_text').show();
                     $('#sbmt_btn').attr('disabled', false);
                     $('#model_select').attr('disabled', false);
-                    $('#model_select').niceSelect('update');
                 },
-                error: function(error) {
+                error: function () {
                     $('#sbmt_btn_loading').hide();
                     $('#sbmt_btn_text').show();
                     $('#sbmt_btn').attr('disabled', false);
                     $('#model_select').attr('disabled', false);
-                    $('#model_select').niceSelect('update');
                 }
             });
         }
-
     });
 </script>
 @endsection
