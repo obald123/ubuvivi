@@ -84,7 +84,18 @@ Route::controller(GuestController::class)->group(function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+// Admin dashboard (only for admin role)
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // ...existing admin routes...
+});
+
+// Client dashboard (only for client role)
+Route::middleware(['auth', 'client'])->group(function () {
+    \App\Http\Controllers\ClientDashboardController::class;
+    Route::get('/client/dashboard', [\App\Http\Controllers\ClientDashboardController::class, 'index'])->name('client.dashboard');
+});
 
 Route::controller(deleteImageController::class)->group(function () {
     Route::post("/vehicle/image/delete", 'vehicle');
