@@ -13,67 +13,128 @@
 
 @section('css')
 <style>
-    /* ── Hero ── */
-    .hero-section {
-        position: relative;
+    /* ── Hero Carousel ── */
+    #heroCarousel,
+    #heroCarousel .carousel-inner,
+    #heroCarousel .carousel-item {
         height: 100vh;
         min-height: 600px;
-        background: url('{{ asset("assets/images/backgrounds/bg_6.jpg") }}') center center / cover no-repeat;
     }
-    .hero-section::after {
-        content: '';
-        position: absolute;
-        top: 0; right: 0; bottom: 0; left: 0;
-        background: linear-gradient(to bottom, rgba(0,0,0,.25) 0%, rgba(0,0,0,.1) 60%, rgba(0,0,0,.5) 100%);
-        z-index: 1;
-    }
-    .hero-pill-bar {
-        position: absolute;
-        bottom: 32px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 88%;
-        max-width: 980px;
-        z-index: 2;
-        background: rgba(13, 31, 53, 0.35);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 50px;
-        padding: 16px 30px;
+    .hero-slide {
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-    .hero-contact-info {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
-    .hero-contact-info span {
-        color: #fff;
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .hero-social a {
-        display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 42px; height: 42px;
-        border-radius: 50%;
-        background: rgba(255,255,255,.15);
-        color: #fff;
-        font-size: 16px;
-        margin-left: 8px;
-        transition: background .2s;
         text-decoration: none;
+        position: relative;
     }
-    .hero-social a:hover { background: #C85A2A; }
+    .hero-slide::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,.30) 0%, rgba(0,0,0,.15) 50%, rgba(0,0,0,.60) 100%);
+    }
+    .hero-slide-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: #fff;
+        padding: 0 20px;
+        max-width: 800px;
+    }
+    .hero-slide-tag {
+        display: inline-block;
+        background: #C85A2A;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 6px 18px;
+        border-radius: 50px;
+        margin-bottom: 20px;
+    }
+    .hero-slide-content h1 {
+        font-size: clamp(32px, 5.5vw, 68px);
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 16px;
+        text-shadow: 0 2px 20px rgba(0,0,0,.4);
+    }
+    .hero-slide-content p {
+        font-size: clamp(15px, 2vw, 19px);
+        color: rgba(255,255,255,.88);
+        margin-bottom: 32px;
+        line-height: 1.7;
+    }
+    .hero-slide-btn {
+        display: inline-block;
+        background: #C85A2A;
+        color: #fff;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 14px 36px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: background .2s, transform .2s;
+        pointer-events: none;
+    }
+    .hero-slide:hover .hero-slide-btn {
+        background: #a84520;
+        transform: translateY(-2px);
+    }
+    /* Carousel controls */
+    #heroCarousel .carousel-control-prev,
+    #heroCarousel .carousel-control-next {
+        width: 56px;
+        height: 56px;
+        background: rgba(255,255,255,.18);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: auto;
+        backdrop-filter: blur(6px);
+        opacity: 1;
+        transition: background .2s;
+    }
+    #heroCarousel .carousel-control-prev { left: 28px; }
+    #heroCarousel .carousel-control-next { right: 28px; }
+    #heroCarousel .carousel-control-prev:hover,
+    #heroCarousel .carousel-control-next:hover { background: #C85A2A; }
+    #heroCarousel .carousel-control-prev-icon,
+    #heroCarousel .carousel-control-next-icon { width: 20px; height: 20px; }
+    /* Indicators */
+    #heroCarousel .carousel-indicators {
+        bottom: 100px;
+        z-index: 10;
+    }
+    #heroCarousel .carousel-indicators li {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.5);
+        border: none;
+        margin: 0 5px;
+        transition: background .2s, transform .2s;
+    }
+    #heroCarousel .carousel-indicators li.active {
+        background: #C85A2A;
+        transform: scale(1.3);
+    }
+    /* Slide text animation */
+    .carousel-item.active .hero-slide-content { animation: slideUp .7s ease both; }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 576px) {
+        #heroCarousel .carousel-control-prev,
+        #heroCarousel .carousel-control-next { display: none; }
+        .hero-pill-bar { flex-direction: column; text-align: center; bottom: 16px; border-radius: 20px; }
+    }
 
     /* ── Section shared ── */
     .sec-pad { padding: 80px 0; }
@@ -327,27 +388,85 @@
 
 @section('content')
 
-    {{-- ── Hero ── --}}
-    <section class="hero-section">
-        <div class="hero-pill-bar">
-            <div class="hero-contact-info">
-                <span>
-                    <i class="far fa-envelope"></i>
-                    ubuvivitours@gmail.com
-                </span>
-                <span>
-                    <i class="fas fa-phone"></i>
-                    +250 789 044 222 | +250 783 123 089 | +250 787 229 916
-                </span>
+    {{-- ── Hero Carousel ── --}}
+    <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="5000" style="position:relative;">
+
+        {{-- Indicators --}}
+        <ol class="carousel-indicators">
+            <li data-target="#heroCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#heroCarousel" data-slide-to="1"></li>
+            <li data-target="#heroCarousel" data-slide-to="2"></li>
+            <li data-target="#heroCarousel" data-slide-to="3"></li>
+        </ol>
+
+        {{-- Slides --}}
+        <div class="carousel-inner">
+
+            {{-- Slide 1: Tours & Travel --}}
+            <div class="carousel-item active">
+                <a href="{{ url('/tours') }}" class="hero-slide"
+                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_6.jpg') }}')">
+                    <div class="hero-slide-content">
+                        <span class="hero-slide-tag">Tours &amp; Travel</span>
+                        <h1>Discover Rwanda's<br>Breathtaking Wonders</h1>
+                        <p>Gorilla trekking, national parks, and cultural experiences crafted by local experts.</p>
+                        <span class="hero-slide-btn">Explore Tours &rarr;</span>
+                    </div>
+                </a>
             </div>
-            <div class="hero-social">
-                <a href="https://www.facebook.com/profile.php?id=100077752760078" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/ubuvivitours/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#!" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+
+            {{-- Slide 2: Car Rentals --}}
+            <div class="carousel-item">
+                <a href="{{ url('/cars') }}" class="hero-slide"
+                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_14.jpg') }}')">
+                    <div class="hero-slide-content">
+                        <span class="hero-slide-tag">Car Rentals</span>
+                        <h1>Drive Rwanda<br>at Your Own Pace</h1>
+                        <p>Choose from our fleet of premium, well-maintained vehicles for self-drive adventures.</p>
+                        <span class="hero-slide-btn">View Fleet &rarr;</span>
+                    </div>
+                </a>
             </div>
+
+            {{-- Slide 3: Transfer Services --}}
+            <div class="carousel-item">
+                <a href="{{ route('guest.transfer') }}" class="hero-slide"
+                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_15.jpg') }}')">
+                    <div class="hero-slide-content">
+                        <span class="hero-slide-tag">Transfer Services</span>
+                        <h1>Seamless Airport &amp;<br>City Transfers</h1>
+                        <p>Reliable, on-time pickup and drop-off services available 24/7 across Rwanda.</p>
+                        <span class="hero-slide-btn">Book Transfer &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
+            {{-- Slide 4: Event Planning --}}
+            <div class="carousel-item">
+                <a href="{{ route('guest.events') }}" class="hero-slide"
+                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_9.jpg') }}')">
+                    <div class="hero-slide-content">
+                        <span class="hero-slide-tag">Event Planning</span>
+                        <h1>Unforgettable Events<br>in Rwanda</h1>
+                        <p>From corporate gatherings to dream weddings — we handle every detail for you.</p>
+                        <span class="hero-slide-btn">Plan Your Event &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
         </div>
-    </section>
+
+        {{-- Controls --}}
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+
+    </div>
 
     {{-- ── Who We Are ── --}}
     <section class="who-section sec-pad">
@@ -439,6 +558,40 @@
                 </div>
             </div>
 
+            {{-- Divider --}}
+            <hr style="border-color:#f0f0f0; margin: 48px 0;">
+
+            {{-- Row 3: Heading LEFT | Mission card RIGHT --}}
+            <div class="row align-items-center mb-4">
+                <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-right">
+                    <div class="heading-block">
+                        <h2>Our Mission<br><em>&amp; Vision</em></h2>
+                        <div class="double-underline">
+                            <div class="line-orange"></div>
+                            <div class="line-dark"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8" data-aos="fade-left">
+                    <div class="aim-card-wrap">
+                        <div class="aim-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_10.jpg') }}')"></div>
+                        <h3>Mission</h3>
+                        <p>To provide exceptional, affordable, and reliable travel and transport services that exceed client expectations — connecting people to Rwanda's most beautiful destinations with professionalism and care.</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Row 4: Vision card RIGHT-aligned --}}
+            <div class="row justify-content-end" data-aos="fade-up">
+                <div class="col-lg-9">
+                    <div class="obj-card-wrap">
+                        <h3>Vision</h3>
+                        <p>To be the leading travel and transport company in East Africa, recognized for outstanding service delivery, innovation, and contributing to sustainable tourism across the region.</p>
+                        <div class="obj-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_7.jpg') }}')"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -491,7 +644,7 @@
                         Our professional drivers ensure safe, comfortable, and timely journeys for travelers moving
                         between airports, hotels, and tourist destinations.
                     </p>
-                    <a href="{{ route('guest.services') }}" class="service-link mt-3 d-inline-block">Book Transfer &raquo;</a>
+                    <a href="{{ route('guest.transfer') }}" class="service-link mt-3 d-inline-block">Book Transfer &raquo;</a>
                 </div>
                 <div class="col-lg-6 order-lg-2" data-aos="fade-left">
                     <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Private Transfers" class="service-img round-tr">
@@ -557,4 +710,19 @@
         </iframe>
     </section>
 
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function () {
+        $('#heroCarousel').carousel({ interval: 5000, ride: 'carousel' });
+        // Re-trigger slide animation on each slide change
+        $('#heroCarousel').on('slide.bs.carousel', function () {
+            $(this).find('.carousel-item.active .hero-slide-content').css('animation', 'none');
+        });
+        $('#heroCarousel').on('slid.bs.carousel', function () {
+            $(this).find('.carousel-item.active .hero-slide-content').css('animation', '');
+        });
+    });
+</script>
 @endsection

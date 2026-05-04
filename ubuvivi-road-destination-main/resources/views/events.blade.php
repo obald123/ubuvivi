@@ -145,6 +145,106 @@
         transition: background .2s;
     }
     .events-cta .cta-btn:hover { background: #a84520; color: #fff; text-decoration: none; }
+
+    /* ── Quick Booking Form ── */
+    .quick-booking-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+    }
+    .quick-booking-form {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        padding: 3rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .form-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--navy);
+        font-family: 'Playfair Display', serif;
+        text-align: center;
+    }
+    .quick-booking-form .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .quick-booking-form .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    .quick-booking-form .form-group label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--navy);
+    }
+    .quick-booking-form .form-group input,
+    .quick-booking-form .form-group textarea {
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+        font-family: 'Poppins', sans-serif;
+    }
+    .quick-booking-form .form-group input:focus,
+    .quick-booking-form .form-group textarea:focus {
+        outline: none;
+        border-color: var(--orange);
+    }
+    .quick-booking-form .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+    .submit-request-btn {
+        background: var(--orange);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .submit-request-btn:hover {
+        background: #a84520;
+    }
+    .form-note {
+        text-align: center;
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .form-note i {
+        color: var(--orange);
+    }
+
+    @media (max-width: 768px) {
+        .quick-booking-form {
+            padding: 2rem;
+            margin: 1rem;
+        }
+        .quick-booking-form .form-row {
+            grid-template-columns: 1fr;
+        }
+        .form-title {
+            font-size: 1.5rem;
+        }
+    }
 </style>
 @endsection
 
@@ -222,4 +322,134 @@
         </div>
     </section>
 
+    {{-- ── Quick Booking Form ── --}}
+    <section class="quick-booking-section">
+        <div class="container">
+            <div class="quick-booking-form">
+                <h2 class="form-title">Quick Booking</h2>
+                <form id="quickBookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" name="full_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Number of Guests</label>
+                            <input type="number" id="guests" name="number_of_guests" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="service">Service</label>
+                            <input type="text" id="service" name="service" value="Event Planning" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="service-type">Service Type</label>
+                            <input type="text" id="service-type" name="service_type" value="Full Planning" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-location">Event Location</label>
+                            <input type="text" id="event-location" name="event_location" placeholder="Enter event location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-date">Event Date & Time</label>
+                            <input type="datetime-local" id="event-date" name="event_date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-details">Event Details</label>
+                            <textarea id="event-details" name="event_details" rows="4" placeholder="Describe your event requirements..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="special-requests">Special Requests</label>
+                            <textarea id="special-requests" name="special_requests" rows="3" placeholder="Any special requirements..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-request-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Request
+                    </button>
+                </form>
+                
+                <p class="form-note">
+                    <i class="fas fa-info-circle"></i>
+                    Our team will contact you shortly to confirm your booking.
+                </p>
+            </div>
+        </div>
+    </section>
+
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        // Quick Booking Form Submission
+        $('#quickBookingForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            var formData = {
+                full_name: $('#full-name').val(),
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                number_of_guests: $('#guests').val(),
+                service: $('#service').val(),
+                service_type: $('#service-type').val(),
+                event_location: $('#event-location').val(),
+                event_date: $('#event-date').val(),
+                event_details: $('#event-details').val(),
+                special_requests: $('#special-requests').val(),
+                _token: "{{ csrf_token() }}"
+            };
+
+            // Basic validation
+            if (!formData.full_name || !formData.email || !formData.phone || !formData.event_location) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Show loading state
+            $('.submit-request-btn').html('<i class="fas fa-spinner fa-spin"></i> Submitting...').prop('disabled', true);
+
+            // Here you would typically make an AJAX call to submit form
+            $.ajax({
+                url: '{{ route("guest.contact") }}',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    alert('Your event booking request has been submitted successfully! Our team will contact you shortly.');
+                    $('#quickBookingForm')[0].reset();
+                    $('.submit-request-btn').html('<i class="fas fa-paper-plane"></i> Submit Request').prop('disabled', false);
+                },
+                error: function() {
+                    alert('There was an error submitting your request. Please try again.');
+                    $('.submit-request-btn').html('<i class="fas fa-paper-plane"></i> Submit Request').prop('disabled', false);
+                }
+            });
+        });
+
+        // Set minimum datetime for event date
+        var now = new Date();
+        var localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+        $('#event-date').attr('min', localDateTime);
+    });
+</script>
 @endsection

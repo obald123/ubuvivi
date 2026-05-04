@@ -85,15 +85,39 @@ class GuestController extends Controller
         return view("about");
     }
 
+    public function all_services()
+    {
+        return view("all-services");
+    }
+
     public function services()
     {
-
         return view("services");
     }
 
     public function events()
     {
         return view("events");
+    }
+
+    public function air_ticketing()
+    {
+        return view("air_ticketing");
+    }
+
+    public function hotel_booking()
+    {
+        return view("hotel-booking");
+    }
+
+    public function tours_booking_options()
+    {
+        return view("tours_booking_options");
+    }
+
+    public function tours_booking()
+    {
+        return view("tours_booking");
     }
 
     public function contact()

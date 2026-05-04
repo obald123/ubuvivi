@@ -4,11 +4,11 @@
     </ul>
 </form>
 <ul class="navbar-nav navbar-right">
-    <a href="{{ url('logout') }}" class="has-icon btn btn-light shadow"
-        onclick="event.preventDefault(); localStorage.clear();  document.getElementById('logout-form').submit();">
+    <button type="button" class="has-icon btn btn-light shadow"
+        onclick="localStorage.clear(); sessionStorage.clear(); document.getElementById('logout-form').submit();">
         <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
-    <form id="logout-form" action="{{ url('/logout') }}" method="POST" class="d-none">
-        {{ csrf_field() }}
+    </button>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
     </form>
 </ul>

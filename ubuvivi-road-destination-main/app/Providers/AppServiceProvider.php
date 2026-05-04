@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Cloudinary\Configuration\Configuration;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 

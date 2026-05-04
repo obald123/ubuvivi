@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -23,8 +22,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class TourBooking extends Model
 {
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'tour_bookings';
@@ -33,8 +30,7 @@ class TourBooking extends Model
     const UPDATED_AT = 'updated_at';
 
 
-    protected $dates = ['deleted_at'];
-
+    
 
 
     public $fillable = [
@@ -82,8 +78,7 @@ class TourBooking extends Model
         'price' => 'required|string|max:255',
         'approved' => 'required|boolean',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable',
-        'deleted_at' => 'nullable'
+        'updated_at' => 'nullable'
     ];
 
     /**

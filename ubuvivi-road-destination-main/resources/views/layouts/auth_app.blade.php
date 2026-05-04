@@ -245,7 +245,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ url('/tours') }}">Tours & Travel</a></li>
                     <li><a href="{{ url('/cars') }}">Car Rentals</a></li>
-                    <li><a href="{{ route('guest.services') }}">Transfer</a></li>
+                    <li><a href="{{ route('guest.transfer') }}">Transfer</a></li>
                     <li><a href="{{ route('guest.events') }}">Event Planning</a></li>
                 </ul>
             </li>

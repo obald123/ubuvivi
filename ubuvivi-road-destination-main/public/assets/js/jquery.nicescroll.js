@@ -1,4 +1,4 @@
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 /* jquery.nicescroll
 -- version 3.7.6
 -- copyright 2017-07-19 InuYaksa*2017
@@ -228,7 +228,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       }
       return 'url(https://cdnjs.cloudflare.com/ajax/libs/slider-pro/1.3.0/css/images/openhand.cur),n-resize'; // thanks to https://cdnjs.com/ for the openhand cursor!
     }
-
     d.cursorgrabvalue = detectCursorGrab();
     d.hasmousecapture = "setCapture" in _el;
     d.hasMutationObserver = ClsMutationObserver !== false;
@@ -738,7 +737,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         this.doc.css(cap.transitionstyle, cap.prefixstyle + 'transform 0ms ease-out');
         if (cap.transitionend) self.bind(self.doc, cap.transitionend, self.onScrollTransitionEnd, false); //I have got to do something usefull!!
       }
-
       self.zindex = "auto";
       if (!self.ispage && opt.zindex == "auto") {
         self.zindex = getZIndex() || "auto";
@@ -975,7 +973,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             if (cap.iswebkit) self.win.css('outline', 'none'); // Webkit outline
           }
         }
-
         if (opt.autohidemode === false) {
           self.autohidedom = false;
           self.rail.css({
@@ -1748,7 +1745,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
                   return $body.hasClass("modal-open") && $body.hasClass("modal-dialog") && !$.contains($('.modal-dialog')[0], self.doc[0]) ? self.hide() : self.show(); // Support for Bootstrap modal; Added check if the nice scroll element is inside a modal
                 }
               });
-
               if (self.me.clientWidth != self.page.width || self.me.clientHeight != self.page.height) return self.lazyResize(30);
             });
             self.observerbody.observe(_doc.body, {
@@ -1822,7 +1818,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             if ("console" in _win) console.log('NiceScroll error: policy restriced iframe');
             return true; //cross-domain - I can't manage this        
           }
-
           self.forcescreen = true;
           if (self.isiframe) {
             self.iframe = {
@@ -1851,7 +1846,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
               '-webkit-transform': 'translate3d(0,0,0)'
             }); // avoid iFrame content clipping - thanks to http://blog.derraab.com/2012/04/02/avoid-iframe-content-clipping-with-css-transform-on-ios/
           }
-
           if ('contentWindow' in this) {
             self.bind(this.contentWindow, "scroll", self.onscroll); //IE8 & minor
           } else {
@@ -1982,13 +1976,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             var lst = self.lastposition;
             if (lst.top == pos.top && lst.left == pos.left) return self; //nothing to do            
           }
-
           self.lastposition = pos;
         } else {
           return self; //nothing to do
         }
       }
-
       if (self.page.maxh === 0) {
         self.hideRail();
         self.scrollvaluemax = 0;
@@ -2128,7 +2120,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         if (wname == "DOMMouseScroll") _modernWheelEvent(el, "MozMousePixelScroll", fn, bubble || false); // Firefox legacy
       }
     };
-
     var passiveSupported = false;
     if (cap.haseventlistener) {
       // W3C standard event model
@@ -2710,7 +2701,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           if (self.scrollendtrapped) clearTimeout(self.scrollendtrapped);
           self.scrollendtrapped = setTimeout(self.onScrollTransitionEnd, ms); // simulate transitionend event
         }
-
         self.setScrollTop(self.newscrolly);
         self.setScrollLeft(self.newscrollx);
       };

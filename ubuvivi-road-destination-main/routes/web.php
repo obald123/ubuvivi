@@ -4,7 +4,6 @@ use \App\Http\Controllers\deleteImageController;
 use \App\Http\Controllers\GuestController;
 use \App\Http\Controllers\HomeController;
 use App\Mail\TestMail;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -27,9 +26,19 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/about", 'about')->name("guest.about");
 
-    Route::get("/services", 'services')->name("guest.services");
+    Route::get("/our-services", 'all_services')->name("guest.all_services");
+
+    Route::get("/transfer", 'services')->name("guest.transfer");
 
     Route::get("/events", 'events')->name("guest.events");
+
+    Route::get("/air-ticketing", 'air_ticketing')->name("guest.air_ticketing");
+
+    Route::get("/hotel-booking", 'hotel_booking')->name("guest.hotel_booking");
+
+    Route::get("/tours-booking-options", 'tours_booking_options')->name("guest.tours_booking_options");
+
+    Route::get("/tours-booking", 'tours_booking')->name("guest.tours_booking");
 
     Route::get("/contact", 'contact')->name("guest.contact");
 
@@ -88,13 +97,35 @@ Auth::routes();
 // Admin dashboard (only for admin role)
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    // ...existing admin routes...
+    
+    // New Admin Routes
+    Route::get('/requests', [App\Http\Controllers\Admin\RequestController::class, 'index'])->name('requests.index');
+    Route::get('/requests/{type}/{id}', [App\Http\Controllers\Admin\RequestController::class, 'show'])->name('requests.show');
+    Route::post('/requests/{type}/{id}/status', [App\Http\Controllers\Admin\RequestController::class, 'updateStatus'])->name('requests.updateStatus');
+    
+    Route::get('/bookings', [App\Http\Controllers\Admin\BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/{type}/{id}', [App\Http\Controllers\Admin\BookingController::class, 'show'])->name('bookings.show');
+    
+    Route::get('/services', [App\Http\Controllers\Admin\ServiceController::class, 'index'])->name('services.index');
+    Route::get('/services/create', [App\Http\Controllers\Admin\ServiceController::class, 'create'])->name('services.create');
+    Route::post('/services', [App\Http\Controllers\Admin\ServiceController::class, 'store'])->name('services.store');
+    Route::get('/services/{id}/edit', [App\Http\Controllers\Admin\ServiceController::class, 'edit'])->name('services.edit');
+    Route::put('/services/{id}', [App\Http\Controllers\Admin\ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/services/{id}', [App\Http\Controllers\Admin\ServiceController::class, 'destroy'])->name('services.destroy');
+    
+    Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
 });
 
-// Client dashboard (only for client role)
+// Client portal
 Route::middleware(['auth', 'client'])->group(function () {
     \App\Http\Controllers\ClientDashboardController::class;
-    Route::get('/client/dashboard', [\App\Http\Controllers\ClientDashboardController::class, 'index'])->name('client.dashboard');
+    Route::get('/client/dashboard',      [\App\Http\Controllers\ClientDashboardController::class, 'index'])->name('client.dashboard');
+    Route::get('/client/bookings',       [\App\Http\Controllers\ClientDashboardController::class, 'bookings'])->name('client.bookings');
+    Route::get('/client/notifications',  [\App\Http\Controllers\ClientDashboardController::class, 'notifications'])->name('client.notifications');
+    Route::get('/client/new-booking',    [\App\Http\Controllers\ClientDashboardController::class, 'newBooking'])->name('client.new_booking');
+    Route::get('/client/booking-types',  [\App\Http\Controllers\ClientDashboardController::class, 'bookingTypes'])->name('client.booking_types');
+    Route::get('/client/profile',        [\App\Http\Controllers\ClientDashboardController::class, 'profile'])->name('client.profile');
 });
 
 Route::controller(deleteImageController::class)->group(function () {

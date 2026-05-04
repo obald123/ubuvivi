@@ -231,6 +231,106 @@
         color: #888;
         font-size: 18px;
     }
+
+    /* ── Quick Renting Form ── */
+    .quick-renting-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+    }
+    .quick-renting-form {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        padding: 3rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .form-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--navy);
+        font-family: 'Playfair Display', serif;
+        text-align: center;
+    }
+    .quick-renting-form .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .quick-renting-form .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    .quick-renting-form .form-group label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--navy);
+    }
+    .quick-renting-form .form-group input,
+    .quick-renting-form .form-group textarea {
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+        font-family: 'Poppins', sans-serif;
+    }
+    .quick-renting-form .form-group input:focus,
+    .quick-renting-form .form-group textarea:focus {
+        outline: none;
+        border-color: var(--orange);
+    }
+    .quick-renting-form .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+    .submit-request-btn {
+        background: var(--orange);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .submit-request-btn:hover {
+        background: #a84520;
+    }
+    .form-note {
+        text-align: center;
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .form-note i {
+        color: var(--orange);
+    }
+
+    @media (max-width: 768px) {
+        .quick-renting-form {
+            padding: 2rem;
+            margin: 1rem;
+        }
+        .quick-renting-form .form-row {
+            grid-template-columns: 1fr;
+        }
+        .form-title {
+            font-size: 1.5rem;
+        }
+    }
 </style>
 @endsection
 
@@ -279,6 +379,70 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </section>
+
+    {{-- ── Quick Renting Form ── --}}
+    <section class="quick-renting-section">
+        <div class="container">
+            <div class="quick-renting-form">
+                <h2 class="form-title">Quick Renting</h2>
+                <form id="quickRentingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" name="full_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service</label>
+                            <input type="text" id="service" name="service" value="Car Rental" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="car-type">Car Type</label>
+                            <input type="text" id="car-type" name="car_type" value="Toyota coaster 2019" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-date">Pick-up Date & Time</label>
+                            <input type="datetime-local" id="pickup-date" name="pickup_date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="return-date">Return Date & Time</label>
+                            <input type="datetime-local" id="return-date" name="return_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="special-requests">Special Requests</label>
+                            <textarea id="special-requests" name="special_requests" rows="3" placeholder="Any special requirements..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-request-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Request
+                    </button>
+                </form>
+                
+                <p class="form-note">
+                    <i class="fas fa-info-circle"></i>
+                    Our team will contact you shortly to confirm your booking.
+                </p>
+            </div>
         </div>
     </section>
 
@@ -394,6 +558,65 @@
                 }
             });
         }
+
+        // Quick Renting Form Submission
+        $('#quickRentingForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            var formData = {
+                full_name: $('#full-name').val(),
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                service: $('#service').val(),
+                car_type: $('#car-type').val(),
+                pickup_date: $('#pickup-date').val(),
+                return_date: $('#return-date').val(),
+                special_requests: $('#special-requests').val(),
+                _token: "{{ csrf_token() }}"
+            };
+
+            // Basic validation
+            if (!formData.full_name || !formData.email || !formData.phone) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Show loading state
+            $('.submit-request-btn').html('<i class="fas fa-spinner fa-spin"></i> Submitting...').prop('disabled', true);
+
+            // Here you would typically make an AJAX call to submit the form
+            $.ajax({
+                url: '{{ route("guest.contact") }}',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    alert('Your rental request has been submitted successfully! Our team will contact you shortly.');
+                    $('#quickRentingForm')[0].reset();
+                    $('.submit-request-btn').html('<i class="fas fa-paper-plane"></i> Submit Request').prop('disabled', false);
+                },
+                error: function() {
+                    alert('There was an error submitting your request. Please try again.');
+                    $('.submit-request-btn').html('<i class="fas fa-paper-plane"></i> Submit Request').prop('disabled', false);
+                }
+            });
+        });
+
+        // Set minimum datetime for pickup and return dates
+        var now = new Date();
+        var localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+        $('#pickup-date, #return-date').attr('min', localDateTime);
+
+        // Ensure return date is after pickup date
+        $('#pickup-date').on('change', function() {
+            var pickupDate = new Date($(this).val());
+            var minReturnDate = new Date(pickupDate.getTime() + 60000); // Add 1 minute minimum
+            var minReturnDateTime = minReturnDate.toISOString().slice(0, 16);
+            $('#return-date').attr('min', minReturnDateTime);
+            
+            if ($('#return-date').val() && new Date($('#return-date').val()) <= pickupDate) {
+                $('#return-date').val('');
+            }
+        });
     });
 </script>
 @endsection

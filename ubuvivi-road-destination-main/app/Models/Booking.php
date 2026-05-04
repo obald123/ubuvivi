@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -27,17 +26,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Booking extends Model
 {
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'vehicle_bookings';
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
 
 
 

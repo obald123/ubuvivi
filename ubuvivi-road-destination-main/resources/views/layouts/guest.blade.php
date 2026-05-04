@@ -245,17 +245,9 @@
                     <li class="nav-item">
                         <a class="nav-link @if(request()->is('/')) active-link @endif" href="{{ url('/') }}">Home</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle @if(request()->is('tours*') || request()->is('cars*') || request()->is('services*')) active-link @endif"
-                           href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Services
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-                            <a class="dropdown-item" href="{{ url('/tours') }}">Tours & Travel</a>
-                            <a class="dropdown-item" href="{{ url('/cars') }}">Car Rentals</a>
-                            <a class="dropdown-item" href="{{ route('guest.services') }}">Transfer</a>
-                            <a class="dropdown-item" href="{{ route('guest.events') }}">Event Planning</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link @if(request()->is('our-services*') || request()->is('tours*') || request()->is('cars*') || request()->is('services*') || request()->is('events*') || request()->is('air-ticketing*')) active-link @endif"
+                           href="{{ route('guest.all_services') }}">Services</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link @if(request()->is('contact*')) active-link @endif" href="{{ route('guest.contact') }}">Contact</a>
@@ -272,7 +264,7 @@
                                     Logout
                                 </a>
                             </div>
-                            <form id="guest-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            <form id="guest-logout-form" action="{{ url('/logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
                         @else
@@ -330,9 +322,10 @@
                         <p class="footer-col-title">Quick Links</p>
                         <ul class="footer-links">
                             <li><a href="{{ url('/') }}">Home</a></li>
+                            <li><a href="{{ route('guest.all_services') }}">Services</a></li>
                             <li><a href="{{ url('/tours') }}">Tours & Travel</a></li>
                             <li><a href="{{ url('/cars') }}">Car Rentals</a></li>
-                            <li><a href="{{ route('guest.services') }}">Transfer</a></li>
+                            <li><a href="{{ route('guest.transfer') }}">Transfer</a></li>
                             <li><a href="{{ route('guest.contact') }}">Contact</a></li>
                             <li><a href="{{ route('login') }}">My account</a></li>
                         </ul>

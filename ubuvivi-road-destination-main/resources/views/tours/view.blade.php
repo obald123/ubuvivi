@@ -97,7 +97,7 @@
 
             <div class="d-flex justify-content-end mt-3">
                 <a class="custom_btn bg_default_red btn_width text-uppercase"
-                    href="{{ route('tour.booking', $tour->id) }}">
+                    href="{{ route('guest.tours_booking_options') }}">
                     Book Now
                 </a>
             </div>

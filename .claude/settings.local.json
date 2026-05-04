@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"^ul\\\\s*{\\\\|^li\\\\s*{\\\\|^ul,\\\\|^li,\" \"c:/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/public/assets/css/style.css\")",
+      "Bash(grep -n \"App::\\\\|Facades\\\\\\\\\\\\\\\\App\" \"c:/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/routes/web.php\")",
+      "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/resources/views//**)",
+      "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/app/Http/Controllers/Admin//**)"
+    ]
+  }
+}

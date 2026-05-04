@@ -194,7 +194,7 @@
                                     <h3 class="tour-card-title">{{ $tour->title }}</h3>
                                 </div>
 
-                                <a href="{{ route('tour.booking', $tour->id) }}" class="tour-card-footer">
+                                <a href="{{ route('guest.tours_booking_options') }}" class="tour-card-footer">
                                     <div class="tour-card-price">
                                         @if ($tour->price > 0)
                                             ${{ number_format($tour->price) }} <span>/person</span>

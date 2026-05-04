@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -25,8 +24,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class CarBooking extends Model
 {
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'car_bookings';
@@ -35,8 +32,7 @@ class CarBooking extends Model
     const UPDATED_AT = 'updated_at';
 
 
-    protected $dates = ['deleted_at'];
-
+    
 
 
     public $fillable = [
@@ -88,8 +84,7 @@ class CarBooking extends Model
         'price' => 'required|string|max:255',
         'approved' => 'required|boolean',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable',
-        'deleted_at' => 'nullable'
+        'updated_at' => 'nullable'
     ];
 
     /**
