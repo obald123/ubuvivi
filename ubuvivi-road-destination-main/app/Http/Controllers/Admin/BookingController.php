@@ -7,177 +7,203 @@ use Illuminate\Http\Request;
 use App\Models\TourBooking;
 use App\Models\CarBooking;
 use App\Models\CarTransfer;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
     public function index()
     {
-        // Get all bookings from different types
-        $tourBookings = TourBooking::with('tour')->get();
-        $carBookings = CarBooking::with('vehicle')->get();
-        $carTransfers = CarTransfer::with('vehicle')->get();
-        
-        // Combine all bookings
-        $allBookings = collect();
-        
-        foreach ($tourBookings as $booking) {
-            $allBookings->push([
-                'id' => $booking->id,
-                'type' => 'Tour & Travel',
-                'service' => $booking->tour->title ?? 'Unknown Tour',
-                'date' => $booking->date,
-                'client' => $booking->names,
-                'email' => $booking->email,
-                'phone' => $booking->phone_number,
-                'status' => $this->getBookingStatus($booking),
-                'details' => $booking->message,
-                'model_type' => 'TourBooking',
-                'model_id' => $booking->id,
-                'approved_date' => $booking->updated_at
-            ]);
-        }
-        
-        foreach ($carBookings as $booking) {
-            $allBookings->push([
-                'id' => $booking->id,
-                'type' => 'Car Rental',
-                'service' => $booking->vehicle->brand->name . ' ' . $booking->vehicle->model->name ?? 'Unknown Car',
-                'date' => $booking->pickup_date,
-                'client' => $booking->names,
-                'email' => $booking->email,
-                'phone' => $booking->phone_number,
-                'status' => $this->getBookingStatus($booking),
-                'details' => $booking->message,
-                'model_type' => 'CarBooking',
-                'model_id' => $booking->id,
-                'approved_date' => $booking->updated_at
-            ]);
-        }
-        
-        foreach ($carTransfers as $transfer) {
-            $allBookings->push([
-                'id' => $transfer->id,
-                'type' => 'Transfers',
-                'service' => $transfer->vehicle->brand->name . ' ' . $transfer->vehicle->model->name ?? 'Unknown Transfer',
-                'date' => $transfer->pickup_date,
-                'client' => $transfer->names,
-                'email' => $transfer->email,
-                'phone' => $transfer->phone_number,
-                'status' => $this->getBookingStatus($transfer),
-                'details' => $transfer->message,
-                'model_type' => 'CarTransfer',
-                'model_id' => $transfer->id,
-                'approved_date' => $transfer->updated_at
-            ]);
-        }
-        
-        // Sort by date
-        $allBookings = $allBookings->sortByDesc('date');
-        
-        // Get counts for filters
+        $tourBookings = TourBooking::with('tour')->get()
+            ->map(fn (TourBooking $booking) => $this->mapBookingRow($booking, 'TourBooking'));
+
+        $carBookings = CarBooking::with(['vehicle.brand', 'vehicle.model'])->get()
+            ->map(fn (CarBooking $booking) => $this->mapBookingRow($booking, 'CarBooking'));
+
+        $carTransfers = CarTransfer::with(['vehicle.brand', 'vehicle.model'])->get()
+            ->map(fn (CarTransfer $booking) => $this->mapBookingRow($booking, 'CarTransfer'));
+
+        $allBookings = $tourBookings
+            ->concat($carBookings)
+            ->concat($carTransfers)
+            ->sortByDesc('sort_date')
+            ->values();
+
         $allCount = $allBookings->count();
         $activeCount = $allBookings->where('status', 'Active')->count();
         $upcomingCount = $allBookings->where('status', 'Upcoming')->count();
         $completedCount = $allBookings->where('status', 'Completed')->count();
-        
+
         return view('admin.bookings.index', compact('allBookings', 'allCount', 'activeCount', 'upcomingCount', 'completedCount'));
     }
-    
+
     public function show($type, $id)
     {
-        $booking = null;
-        
-        switch ($type) {
-            case 'TourBooking':
-                $booking = TourBooking::with('tour')->findOrFail($id);
-                break;
-            case 'CarBooking':
-                $booking = CarBooking::with('vehicle')->findOrFail($id);
-                break;
-            case 'CarTransfer':
-                $booking = CarTransfer::with('vehicle')->findOrFail($id);
-                break;
-        }
-        
-        if (!$booking) {
-            abort(404);
-        }
-        
-        return response()->json($booking);
+        $booking = $this->findBooking($type, $id);
+
+        return response()->json($this->mapBookingDetail($booking, $type));
     }
-    
+
     public function updateStatus(Request $request, $type, $id)
     {
-        $model = null;
-        
-        switch ($type) {
-            case 'TourBooking':
-                $model = TourBooking::findOrFail($id);
-                break;
-            case 'CarBooking':
-                $model = CarBooking::findOrFail($id);
-                break;
-            case 'CarTransfer':
-                $model = CarTransfer::findOrFail($id);
-                break;
-        }
-        
-        if (!$model) {
-            return response()->json(['error' => 'Booking not found'], 404);
-        }
-        
+        $model = $this->findBooking($type, $id);
         $status = $request->input('status');
-        
-        // We'll implement status updates based on the status
+
         switch ($status) {
             case 'Completed':
-                // Mark as completed
-                $model->approved = true;
-                $model->completed = true;
-                $model->save();
-                break;
-            case 'Cancelled':
-                // Cancel the booking
-                $model->approved = false;
-                $model->cancelled = true;
-                $model->save();
-                break;
             case 'Active':
                 $model->approved = true;
-                $model->save();
+                break;
+            case 'Cancelled':
+            case 'Pending':
+                $model->approved = false;
                 break;
         }
-        
-        return response()->json(['success' => true]);
+
+        $model->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $this->getBookingStatus($model->fresh()),
+        ]);
     }
-    
+
+    private function findBooking($type, $id)
+    {
+        return match ($type) {
+            'TourBooking' => TourBooking::with('tour')->findOrFail($id),
+            'CarBooking' => CarBooking::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
+            'CarTransfer' => CarTransfer::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
+            default => abort(404),
+        };
+    }
+
+    private function mapBookingRow($booking, string $modelType): array
+    {
+        $date = $this->resolveBookingDate($booking);
+        $status = $this->getBookingStatus($booking);
+
+        return [
+            'id' => $booking->id,
+            'service' => $this->resolveServiceLabel($modelType),
+            'type' => $this->resolveTypeLabel($booking, $modelType),
+            'date' => $date,
+            'formatted_date' => $this->formatBookingDate($date),
+            'client' => $booking->names,
+            'email' => $booking->email,
+            'phone' => $booking->phone_number,
+            'status' => $status,
+            'status_key' => strtolower($status),
+            'details' => $booking->message,
+            'model_type' => $modelType,
+            'model_id' => $booking->id,
+            'sort_date' => $date ?: $booking->created_at?->toDateString(),
+        ];
+    }
+
+    private function mapBookingDetail($booking, string $modelType): array
+    {
+        $date = $this->resolveBookingDate($booking);
+
+        return [
+            'id' => $booking->id,
+            'service' => $this->resolveServiceLabel($modelType),
+            'type' => $this->resolveTypeLabel($booking, $modelType),
+            'status' => $this->getBookingStatus($booking),
+            'date' => $this->formatBookingDate($date),
+            'client' => $booking->names,
+            'email' => $booking->email,
+            'phone' => $booking->phone_number,
+            'message' => $booking->message ?: 'No extra details provided.',
+            'price' => $booking->price,
+            'location' => $booking->pickup_location ?? $booking->delivery_location ?? null,
+            'destination' => $booking->destination ?? null,
+            'number_of_days' => $booking->number_of_days ?? null,
+            'number_of_people' => $booking->number_of_people ?? null,
+        ];
+    }
+
+    private function resolveServiceLabel(string $modelType): string
+    {
+        return match ($modelType) {
+            'TourBooking' => 'Tour & Travel',
+            'CarBooking' => 'Car Rental',
+            'CarTransfer' => 'Transfers',
+            default => 'Booking',
+        };
+    }
+
+    private function resolveTypeLabel($booking, string $modelType): string
+    {
+        if ($modelType === 'TourBooking') {
+            return $booking->tour->title ?? 'Tour Booking';
+        }
+
+        $vehicle = $booking->vehicle?->first();
+        if (!$vehicle) {
+            return $modelType === 'CarTransfer' ? 'Transfer Booking' : 'Vehicle Booking';
+        }
+
+        $parts = array_filter([
+            optional($vehicle->brand)->name,
+            optional($vehicle->model)->name,
+            $vehicle->production_year ?? null,
+        ]);
+
+        return implode(' ', $parts) ?: 'Vehicle Booking';
+    }
+
+    private function resolveBookingDate($booking): ?string
+    {
+        if ($booking instanceof TourBooking) {
+            return $booking->date;
+        }
+
+        if ($booking instanceof CarBooking) {
+            return $booking->delivery_date;
+        }
+
+        return $booking->pickup_date;
+    }
+
+    private function formatBookingDate(?string $date): string
+    {
+        if (!$date) {
+            return 'Date not set';
+        }
+
+        try {
+            return Carbon::parse($date)->format('d F Y');
+        } catch (\Throwable $e) {
+            return $date;
+        }
+    }
+
     private function getBookingStatus($model)
     {
-        // Check if booking is completed
-        if (isset($model->completed) && $model->completed) {
-            return 'Completed';
+        if (!$model->approved) {
+            return 'Pending';
         }
-        
-        // Check if booking is cancelled
-        if (isset($model->cancelled) && $model->cancelled) {
-            return 'Cancelled';
+
+        $bookingDate = $this->resolveBookingDate($model);
+        if (!$bookingDate) {
+            return 'Active';
         }
-        
-        // Check if booking is approved and date is in the past or today
-        if ($model->approved) {
-            $bookingDate = $model->date ?? $model->pickup_date;
-            if ($bookingDate) {
-                $date = \Carbon\Carbon::parse($bookingDate);
-                $today = \Carbon\Carbon::today();
-                
-                if ($date->isToday() || $date->isPast()) {
-                    return 'Active';
-                } else {
-                    return 'Upcoming';
-                }
+
+        try {
+            $date = Carbon::parse($bookingDate);
+            $today = Carbon::today();
+
+            if ($date->lt($today)) {
+                return 'Completed';
             }
+
+            if ($date->isToday()) {
+                return 'Active';
+            }
+
+            return 'Upcoming';
+        } catch (\Throwable $e) {
+            return 'Active';
         }
-        
-        return 'Pending';
     }
 }

@@ -9,9 +9,15 @@ class ClientMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'client') {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        if (!isset($user->role) || $user->role !== 'admin') {
             return $next($request);
         }
-        abort(403, 'Unauthorized.');
+
+        return redirect()->route('home');
     }
 }

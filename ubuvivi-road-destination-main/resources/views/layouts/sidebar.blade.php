@@ -2,7 +2,7 @@
     <div class="sidebar-brand">
         <div class="d-flex align-items-center">
             <img src="{{ asset('assets/images/logo.png') }}" alt="Ubuvivi Tours"
-                 style="width:42px;height:42px;border-radius:50%;object-fit:cover;margin-right:12px;border:2px solid rgba(255,255,255,.2);">
+                 style="width:40px;height:40px;border-radius:50%;object-fit:cover;margin-right:12px;border:2px solid rgba(255,255,255,.16);">
             <span class="brand-text">UBUVIVI Tours</span>
         </div>
     </div>
@@ -42,15 +42,14 @@
             </a>
         </li>
         
-        <li class="side-menus logout-item">
-            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
+        <li class="side-menus logout-item {{ Request::is('logout') ? 'active' : '' }}">
+            <form class="logout-form" action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="nav-link logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
         </li>
     </ul>
-    
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
 </aside>

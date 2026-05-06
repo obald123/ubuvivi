@@ -6,241 +6,678 @@
 
 @section('css')
 <style>
-    .adm-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:14px; }
-    .adm-topbar h1 { font-size:28px; font-weight:800; color:#1a1a2e; margin:0; }
-    .adm-topbar-right { display:flex; align-items:center; gap:12px; }
-    .adm-search { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #e8e8e8; border-radius:10px; padding:9px 16px; width:260px; }
-    .adm-search i { color:#bbb; font-size:14px; }
-    .adm-search input { border:none; outline:none; background:transparent; font-size:14px; color:#333; width:100%; }
-    .adm-search input::placeholder { color:#bbb; }
-    .adm-bell { width:40px; height:40px; border-radius:50%; background:#fff; border:1px solid #e8e8e8; display:flex; align-items:center; justify-content:center; color:#666; cursor:pointer; position:relative; }
-    .adm-bell-dot { position:absolute; top:9px; right:9px; width:8px; height:8px; border-radius:50%; background:#e74c3c; border:2px solid #fff; }
-    .adm-avatar { width:40px; height:40px; border-radius:50%; background:#1a1a2e; color:#fff; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; cursor:pointer; }
+    .book-page {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
 
-    .req-tabs { display:flex; align-items:center; gap:6px; margin-bottom:20px; }
-    .req-tab { display:inline-flex; align-items:center; gap:8px; padding:9px 20px; border-radius:50px; border:none; background:transparent; font-size:14px; font-weight:500; color:#555; cursor:pointer; transition:background .2s,color .2s; }
-    .req-tab .rc { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:#1a1a2e; color:#fff; font-size:11px; font-weight:700; }
-    .req-tab.active { background:linear-gradient(135deg, #38BDF8, #2563EB); color:#fff; }
-    .req-tab.active .rc { background:rgba(255,255,255,.25); color:#fff; }
-    .req-tab:hover:not(.active) { background:#f0f0f0; color:#333; }
+    .book-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
 
-    .req-panel { background:#fff; border-radius:16px; box-shadow:0 1px 8px rgba(0,0,0,.06); padding:24px 28px; }
-    .req-table { width:100%; border-collapse:collapse; }
-    .req-table th { text-align:left; font-size:13px; font-weight:500; color:#888; padding:10px 14px; border-bottom:1px solid #f0f0f0; }
-    .req-table td { padding:14px 14px; font-size:14px; color:#1a1a2e; border-bottom:1px solid #f7f7f7; vertical-align:middle; }
-    .req-table tr:last-child td { border-bottom:none; }
-    .req-table tr:hover td { background:#fafafa; }
+    .book-topbar h1 {
+        margin: 0;
+        color: #2d313d;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -.02em;
+    }
 
-    .sb { display:inline-block; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:500; }
-    .sb-completed { background:#E8F8F0; color:#27AE60; }
-    .sb-active    { background:#FFF8E6; color:#F0A500; }
-    .sb-upcoming  { background:#EEF2FF; color:#4F6CDE; }
-    .sb-pending   { background:#F5F5F5; color:#888; }
+    .book-tools {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-left: auto;
+    }
 
-    .vd-link { color:#4F9DE8; font-size:13px; font-weight:500; text-decoration:none; background:none; border:none; cursor:pointer; padding:0; }
-    .vd-link:hover { text-decoration:underline; color:#2563EB; }
+    .book-search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 380px;
+        height: 44px;
+        padding: 0 14px;
+        background: #fff;
+        border: 1px solid #dfe4ee;
+        border-radius: 4px;
+    }
 
-    .req-pagination { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:20px; }
-    .pg-btn { width:34px; height:34px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; cursor:pointer; border:1px solid #e8e8e8; background:#fff; color:#555; transition:background .2s,color .2s; text-decoration:none; }
-    .pg-btn:hover { background:#f5f5f5; }
-    .pg-btn.active { background:#2563EB; color:#fff; border-color:#2563EB; }
+    .book-search i {
+        color: #b5bfcc;
+        font-size: 14px;
+    }
 
-    .adm-modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:2000; }
-    .adm-modal { background:#fff; border-radius:16px; padding:28px; max-width:560px; width:90%; max-height:90vh; overflow-y:auto; }
-    .adm-modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-    .adm-modal-head h3 { font-size:18px; font-weight:700; color:#1a1a2e; margin:0; }
-    .adm-modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:#aaa; line-height:1; }
-    .adm-modal-close:hover { color:#555; }
-    .detail-sec { background:#f8f9fa; border-radius:10px; padding:16px; margin-bottom:14px; }
-    .detail-sec h4 { font-size:14px; font-weight:700; color:#1a1a2e; margin:0 0 10px 0; }
-    .detail-row { display:flex; gap:10px; margin-bottom:7px; font-size:13px; }
-    .detail-row:last-child { margin-bottom:0; }
-    .detail-lbl { font-weight:600; color:#888; min-width:110px; }
-    .detail-val { color:#333; }
-    .adm-modal-foot { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
-    .btn-complete { background:#27AE60; color:#fff; border:none; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
-    .btn-complete:hover { background:#219a54; }
-    .btn-cancel-bk  { background:#E53935; color:#fff; border:none; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
-    .btn-cancel-bk:hover { background:#c62828; }
-    .btn-close-modal { background:#f0f0f0; color:#555; border:none; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
-    .btn-close-modal:hover { background:#e0e0e0; }
-    .no-data { text-align:center; color:#bbb; padding:36px 0; font-size:14px; }
+    .book-search input {
+        width: 100%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: #4b5563;
+        font-size: 14px;
+    }
+
+    .book-search input::placeholder {
+        color: #b5bfcc;
+    }
+
+    .book-icon-btn,
+    .book-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .book-icon-btn {
+        position: relative;
+        border: 0;
+        background: transparent;
+        color: #23384d;
+    }
+
+    .book-icon-dot {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ef4444;
+        border: 2px solid #f5f6fb;
+    }
+
+    .book-avatar {
+        background: #122c3b;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .filter-shell,
+    .table-shell {
+        background: #fff;
+        border: 1px solid #e4e8f0;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(15, 35, 52, .04);
+    }
+
+    .filter-shell {
+        padding: 10px 8px;
+    }
+
+    .filter-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .filter-tab {
+        border: 0;
+        background: transparent;
+        color: #303747;
+        border-radius: 999px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all .18s ease;
+    }
+
+    .filter-tab:hover {
+        background: #f1f5fb;
+    }
+
+    .filter-tab.active {
+        color: #fff;
+        background: linear-gradient(90deg, #2e9eeb 0%, #3fa9f5 100%);
+        box-shadow: 0 10px 24px rgba(46, 158, 235, .24);
+    }
+
+    .filter-count {
+        min-width: 18px;
+        height: 18px;
+        padding: 0 5px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(18, 44, 59, .12);
+        color: inherit;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .filter-tab.active .filter-count {
+        background: rgba(255, 255, 255, .22);
+    }
+
+    .table-shell {
+        overflow: hidden;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .book-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 760px;
+    }
+
+    .book-table thead th {
+        padding: 16px 18px 12px;
+        border-bottom: 1px solid #edf1f6;
+        color: #5b6573;
+        font-size: 13px;
+        font-weight: 500;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .book-table tbody td {
+        padding: 16px 18px;
+        border-bottom: 1px solid #edf1f6;
+        color: #2d313d;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .book-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .book-table tbody tr:hover td {
+        background: #fbfcff;
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 78px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .status-pill.completed {
+        color: #16a34a;
+        background: #dcfce7;
+    }
+
+    .status-pill.active {
+        color: #d59a08;
+        background: #fff1b8;
+    }
+
+    .status-pill.upcoming {
+        color: #3b82f6;
+        background: #dbeafe;
+    }
+
+    .status-pill.pending {
+        color: #6b7280;
+        background: #eceff4;
+    }
+
+    .view-link {
+        border: 0;
+        background: transparent;
+        color: #1f6ca7;
+        font-size: 13px;
+        font-style: italic;
+        font-weight: 600;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .view-link:hover {
+        color: #145483;
+        text-decoration: underline;
+    }
+
+    .table-footer {
+        display: flex;
+        justify-content: center;
+        padding: 18px 18px 24px;
+    }
+
+    .pagination-row {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .page-btn {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 0;
+        background: #eff1f5;
+        color: #5f6b7c;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .page-btn.active {
+        background: #d9dde5;
+        color: #2d313d;
+    }
+
+    .page-btn.next-btn {
+        background: transparent;
+        color: #9aa3b2;
+        width: auto;
+        border-radius: 0;
+    }
+
+    .empty-bookings {
+        padding: 42px 24px;
+        text-align: center;
+        color: #9aa3b2;
+        font-size: 14px;
+    }
+
+    .detail-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 42, 56, .45);
+        z-index: 2100;
+        padding: 18px;
+    }
+
+    .detail-modal {
+        width: min(560px, 100%);
+        max-height: 90vh;
+        overflow-y: auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 24px 60px rgba(15, 35, 52, .22);
+        padding: 22px;
+    }
+
+    .detail-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .detail-head h2 {
+        margin: 0;
+        color: #183247;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .detail-close {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 0;
+        background: #f1f5fb;
+        color: #526071;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .detail-section {
+        border: 1px solid #edf1f6;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+    }
+
+    .detail-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .detail-section h3 {
+        margin: 0 0 10px;
+        color: #183247;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .detail-row {
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px dashed #edf1f6;
+        font-size: 13px;
+    }
+
+    .detail-row:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .detail-label {
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    .detail-value {
+        color: #2d313d;
+        font-weight: 500;
+        text-align: right;
+    }
+
+    @media (max-width: 991px) {
+        .book-search {
+            min-width: 260px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .book-tools {
+            width: 100%;
+        }
+
+        .book-search {
+            min-width: 0;
+            width: 100%;
+        }
+
+        .filter-row {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .detail-row {
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-value {
+            text-align: left;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
-
-    <div class="adm-topbar">
+<div class="book-page">
+    <div class="book-topbar">
         <h1>Bookings</h1>
-        <div class="adm-topbar-right">
-            <div class="adm-search">
+        <div class="book-tools">
+            <label class="book-search mb-0">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search..." id="searchInput">
-            </div>
-            <div class="adm-bell">
-                <i class="fas fa-bell"></i>
-                <span class="adm-bell-dot"></span>
-            </div>
-            <div class="adm-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
+                <input type="text" id="searchInput" placeholder="Search..." aria-label="Search bookings">
+            </label>
+            <button type="button" class="book-icon-btn" aria-label="Notifications">
+                <i class="far fa-bell"></i>
+                <span class="book-icon-dot"></span>
+            </button>
+            <div class="book-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
         </div>
     </div>
 
-    <div class="req-tabs">
-        <button class="req-tab active" data-filter="all">All <span class="rc">{{ $allCount }}</span></button>
-        <button class="req-tab" data-filter="active">Active <span class="rc">{{ $activeCount }}</span></button>
-        <button class="req-tab" data-filter="upcoming">Upcoming <span class="rc">{{ $upcomingCount }}</span></button>
-        <button class="req-tab" data-filter="completed">Completed <span class="rc">{{ $completedCount }}</span></button>
-    </div>
+    <section class="filter-shell">
+        <div class="filter-row">
+            <button class="filter-tab active" data-filter="all">All <span class="filter-count">{{ $allCount }}</span></button>
+            <button class="filter-tab" data-filter="active">Active <span class="filter-count">{{ $activeCount }}</span></button>
+            <button class="filter-tab" data-filter="upcoming">Upcoming <span class="filter-count">{{ $upcomingCount }}</span></button>
+            <button class="filter-tab" data-filter="completed">Completed <span class="filter-count">{{ $completedCount }}</span></button>
+        </div>
+    </section>
 
-    <div class="req-panel">
+    <section class="table-shell">
         @if($allBookings->count())
-        <table class="req-table" id="bkTable">
-            <thead>
-                <tr>
-                    <th>Service</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Client</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($allBookings as $bk)
-                <tr data-status="{{ strtolower($bk['status']) }}">
-                    <td>{{ $bk['type'] }}</td>
-                    <td>{{ $bk['service'] }}</td>
-                    <td>{{ \Carbon\Carbon::parse($bk['date'])->format('d F Y') }}</td>
-                    <td>{{ $bk['client'] }}</td>
-                    <td>
-                        @php $st = strtolower($bk['status']); @endphp
-                        <span class="sb sb-{{ $st }}">{{ $bk['status'] }}</span>
-                    </td>
-                    <td>
-                        <button class="vd-link btn-view"
-                                data-mtype="{{ $bk['model_type'] }}"
-                                data-mid="{{ $bk['model_id'] }}">
-                            View Details
-                        </button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="req-pagination" id="bkPagination"></div>
+            <div class="table-wrap">
+                <table class="book-table" id="bookingTable">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Client</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($allBookings as $bk)
+                            <tr data-status="{{ $bk['status_key'] }}">
+                                <td>{{ $bk['service'] }}</td>
+                                <td>{{ $bk['type'] }}</td>
+                                <td>{{ $bk['formatted_date'] }}</td>
+                                <td>{{ $bk['client'] }}</td>
+                                <td>
+                                    <span class="status-pill {{ $bk['status_key'] }}">{{ $bk['status'] }}</span>
+                                </td>
+                                <td>
+                                    <button
+                                        class="view-link btn-view"
+                                        data-mtype="{{ $bk['model_type'] }}"
+                                        data-mid="{{ $bk['model_id'] }}">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-footer">
+                <div class="pagination-row" id="bookingPagination"></div>
+            </div>
         @else
-        <div class="no-data"><i class="fas fa-calendar-alt" style="font-size:28px;display:block;margin-bottom:10px;color:#ddd;"></i>No bookings found.</div>
+            <div class="empty-bookings">No bookings found.</div>
         @endif
-    </div>
+    </section>
+</div>
 
-    <div class="adm-modal-overlay" id="bkModal" style="display:none;">
-        <div class="adm-modal">
-            <div class="adm-modal-head">
-                <h3>Booking Details</h3>
-                <button class="adm-modal-close" onclick="closeBkModal()">&times;</button>
-            </div>
-            <div id="bkModalBody"></div>
-            <div class="adm-modal-foot">
-                <button class="btn-close-modal" onclick="closeBkModal()">Close</button>
-                <button class="btn-complete" id="btnComplete">Mark Completed</button>
-                <button class="btn-cancel-bk"  id="btnCancel">Cancel</button>
-            </div>
+<div class="detail-overlay" id="bookingDetailModal">
+    <div class="detail-modal">
+        <div class="detail-head">
+            <h2>Booking Details</h2>
+            <button type="button" class="detail-close" onclick="closeBookingModal()">&times;</button>
         </div>
+        <div id="bookingDetailBody"></div>
     </div>
-
+</div>
 @endsection
 
 @section('scripts')
 <script>
-var rowsPerPage = 9, currentPage = 1, currentFilter = 'all';
+var rowsPerPage = 8;
+var currentPage = 1;
+var currentFilter = 'all';
 
-function allRows() { return Array.from(document.querySelectorAll('#bkTable tbody tr')); }
-function visibleRows() {
-    var search = (document.getElementById('searchInput') || {}).value || '';
-    search = search.toLowerCase();
-    return allRows().filter(function(r) {
-        if (currentFilter !== 'all' && r.dataset.status !== currentFilter) return false;
-        if (search && !r.textContent.toLowerCase().includes(search)) return false;
+function getBookingRows() {
+    return Array.from(document.querySelectorAll('#bookingTable tbody tr'));
+}
+
+function getVisibleBookingRows() {
+    var query = '';
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        query = searchInput.value.trim().toLowerCase();
+    }
+
+    return getBookingRows().filter(function (row) {
+        if (currentFilter !== 'all' && row.dataset.status !== currentFilter) {
+            return false;
+        }
+
+        if (query && row.textContent.toLowerCase().indexOf(query) === -1) {
+            return false;
+        }
+
         return true;
     });
 }
-function renderPage() {
-    var rows = visibleRows();
-    var pages = Math.max(1, Math.ceil(rows.length / rowsPerPage));
-    if (currentPage > pages) currentPage = 1;
-    allRows().forEach(function(r) { r.style.display = 'none'; });
-    rows.slice((currentPage-1)*rowsPerPage, currentPage*rowsPerPage).forEach(function(r){ r.style.display=''; });
-    var pg = document.getElementById('bkPagination');
-    if (!pg) return;
-    var html = '';
-    for (var i = 1; i <= pages; i++) html += '<a class="pg-btn'+(i===currentPage?' active':'')+'" onclick="goPage('+i+')">'+i+'</a>';
-    if (currentPage < pages) html += '<a class="pg-btn" onclick="goPage('+(currentPage+1)+')">&#8250;</a>';
-    pg.innerHTML = html;
+
+function renderBookingRows() {
+    var rows = getVisibleBookingRows();
+    var pageCount = Math.max(1, Math.ceil(rows.length / rowsPerPage));
+
+    if (currentPage > pageCount) {
+        currentPage = 1;
+    }
+
+    getBookingRows().forEach(function (row) {
+        row.style.display = 'none';
+    });
+
+    rows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage).forEach(function (row) {
+        row.style.display = '';
+    });
+
+    renderBookingPagination(pageCount);
 }
-function goPage(p) { currentPage = p; renderPage(); }
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.req-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.req-tab').forEach(function(t){ t.classList.remove('active'); });
-            tab.classList.add('active');
-            currentFilter = tab.dataset.filter; currentPage = 1; renderPage();
-        });
-    });
-    var si = document.getElementById('searchInput');
-    if (si) si.addEventListener('input', function(){ currentPage=1; renderPage(); });
+function renderBookingPagination(pageCount) {
+    var container = document.getElementById('bookingPagination');
+    if (!container) {
+        return;
+    }
 
-    document.querySelectorAll('.btn-view').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            var mtype = btn.dataset.mtype, mid = btn.dataset.mid;
-            fetch('/bookings/' + mtype + '/' + mid)
-                .then(function(r){ return r.json(); })
-                .then(function(data){ openBkModal(data, mtype, mid); })
-                .catch(function(){ alert('Error loading booking details'); });
-        });
-    });
+    var buttons = [];
+    for (var page = 1; page <= pageCount; page++) {
+        buttons.push(
+            '<button type="button" class="page-btn' + (page === currentPage ? ' active' : '') + '" onclick="goToBookingPage(' + page + ')">' + page + '</button>'
+        );
+    }
 
-    document.getElementById('btnComplete').addEventListener('click', function() { postBkStatus('Completed'); });
-    document.getElementById('btnCancel').addEventListener('click', function() { postBkStatus('Cancelled'); });
+    if (currentPage < pageCount) {
+        buttons.push('<button type="button" class="page-btn next-btn" onclick="goToBookingPage(' + (currentPage + 1) + ')">&gt;</button>');
+    }
 
-    renderPage();
-});
+    container.innerHTML = buttons.join('');
+}
 
-var _mtype = '', _mid = '';
-function openBkModal(data, mtype, mid) {
-    _mtype = mtype; _mid = mid;
-    var stype = mtype === 'TourBooking' ? 'Tour & Travel' : mtype === 'CarBooking' ? 'Car Rental' : 'Transfers';
-    var sname = '';
-    if (mtype === 'TourBooking' && data.tour) sname = data.tour.title || 'N/A';
-    else if (data.vehicle) sname = (data.vehicle.brand ? data.vehicle.brand.name : '') + ' ' + (data.vehicle.model ? data.vehicle.model.name : '');
-    var date = data.date || data.pickup_date || 'N/A';
-    var status = data.completed ? 'Completed' : data.cancelled ? 'Cancelled' : data.approved ? 'Active' : 'Pending';
-    var scMap = {Completed:'sb-completed', Cancelled:'sb-rejected', Active:'sb-active', Pending:'sb-pending'};
+function goToBookingPage(page) {
+    currentPage = page;
+    renderBookingRows();
+}
 
-    document.getElementById('bkModalBody').innerHTML =
-        '<div class="detail-sec"><h4>Client</h4>' +
-            '<div class="detail-row"><span class="detail-lbl">Name</span><span class="detail-val">'+(data.names||'N/A')+'</span></div>' +
-            '<div class="detail-row"><span class="detail-lbl">Email</span><span class="detail-val">'+(data.email||'N/A')+'</span></div>' +
-            '<div class="detail-row"><span class="detail-lbl">Phone</span><span class="detail-val">'+(data.phone_number||'N/A')+'</span></div>' +
+function openBookingModal(data) {
+    var body = document.getElementById('bookingDetailBody');
+    if (!body) {
+        return;
+    }
+
+    var optionalRows = '';
+    if (data.location) {
+        optionalRows += '<div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">' + escapeHtml(data.location) + '</span></div>';
+    }
+    if (data.destination) {
+        optionalRows += '<div class="detail-row"><span class="detail-label">Destination</span><span class="detail-value">' + escapeHtml(data.destination) + '</span></div>';
+    }
+    if (data.number_of_days) {
+        optionalRows += '<div class="detail-row"><span class="detail-label">Days</span><span class="detail-value">' + escapeHtml(String(data.number_of_days)) + '</span></div>';
+    }
+    if (data.number_of_people) {
+        optionalRows += '<div class="detail-row"><span class="detail-label">People</span><span class="detail-value">' + escapeHtml(String(data.number_of_people)) + '</span></div>';
+    }
+    if (data.price) {
+        optionalRows += '<div class="detail-row"><span class="detail-label">Price</span><span class="detail-value">' + escapeHtml(String(data.price)) + '</span></div>';
+    }
+
+    body.innerHTML =
+        '<div class="detail-section">' +
+            '<h3>Client</h3>' +
+            '<div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">' + escapeHtml(data.client || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">' + escapeHtml(data.email || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Phone</span><span class="detail-value">' + escapeHtml(data.phone || 'N/A') + '</span></div>' +
         '</div>' +
-        '<div class="detail-sec"><h4>Service</h4>' +
-            '<div class="detail-row"><span class="detail-lbl">Service</span><span class="detail-val">'+stype+'</span></div>' +
-            '<div class="detail-row"><span class="detail-lbl">Type</span><span class="detail-val">'+sname+'</span></div>' +
-            '<div class="detail-row"><span class="detail-lbl">Date</span><span class="detail-val">'+date+'</span></div>' +
-            '<div class="detail-row"><span class="detail-lbl">Details</span><span class="detail-val">'+(data.message||'N/A')+'</span></div>' +
+        '<div class="detail-section">' +
+            '<h3>Booking</h3>' +
+            '<div class="detail-row"><span class="detail-label">Service</span><span class="detail-value">' + escapeHtml(data.service || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Type</span><span class="detail-value">' + escapeHtml(data.type || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">' + escapeHtml(data.date || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">' + escapeHtml(data.status || 'N/A') + '</span></div>' +
+            optionalRows +
         '</div>' +
-        '<div class="detail-sec"><h4>Status</h4>' +
-            '<div class="detail-row"><span class="detail-lbl">Current</span><span class="detail-val"><span class="sb '+(scMap[status]||'sb-pending')+'">'+status+'</span></span></div>' +
+        '<div class="detail-section">' +
+            '<h3>Notes</h3>' +
+            '<div class="detail-row"><span class="detail-value" style="text-align:left;">' + escapeHtml(data.message || 'No extra details provided.') + '</span></div>' +
         '</div>';
-    document.getElementById('bkModal').style.display = 'flex';
+
+    document.getElementById('bookingDetailModal').style.display = 'flex';
 }
-function closeBkModal() { document.getElementById('bkModal').style.display = 'none'; }
-function postBkStatus(status) {
-    fetch('/bookings/' + _mtype + '/' + _mid + '/status', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content },
-        body: 'status=' + status
-    }).then(function(){ location.reload(); }).catch(function(){ alert('Error updating status'); });
+
+function closeBookingModal() {
+    var modal = document.getElementById('bookingDetailModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.filter-tab').forEach(function (button) {
+        button.addEventListener('click', function () {
+            document.querySelectorAll('.filter-tab').forEach(function (item) {
+                item.classList.remove('active');
+            });
+            button.classList.add('active');
+            currentFilter = button.dataset.filter;
+            currentPage = 1;
+            renderBookingRows();
+        });
+    });
+
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            currentPage = 1;
+            renderBookingRows();
+        });
+    }
+
+    document.querySelectorAll('.btn-view').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var modelType = button.dataset.mtype;
+            var modelId = button.dataset.mid;
+
+            fetch('/bookings/' + modelType + '/' + modelId)
+                .then(function (response) { return response.json(); })
+                .then(function (data) { openBookingModal(data); })
+                .catch(function () { alert('Unable to load booking details right now.'); });
+        });
+    });
+
+    var overlay = document.getElementById('bookingDetailModal');
+    if (overlay) {
+        overlay.addEventListener('click', function (event) {
+            if (event.target === overlay) {
+                closeBookingModal();
+            }
+        });
+    }
+
+    if (document.getElementById('bookingTable')) {
+        renderBookingRows();
+    }
+});
 </script>
 @endsection

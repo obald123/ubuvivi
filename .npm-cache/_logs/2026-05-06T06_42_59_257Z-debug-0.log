@@ -1,0 +1,745 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\LENOVO\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.3.0
+2 info using node@v22.14.0
+3 silly config load:file:C:\Users\LENOVO\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npmrc
+5 silly config load:file:C:\Users\LENOVO\.npmrc
+6 silly config load:file:C:\Users\LENOVO\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm exec @locofy/uipro-mcp@latest
+8 verbose argv "exec" "--yes" "--" "@locofy/uipro-mcp@latest"
+9 verbose logfile logs-max:10 dir:c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_logs\2026-05-06T06_42_59_257Z-
+10 verbose logfile c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_logs\2026-05-06T06_42_59_257Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+13 http fetch GET 200 https://registry.npmjs.org/@locofy%2fuipro-mcp 1334ms (cache revalidated)
+14 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+15 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+16 silly idealTree buildDeps
+17 silly fetch manifest @locofy/uipro-mcp@1.1.3
+18 silly packumentCache full:https://registry.npmjs.org/@locofy%2fuipro-mcp cache-miss
+19 http cache https://registry.npmjs.org/@locofy%2fuipro-mcp 422ms (cache hit)
+20 silly packumentCache full:https://registry.npmjs.org/@locofy%2fuipro-mcp set size:43803 disposed:false
+21 silly placeDep ROOT @locofy/uipro-mcp@1.1.3 REPLACE for:  want: 1.1.3
+22 silly fetch manifest @modelcontextprotocol/sdk@^1.4.1
+23 silly packumentCache full:https://registry.npmjs.org/@modelcontextprotocol%2fsdk cache-miss
+24 silly fetch manifest jimp@^0.22.12
+25 silly packumentCache full:https://registry.npmjs.org/jimp cache-miss
+26 silly fetch manifest uuid@^9.0.1
+27 silly packumentCache full:https://registry.npmjs.org/uuid cache-miss
+28 silly fetch manifest zod@^3.24.1
+29 silly packumentCache full:https://registry.npmjs.org/zod cache-miss
+30 http cache https://registry.npmjs.org/jimp 890ms (cache hit)
+31 silly packumentCache full:https://registry.npmjs.org/jimp set size:1198045 disposed:false
+32 http cache https://registry.npmjs.org/@modelcontextprotocol%2fsdk 1000ms (cache hit)
+33 silly packumentCache full:https://registry.npmjs.org/@modelcontextprotocol%2fsdk set size:295652 disposed:false
+34 http cache https://registry.npmjs.org/uuid 1258ms (cache hit)
+35 silly packumentCache full:https://registry.npmjs.org/uuid set size:234700 disposed:false
+36 http cache https://registry.npmjs.org/zod 1427ms (cache hit)
+37 silly packumentCache full:https://registry.npmjs.org/zod set size:3552562 disposed:false
+38 silly fetch manifest @cfworker/json-schema@^4.1.1
+39 silly packumentCache full:https://registry.npmjs.org/@cfworker%2fjson-schema cache-miss
+40 http cache https://registry.npmjs.org/@cfworker%2fjson-schema 967ms (cache hit)
+41 silly packumentCache full:https://registry.npmjs.org/@cfworker%2fjson-schema set size:144207 disposed:false
+42 silly placeDep ROOT @modelcontextprotocol/sdk@1.29.0 OK for: @locofy/uipro-mcp@1.1.3 want: ^1.4.1
+43 silly placeDep ROOT jimp@0.22.12 OK for: @locofy/uipro-mcp@1.1.3 want: ^0.22.12
+44 silly placeDep ROOT uuid@9.0.1 OK for: @locofy/uipro-mcp@1.1.3 want: ^9.0.1
+45 silly placeDep ROOT zod@3.25.76 OK for: @locofy/uipro-mcp@1.1.3 want: ^3.24.1
+46 silly fetch manifest ajv@^8.17.1
+47 silly packumentCache full:https://registry.npmjs.org/ajv cache-miss
+48 silly fetch manifest hono@^4.11.4
+49 silly packumentCache full:https://registry.npmjs.org/hono cache-miss
+50 silly fetch manifest jose@^6.1.3
+51 silly packumentCache full:https://registry.npmjs.org/jose cache-miss
+52 silly fetch manifest zod@^3.25 || ^4.0
+53 silly packumentCache full:https://registry.npmjs.org/zod cache-miss
+54 silly fetch manifest zod-to-json-schema@^3.25.1
+55 silly packumentCache full:https://registry.npmjs.org/zod-to-json-schema cache-miss
+56 http cache https://registry.npmjs.org/jose 2560ms (cache hit)
+57 silly packumentCache full:https://registry.npmjs.org/jose set size:1413195 disposed:false
+58 http cache https://registry.npmjs.org/ajv 2587ms (cache hit)
+59 silly packumentCache full:https://registry.npmjs.org/ajv set size:1142658 disposed:false
+60 http cache https://registry.npmjs.org/zod 3416ms (cache hit)
+61 silly packumentCache full:https://registry.npmjs.org/zod set size:3552562 disposed:false
+62 http cache https://registry.npmjs.org/hono 3961ms (cache hit)
+63 silly packumentCache full:https://registry.npmjs.org/hono set size:5679136 disposed:false
+64 http cache https://registry.npmjs.org/zod-to-json-schema 5065ms (cache hit)
+65 silly packumentCache full:https://registry.npmjs.org/zod-to-json-schema set size:309584 disposed:false
+66 silly placeDep node_modules/@modelcontextprotocol/sdk ajv@8.20.0 OK for: @modelcontextprotocol/sdk@1.29.0 want: ^8.17.1
+67 silly placeDep node_modules/@modelcontextprotocol/sdk hono@4.12.17 OK for: @modelcontextprotocol/sdk@1.29.0 want: ^4.11.4
+68 silly placeDep node_modules/@modelcontextprotocol/sdk jose@6.2.3 OK for: @modelcontextprotocol/sdk@1.29.0 want: ^6.1.3
+69 silly placeDep node_modules/@modelcontextprotocol/sdk zod-to-json-schema@3.25.2 OK for: @modelcontextprotocol/sdk@1.29.0 want: ^3.25.1
+70 silly reify mark retired [
+70 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\css-tree'
+70 silly reify ]
+71 silly reify mark retired [
+71 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\csso'
+71 silly reify ]
+72 silly reify mark retired [
+72 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\jimp'
+72 silly reify ]
+73 silly reify mark retired [
+73 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\jose'
+73 silly reify ]
+74 silly reify mark retired [
+74 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\readable-stream\\node_modules\\buffer'
+74 silly reify ]
+75 silly reify mark retired [
+75 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\uuid'
+75 silly reify ]
+76 silly reify mark retired [
+76 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\zod-to-json-schema'
+76 silly reify ]
+77 silly reify mark retired [
+77 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\zod'
+77 silly reify ]
+78 silly reify mark retired [
+78 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@modelcontextprotocol\\sdk'
+78 silly reify ]
+79 silly reify mark retired [
+79 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\abort-controller'
+79 silly reify ]
+80 silly reify mark retired [
+80 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\buffer-equal'
+80 silly reify ]
+81 silly reify mark retired [
+81 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\boolbase'
+81 silly reify ]
+82 silly reify mark retired [
+82 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\commander'
+82 silly reify ]
+83 silly reify mark retired [
+83 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\css-select'
+83 silly reify ]
+84 silly reify mark retired [
+84 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\css-what'
+84 silly reify ]
+85 silly reify mark retired [
+85 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\dom-serializer'
+85 silly reify ]
+86 silly reify mark retired [
+86 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\domutils'
+86 silly reify ]
+87 silly reify mark retired [
+87 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\domelementtype'
+87 silly reify ]
+88 silly reify mark retired [
+88 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\entities'
+88 silly reify ]
+89 silly reify mark retired [
+89 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\domhandler'
+89 silly reify ]
+90 silly reify mark retired [
+90 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\events'
+90 silly reify ]
+91 silly reify mark retired [
+91 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\dom-walk'
+91 silly reify ]
+92 silly reify mark retired [
+92 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\event-target-shim'
+92 silly reify ]
+93 silly reify mark retired [
+93 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\centra'
+93 silly reify ]
+94 silly reify mark retired [
+94 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\follow-redirects'
+94 silly reify ]
+95 silly reify mark retired [
+95 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\global'
+95 silly reify ]
+96 silly reify mark retired [
+96 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\mdn-data'
+96 silly reify ]
+97 silly reify mark retired [
+97 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\load-bmfont'
+97 silly reify ]
+98 silly reify mark retired [
+98 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\mime',
+98 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mime',
+98 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mime.cmd',
+98 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mime.ps1'
+98 silly reify ]
+99 silly reify mark retired [
+99 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\min-document'
+99 silly reify ]
+100 silly reify mark retired [
+100 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\mkdirp',
+100 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mkdirp',
+100 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mkdirp.cmd',
+100 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mkdirp.ps1'
+100 silly reify ]
+101 silly reify mark retired [
+101 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\nth-check'
+101 silly reify ]
+102 silly reify mark retired [
+102 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\is-function'
+102 silly reify ]
+103 silly reify mark retired [
+103 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-bmfont-binary'
+103 silly reify ]
+104 silly reify mark retired [
+104 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-headers'
+104 silly reify ]
+105 silly reify mark retired [
+105 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-bmfont-xml'
+105 silly reify ]
+106 silly reify mark retired [
+106 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\pixelmatch',
+106 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\pixelmatch',
+106 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\pixelmatch.cmd',
+106 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\pixelmatch.ps1'
+106 silly reify ]
+107 silly reify mark retired [
+107 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\picocolors'
+107 silly reify ]
+108 silly reify mark retired [
+108 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-bmfont-ascii'
+108 silly reify ]
+109 silly reify mark retired [
+109 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\phin'
+109 silly reify ]
+110 silly reify mark retired [
+110 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\safe-buffer'
+110 silly reify ]
+111 silly reify mark retired [
+111 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\process'
+111 silly reify ]
+112 silly reify mark retired [
+112 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\sax'
+112 silly reify ]
+113 silly reify mark retired [
+113 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\source-map'
+113 silly reify ]
+114 silly reify mark retired [
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\svg2vectordrawable',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\s2v',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\s2v.cmd',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\s2v.ps1',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2avd',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2avd.cmd',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2avd.ps1',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2android',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2android.cmd',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2android.ps1',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vector',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vector.cmd',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vector.ps1',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2drawable',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2drawable.cmd',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2drawable.ps1',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vectordrawable',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vectordrawable.cmd',
+114 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vectordrawable.ps1'
+114 silly reify ]
+115 silly reify mark retired [
+115 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\string_decoder'
+115 silly reify ]
+116 silly reify mark retired [
+116 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xml-parse-from-string'
+116 silly reify ]
+117 silly reify mark retired [
+117 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xml2js'
+117 silly reify ]
+118 silly reify mark retired [
+118 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xmlbuilder'
+118 silly reify ]
+119 silly reify mark retired [
+119 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\which',
+119 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\node-which',
+119 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\node-which.cmd',
+119 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\node-which.ps1'
+119 silly reify ]
+120 silly reify mark retired [
+120 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xhr'
+120 silly reify ]
+121 silly reify mark retired [
+121 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@locofy\\uipro-mcp',
+121 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\uipro-mcp',
+121 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\uipro-mcp.cmd',
+121 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\uipro-mcp.ps1'
+121 silly reify ]
+122 silly reify mark retired [
+122 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\stable'
+122 silly reify ]
+123 silly reify mark retired [
+123 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xtend'
+123 silly reify ]
+124 silly reify moves {
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\css-tree': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.css-tree-KFOCpwkw',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\csso': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.csso-w5AYjsNm',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\jimp': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.jimp-9WK6ekKA',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\jose': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.jose-aGRVYjUJ',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\readable-stream\\node_modules\\buffer': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\readable-stream\\node_modules\\.buffer-MjQd6KAB',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\uuid': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.uuid-6j7KWIFA',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\zod-to-json-schema': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.zod-to-json-schema-2oPXtCd2',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\zod': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.zod-48HYamuj',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@modelcontextprotocol\\sdk': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@modelcontextprotocol\\.sdk-ifWQgGUQ',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\abort-controller': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.abort-controller-iHJSwQVc',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\buffer-equal': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.buffer-equal-syuxHfts',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\boolbase': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.boolbase-9peIPSq3',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\commander': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.commander-2yHZ1fRx',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\css-select': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.css-select-JSwHQ9XO',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\css-what': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.css-what-Sz68mgy6',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\dom-serializer': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.dom-serializer-VyM1U6Kx',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\domutils': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.domutils-GQlGbA02',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\domelementtype': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.domelementtype-1DjYXU5W',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\entities': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.entities-mH5P9nRN',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\domhandler': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.domhandler-HX4YfsTy',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\events': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.events-6wONEcCJ',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\dom-walk': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.dom-walk-0sEaYQeU',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\event-target-shim': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.event-target-shim-hUjNkFTG',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\centra': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.centra-1fswE2To',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\follow-redirects': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.follow-redirects-s6bzW54v',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\global': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.global-EyS6fMMQ',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\mdn-data': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.mdn-data-YHfB13AY',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\load-bmfont': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.load-bmfont-NYlmOJiz',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\mime': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.mime-34HkzQ6b',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mime': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.mime-dvvIkCRm',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mime.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.mime.cmd-OmgxaaWW',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mime.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.mime.ps1-SnMZB7Lf',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\min-document': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.min-document-EPj7ISmY',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\mkdirp': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.mkdirp-jSsFipCJ',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mkdirp': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.mkdirp-ox4fjthf',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mkdirp.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.mkdirp.cmd-HqzE9sv8',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\mkdirp.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.mkdirp.ps1-6WUqDyfn',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\nth-check': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.nth-check-LTPdF07E',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\is-function': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.is-function-ispC2n6A',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-bmfont-binary': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.parse-bmfont-binary-dkzwbWvn',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-headers': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.parse-headers-xiEW97hh',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-bmfont-xml': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.parse-bmfont-xml-4c12WVTD',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\pixelmatch': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.pixelmatch-BpWr1krN',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\pixelmatch': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.pixelmatch-9tOaWwY2',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\pixelmatch.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.pixelmatch.cmd-mzO49RS3',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\pixelmatch.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.pixelmatch.ps1-IowbiWbF',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\picocolors': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.picocolors-YTM8Nf9A',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\parse-bmfont-ascii': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.parse-bmfont-ascii-izdKMZAz',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\phin': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.phin-1Gg4M5uB',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\safe-buffer': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.safe-buffer-Nn3xDmoC',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\process': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.process-KCplRDLt',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\sax': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.sax-XhMcZauh',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\source-map': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.source-map-4Bavx3B3',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\svg2vectordrawable': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.svg2vectordrawable-dKmM7l1j',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\s2v': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.s2v-HWjEFYuu',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\s2v.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.s2v.cmd-hoTZewSA',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\s2v.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.s2v.ps1-EoXiCgio',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2avd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2avd-LN8PzwOW',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2avd.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2avd.cmd-pg0gxtc8',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2avd.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2avd.ps1-zm3hJ6dM',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2android': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2android-jfu5aExz',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2android.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2android.cmd-thvcgDsY',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2android.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2android.ps1-BXQfihB8',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vector': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2vector-sflIPtPL',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vector.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2vector.cmd-R1GN4ol6',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vector.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2vector.ps1-RdSEzmpv',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2drawable': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2drawable-9QFKUdn3',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2drawable.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2drawable.cmd-M917zk9Y',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2drawable.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2drawable.ps1-uGhdkxj8',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vectordrawable': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2vectordrawable-U0vGUXCI',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vectordrawable.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2vectordrawable.cmd-u6gQnoUU',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\svg2vectordrawable.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.svg2vectordrawable.ps1-xdqxb31Z',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\string_decoder': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.string_decoder-ec6Qk6ET',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xml-parse-from-string': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.xml-parse-from-string-yuMh8cFp',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xml2js': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.xml2js-8C7Ds77n',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xmlbuilder': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.xmlbuilder-zbnU6sB5',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\which': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.which-MuRfzPAN',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\node-which': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.node-which-jKqAWwlO',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\node-which.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.node-which.cmd-IqHfHNjp',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\node-which.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.node-which.ps1-aYfCHiMn',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xhr': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.xhr-tRpcO8mB',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@locofy\\uipro-mcp': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@locofy\\.uipro-mcp-gVslyn3z',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\uipro-mcp': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.uipro-mcp-jjCBon4D',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\uipro-mcp.cmd': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.uipro-mcp.cmd-zxsVzKko',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\uipro-mcp.ps1': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.bin\\.uipro-mcp.ps1-ubmrqUYk',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\stable': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.stable-2g8URd2j',
+124 silly reify   'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\xtend': 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\.xtend-b6HLWLAR'
+124 silly reify }
+125 silly audit bulk request {
+125 silly audit   buffer: [ '5.7.1' ],
+125 silly audit   'abs-svg-path': [ '0.1.1' ],
+125 silly audit   accepts: [ '2.0.0' ],
+125 silly audit   'ajv-formats': [ '3.0.1' ],
+125 silly audit   'ansi-styles': [ '3.2.1' ],
+125 silly audit   'any-base': [ '1.1.0' ],
+125 silly audit   'base64-js': [ '1.5.1' ],
+125 silly audit   'bmp-js': [ '0.1.0' ],
+125 silly audit   'body-parser': [ '2.2.2' ],
+125 silly audit   bytes: [ '3.1.2' ],
+125 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+125 silly audit   'call-bound': [ '1.0.4' ],
+125 silly audit   chalk: [ '2.4.2' ],
+125 silly audit   'color-convert': [ '1.9.3' ],
+125 silly audit   coa: [ '2.0.2' ],
+125 silly audit   'color-name': [ '1.1.3' ],
+125 silly audit   'content-disposition': [ '1.1.0' ],
+125 silly audit   'content-type': [ '1.0.5' ],
+125 silly audit   cookie: [ '0.7.2' ],
+125 silly audit   'cookie-signature': [ '1.2.2' ],
+125 silly audit   cors: [ '2.8.6' ],
+125 silly audit   'cross-spawn': [ '7.0.6' ],
+125 silly audit   depd: [ '2.0.0' ],
+125 silly audit   debug: [ '4.4.3' ],
+125 silly audit   'dunder-proto': [ '1.0.1' ],
+125 silly audit   'ee-first': [ '1.1.1' ],
+125 silly audit   encodeurl: [ '2.0.0' ],
+125 silly audit   'es-define-property': [ '1.0.1' ],
+125 silly audit   'es-errors': [ '1.3.0' ],
+125 silly audit   'escape-html': [ '1.0.3' ],
+125 silly audit   'escape-string-regexp': [ '1.0.5' ],
+125 silly audit   etag: [ '1.8.1' ],
+125 silly audit   'es-object-atoms': [ '1.1.1' ],
+125 silly audit   eventsource: [ '3.0.7' ],
+125 silly audit   'eventsource-parser': [ '3.0.8' ],
+125 silly audit   'exif-parser': [ '0.1.12' ],
+125 silly audit   express: [ '5.2.1' ],
+125 silly audit   'fast-deep-equal': [ '3.1.3' ],
+125 silly audit   'express-rate-limit': [ '8.5.0' ],
+125 silly audit   'file-type': [ '16.5.4' ],
+125 silly audit   finalhandler: [ '2.1.1' ],
+125 silly audit   forwarded: [ '0.2.0' ],
+125 silly audit   fresh: [ '2.0.0' ],
+125 silly audit   'function-bind': [ '1.1.2' ],
+125 silly audit   'fast-uri': [ '3.1.2' ],
+125 silly audit   'get-intrinsic': [ '1.3.0' ],
+125 silly audit   'get-proto': [ '1.0.1' ],
+125 silly audit   gifwrap: [ '0.10.1' ],
+125 silly audit   gopd: [ '1.2.0' ],
+125 silly audit   'has-flag': [ '3.0.0' ],
+125 silly audit   'has-symbols': [ '1.1.0' ],
+125 silly audit   hasown: [ '2.0.3' ],
+125 silly audit   'http-errors': [ '2.0.1' ],
+125 silly audit   ieee754: [ '1.2.1' ],
+125 silly audit   'iconv-lite': [ '0.7.2' ],
+125 silly audit   'image-q': [ '4.0.0' ],
+125 silly audit   inherits: [ '2.0.4' ],
+125 silly audit   'ip-address': [ '10.1.0' ],
+125 silly audit   'ipaddr.js': [ '1.9.1' ],
+125 silly audit   'is-promise': [ '4.0.0' ],
+125 silly audit   'is-svg-path': [ '1.0.2' ],
+125 silly audit   isexe: [ '2.0.0' ],
+125 silly audit   'isomorphic-fetch': [ '3.0.0' ],
+125 silly audit   'jpeg-js': [ '0.4.4' ],
+125 silly audit   'json-schema-traverse': [ '1.0.0' ],
+125 silly audit   'json-schema-typed': [ '8.0.2' ],
+125 silly audit   'media-typer': [ '1.1.0' ],
+125 silly audit   'math-intrinsics': [ '1.1.0' ],
+125 silly audit   'merge-descriptors': [ '2.0.0' ],
+125 silly audit   'mime-types': [ '3.0.2' ],
+125 silly audit   'mime-db': [ '1.54.0' ],
+125 silly audit   mkdirp: [ '1.0.4' ],
+125 silly audit   ms: [ '2.1.3' ],
+125 silly audit   negotiator: [ '1.0.0' ],
+125 silly audit   'node-fetch': [ '2.7.0' ],
+125 silly audit   'normalize-svg-path': [ '1.1.0' ],
+125 silly audit   'object-inspect': [ '1.13.4' ],
+125 silly audit   'object-assign': [ '4.1.1' ],
+125 silly audit   'on-finished': [ '2.4.1' ],
+125 silly audit   omggif: [ '1.0.10' ],
+125 silly audit   once: [ '1.4.0' ],
+125 silly audit   parseurl: [ '1.3.3' ],
+125 silly audit   'parse-svg-path': [ '0.1.2' ],
+125 silly audit   'path-key': [ '3.1.1' ],
+125 silly audit   'path-to-regexp': [ '8.4.2' ],
+125 silly audit   'peek-readable': [ '4.1.0' ],
+125 silly audit   pixelmatch: [ '4.0.2' ],
+125 silly audit   pngjs: [ '3.4.0', '6.0.0' ],
+125 silly audit   'pkce-challenge': [ '5.0.1' ],
+125 silly audit   qs: [ '6.15.1' ],
+125 silly audit   'proxy-addr': [ '2.0.7' ],
+125 silly audit   'range-parser': [ '1.2.1' ],
+125 silly audit   'raw-body': [ '3.0.2' ],
+125 silly audit   'readable-web-to-node-stream': [ '3.0.4' ],
+125 silly audit   'regenerator-runtime': [ '0.13.11' ],
+125 silly audit   router: [ '2.2.0' ],
+125 silly audit   'require-from-string': [ '2.0.2' ],
+125 silly audit   'safer-buffer': [ '2.1.2' ],
+125 silly audit   send: [ '1.2.1' ],
+125 silly audit   'serve-static': [ '2.2.1' ],
+125 silly audit   q: [ '1.5.1' ],
+125 silly audit   'shebang-command': [ '2.0.0' ],
+125 silly audit   setprototypeof: [ '1.2.0' ],
+125 silly audit   'side-channel-list': [ '1.0.1' ],
+125 silly audit   'shebang-regex': [ '3.0.0' ],
+125 silly audit   'side-channel-map': [ '1.0.1' ],
+125 silly audit   'side-channel': [ '1.1.0' ],
+125 silly audit   'side-channel-weakmap': [ '1.0.2' ],
+125 silly audit   statuses: [ '2.0.2' ],
+125 silly audit   strtok3: [ '6.3.0' ],
+125 silly audit   'svg-arc-to-cubic-bezier': [ '3.2.0' ],
+125 silly audit   'supports-color': [ '5.5.0' ],
+125 silly audit   'svg-path-bounds': [ '1.0.2' ],
+125 silly audit   svg2vectordrawable: [ '2.9.1' ],
+125 silly audit   svgpath: [ '2.6.0' ],
+125 silly audit   timm: [ '1.7.1' ],
+125 silly audit   tinycolor2: [ '1.6.0' ],
+125 silly audit   toidentifier: [ '1.0.1' ],
+125 silly audit   'token-types': [ '4.2.1' ],
+125 silly audit   tr46: [ '0.0.3' ],
+125 silly audit   'type-is': [ '2.0.1' ],
+125 silly audit   unpipe: [ '1.0.0' ],
+125 silly audit   utif2: [ '4.1.0' ],
+125 silly audit   vary: [ '1.1.2' ],
+125 silly audit   'webidl-conversions': [ '3.0.1' ],
+125 silly audit   'whatwg-url': [ '5.0.0' ],
+125 silly audit   which: [ '2.0.2' ],
+125 silly audit   wrappy: [ '1.0.2' ],
+125 silly audit   'whatwg-fetch': [ '3.6.20' ],
+125 silly audit   ws: [ '8.20.0' ],
+125 silly audit   '@hono/node-server': [ '1.19.14' ],
+125 silly audit   '@jimp/bmp': [ '0.22.12' ],
+125 silly audit   '@jimp/gif': [ '0.22.12' ],
+125 silly audit   '@jimp/custom': [ '0.22.12' ],
+125 silly audit   '@jimp/jpeg': [ '0.22.12' ],
+125 silly audit   '@jimp/core': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-blur': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-blit': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-circle': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-color': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-contain': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-cover': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-crop': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-displace': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-dither': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-fisheye': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-flip': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-mask': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-gaussian': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-normalize': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-invert': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-resize': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-rotate': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-shadow': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-scale': [ '0.22.12' ],
+125 silly audit   '@jimp/plugin-threshold': [ '0.22.12' ],
+125 silly audit   '@jimp/plugins': [ '0.22.12' ],
+125 silly audit   '@jimp/png': [ '0.22.12' ],
+125 silly audit   '@jimp/tiff': [ '0.22.12' ],
+125 silly audit   '@jimp/types': [ '0.22.12' ],
+125 silly audit   '@jimp/utils': [ '0.22.12' ],
+125 silly audit   '@types/q': [ '1.5.8' ],
+125 silly audit   '@tokenizer/token': [ '0.3.0' ],
+125 silly audit   '@locofy/uipro-mcp': [ '1.1.3' ],
+125 silly audit   '@modelcontextprotocol/sdk': [ '1.29.0' ],
+125 silly audit   jimp: [ '0.22.12' ],
+125 silly audit   uuid: [ '9.0.1' ],
+125 silly audit   zod: [ '3.25.76' ],
+125 silly audit   ajv: [ '8.20.0' ],
+125 silly audit   hono: [ '4.12.17' ],
+125 silly audit   jose: [ '6.2.3' ],
+125 silly audit   'zod-to-json-schema': [ '3.25.2' ]
+125 silly audit }
+126 silly packumentCache corgi:https://registry.npmjs.org/which cache-miss
+127 silly packumentCache corgi:https://registry.npmjs.org/svg2vectordrawable cache-miss
+128 silly packumentCache corgi:https://registry.npmjs.org/mkdirp cache-miss
+129 silly packumentCache corgi:https://registry.npmjs.org/pixelmatch cache-miss
+130 http cache @locofy/uipro-mcp@https://registry.npmjs.org/@locofy/uipro-mcp/-/uipro-mcp-1.1.3.tgz 14ms (cache hit)
+131 http cache zod@https://registry.npmjs.org/zod/-/zod-3.25.76.tgz 0ms (cache hit)
+132 http cache uuid@https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz 0ms (cache hit)
+133 http cache jimp@https://registry.npmjs.org/jimp/-/jimp-0.22.12.tgz 0ms (cache hit)
+134 http cache ajv@https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz 0ms (cache hit)
+135 silly tarball no local data for zod@https://registry.npmjs.org/zod/-/zod-3.25.76.tgz. Extracting by manifest.
+136 http cache zod-to-json-schema@https://registry.npmjs.org/zod-to-json-schema/-/zod-to-json-schema-3.25.2.tgz 0ms (cache hit)
+137 http cache hono@https://registry.npmjs.org/hono/-/hono-4.12.17.tgz 0ms (cache hit)
+138 http cache jose@https://registry.npmjs.org/jose/-/jose-6.2.3.tgz 0ms (cache hit)
+139 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 11269ms
+140 silly audit report {
+140 silly audit report   'file-type': [
+140 silly audit report     {
+140 silly audit report       id: 1114301,
+140 silly audit report       url: 'https://github.com/advisories/GHSA-5v7r-6r5c-r473',
+140 silly audit report       title: 'file-type affected by infinite loop in ASF parser on malformed input with zero-size sub-header',
+140 silly audit report       severity: 'moderate',
+140 silly audit report       vulnerable_versions: '>=13.0.0 <21.3.1',
+140 silly audit report       cwe: [Array],
+140 silly audit report       cvss: [Object]
+140 silly audit report     }
+140 silly audit report   ],
+140 silly audit report   'ip-address': [
+140 silly audit report     {
+140 silly audit report       id: 1117683,
+140 silly audit report       url: 'https://github.com/advisories/GHSA-v2v4-37r5-5v8g',
+140 silly audit report       title: 'ip-address has XSS in Address6 HTML-emitting methods',
+140 silly audit report       severity: 'moderate',
+140 silly audit report       vulnerable_versions: '<=10.1.0',
+140 silly audit report       cwe: [Array],
+140 silly audit report       cvss: [Object]
+140 silly audit report     }
+140 silly audit report   ]
+140 silly audit report }
+141 silly packumentCache corgi:https://registry.npmjs.org/file-type cache-miss
+142 silly packumentCache corgi:https://registry.npmjs.org/ip-address cache-miss
+143 silly tarball no local data for jimp@https://registry.npmjs.org/jimp/-/jimp-0.22.12.tgz. Extracting by manifest.
+144 silly tarball no local data for ajv@https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz. Extracting by manifest.
+145 silly tarball no local data for hono@https://registry.npmjs.org/hono/-/hono-4.12.17.tgz. Extracting by manifest.
+146 http cache https://registry.npmjs.org/ip-address 19052ms (cache hit)
+147 silly packumentCache corgi:https://registry.npmjs.org/ip-address set size:69861 disposed:false
+148 http cache https://registry.npmjs.org/file-type 19279ms (cache hit)
+149 silly packumentCache corgi:https://registry.npmjs.org/file-type set size:198411 disposed:false
+150 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fcore cache-miss
+151 http fetch GET 200 https://registry.npmjs.org/pixelmatch 22322ms (cache miss)
+152 silly packumentCache corgi:https://registry.npmjs.org/pixelmatch set size:undefined disposed:false
+153 http fetch GET 200 https://registry.npmjs.org/which 22465ms (cache miss)
+154 silly packumentCache corgi:https://registry.npmjs.org/which set size:undefined disposed:false
+155 http fetch GET 200 https://registry.npmjs.org/mkdirp 22460ms (cache miss)
+156 silly packumentCache corgi:https://registry.npmjs.org/mkdirp set size:undefined disposed:false
+157 http fetch GET 200 https://registry.npmjs.org/svg2vectordrawable 22496ms (cache miss)
+158 silly packumentCache corgi:https://registry.npmjs.org/svg2vectordrawable set size:undefined disposed:false
+159 http cache https://registry.npmjs.org/@jimp%2fcore 1108ms (cache hit)
+160 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fcore set size:403318 disposed:false
+161 silly packumentCache corgi:https://registry.npmjs.org/express-rate-limit cache-miss
+162 http cache https://registry.npmjs.org/pixelmatch/-/pixelmatch-4.0.2.tgz 1046ms (cache hit)
+163 http cache https://registry.npmjs.org/which/-/which-2.0.2.tgz 995ms (cache hit)
+164 http cache https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz 993ms (cache hit)
+165 http cache https://registry.npmjs.org/svg2vectordrawable/-/svg2vectordrawable-2.9.1.tgz 971ms (cache hit)
+166 http cache https://registry.npmjs.org/express-rate-limit 784ms (cache hit)
+167 silly packumentCache corgi:https://registry.npmjs.org/express-rate-limit set size:175075 disposed:false
+168 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fcustom cache-miss
+169 http cache https://registry.npmjs.org/@jimp%2fcustom 2429ms (cache hit)
+170 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fcustom set size:334779 disposed:false
+171 silly packumentCache corgi:https://registry.npmjs.org/@modelcontextprotocol%2fsdk cache-miss
+172 http cache https://registry.npmjs.org/@modelcontextprotocol%2fsdk 440ms (cache hit)
+173 silly packumentCache corgi:https://registry.npmjs.org/@modelcontextprotocol%2fsdk set size:115846 disposed:false
+174 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fbmp cache-miss
+175 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fgif cache-miss
+176 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fjpeg cache-miss
+177 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-blur cache-miss
+178 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-blit cache-miss
+179 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-circle cache-miss
+180 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-color cache-miss
+181 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-contain cache-miss
+182 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-cover cache-miss
+183 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-crop cache-miss
+184 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-displace cache-miss
+185 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-dither cache-miss
+186 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-fisheye cache-miss
+187 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-flip cache-miss
+188 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-mask cache-miss
+189 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-gaussian cache-miss
+190 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-normalize cache-miss
+191 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-invert cache-miss
+192 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-resize cache-miss
+193 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-rotate cache-miss
+194 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-shadow cache-miss
+195 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-scale cache-miss
+196 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-threshold cache-miss
+197 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugins cache-miss
+198 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fpng cache-miss
+199 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2ftiff cache-miss
+200 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2ftypes cache-miss
+201 silly packumentCache corgi:https://registry.npmjs.org/jimp cache-miss
+202 http fetch GET 200 https://registry.npmjs.org/@jimp%2fgif 6687ms (cache miss)
+203 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fgif set size:undefined disposed:false
+204 http fetch GET 200 https://registry.npmjs.org/@jimp%2fbmp 6984ms (cache miss)
+205 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fbmp set size:undefined disposed:false
+206 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-circle 7329ms (cache miss)
+207 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-circle set size:undefined disposed:false
+208 http fetch GET 200 https://registry.npmjs.org/@jimp%2fpng 7009ms (cache miss)
+209 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fpng set size:undefined disposed:false
+210 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-normalize 7191ms (cache miss)
+211 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-normalize set size:undefined disposed:false
+212 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-color 7684ms (cache miss)
+213 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-color set size:undefined disposed:false
+214 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-invert 7527ms (cache miss)
+215 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-invert set size:undefined disposed:false
+216 http fetch GET 200 https://registry.npmjs.org/@jimp%2ftiff 7564ms (cache miss)
+217 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2ftiff set size:undefined disposed:false
+218 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-dither 7912ms (cache miss)
+219 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-dither set size:undefined disposed:false
+220 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-rotate 7915ms (cache miss)
+221 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-rotate set size:undefined disposed:false
+222 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-threshold 8096ms (cache miss)
+223 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-threshold set size:undefined disposed:false
+224 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-mask 8278ms (cache miss)
+225 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-mask set size:undefined disposed:false
+226 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-fisheye 8634ms (cache miss)
+227 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-fisheye set size:undefined disposed:false
+228 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-shadow 8794ms (cache miss)
+229 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-shadow set size:undefined disposed:false
+230 http fetch GET 200 https://registry.npmjs.org/@jimp%2ftypes 8851ms (cache miss)
+231 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2ftypes set size:undefined disposed:false
+232 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugins 9565ms (cache miss)
+233 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugins set size:undefined disposed:false
+234 http fetch GET 200 https://registry.npmjs.org/jimp 9871ms (cache miss)
+235 silly packumentCache corgi:https://registry.npmjs.org/jimp set size:undefined disposed:false
+236 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-scale 11822ms (cache miss)
+237 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-scale set size:undefined disposed:false
+238 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-displace 12013ms (cache miss)
+239 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-displace set size:undefined disposed:false
+240 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-blur 12375ms (cache miss)
+241 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-blur set size:undefined disposed:false
+242 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-crop 12508ms (cache miss)
+243 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-crop set size:undefined disposed:false
+244 http fetch GET 200 https://registry.npmjs.org/@jimp%2fjpeg 13007ms (cache miss)
+245 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fjpeg set size:undefined disposed:false
+246 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-gaussian 12754ms (cache miss)
+247 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-gaussian set size:undefined disposed:false
+248 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-blit 13250ms (cache miss)
+249 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-blit set size:undefined disposed:false
+250 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-resize 12963ms (cache miss)
+251 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-resize set size:undefined disposed:false
+252 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-contain 13421ms (cache miss)
+253 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-contain set size:undefined disposed:false
+254 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-cover 13488ms (cache miss)
+255 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-cover set size:undefined disposed:false
+256 http fetch GET 200 https://registry.npmjs.org/@jimp%2fplugin-flip 13257ms (cache miss)
+257 silly packumentCache corgi:https://registry.npmjs.org/@jimp%2fplugin-flip set size:undefined disposed:false
+258 silly packumentCache corgi:https://registry.npmjs.org/@locofy%2fuipro-mcp cache-miss
+259 http cache https://registry.npmjs.org/@locofy%2fuipro-mcp 499ms (cache hit)
+260 silly packumentCache corgi:https://registry.npmjs.org/@locofy%2fuipro-mcp set size:13718 disposed:false
+261 warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+262 http fetch GET 200 https://registry.npmjs.org/jimp/-/jimp-0.22.12.tgz 44138ms (cache miss)
+263 http fetch GET 200 https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz 52926ms (cache miss)
+264 http fetch GET 200 https://registry.npmjs.org/hono/-/hono-4.12.17.tgz 74028ms (cache miss)
+265 http fetch GET 200 https://registry.npmjs.org/zod/-/zod-3.25.76.tgz 115366ms (cache miss)
+266 warn cleanup Failed to remove some directories [
+266 warn cleanup   [
+266 warn cleanup     'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\uuid',
+266 warn cleanup     [Error: EPERM: operation not permitted, rmdir 'c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_npx\1c760b14715283a1\node_modules\uuid\dist\bin'] {
+266 warn cleanup       errno: -4048,
+266 warn cleanup       code: 'EPERM',
+266 warn cleanup       syscall: 'rmdir',
+266 warn cleanup       path: 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\uuid\\dist\\bin'
+266 warn cleanup     }
+266 warn cleanup   ],
+266 warn cleanup   [
+266 warn cleanup     'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\zod',
+266 warn cleanup     [Error: EPERM: operation not permitted, rmdir 'c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_npx\1c760b14715283a1\node_modules\zod\v4\locales'] {
+266 warn cleanup       errno: -4048,
+266 warn cleanup       code: 'EPERM',
+266 warn cleanup       syscall: 'rmdir',
+266 warn cleanup       path: 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\zod\\v4\\locales'
+266 warn cleanup     }
+266 warn cleanup   ],
+266 warn cleanup   [
+266 warn cleanup     'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@modelcontextprotocol\\sdk',
+266 warn cleanup     [Error: EPERM: operation not permitted, rmdir 'c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_npx\1c760b14715283a1\node_modules\@modelcontextprotocol\sdk\node_modules\hono\dist\types\adapter'] {
+266 warn cleanup       errno: -4048,
+266 warn cleanup       code: 'EPERM',
+266 warn cleanup       syscall: 'rmdir',
+266 warn cleanup       path: 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@modelcontextprotocol\\sdk\\node_modules\\hono\\dist\\types\\adapter'
+266 warn cleanup     }
+266 warn cleanup   ],
+266 warn cleanup   [
+266 warn cleanup     '\\\\?\\c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@modelcontextprotocol\\sdk',
+266 warn cleanup     [Error: EPERM: operation not permitted, rmdir 'c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_npx\1c760b14715283a1\node_modules\@modelcontextprotocol\sdk\node_modules\hono\dist\types\utils'] {
+266 warn cleanup       errno: -4048,
+266 warn cleanup       code: 'EPERM',
+266 warn cleanup       syscall: 'rmdir',
+266 warn cleanup       path: 'c:\\Users\\LENOVO\\OneDrive\\Desktop\\ubuvivi-codebase\\.npm-cache\\_npx\\1c760b14715283a1\\node_modules\\@modelcontextprotocol\\sdk\\node_modules\\hono\\dist\\types\\utils'
+266 warn cleanup     }
+266 warn cleanup   ]
+266 warn cleanup ]
+267 verbose stack Error: ENOTEMPTY: directory not empty, rmdir 'c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_npx\1c760b14715283a1\node_modules\@modelcontextprotocol\sdk\dist'
+268 error code ENOTEMPTY
+269 error syscall rmdir
+270 error path c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_npx\1c760b14715283a1\node_modules\@modelcontextprotocol\sdk\dist
+271 error errno -4051
+272 error ENOTEMPTY: directory not empty, rmdir 'c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_npx\1c760b14715283a1\node_modules\@modelcontextprotocol\sdk\dist'
+273 silly unfinished npm timer reify 1778049821592
+274 silly unfinished npm timer reify:unpack 1778049928338
+275 silly unfinished npm timer reifyNode:node_modules/@modelcontextprotocol/sdk 1778049928564
+276 verbose cwd c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase
+277 verbose os Windows_NT 10.0.26200
+278 verbose node v22.14.0
+279 verbose npm  v11.3.0
+280 verbose exit -4051
+281 verbose code -4051
+282 error A complete log of this run can be found in: c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_logs\2026-05-06T06_42_59_257Z-debug-0.log

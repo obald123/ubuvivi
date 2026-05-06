@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 
 @section('title')
-    Best Transfer Services Rwanda - Ubuvivi
+    Our Services | Transfer Services Rwanda - Ubuvivi
 @endsection
 
 @section('meta')
@@ -35,6 +35,22 @@
         position: relative;
         z-index: 2;
         color: #fff;
+    }
+    .transfers-hero-kicker {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 18px;
+        margin-bottom: 18px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.14);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.2);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
     }
     .transfers-hero-content h1 {
         font-size: clamp(32px, 5.5vw, 62px);
@@ -117,6 +133,112 @@
     .transfer-img.round-tr { border-radius: 60px 20px 20px 20px; }
     .transfer-img.round-tl { border-radius: 20px 60px 20px 20px; }
     .transfer-img.round-br { border-radius: 20px 20px 60px 20px; }
+
+    /* Transfer Cards Styles */
+    .transfer-card {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 2px 20px rgba(0,0,0,.09);
+        transition: transform .25s, box-shadow .25s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .transfer-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0,0,0,.15);
+    }
+    .transfer-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 18px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-bottom: 1px solid #e9ecef;
+    }
+    .transfer-price {
+        font-size: 24px;
+        font-weight: 700;
+        color: #C85A2A;
+    }
+    .transfer-card-body {
+        padding: 20px 22px 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .transfer-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    .transfer-info-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .transfer-info-item i {
+        color: #C85A2A;
+        font-size: 16px;
+        width: 20px;
+        text-align: center;
+    }
+    .transfer-info-item div {
+        font-size: 14px;
+        color: #555;
+    }
+    .transfer-description {
+        color: #666;
+        line-height: 1.5;
+        margin-bottom: 16px;
+    }
+    .transfer-features {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+    }
+    .transfer-badge {
+        background: #C85A2A;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .transfer-days {
+        color: #777;
+        font-size: 14px;
+    }
+    .transfer-card-footer {
+        margin-top: auto;
+        padding: 16px 18px;
+    }
+    .transfer-btn {
+        background: #C85A2A;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background .2s;
+    }
+    .transfer-btn:hover {
+        background: #a84520;
+        color: white;
+        text-decoration: none;
+    }
+    .transfer-btn i {
+        font-size: 14px;
+    }
 </style>
 @endsection
 
@@ -125,6 +247,7 @@
     {{-- ── Hero ── --}}
     <section class="transfers-hero">
         <div class="transfers-hero-content">
+            <span class="transfers-hero-kicker">Our Services</span>
             <h1>Move Around Rwanda with Ease</h1>
         </div>
     </section>
@@ -133,65 +256,65 @@
     <section class="transfers-content">
         <div class="container">
 
-            {{-- Airport Transfers --}}
-            <div class="transfer-row row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
-                    <span class="orange-dash">Airport Transfers</span>
-                    <h2>Airport Transfers</h2>
-                    <p>Pickup and drop-off services to and from the airport with comfort and reliability.</p>
-                    <p class="includes-label">Includes:</p>
-                    <ul>
-                        <li>Meet &amp; greet</li>
-                        <li>Luggage assistance</li>
-                        <li>On-time pickup</li>
-                    </ul>
-                    <a href="{{ url('/cars') }}" class="transfer-link">Book Your Transfer &raquo;</a>
-                </div>
-                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
-                    <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}"
-                         alt="Airport Transfers" class="transfer-img round-tr">
-                </div>
+            @if($transfers->count())
+            <div class="row">
+                @foreach($transfers as $transfer)
+                    <div class="col-12 col-md-6 mb-4 d-flex" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                        <div class="transfer-card w-100">
+                            <div class="transfer-card-header">
+                                <h3>{{ $transfer->destination }} Transfer</h3>
+                                <div class="transfer-price">${{ number_format($transfer->price) }}</div>
+                            </div>
+                            <div class="transfer-card-body">
+                                <div class="transfer-info">
+                                    <div class="transfer-info-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <div>
+                                            <strong>Pickup:</strong> {{ $transfer->pickup_location }}
+                                        </div>
+                                    </div>
+                                    <div class="transfer-info-item">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <div>
+                                            <strong>Date:</strong> {{ date('M j, Y', strtotime($transfer->pickup_date)) }}
+                                        </div>
+                                    </div>
+                                    <div class="transfer-info-item">
+                                        <i class="fas fa-clock"></i>
+                                        <div>
+                                            <strong>Time:</strong> {{ $transfer->pickup_time }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="transfer-description">{{ Str::limit($transfer->message, 120) }}</p>
+                                <div class="transfer-features">
+                                    @if($transfer->transfer_type == 'airport')
+                                        <span class="transfer-badge airport">Airport</span>
+                                    @elseif($transfer->transfer_type == 'hotel')
+                                        <span class="transfer-badge hotel">Hotel</span>
+                                    @else
+                                        <span class="transfer-badge private">Private</span>
+                                    @endif
+                                    <span class="transfer-days">{{ $transfer->number_of_days }} day{{ $transfer->number_of_days > 1 ? 's' : '' }}</span>
+                                </div>
+                            </div>
+                            <div class="transfer-card-footer">
+                                <a href="{{ route('guest.contact') }}" class="transfer-btn">
+                                    Book This Transfer
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-
-            {{-- Hotel Transfers --}}
-            <div class="transfer-row row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
-                    <img src="{{ asset('assets/images/about/3.jpg') }}"
-                         alt="Hotel Transfers" class="transfer-img round-br">
-                </div>
-                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
-                    <span class="orange-dash">Hotel Transfers</span>
-                    <h2>Hotel Transfers</h2>
-                    <p>Easy transportation between hotels, city locations, and nearby destinations.</p>
-                    <p class="includes-label">Includes:</p>
-                    <ul>
-                        <li>Door-to-door service</li>
-                        <li>Comfortable vehicles</li>
-                        <li>Flexible timing</li>
-                    </ul>
-                    <a href="{{ url('/cars') }}" class="transfer-link">Book Your Transfer &raquo;</a>
-                </div>
+        @else
+            <div class="text-center py-5">
+                <i class="fas fa-exchange-alt" style="font-size: 40px; color: #C85A2A; display: block; margin-bottom: 16px;"></i>
+                <h3 style="color: #666; margin-bottom: 16px;">No Transfers Available</h3>
+                <p style="color: #888;">Check back soon for available transfer services!</p>
             </div>
-
-            {{-- City & Long-Distance Transfers --}}
-            <div class="transfer-row row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
-                    <span class="orange-dash">City &amp; Long-Distance Transfers</span>
-                    <h2>City &amp; Long-Distance Transfers</h2>
-                    <p>Travel between cities or tourist destinations with safe and convenient transport.</p>
-                    <p class="includes-label">Includes:</p>
-                    <ul>
-                        <li>Private vehicle</li>
-                        <li>Professional driver</li>
-                        <li>Scenic routes across Rwanda</li>
-                    </ul>
-                    <a href="{{ url('/cars') }}" class="transfer-link">Book Your Transfer &raquo;</a>
-                </div>
-                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
-                    <img src="{{ asset('assets/images/backgrounds/bg_10.jpg') }}"
-                         alt="City Transfers" class="transfer-img round-tr">
-                </div>
-            </div>
+        @endif
 
         </div>
     </section>

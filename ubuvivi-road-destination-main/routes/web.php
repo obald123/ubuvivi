@@ -44,6 +44,8 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/cars", 'car_list')->name("car.list");
 
+    Route::get("/car/find", 'car_find')->name("car.find");
+
     Route::get("/tours", 'tours_list');
 
     Route::get("/car/{id}", 'car_view')->name("car.view");
@@ -93,6 +95,9 @@ Route::controller(GuestController::class)->group(function () {
 
 Auth::routes();
 
+// Logout route
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
 
 // Admin dashboard (only for admin role)
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -119,7 +124,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 // Client portal
 Route::middleware(['auth', 'client'])->group(function () {
-    \App\Http\Controllers\ClientDashboardController::class;
     Route::get('/client/dashboard',      [\App\Http\Controllers\ClientDashboardController::class, 'index'])->name('client.dashboard');
     Route::get('/client/bookings',       [\App\Http\Controllers\ClientDashboardController::class, 'bookings'])->name('client.bookings');
     Route::get('/client/notifications',  [\App\Http\Controllers\ClientDashboardController::class, 'notifications'])->name('client.notifications');
@@ -142,8 +146,7 @@ Route::middleware("auth")->group(function () {
 
     Route::resource('payments', \App\Http\Controllers\PaymentController::class);
 
-    Route::resource('bookings', \App\Http\Controllers\BookingController::class);
-
+    
     Route::group(['prefix' => 'types'], function () {
         Route::resource('bookingTypes', \App\Http\Controllers\Types\BookingTypeController::class, ["as" => 'types']);
     });

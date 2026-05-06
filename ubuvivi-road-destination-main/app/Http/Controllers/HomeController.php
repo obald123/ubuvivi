@@ -59,7 +59,7 @@ class HomeController extends Controller
                        ->whereMonth('created_at', $month->month)->count()
                    + TourBooking::whereYear('created_at', $month->year)
                        ->whereMonth('created_at', $month->month)->count();
-            $chartData[] = ['month' => $month->format('M'), 'count' => $count];
+            $chartData[] = ['month' => $month->format('F'), 'count' => $count];
         }
 
         return view('home', compact(

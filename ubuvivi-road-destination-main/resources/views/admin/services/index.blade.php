@@ -113,7 +113,7 @@
                         <div class="svc-card-title">{{ $tour->title }}</div>
                         <div class="svc-card-price">${{ number_format($tour->price ?? 100) }} per person</div>
                     </div>
-                    <p class="svc-card-desc">Explore amazing destinations with our guided tours. Professional guides, comfortable transportation, and unforgettable experiences.</p>
+                    <p class="svc-card-desc">{{ Str::limit($tour->description ?? 'Explore amazing destinations with our guided tours. Professional guides, comfortable transportation, and unforgettable experiences.', 150) }}</p>
                     <div class="svc-card-actions">
                         <button class="btn-edit-svc" data-type="tour" data-id="{{ $tour->id }}">Edit</button>
                         <button class="btn-del-svc"  data-type="tour" data-id="{{ $tour->id }}">Delete</button>
@@ -139,7 +139,7 @@
                         <div class="svc-card-title">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</div>
                         <div class="svc-card-price">${{ number_format($vehicle->price ?? 50) }} per day</div>
                     </div>
-                    <p class="svc-card-desc">Reliable and comfortable vehicles for all your transportation needs. Well-maintained fleet with professional drivers available.</p>
+                    <p class="svc-card-desc">{{ Str::limit($vehicle->description ?? 'Reliable and comfortable vehicles for all your transportation needs. Well-maintained fleet with professional drivers available.', 150) }}</p>
                     <div class="svc-card-actions">
                         <button class="btn-edit-svc" data-type="car" data-id="{{ $vehicle->id }}">Edit</button>
                         <button class="btn-del-svc"  data-type="car" data-id="{{ $vehicle->id }}">Delete</button>
@@ -155,42 +155,54 @@
 
     {{-- Transfers --}}
     <div class="tab-pane" id="pane-transfers">
-        <div class="svc-grid">
-            <div class="svc-card">
-                <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Hotel Transfers">
-                <div class="svc-card-body">
-                    <div class="svc-card-head">
-                        <div class="svc-card-title">Hotel Transfers</div>
-                        <div class="svc-card-price">$30 per trip</div>
-                    </div>
-                    <p class="svc-card-desc">Convenient airport and hotel transfer services. Professional drivers, comfortable vehicles, and reliable service.</p>
-                    <div class="svc-card-actions">
-                        <button class="btn-edit-svc" data-type="transfer" data-id="1">Edit</button>
-                        <button class="btn-del-svc"  data-type="transfer" data-id="1">Delete</button>
+        @if($transfers->count())
+            <div class="svc-grid">
+                @foreach($transfers as $transfer)
+                <div class="svc-card">
+                    <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="{{ $transfer->destination }} Transfer">
+                    <div class="svc-card-body">
+                        <div class="svc-card-head">
+                            <div class="svc-card-title">{{ $transfer->destination }} Transfer</div>
+                            <div class="svc-card-price">${{ number_format($transfer->price) }} per trip</div>
+                        </div>
+                        <p class="svc-card-desc">{{ $transfer->message ?? 'Professional transfer service with comfortable vehicles and reliable drivers.' }}</p>
+                        <div class="svc-card-actions">
+                            <button class="btn-edit-svc" data-type="transfer" data-id="{{ $transfer->id }}">Edit</button>
+                            <button class="btn-del-svc"  data-type="transfer" data-id="{{ $transfer->id }}">Delete</button>
+                        </div>
                     </div>
                 </div>
+                @endforeach
             </div>
-        </div>
+        @else
+            <div class="no-services"><i class="fas fa-exchange-alt"></i>No transfers available.</div>
+        @endif
     </div>
 
     {{-- Event Planning --}}
     <div class="tab-pane" id="pane-events">
-        <div class="svc-grid">
-            <div class="svc-card">
-                <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="Event Planning">
-                <div class="svc-card-body">
-                    <div class="svc-card-head">
-                        <div class="svc-card-title">Full Event Planning</div>
-                        <div class="svc-card-price">From $500</div>
-                    </div>
-                    <p class="svc-card-desc">Complete event planning from concept to execution. We handle everything for your special occasions.</p>
-                    <div class="svc-card-actions">
-                        <button class="btn-edit-svc" data-type="event" data-id="1">Edit</button>
-                        <button class="btn-del-svc"  data-type="event" data-id="1">Delete</button>
+        @if($events->count())
+            <div class="svc-grid">
+                @foreach($events as $event)
+                <div class="svc-card">
+                    <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="{{ $event->title }}">
+                    <div class="svc-card-body">
+                        <div class="svc-card-head">
+                            <div class="svc-card-title">{{ $event->title }}</div>
+                            <div class="svc-card-price">From ${{ number_format($event->price) }}</div>
+                        </div>
+                        <p class="svc-card-desc">{{ $event->description ?? 'Complete event planning from concept to execution. We handle everything for your special occasions.' }}</p>
+                        <div class="svc-card-actions">
+                            <button class="btn-edit-svc" data-type="event" data-id="{{ $event->id }}">Edit</button>
+                            <button class="btn-del-svc"  data-type="event" data-id="{{ $event->id }}">Delete</button>
+                        </div>
                     </div>
                 </div>
+                @endforeach
             </div>
-        </div>
+        @else
+            <div class="no-services"><i class="fas fa-calendar-check"></i>No events available.</div>
+        @endif
     </div>
 
     {{-- Edit Modal --}}
@@ -200,22 +212,35 @@
                 <h3>Edit Service</h3>
                 <button class="adm-modal-close" onclick="document.getElementById('editServiceModal').style.display='none'">&times;</button>
             </div>
-            <div class="adm-form-group">
-                <label>Title</label>
-                <input type="text" id="editTitle" placeholder="Service title">
-            </div>
-            <div class="adm-form-group">
-                <label>Price</label>
-                <input type="number" id="editPrice" placeholder="Price">
-            </div>
-            <div class="adm-form-group">
-                <label>Description</label>
-                <textarea id="editDesc" rows="3" placeholder="Description"></textarea>
-            </div>
-            <div class="adm-modal-foot">
-                <button class="btn-modal-cancel" onclick="document.getElementById('editServiceModal').style.display='none'">Cancel</button>
-                <button class="btn-save" onclick="document.getElementById('editServiceModal').style.display='none'">Save Changes</button>
-            </div>
+            <form action="{{ route('services.update', '') }}" method="POST">
+                @csrf
+                <input type="hidden" name="id" id="editServiceId">
+                <div class="adm-form-group">
+                    <label>Service Type</label>
+                    <select name="service_type" id="editServiceType" required style="width:100%;padding:10px 14px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;">
+                        <option value="tour">Tour & Travel</option>
+                        <option value="car">Car Rental</option>
+                        <option value="transfer">Transfer</option>
+                        <option value="event">Event Planning</option>
+                    </select>
+                </div>
+                <div class="adm-form-group">
+                    <label>Title</label>
+                    <input type="text" name="title" id="editTitle" placeholder="Service title" required>
+                </div>
+                <div class="adm-form-group">
+                    <label>Price</label>
+                    <input type="number" name="price" id="editPrice" placeholder="Price" step="0.01" required>
+                </div>
+                <div class="adm-form-group">
+                    <label>Description</label>
+                    <textarea name="description" id="editDesc" rows="3" placeholder="Description" required></textarea>
+                </div>
+                <div class="adm-modal-foot">
+                    <button type="button" class="btn-modal-cancel" onclick="document.getElementById('editServiceModal').style.display='none'">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -226,31 +251,34 @@
                 <h3>New Service</h3>
                 <button class="adm-modal-close" onclick="document.getElementById('newServiceModal').style.display='none'">&times;</button>
             </div>
-            <div class="adm-form-group">
-                <label>Service Type</label>
-                <select style="width:100%;padding:10px 14px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;">
-                    <option>Tours & Travel</option>
-                    <option>Car Rental</option>
-                    <option>Transfers</option>
-                    <option>Event Planning</option>
-                </select>
-            </div>
-            <div class="adm-form-group">
-                <label>Title</label>
-                <input type="text" placeholder="Service title">
-            </div>
-            <div class="adm-form-group">
-                <label>Price</label>
-                <input type="number" placeholder="Price">
-            </div>
-            <div class="adm-form-group">
-                <label>Description</label>
-                <textarea rows="3" placeholder="Description"></textarea>
-            </div>
-            <div class="adm-modal-foot">
-                <button class="btn-modal-cancel" onclick="document.getElementById('newServiceModal').style.display='none'">Cancel</button>
-                <button class="btn-save" onclick="document.getElementById('newServiceModal').style.display='none'">Create</button>
-            </div>
+            <form action="{{ route('services.store') }}" method="POST">
+                @csrf
+                <div class="adm-form-group">
+                    <label>Service Type</label>
+                    <select name="service_type" required style="width:100%;padding:10px 14px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;">
+                        <option value="tour">Tours & Travel</option>
+                        <option value="car">Car Rental</option>
+                        <option value="transfer">Transfers</option>
+                        <option value="event">Event Planning</option>
+                    </select>
+                </div>
+                <div class="adm-form-group">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Service title" required>
+                </div>
+                <div class="adm-form-group">
+                    <label>Price</label>
+                    <input type="number" name="price" placeholder="Price" step="0.01" required>
+                </div>
+                <div class="adm-form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="3" placeholder="Description" required></textarea>
+                </div>
+                <div class="adm-modal-foot">
+                    <button type="button" class="btn-modal-cancel" onclick="document.getElementById('newServiceModal').style.display='none'">Cancel</button>
+                    <button type="submit" class="btn-save">Create</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -278,13 +306,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelectorAll('.btn-edit-svc').forEach(function(btn) {
         btn.addEventListener('click', function() {
+            const type = this.dataset.type;
+            const id = this.dataset.id;
+            
+            // Set service ID for edit form
+            document.getElementById('editServiceId').value = id;
+            
+            // Populate modal fields based on service type
+            if (type === 'tour') {
+                document.getElementById('editServiceType').value = 'tour';
+            } else if (type === 'car') {
+                document.getElementById('editServiceType').value = 'car';
+            } else if (type === 'transfer') {
+                document.getElementById('editServiceType').value = 'transfer';
+            } else if (type === 'event') {
+                document.getElementById('editServiceType').value = 'event';
+            }
+            
             document.getElementById('editServiceModal').style.display = 'flex';
         });
     });
 
     document.querySelectorAll('.btn-del-svc').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            if (confirm('Delete this service?')) { location.reload(); }
+            if (confirm('Delete this service?')) {
+                const id = this.dataset.id;
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/services/${id}`;
+                
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = csrfToken;
+                
+                const methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'DELETE';
+                
+                form.appendChild(csrfInput);
+                form.appendChild(methodInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
         });
     });
 });

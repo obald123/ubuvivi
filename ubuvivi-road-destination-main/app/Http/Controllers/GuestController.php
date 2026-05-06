@@ -92,12 +92,14 @@ class GuestController extends Controller
 
     public function services()
     {
-        return view("services");
+        $transfers = \App\Models\Transfer::latest()->get();
+        return view("services")->with(compact("transfers"));
     }
 
     public function events()
     {
-        return view("events");
+        $events = \App\Models\Event::latest()->get();
+        return view("events")->with(compact("events"));
     }
 
     public function air_ticketing()
@@ -175,7 +177,7 @@ class GuestController extends Controller
 
     public function car_booking($id)
     {
-        $vehicle = Vehicle::find($id);
+        $vehicle = Vehicle::with("brand", "model")->find($id);
 
         if (empty($vehicle)) {
             Flash::error('Vehicle not found');
@@ -183,7 +185,10 @@ class GuestController extends Controller
             return redirect()->back();
         }
 
-        return view("car.booking", compact("vehicle"));
+        $brands = VehicleBrand::latest()->get();
+        $models = VehicleModel::latest()->get();
+
+        return view("car.booking", compact("vehicle", "brands", "models"));
     }
 
     public function car_booking_continue(Request $request, $id)
@@ -193,7 +198,7 @@ class GuestController extends Controller
         $phone_number = $request->phone_number;
         $booking_type = $request->booking_type;
 
-        $vehicle = Vehicle::find($id);
+        $vehicle = Vehicle::with("brand", "model")->find($id);
 
         if (empty($vehicle)) {
             Flash::error('Vehicle not found');
@@ -201,7 +206,38 @@ class GuestController extends Controller
             return redirect()->back();
         }
 
-        return view("car.booking", compact("vehicle", "name", "email", "phone_number", "booking_type"));
+        $brands = VehicleBrand::latest()->get();
+        $models = VehicleModel::latest()->get();
+
+        return view("car.booking", compact("vehicle", "name", "email", "phone_number", "booking_type", "brands", "models"));
+    }
+
+    public function car_find(Request $request)
+    {
+        $brand = $request->query("vehicle_brand");
+        $model = $request->query("vehicle_model");
+        $price = $request->query("price");
+
+        $query = Vehicle::query();
+        if ($brand) {
+            $query->whereHas('brand', function ($q) use ($brand) { $q->where("name", $brand); });
+        }
+        if ($model) {
+            $query->whereHas('model', function ($q) use ($model) { $q->where("name", $model); });
+        }
+        if ($price === 'low') {
+            $query->orderBy('price', 'asc');
+        } elseif ($price === 'high') {
+            $query->orderBy('price', 'desc');
+        }
+
+        $matches = $query->get();
+
+        if ($brand && $model && $matches->count() === 1) {
+            return redirect()->route('car.booking', $matches->first()->id);
+        }
+
+        return redirect()->route('car.list', $request->query());
     }
 
     public function car_booking_store_success(Request $request, $type, $id)
@@ -229,13 +265,17 @@ class GuestController extends Controller
     {
         $request->validate([
             "name" => "required|string|max:255",
-            "email" => "required|string|max:255",
-            "phone_number" => "required|string",
-            "number_of_days" => "nullable",
-            "location" => "nullable",
-            "date" => "nullable",
-            "time" => "nullable",
-            "message" => "nullable"
+            "email" => "required|string|email|max:255",
+            "phone_number" => "required|string|max:20",
+            "booking_type" => "required|in:1,2",
+            "pickup_date" => "required|date",
+            "pickup_time" => "required|string|max:8",
+            "pickup_meridiem" => "nullable|in:AM,PM",
+            "return_date" => "required|date|after_or_equal:pickup_date",
+            "return_time" => "required|string|max:8",
+            "return_meridiem" => "nullable|in:AM,PM",
+            "destination" => "nullable|string|max:255",
+            "message" => "nullable|string",
         ]);
 
         $vehicle = Vehicle::find($id);
@@ -246,45 +286,47 @@ class GuestController extends Controller
             return redirect()->back();
         }
 
-        if ($request->booking_type == "1") {
-            $booking = $this->carBookingRepository->create([
-                "names" => $request->name,
-                "email" => $request->email,
-                "phone_number" => $request->phone_number,
-                "number_of_days" => $request->number_of_days ?? 1,
-                "delivery_location" => $request->location ?? "",
-                "delivery_date" => $request->date ?? "",
-                "delivery_time" => $request->time ?? "",
-                "message" => $request->message ?? "",
-            ]);
-            $vehicle->bookings()->sync($booking->id);
-        } else {
-            $booking = $this->carTransferRepository->create([
-                "names" => $request->name,
-                "email" => $request->email,
-                "phone_number" => $request->phone_number,
-                "number_of_days" => $request->number_of_days ?? 1,
-                "pickup_location" => $request->location ?? "",
-                "pickup_date" => $request->date ?? "",
-                "pickup_time" => $request->time ?? "",
-                "destination" => $request->destination ?? "",
-                "message" => $request->message ?? "",
-            ]);
-            $vehicle->transfers()->sync($booking->id);
+        $pickupTime = trim($request->pickup_time . ' ' . ($request->pickup_meridiem ?? ''));
+        $returnTime = trim($request->return_time . ' ' . ($request->return_meridiem ?? ''));
+
+        try {
+            $start = \Carbon\Carbon::parse($request->pickup_date);
+            $end   = \Carbon\Carbon::parse($request->return_date);
+            $days  = max(1, $end->diffInDays($start) + 1);
+        } catch (\Throwable $th) {
+            $days = 1;
         }
 
-        $admin_booking_route = null;
-        $booking_route = null;
+        $booking = $this->carBookingRepository->create([
+            "names" => $request->name,
+            "email" => $request->email,
+            "phone_number" => $request->phone_number,
+            "booking_type" => $request->booking_type == "2" ? "with_driver" : "self_drive",
+            "destination" => $request->booking_type == "2" ? ($request->destination ?? "") : null,
+            "number_of_days" => $days,
+            "delivery_date" => $request->pickup_date,
+            "delivery_time" => $pickupTime,
+            "return_date" => $request->return_date,
+            "return_time" => $returnTime,
+            "delivery_location" => $request->destination ?? "",
+            "message" => $request->message ?? "",
+            "price" => $vehicle->price * $days,
+            "approved" => false,
+        ]);
+
+        // Properly link booking to vehicle
+        \DB::table('vehicle_bookings')->insert([
+            'car_booking_id' => $booking->id,
+            'vehicle_id' => $vehicle->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         if ($booking) {
             Flash::success("Booking information sent successfully");
-            if ($request->booking_type == "1") {
-                $admin_booking_route = route("carBookings.show", $booking->id);
-                $booking_route = route("car.booking.view", $booking->id);
-            } else {
-                $admin_booking_route = route("carTransfers.show", $booking->id);
-                $booking_route = route("car.transfer.view", $booking->id);
-            }
+
+            $admin_booking_route = route("carBookings.show", $booking->id);
+            $booking_route = route("car.booking.view", $booking->id);
 
             try {
                 $this->notify_admin($booking, $admin_booking_route);
@@ -295,7 +337,7 @@ class GuestController extends Controller
             Flash::error("Booking Failed");
         }
 
-        return redirect()->route("car.book.success", [$request->booking_type, $booking->id]);
+        return redirect()->route("car.book.success", ["1", $booking->id]);
     }
 
 

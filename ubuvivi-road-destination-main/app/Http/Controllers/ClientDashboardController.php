@@ -140,10 +140,11 @@ class ClientDashboardController extends Controller
         $all       = $tours->concat($cars)->concat($transfers)->sortByDesc('date')->values();
         $upcoming  = $all->filter(fn($b) => $b->date >= $today && $b->approved);
         $completed = $all->filter(fn($b) => $b->date < $today);
-        $pending   = $all->filter(fn($b) => !$b->approved && $b->date >= $today);
+        $pending   = $all->filter(fn($b) => is_null($b->approved) && $b->date >= $today);
+        $rejected  = $all->filter(fn($b) => !is_null($b->approved) && !$b->approved);
         $active    = $all->filter(fn($b) => $b->date === $today && $b->approved);
 
-        return view('client.bookings', compact('all', 'upcoming', 'completed', 'pending', 'active'));
+        return view('client.bookings', compact('all', 'upcoming', 'completed', 'pending', 'rejected', 'active'));
     }
 
     /* ── Notifications ── */

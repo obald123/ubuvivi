@@ -45,6 +45,7 @@
     .badge-confirmed { background:#E8F8F0; color:#27AE60; }
     .badge-pending   { background:#FFF8E6; color:#F0A500; }
     .badge-completed { background:#f0f0f0; color:#888; }
+    .badge-rejected  { background:#FDECEA; color:#E53935; }
     .cd-link { color:#4F9DE8; font-size:13px; font-weight:500; text-decoration:none; }
     .cd-link:hover { text-decoration:underline; }
     .no-data { text-align:center; color:#bbb; padding:32px 0; font-size:14px; }
@@ -100,6 +101,7 @@
         <button class="ftab" onclick="filterTab('upcoming',this)">Upcoming <span class="badge">{{ $upcoming->count() }}</span></button>
         <button class="ftab" onclick="filterTab('completed',this)">Completed <span class="badge">{{ $completed->count() }}</span></button>
         <button class="ftab" onclick="filterTab('pending',this)">Pending <span class="badge">{{ $pending->count() }}</span></button>
+        <button class="ftab" onclick="filterTab('rejected',this)">Rejected <span class="badge">{{ $rejected->count() }}</span></button>
     </div>
 
     {{-- Table --}}
@@ -116,10 +118,11 @@
                 @foreach($all as $bk)
                 @php
                     $today = now()->toDateString();
-                    if ($bk->date < $today)          $status = 'completed';
-                    elseif ($bk->date === $today && $bk->approved) $status = 'active';
-                    elseif ($bk->approved)           $status = 'upcoming';
-                    else                             $status = 'pending';
+                    if ($bk->date < $today)                              $status = 'completed';
+                    elseif ($bk->date === $today && $bk->approved)       $status = 'active';
+                    elseif ($bk->approved)                               $status = 'upcoming';
+                    elseif (!is_null($bk->approved) && !$bk->approved)   $status = 'rejected';
+                    else                                                 $status = 'pending';
                 @endphp
                 <tr data-status="{{ $status }}">
                     <td><strong>{{ $bk->service }}</strong></td>
@@ -129,6 +132,8 @@
                     <td>
                         @if($status === 'completed')
                             <span class="cd-badge badge-completed">Completed</span>
+                        @elseif($status === 'rejected')
+                            <span class="cd-badge badge-rejected">Rejected</span>
                         @elseif($bk->approved)
                             <span class="cd-badge badge-confirmed">Confirmed</span>
                         @else

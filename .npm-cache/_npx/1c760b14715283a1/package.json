@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@locofy/uipro-mcp": "^1.1.3"
+  },
+  "_npx": {
+    "packages": [
+      "@locofy/uipro-mcp@latest"
+    ]
+  }
+}

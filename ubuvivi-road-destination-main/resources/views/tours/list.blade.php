@@ -192,6 +192,11 @@
 
                                 <div class="tour-card-body">
                                     <h3 class="tour-card-title">{{ $tour->title }}</h3>
+                                    @if($tour->description)
+                                        <p class="tour-card-desc" style="margin: 8px 0; font-size: 14px; color: #666; line-height: 1.4;">
+                                            {{ Str::limit($tour->description, 120) }}
+                                        </p>
+                                    @endif
                                 </div>
 
                                 <a href="{{ route('guest.tours_booking_options') }}" class="tour-card-footer">

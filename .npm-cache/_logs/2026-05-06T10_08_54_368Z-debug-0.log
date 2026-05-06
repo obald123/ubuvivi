@@ -1,0 +1,11 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\LENOVO\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.3.0
+2 info using node@v22.14.0
+3 silly config load:file:C:\Users\LENOVO\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npmrc
+5 silly config load:file:C:\Users\LENOVO\.npmrc
+6 silly config load:file:C:\Users\LENOVO\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm exec @locofy/uipro-mcp@latest
+8 verbose argv "exec" "--yes" "--" "@locofy/uipro-mcp@latest"
+9 verbose logfile logs-max:10 dir:c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_logs\2026-05-06T10_08_54_368Z-
+10 verbose logfile c:\Users\LENOVO\OneDrive\Desktop\ubuvivi-codebase\.npm-cache\_logs\2026-05-06T10_08_54_368Z-debug-0.log

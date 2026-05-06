@@ -11,7 +11,7 @@
     <!-- Bootstrap 4.1.1 -->
     <link href="{{ asset('assets/css/bootstrap.min.css?v=1') }}" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800&display=swap" rel="stylesheet">
     <link href="{{ asset('assets/css/@fortawesome/fontawesome-free/css/all.css?v=1') }}" rel="stylesheet"
         type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/iziToast.min.css?v=1') }}">
@@ -30,6 +30,23 @@
     <meta name="theme-color" content="#ffffff">
 
     <style>
+        body {
+            margin: 0;
+            background: #0f2a38 !important;
+            color: #183247;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden !important;
+        }
+
+        html {
+            overflow-x: hidden !important;
+        }
+
+        .main-wrapper.main-wrapper-1 {
+            min-height: 100vh;
+            background: #0f2a38;
+        }
+
         .file-preview {
             background-color: var(--light)
         }
@@ -38,20 +55,19 @@
             background-color: var(--light) !important;
         }
 
-        /* New Admin Sidebar Styles */
         #sidebar-wrapper {
-            background: #0D1F35 !important;
-            width: 240px;
+            background: #0f2a38 !important;
+            width: 212px;
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
             z-index: 1000;
+            padding: 18px 0;
         }
 
         .sidebar-brand {
-            padding: 24px 20px 22px;
-            border-bottom: 1px solid rgba(255,255,255,.08);
+            padding: 8px 18px 22px;
         }
 
         .logo-circle {
@@ -69,82 +85,127 @@
 
         .brand-text {
             color: white;
-            font-size: 18px;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: -.02em;
         }
 
         .sidebar-menu {
             list-style: none;
-            padding: 20px 12px;
+            padding: 18px 0 0;
             margin: 0;
+            min-height: calc(100vh - 110px);
+            display: flex;
+            flex-direction: column;
         }
 
         .side-menus {
-            margin-bottom: 4px;
+            margin: 0 12px 8px;
         }
 
         .side-menus .nav-link {
             color: rgba(255,255,255,.6);
-            padding: 11px 14px;
+            padding: 14px 16px;
             display: flex;
             align-items: center;
             text-decoration: none;
             transition: background .2s, color .2s;
             border-left: none;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
-            border-radius: 10px;
+            border-radius: 999px;
+            gap: 10px;
         }
 
         .side-menus .nav-link:hover {
-            color: rgba(255,255,255,.9);
-            background: rgba(255,255,255,.06);
+            color: rgba(255,255,255,.96);
+            background: rgba(255,255,255,.08);
             text-decoration: none;
         }
 
         .side-menus.active .nav-link {
             color: #fff;
-            background: #2563EB;
+            background: linear-gradient(90deg, #1d96ef 0%, #35a9f4 100%);
             border-left: none;
-            border-radius: 10px;
+            border-radius: 999px;
+            box-shadow: 0 10px 24px rgba(29, 150, 239, .24);
         }
 
         .side-menus .nav-link i {
-            width: 18px;
-            margin-right: 12px;
+            width: 20px;
+            margin-right: 6px;
             font-size: 15px;
             text-align: center;
         }
 
         .logout-item {
-            position: absolute;
-            bottom: 0;
-            width: 216px;
-            padding: 16px 12px 24px;
-            border-top: 1px solid rgba(255,255,255,.08);
+            margin-top: auto;
+            padding-top: 18px;
         }
 
-        /* Main Content Adjustments */
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-button {
+            width: 100%;
+            background: transparent;
+            border: 0;
+            text-align: left;
+        }
+
         .main-content {
-            margin-left: 240px;
-            padding: 28px 32px;
-            background: #f0f2f8;
+            margin-left: 212px;
+            padding: 28px 30px 36px;
+            background: #f5f6fb;
             min-height: 100vh;
-            border-radius: 20px 0 0 20px;
             overflow-x: hidden;
+            max-width: calc(100vw - 212px);
+            border-radius: 42px 0 0 42px;
         }
 
-        /* Header Styles */
+        .table-responsive {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        /* Modal fixes */
+        .modal-content {
+            max-width: calc(100vw - 40px);
+            margin: 0 auto;
+        }
+
+        /* Service grid fixes */
+        .service-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Form fixes */
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Card fixes */
+        .content-card,
+        .service-card {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
         .main-header {
             background: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid #e9ecef;
         }
 
         .page-title {
@@ -220,9 +281,10 @@
         /* Content Card Styles */
         .content-card {
             background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
         }
 
         /* Filter Tabs */
@@ -310,21 +372,22 @@
         /* Service Cards */
         .service-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
         }
 
         .service-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e9ecef;
         }
 
         .service-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .service-card img {
@@ -488,21 +551,29 @@
             background: #e9ecef;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 991px) {
             #sidebar-wrapper {
-                transform: translateX(-100%);
-                transition: transform 0.3s;
-            }
-
-            #sidebar-wrapper.show {
-                transform: translateX(0);
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding-bottom: 8px;
             }
 
             .main-content {
                 margin-left: 0;
-                border-radius: 0;
+                max-width: 100%;
+                border-radius: 28px 28px 0 0;
+                padding: 22px 18px 28px;
             }
-            
+
+            .sidebar-menu {
+                min-height: auto;
+            }
+
+            .logout-item {
+                margin-top: 8px;
+            }
+
             .service-grid {
                 grid-template-columns: 1fr;
             }
@@ -515,7 +586,7 @@
     @yield('css')
 </head>
 
-<body style="background-color:#18202d !important ">
+<body>
 
     <div id="app">
         <div class="main-wrapper main-wrapper-1">

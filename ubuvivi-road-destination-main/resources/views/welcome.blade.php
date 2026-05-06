@@ -428,12 +428,12 @@
                 </a>
             </div>
 
-            {{-- Slide 3: Transfer Services --}}
+            {{-- Slide 3: Our Services --}}
             <div class="carousel-item">
                 <a href="{{ route('guest.transfer') }}" class="hero-slide"
                    style="background-image: url('{{ asset('assets/images/backgrounds/bg_15.jpg') }}')">
                     <div class="hero-slide-content">
-                        <span class="hero-slide-tag">Transfer Services</span>
+                        <span class="hero-slide-tag">Our Services</span>
                         <h1>Seamless Airport &amp;<br>City Transfers</h1>
                         <p>Reliable, on-time pickup and drop-off services available 24/7 across Rwanda.</p>
                         <span class="hero-slide-btn">Book Transfer &rarr;</span>

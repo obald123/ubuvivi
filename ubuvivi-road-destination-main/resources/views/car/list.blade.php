@@ -382,70 +382,6 @@
         </div>
     </section>
 
-    {{-- ── Quick Renting Form ── --}}
-    <section class="quick-renting-section">
-        <div class="container">
-            <div class="quick-renting-form">
-                <h2 class="form-title">Quick Renting</h2>
-                <form id="quickRentingForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="full-name">Full Name</label>
-                            <input type="text" id="full-name" name="full_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="phone">Phone number</label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="service">Service</label>
-                            <input type="text" id="service" name="service" value="Car Rental" readonly>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="car-type">Car Type</label>
-                            <input type="text" id="car-type" name="car_type" value="Toyota coaster 2019" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="pickup-date">Pick-up Date & Time</label>
-                            <input type="datetime-local" id="pickup-date" name="pickup_date" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="return-date">Return Date & Time</label>
-                            <input type="datetime-local" id="return-date" name="return_date" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="special-requests">Special Requests</label>
-                            <textarea id="special-requests" name="special_requests" rows="3" placeholder="Any special requirements..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="submit-request-btn">
-                        <i class="fas fa-paper-plane"></i>
-                        Submit Request
-                    </button>
-                </form>
-                
-                <p class="form-note">
-                    <i class="fas fa-info-circle"></i>
-                    Our team will contact you shortly to confirm your booking.
-                </p>
-            </div>
-        </div>
-    </section>
-
     {{-- ── Cars Grid ── --}}
     <section class="cars-grid-section">
         <div class="container">
@@ -472,6 +408,15 @@
                                         <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}">
                                     @endif
                                 </div>
+
+                                {{-- Description --}}
+                                @if($vehicle->description)
+                                    <div style="padding: 0 18px 12px;">
+                                        <p style="font-size: 14px; color: #666; line-height: 1.5; margin: 0;">
+                                            {{ Str::limit($vehicle->description, 150) }}
+                                        </p>
+                                    </div>
+                                @endif
 
                                 {{-- Specs --}}
                                 <div class="car-card-specs">
@@ -559,64 +504,6 @@
             });
         }
 
-        // Quick Renting Form Submission
-        $('#quickRentingForm').on('submit', function(e) {
-            e.preventDefault();
-            
-            var formData = {
-                full_name: $('#full-name').val(),
-                email: $('#email').val(),
-                phone: $('#phone').val(),
-                service: $('#service').val(),
-                car_type: $('#car-type').val(),
-                pickup_date: $('#pickup-date').val(),
-                return_date: $('#return-date').val(),
-                special_requests: $('#special-requests').val(),
-                _token: "{{ csrf_token() }}"
-            };
-
-            // Basic validation
-            if (!formData.full_name || !formData.email || !formData.phone) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            // Show loading state
-            $('.submit-request-btn').html('<i class="fas fa-spinner fa-spin"></i> Submitting...').prop('disabled', true);
-
-            // Here you would typically make an AJAX call to submit the form
-            $.ajax({
-                url: '{{ route("guest.contact") }}',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    alert('Your rental request has been submitted successfully! Our team will contact you shortly.');
-                    $('#quickRentingForm')[0].reset();
-                    $('.submit-request-btn').html('<i class="fas fa-paper-plane"></i> Submit Request').prop('disabled', false);
-                },
-                error: function() {
-                    alert('There was an error submitting your request. Please try again.');
-                    $('.submit-request-btn').html('<i class="fas fa-paper-plane"></i> Submit Request').prop('disabled', false);
-                }
-            });
-        });
-
-        // Set minimum datetime for pickup and return dates
-        var now = new Date();
-        var localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-        $('#pickup-date, #return-date').attr('min', localDateTime);
-
-        // Ensure return date is after pickup date
-        $('#pickup-date').on('change', function() {
-            var pickupDate = new Date($(this).val());
-            var minReturnDate = new Date(pickupDate.getTime() + 60000); // Add 1 minute minimum
-            var minReturnDateTime = minReturnDate.toISOString().slice(0, 16);
-            $('#return-date').attr('min', minReturnDateTime);
-            
-            if ($('#return-date').val() && new Date($('#return-date').val()) <= pickupDate) {
-                $('#return-date').val('');
-            }
-        });
     });
 </script>
 @endsection

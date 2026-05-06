@@ -258,58 +258,51 @@
         </div>
     </section>
 
-    {{-- ── Services Grid ── --}}
+    {{-- ── Events Grid ── --}}
     <section class="events-services">
         <div class="container">
-            <h2 class="section-title">Our Services</h2>
+            <h2 class="section-title">Available Events</h2>
             <div class="title-underline"></div>
 
-            <div class="row">
-                {{-- Basic Planning --}}
-                <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="100">
-                    <div class="event-card w-100">
-                        <img src="{{ asset('assets/images/backgrounds/bg_02.jpg') }}"
-                             alt="Basic Planning" class="event-card-img">
-                        <div class="event-card-body">
-                            <h3 class="event-card-title">Basic Planning</h3>
-                            <p class="event-card-subtitle">Consultation only</p>
-                            <a href="{{ route('guest.contact') }}" class="event-card-link">
-                                Plan Your Event &raquo;
-                            </a>
+            @if($events->count())
+                <div class="row">
+                    @foreach($events as $event)
+                    <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                        <div class="event-card w-100">
+                            <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}"
+                                 alt="{{ $event->title }}" class="event-card-img">
+                            <div class="event-card-body">
+                                <h3 class="event-card-title">{{ $event->title }}</h3>
+                                <p class="event-card-subtitle">{{ $event->event_type }} - {{ $event->location }}</p>
+                                @if($event->description)
+                                    <p style="font-size: 14px; color: #666; margin: 8px 0; line-height: 1.4;">
+                                        {{ Str::limit($event->description, 120) }}
+                                    </p>
+                                @endif
+                                <div style="margin-top: 12px;">
+                                    <span style="font-size: 16px; font-weight: 600; color: #C85A2A;">
+                                        From ${{ number_format($event->price) }}
+                                    </span>
+                                    @if($event->start_date && $event->end_date)
+                                        <span style="font-size: 14px; color: #777; margin-left: 8px;">
+                                            {{ date('M j, Y', strtotime($event->start_date)) }} - {{ date('M j, Y', strtotime($event->end_date)) }}
+                                        </span>
+                                    @endif
+                                </div>
+                                <a href="{{ route('guest.contact') }}" class="event-card-link">
+                                    Book This Event &raquo;
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-
-                {{-- Partial Planning --}}
-                <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="200">
-                    <div class="event-card w-100">
-                        <img src="{{ asset('assets/images/backgrounds/bg_03.jpg') }}"
-                             alt="Partial Planning" class="event-card-img">
-                        <div class="event-card-body">
-                            <h3 class="event-card-title">Partial Planning</h3>
-                            <p class="event-card-subtitle">We assist setup + vendors</p>
-                            <a href="{{ route('guest.contact') }}" class="event-card-link">
-                                Plan Your Event &raquo;
-                            </a>
-                        </div>
-                    </div>
+            @else
+                <div class="text-center py-5">
+                    <i class="fas fa-calendar-alt" style="font-size: 40px; color: #C85A2A; display: block; margin-bottom: 16px;"></i>
+                    <h3 style="color: #666; margin-bottom: 16px;">No Events Available</h3>
+                    <p style="color: #888;">Check back soon for upcoming events!</p>
                 </div>
-
-                {{-- Full Planning --}}
-                <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="300">
-                    <div class="event-card w-100">
-                        <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}"
-                             alt="Full Planning" class="event-card-img">
-                        <div class="event-card-body">
-                            <h3 class="event-card-title">Full Planning</h3>
-                            <p class="event-card-subtitle">We handle everything</p>
-                            <a href="{{ route('guest.contact') }}" class="event-card-link">
-                                Plan Your Event &raquo;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endif
         </div>
     </section>
 
