@@ -9,7 +9,9 @@
     .book-page {
         display: flex;
         flex-direction: column;
-        gap: 18px;
+        gap: 22px;
+        width: 100%;
+        --admin-search-width: 396px;
     }
 
     .book-topbar {
@@ -23,7 +25,7 @@
     .book-topbar h1 {
         margin: 0;
         color: #2d313d;
-        font-size: 22px;
+        font-size: 28px;
         font-weight: 700;
         letter-spacing: -.02em;
     }
@@ -33,14 +35,16 @@
         align-items: center;
         gap: 14px;
         margin-left: auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .book-search {
         display: flex;
         align-items: center;
         gap: 10px;
-        min-width: 380px;
-        height: 44px;
+        min-width: 416px;
+        height: 46px;
         padding: 0 14px;
         background: #fff;
         border: 1px solid #dfe4ee;
@@ -105,18 +109,21 @@
     .table-shell {
         background: #fff;
         border: 1px solid #e4e8f0;
-        border-radius: 10px;
+        border-radius: 14px;
         box-shadow: 0 10px 30px rgba(15, 35, 52, .04);
     }
 
     .filter-shell {
-        padding: 10px 8px;
+        padding: 8px;
+        background: #eef1f7;
+        border-color: #eef1f7;
+        box-shadow: none;
     }
 
     .filter-row {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px;
+        gap: 10px;
     }
 
     .filter-tab {
@@ -152,14 +159,15 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: rgba(18, 44, 59, .12);
-        color: inherit;
+        background: #111827;
+        color: #fff;
         font-size: 10px;
         font-weight: 700;
     }
 
     .filter-tab.active .filter-count {
-        background: rgba(255, 255, 255, .22);
+        background: rgba(255, 255, 255, .96);
+        color: #2495e7;
     }
 
     .table-shell {
@@ -167,31 +175,43 @@
     }
 
     .table-wrap {
-        overflow-x: auto;
+        overflow-x: visible;
     }
 
     .book-table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 760px;
+        min-width: 0;
     }
 
     .book-table thead th {
-        padding: 16px 18px 12px;
+        padding: 15px 22px 12px;
         border-bottom: 1px solid #edf1f6;
         color: #5b6573;
         font-size: 13px;
         font-weight: 500;
         text-align: left;
-        white-space: nowrap;
     }
 
     .book-table tbody td {
-        padding: 16px 18px;
+        padding: 17px 22px;
         border-bottom: 1px solid #edf1f6;
         color: #2d313d;
         font-size: 14px;
+    }
+
+    .book-table th:nth-child(3),
+    .book-table th:nth-child(5),
+    .book-table th:nth-child(6),
+    .book-table td:nth-child(3),
+    .book-table td:nth-child(5),
+    .book-table td:nth-child(6) {
         white-space: nowrap;
+    }
+
+    .book-table th:last-child,
+    .book-table td:last-child {
+        text-align: right;
     }
 
     .book-table tbody tr:last-child td {
@@ -252,7 +272,7 @@
     .table-footer {
         display: flex;
         justify-content: center;
-        padding: 18px 18px 24px;
+        padding: 20px 18px 24px;
     }
 
     .pagination-row {
@@ -386,6 +406,14 @@
         .book-search {
             min-width: 260px;
         }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        .book-table {
+            min-width: 760px;
+        }
     }
 
     @media (max-width: 767px) {
@@ -416,20 +444,11 @@
 
 @section('content')
 <div class="book-page">
-    <div class="book-topbar">
-        <h1>Bookings</h1>
-        <div class="book-tools">
-            <label class="book-search mb-0">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search..." aria-label="Search bookings">
-            </label>
-            <button type="button" class="book-icon-btn" aria-label="Notifications">
-                <i class="far fa-bell"></i>
-                <span class="book-icon-dot"></span>
-            </button>
-            <div class="book-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
-        </div>
-    </div>
+    @include('layouts.partials.admin_topbar', [
+        'title' => 'Bookings',
+        'searchInputId' => 'searchInput',
+        'searchAriaLabel' => 'Search bookings',
+    ])
 
     <section class="filter-shell">
         <div class="filter-row">

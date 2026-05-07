@@ -19,6 +19,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = auth()->user();
+        $activeTab = $request->input('active_tab', 'profile');
         
         $request->validate([
             'name' => 'required|string|max:255',
@@ -33,13 +34,17 @@ class ProfileController extends Controller
         // Update password if provided
         if ($request->filled('new_password')) {
             if (!Hash::check($request->current_password, $user->password)) {
-                return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+                return back()
+                    ->withErrors(['current_password' => 'The current password is incorrect.'])
+                    ->withInput();
             }
             $user->password = Hash::make($request->new_password);
         }
         
         $user->save();
         
-        return back()->with('success', 'Profile updated successfully!');
+        return back()
+            ->with('success', 'Profile updated successfully!')
+            ->with('active_tab', $activeTab);
     }
 }

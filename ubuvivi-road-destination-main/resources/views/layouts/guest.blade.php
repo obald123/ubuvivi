@@ -350,10 +350,10 @@
                     <p class="footer-col-title">Quick Links</p>
                     <ul class="footer-links">
                         <li><a href="{{ url('/') }}">Home</a></li>
-                        <li><a href="{{ route('guest.all_services') }}">Our Services</a></li>
+                        <li><a href="{{ route('guest.all_services') }}">Our Service</a></li>
                         <li><a href="{{ url('/tours') }}">Tours & Travel</a></li>
                         <li><a href="{{ url('/cars') }}">Car Rentals</a></li>
-                        <li><a href="{{ route('guest.transfer') }}">Transfer</a></li>
+                        <li><a href="{{ route('guest.transfer') }}">Transport Services</a></li>
                         <li><a href="{{ route('guest.contact') }}">Contact</a></li>
                         <li><a href="{{ route('login') }}">My account</a></li>
                     </ul>

@@ -76,6 +76,8 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/tour/booking/{id}", 'tour_booking_view')->name("tour.booking.view");
 
+    Route::get("/tour/booking/{id}/account", 'tour_booking_account')->name("tour.booking.account");
+
     Route::group(["prefix" => "booking"], function () {
         Route::get("/car/{id}", "car_booking")->name("car.booking");
 

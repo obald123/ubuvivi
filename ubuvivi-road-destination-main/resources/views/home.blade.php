@@ -9,7 +9,11 @@
     .dash-page {
         display: flex;
         flex-direction: column;
-        gap: 22px;
+        gap: 24px;
+        width: 100%;
+        max-width: 1110px;
+        margin: 0 auto;
+        --admin-search-width: 398px;
     }
 
     .dash-topbar {
@@ -23,7 +27,7 @@
     .dash-topbar h1 {
         margin: 0;
         color: #2d313d;
-        font-size: 22px;
+        font-size: 28px;
         font-weight: 700;
         letter-spacing: -.02em;
     }
@@ -33,15 +37,17 @@
         align-items: center;
         gap: 14px;
         margin-left: auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .dash-search {
         display: flex;
         align-items: center;
         gap: 10px;
-        min-width: 380px;
+        min-width: 440px;
         padding: 0 14px;
-        height: 44px;
+        height: 46px;
         background: #fff;
         border: 1px solid #dfe4ee;
         border-radius: 4px;
@@ -107,7 +113,7 @@
     .chart-card {
         background: #fff;
         border: 1px solid #e4e8f0;
-        border-radius: 10px;
+        border-radius: 14px;
         box-shadow: 0 10px 30px rgba(15, 35, 52, .04);
     }
 
@@ -122,7 +128,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 14px;
-        padding: 22px 20px;
+        padding: 26px 26px 24px;
     }
 
     .stat-card + .stat-card {
@@ -181,6 +187,7 @@
 
     .panel-card {
         padding: 0 0 10px;
+        min-height: 220px;
     }
 
     .panel-head {
@@ -249,6 +256,10 @@
     }
 
     .empty-state {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 150px;
         padding: 44px 20px;
         color: #a7b1bf;
         text-align: center;
@@ -297,7 +308,7 @@
         }
 
         .dash-search {
-            min-width: 260px;
+            min-width: 280px;
         }
     }
 
@@ -335,20 +346,11 @@
 
 @section('content')
 <div class="dash-page">
-    <div class="dash-topbar">
-        <h1>Dashboard</h1>
-        <div class="dash-topbar-right">
-            <label class="dash-search mb-0">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search..." aria-label="Search dashboard">
-            </label>
-            <button type="button" class="dash-icon-btn" aria-label="Notifications">
-                <i class="far fa-bell"></i>
-                <span class="dash-icon-dot"></span>
-            </button>
-            <div class="dash-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
-        </div>
-    </div>
+    @include('layouts.partials.admin_topbar', [
+        'title' => 'Dashboard',
+        'searchInputId' => 'dashboardSearch',
+        'searchAriaLabel' => 'Search dashboard',
+    ])
 
     <section class="stats-shell">
         <article class="stat-card">

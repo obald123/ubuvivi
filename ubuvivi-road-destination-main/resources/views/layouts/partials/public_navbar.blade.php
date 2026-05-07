@@ -31,7 +31,7 @@
                 <a class="nav-link {{ request()->routeIs('guest.home') ? 'active-link' : '' }}" href="{{ route('guest.home') }}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $servicesActive ? 'active-link' : '' }}" href="{{ route('guest.all_services') }}">Our Services</a>
+                <a class="nav-link {{ $servicesActive ? 'active-link' : '' }}" href="{{ route('guest.all_services') }}">Our Service</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('guest.contact') ? 'active-link' : '' }}" href="{{ route('guest.contact') }}">Contact</a>

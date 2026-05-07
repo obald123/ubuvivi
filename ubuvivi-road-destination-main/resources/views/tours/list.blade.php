@@ -199,7 +199,7 @@
                                     @endif
                                 </div>
 
-                                <a href="{{ route('guest.tours_booking_options') }}" class="tour-card-footer">
+                                <a href="{{ route('tour.view', $tour->id) }}" class="tour-card-footer">
                                     <div class="tour-card-price">
                                         @if ($tour->price > 0)
                                             ${{ number_format($tour->price) }} <span>/person</span>

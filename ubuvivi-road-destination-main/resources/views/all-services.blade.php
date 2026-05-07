@@ -5,8 +5,8 @@
 @endsection
 
 @section('meta')
-    <meta name="description" content="Explore all services offered by Ubuvivi Tours: Tours & Travel, Car Rentals, Transfer Services, and Event Planning in Rwanda.">
-    <meta name="keywords" content="ubuvivi services, Rwanda tours, car rental Rwanda, airport transfer, event planning Kigali">
+    <meta name="description" content="Explore all services offered by Ubuvivi Tours: Tours & Travel, Car Rentals, Transport Services, and Conference Planning in Rwanda.">
+    <meta name="keywords" content="ubuvivi services, Rwanda tours, car rental Rwanda, airport transport, conference planning Kigali">
 @endsection
 
 @section('css')
@@ -152,7 +152,7 @@
     <section class="services-hero">
         <div class="services-hero-content">
             <h1>What We Offer</h1>
-            <p>Explore our full range of travel, transport, and event services across Rwanda.</p>
+            <p>Explore our full range of travel, transport, and conference services across Rwanda.</p>
         </div>
     </section>
 
@@ -162,7 +162,7 @@
             <div class="text-center mb-2">
                 <span class="section-label" style="justify-content:center;">Our Services</span>
                 <h2 class="section-heading">Everything You Need, In One Place</h2>
-                <p class="section-sub">From guided safaris to airport transfers and event management — Ubuvivi has you covered.</p>
+                <p class="section-sub">From guided safaris to airport transfers and conference management — Ubuvivi has you covered.</p>
             </div>
 
             <div class="row g-4">
@@ -197,31 +197,31 @@
                     </a>
                 </div>
 
-                {{-- Transfer Services --}}
+                {{-- Transport Services --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.transfer') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Transfer Services" class="service-card-img">
+                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Transport Services" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-shuttle-van"></i>
                             </div>
-                            <div class="service-card-title">Transfer Services</div>
+                            <div class="service-card-title">Transport Services</div>
                             <p class="service-card-desc">Reliable airport pickups, hotel transfers, and city-to-city transport with professional drivers available 24/7.</p>
-                            <span class="service-card-cta">Book Transfer <i class="fas fa-arrow-right"></i></span>
+                            <span class="service-card-cta">Book Transport <i class="fas fa-arrow-right"></i></span>
                         </div>
                     </a>
                 </div>
 
-                {{-- Event Planning --}}
+                {{-- Conference Planning --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.events') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_9.jpg') }}" alt="Event Planning" class="service-card-img">
+                        <img src="{{ asset('assets/images/backgrounds/bg_9.jpg') }}" alt="Conference Planning" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-calendar-check"></i>
                             </div>
-                            <div class="service-card-title">Event Planning</div>
-                            <p class="service-card-desc">From intimate gatherings to large corporate events and weddings — we handle every detail so you don't have to.</p>
+                            <div class="service-card-title">Conference Planning</div>
+                            <p class="service-card-desc">From executive sessions to large corporate conferences, we handle every detail so you don't have to.</p>
                             <span class="service-card-cta">Learn More <i class="fas fa-arrow-right"></i></span>
                         </div>
                     </a>

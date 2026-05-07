@@ -1,195 +1,257 @@
 @extends('layouts.guest')
 
 @section('title')
-    Tours Booking - Ubuvivi Tours & Safaris
+    {{ $tour ? $tour->title . ' | Continue Booking' : 'Continue Booking' }} - Ubuvivi Tours
 @endsection
 
+@section('body-class', 'hero-page')
+
+@php
+    $heroImage = $tour && !empty($tour->images)
+        ? $tour->images[0]
+        : asset('assets/images/backgrounds/bg_11.jpg');
+
+    $guestRoute = $tour
+        ? route('tour.booking', ['id' => $tour->id, 'type' => 'guest'])
+        : url('/tours');
+
+    $accountRoute = $tour
+        ? route('tour.booking.account', $tour->id)
+        : route('login');
+@endphp
+
 @section('meta')
-    <meta name="description" content="Choose how to book your tour with Ubuvivi Tours & Safaris - continue with account or as guest.">
+    <meta name="description" content="Choose how to continue your booking with Ubuvivi Tours.">
 @endsection
 
 @section('css')
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+<style>
+    .tour-choice-hero {
+        position: relative;
+        min-height: 430px;
+        background-image: url('{{ $heroImage }}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .tour-choice-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(180deg, rgba(11, 31, 46, .28) 0%, rgba(11, 31, 46, .18) 28%, rgba(11, 31, 46, .34) 100%);
+    }
+
+    .tour-choice-shell {
+        position: relative;
+        z-index: 2;
+        margin-top: -78px;
+        padding-bottom: 44px;
+    }
+
+    .tour-choice-card {
+        background: #fff;
+        border-radius: 34px 34px 0 0;
+        box-shadow: 0 22px 50px rgba(14, 42, 56, .10);
+        padding: 48px 44px 26px;
+        overflow: hidden;
+    }
+
+    .tour-choice-accent {
+        width: 48px;
+        height: 6px;
+        border-radius: 999px;
+        background: #ff6a2a;
+        margin: 0 auto 18px;
+    }
+
+    .tour-choice-heading h1 {
+        margin: 0 0 6px;
+        color: #161f2d;
+        font-size: clamp(30px, 4vw, 42px);
+        font-weight: 700;
+        line-height: 1.15;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .tour-choice-heading p {
+        margin: 0 0 14px;
+        color: #667085;
+        font-size: 16px;
+    }
+
+    .tour-choice-meta {
+        margin-bottom: 18px;
+        color: #183247;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .tour-choice-options {
+        display: grid;
+        gap: 14px;
+    }
+
+    .tour-choice-option {
+        border: 1px solid #bac4d0;
+        border-radius: 16px;
+        padding: 26px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        background: #fff;
+    }
+
+    .tour-choice-text h2 {
+        margin: 0 0 8px;
+        color: #171f2a;
+        font-size: 18px;
+        font-weight: 700;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .tour-choice-text p {
+        margin: 0;
+        color: #495565;
+        font-size: 15px;
+        line-height: 1.55;
+    }
+
+    .tour-choice-btn {
+        border: 0;
+        background: #ff6124;
+        color: #fff;
+        min-width: 224px;
+        height: 46px;
+        padding: 0 24px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background .18s ease, transform .18s ease;
+    }
+
+    .tour-choice-btn:hover {
+        background: #e35620;
+        color: #fff;
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    .tour-choice-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 18px;
+        color: #1d5b88;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .tour-choice-back:hover {
+        color: #0f4a73;
+        text-decoration: none;
+    }
+
+    @media (max-width: 991px) {
+        .tour-choice-shell {
+            margin-top: -56px;
         }
 
-        .booking-options-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
+        .tour-choice-card {
+            padding: 38px 28px 24px;
         }
 
-        .booking-options-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            padding: 3rem;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .booking-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--orange);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            font-size: 2rem;
-            color: white;
-        }
-
-        .booking-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--navy);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .booking-subtitle {
-            color: #666;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .booking-options {
-            display: flex;
+        .tour-choice-option {
             flex-direction: column;
-            gap: 1.5rem;
+            align-items: flex-start;
         }
 
-        .booking-option {
-            background: #f8f9fa;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
+        .tour-choice-btn {
+            min-width: 0;
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .tour-choice-hero {
+            min-height: 320px;
         }
 
-        .booking-option:hover {
-            border-color: var(--orange);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            text-decoration: none;
-            color: inherit;
+        .tour-choice-shell {
+            margin-top: -40px;
+            padding-bottom: 28px;
         }
 
-        .booking-option-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--navy);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-            color: white;
+        .tour-choice-card {
+            border-radius: 24px 24px 0 0;
+            padding: 30px 18px 20px;
         }
 
-        .booking-option-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--navy);
+        .tour-choice-option {
+            padding: 20px 16px;
         }
-
-        .booking-option-description {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: white;
-            text-decoration: none;
-            margin-top: 2rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .back-link:hover {
-            color: var(--orange);
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .booking-options-card {
-                padding: 2rem;
-                margin: 1rem;
-            }
-            
-            .booking-title {
-                font-size: 1.5rem;
-            }
-            
-            .booking-option {
-                padding: 1.5rem;
-            }
-        }
-    </style>
+    }
+</style>
 @endsection
 
 @section('content')
-    <div class="booking-options-container">
-        <div class="booking-options-card">
-            <div class="booking-icon">
-                <i class="fas fa-map-marked-alt"></i>
-            </div>
-            
-            <h1 class="booking-title">Tours & Travel</h1>
-            <p class="booking-subtitle">Choose how you'd like to proceed with your tour booking</p>
-            
-            <div class="booking-options">
-                <a href="{{ route('guest.tours_booking') }}?type=account" class="booking-option">
-                    <div class="booking-option-icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h3 class="booking-option-title">Continue with Account</h3>
-                    <p class="booking-option-description">
-                        Sign in to your account to access your booking history, manage preferences, and enjoy a faster checkout experience.
-                    </p>
-                </a>
-                
-                <a href="{{ route('guest.tours_booking') }}?type=guest" class="booking-option">
-                    <div class="booking-option-icon">
-                        <i class="fas fa-user-secret"></i>
-                    </div>
-                    <h3 class="booking-option-title">Continue as Guest</h3>
-                    <p class="booking-option-description">
-                        Book your tour without creating an account. Quick and easy booking process for one-time travelers.
-                    </p>
-                </a>
-            </div>
-            
-            <a href="{{ url('/tours') }}" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-                Back to Tours
-            </a>
-        </div>
-    </div>
-@endsection
+    <section class="tour-choice-hero"></section>
 
-@section('scripts')
-    <script>
-        // Add any interactive functionality if needed
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animation on scroll or other interactions can be added here
-        });
-    </script>
+    <section class="tour-choice-shell">
+        <div class="container">
+            <div class="tour-choice-card">
+                <div class="tour-choice-accent"></div>
+
+                <div class="tour-choice-heading">
+                    <h1>How would you like to continue?</h1>
+                    <p>You can always create an account later.</p>
+                </div>
+
+                @if($tour)
+                    <div class="tour-choice-meta">
+                        {{ $tour->title }}
+                        @if(!empty($tour->price) && $tour->price > 0)
+                            &middot; ${{ number_format($tour->price) }} / per person
+                        @endif
+                    </div>
+                @endif
+
+                <div class="tour-choice-options">
+                    <div class="tour-choice-option">
+                        <div class="tour-choice-text">
+                            <h2>Track &amp; Manage Your Booking</h2>
+                            <p>View history, manage bookings, and get faster service.</p>
+                        </div>
+                        <a href="{{ $accountRoute }}" class="tour-choice-btn">
+                            Continue with Account
+                        </a>
+                    </div>
+
+                    <div class="tour-choice-option">
+                        <div class="tour-choice-text">
+                            <h2>Quick Booking (No Account)</h2>
+                            <p>Book in seconds - we'll contact you to confirm.</p>
+                        </div>
+                        <a href="{{ $guestRoute }}" class="tour-choice-btn">
+                            Continue as Guest
+                        </a>
+                    </div>
+                </div>
+
+                <a href="{{ $tour ? route('tour.view', $tour->id) : url('/tours') }}" class="tour-choice-back">
+                    <i class="fas fa-arrow-left"></i>
+                    {{ $tour ? 'Back to Tour Details' : 'Back to Tours' }}
+                </a>
+            </div>
+        </div>
+    </section>
 @endsection

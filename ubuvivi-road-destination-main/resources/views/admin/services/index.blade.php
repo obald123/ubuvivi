@@ -6,9 +6,17 @@
 
 @section('css')
 <style>
+    .services-page {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        width: 100%;
+        --admin-search-width: 392px;
+    }
+
     .adm-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:14px; }
     .adm-topbar h1 { font-size:28px; font-weight:800; color:#1a1a2e; margin:0; }
-    .adm-topbar-right { display:flex; align-items:center; gap:12px; }
+    .adm-topbar-right { display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end; }
     .adm-search { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #e8e8e8; border-radius:10px; padding:9px 16px; width:260px; }
     .adm-search i { color:#bbb; font-size:14px; }
     .adm-search input { border:none; outline:none; background:transparent; font-size:14px; color:#333; width:100%; }
@@ -19,31 +27,144 @@
     .adm-new-btn { background:#0D1F35; color:#fff; border:none; border-radius:10px; padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; white-space:nowrap; transition:background .2s; }
     .adm-new-btn:hover { background:#1e3a5f; }
 
-    /* Tab bar */
-    .svc-tabbar { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e8e8e8; margin-bottom:28px; }
-    .svc-tabs { display:flex; align-items:center; gap:0; }
-    .svc-tab { padding:12px 20px; font-size:14px; font-weight:500; color:#888; cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .2s; white-space:nowrap; }
-    .svc-tab.active { color:#1a1a2e; border-bottom-color:#1a1a2e; font-weight:600; }
-    .svc-tab:hover:not(.active) { color:#555; }
+    .svc-toolbar {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    .svc-tabbar {
+        flex: 1 1 auto;
+        min-width: 0;
+        border-bottom: 1px solid #d7deea;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .svc-tabs {
+        display: inline-flex;
+        align-items: center;
+        gap: 18px;
+        min-width: max-content;
+    }
+
+    .svc-tab {
+        padding: 0 12px 11px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #4d5665;
+        cursor: pointer;
+        border: none;
+        background: none;
+        border-bottom: 3px solid transparent;
+        transition: color .2s, border-color .2s;
+        white-space: nowrap;
+    }
+
+    .svc-tab.active {
+        color: #162736;
+        border-bottom-color: #2f9ff0;
+        font-weight: 600;
+    }
+
+    .svc-tab:hover:not(.active) {
+        color: #162736;
+    }
 
     /* Service grid */
-    .svc-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; }
+    .svc-grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:18px; }
     @media(max-width:900px) { .svc-grid { grid-template-columns:repeat(2,1fr); } }
     @media(max-width:600px) { .svc-grid { grid-template-columns:1fr; } }
 
-    .svc-card { background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 1px 8px rgba(0,0,0,.06); transition:box-shadow .2s; }
-    .svc-card:hover { box-shadow:0 4px 20px rgba(0,0,0,.1); }
-    .svc-card img { width:100%; height:180px; object-fit:cover; display:block; }
-    .svc-card-body { padding:16px 18px 18px; }
-    .svc-card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px; }
-    .svc-card-title { font-size:15px; font-weight:700; color:#1a1a2e; }
-    .svc-card-price { font-size:13px; font-weight:600; color:#4F9DE8; white-space:nowrap; }
-    .svc-card-desc { font-size:13px; color:#888; line-height:1.5; margin-bottom:16px; }
-    .svc-card-actions { display:flex; gap:10px; }
-    .btn-edit-svc { flex:1; background:#0D1F35; color:#fff; border:none; border-radius:8px; padding:10px 0; font-size:13px; font-weight:600; cursor:pointer; transition:background .2s; }
-    .btn-edit-svc:hover { background:#1e3a5f; }
-    .btn-del-svc { flex:1; background:#fff; color:#0D1F35; border:1.5px solid #0D1F35; border-radius:8px; padding:10px 0; font-size:13px; font-weight:600; cursor:pointer; transition:background .2s,color .2s; }
-    .btn-del-svc:hover { background:#0D1F35; color:#fff; }
+    .svc-card {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 12px 28px rgba(18, 44, 59, .05);
+        border: 1px solid #e2e8f1;
+    }
+
+    .svc-card img {
+        width: 100%;
+        height: 112px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .svc-card-body {
+        padding: 12px 14px 14px;
+    }
+
+    .svc-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .svc-card-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #182b39;
+        line-height: 1.35;
+    }
+
+    .svc-card-price {
+        font-size: 12px;
+        font-weight: 600;
+        color: #0f74ba;
+        white-space: nowrap;
+    }
+
+    .svc-card-desc {
+        font-size: 12.5px;
+        color: #4d5665;
+        line-height: 1.45;
+        margin-bottom: 16px;
+        min-height: 54px;
+    }
+
+    .svc-card-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .btn-edit-svc,
+    .btn-del-svc {
+        height: 36px;
+        border-radius: 8px;
+        padding: 0 14px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .2s, color .2s, border-color .2s;
+    }
+
+    .btn-edit-svc {
+        background: #0f5f86;
+        color: #fff;
+        border: 1px solid #0f5f86;
+    }
+
+    .btn-edit-svc:hover {
+        background: #0c4d6d;
+        border-color: #0c4d6d;
+    }
+
+    .btn-del-svc {
+        background: #fff;
+        color: #0f5f86;
+        border: 1px solid #0f5f86;
+    }
+
+    .btn-del-svc:hover {
+        background: #0f5f86;
+        color: #fff;
+    }
 
     .no-services { text-align:center; padding:48px 20px; color:#bbb; }
     .no-services i { font-size:32px; display:block; margin-bottom:12px; }
@@ -68,141 +189,144 @@
     .btn-save:hover { background:#1e3a5f; }
     .btn-modal-cancel { background:#f0f0f0; color:#555; border:none; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
     .btn-modal-cancel:hover { background:#e0e0e0; }
+
+    @media(max-width:767px) {
+        .svc-toolbar {
+            align-items: stretch;
+        }
+
+        .svc-tabbar {
+            width: 100%;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
+    <div class="services-page">
+        @include('layouts.partials.admin_topbar', [
+            'title' => 'Services',
+            'searchInputId' => 'searchInput',
+            'searchAriaLabel' => 'Search services',
+        ])
 
-    <div class="adm-topbar">
-        <h1>Services</h1>
-        <div class="adm-topbar-right">
-            <div class="adm-search">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search..." id="searchInput">
+        <div class="svc-toolbar">
+            <div class="svc-tabbar">
+                <div class="svc-tabs">
+                    <button class="svc-tab active" data-pane="tours">Tours &amp; Travel</button>
+                    <button class="svc-tab" data-pane="cars">Car Rental</button>
+                    <button class="svc-tab" data-pane="transfers">Transfers</button>
+                    <button class="svc-tab" data-pane="events">Event Planning</button>
+                </div>
             </div>
-            <div class="adm-bell">
-                <i class="fas fa-bell"></i>
-                <span class="adm-bell-dot"></span>
-            </div>
-            <div class="adm-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
-            <button class="adm-new-btn" onclick="document.getElementById('newServiceModal').style.display='flex'">
+            <button class="admin-primary-btn" type="button" onclick="document.getElementById('newServiceModal').style.display='flex'">
                 <i class="fas fa-plus"></i> New Service
             </button>
         </div>
-    </div>
 
-    {{-- Tab bar --}}
-    <div class="svc-tabbar">
-        <div class="svc-tabs">
-            <button class="svc-tab active" data-pane="tours">Tours &amp; Travel</button>
-            <button class="svc-tab" data-pane="cars">Car Rental</button>
-            <button class="svc-tab" data-pane="transfers">Transfers</button>
-            <button class="svc-tab" data-pane="events">Event Planning</button>
-        </div>
-    </div>
-
-    {{-- Tours & Travel --}}
-    <div class="tab-pane active" id="pane-tours">
-        @if($tours->count())
-        <div class="svc-grid">
-            @foreach($tours as $tour)
-            <div class="svc-card">
-                <img src="{{ asset('assets/images/backgrounds/bg_11.jpg') }}" alt="{{ $tour->title }}">
-                <div class="svc-card-body">
-                    <div class="svc-card-head">
-                        <div class="svc-card-title">{{ $tour->title }}</div>
-                        <div class="svc-card-price">${{ number_format($tour->price ?? 100) }} per person</div>
-                    </div>
-                    <p class="svc-card-desc">{{ Str::limit($tour->description ?? 'Explore amazing destinations with our guided tours. Professional guides, comfortable transportation, and unforgettable experiences.', 150) }}</p>
-                    <div class="svc-card-actions">
-                        <button class="btn-edit-svc" data-type="tour" data-id="{{ $tour->id }}">Edit</button>
-                        <button class="btn-del-svc"  data-type="tour" data-id="{{ $tour->id }}">Delete</button>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-        @else
-        <div class="no-services"><i class="fas fa-map-marked-alt"></i>No tours available.</div>
-        @endif
-    </div>
-
-    {{-- Car Rental --}}
-    <div class="tab-pane" id="pane-cars">
-        @if($vehicles->count())
-        <div class="svc-grid">
-            @foreach($vehicles as $vehicle)
-            <div class="svc-card">
-                <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name }} {{ $vehicle->model->name }}">
-                <div class="svc-card-body">
-                    <div class="svc-card-head">
-                        <div class="svc-card-title">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</div>
-                        <div class="svc-card-price">${{ number_format($vehicle->price ?? 50) }} per day</div>
-                    </div>
-                    <p class="svc-card-desc">{{ Str::limit($vehicle->description ?? 'Reliable and comfortable vehicles for all your transportation needs. Well-maintained fleet with professional drivers available.', 150) }}</p>
-                    <div class="svc-card-actions">
-                        <button class="btn-edit-svc" data-type="car" data-id="{{ $vehicle->id }}">Edit</button>
-                        <button class="btn-del-svc"  data-type="car" data-id="{{ $vehicle->id }}">Delete</button>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-        @else
-        <div class="no-services"><i class="fas fa-car"></i>No vehicles available.</div>
-        @endif
-    </div>
-
-    {{-- Transfers --}}
-    <div class="tab-pane" id="pane-transfers">
-        @if($transfers->count())
+        {{-- Tours & Travel --}}
+        <div class="tab-pane active" id="pane-tours">
+            @if($tours->count())
             <div class="svc-grid">
-                @foreach($transfers as $transfer)
+                @foreach($tours as $tour)
                 <div class="svc-card">
-                    <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="{{ $transfer->destination }} Transfer">
+                    <img src="{{ asset('assets/images/backgrounds/bg_11.jpg') }}" alt="{{ $tour->title }}">
                     <div class="svc-card-body">
                         <div class="svc-card-head">
-                            <div class="svc-card-title">{{ $transfer->destination }} Transfer</div>
-                            <div class="svc-card-price">${{ number_format($transfer->price) }} per trip</div>
+                            <div class="svc-card-title">{{ $tour->title }}</div>
+                            <div class="svc-card-price">${{ number_format($tour->price ?? 100) }} per person</div>
                         </div>
-                        <p class="svc-card-desc">{{ $transfer->message ?? 'Professional transfer service with comfortable vehicles and reliable drivers.' }}</p>
+                        <p class="svc-card-desc">{{ Str::limit($tour->description ?? 'Explore amazing destinations with our guided tours. Professional guides, comfortable transportation, and unforgettable experiences.', 150) }}</p>
                         <div class="svc-card-actions">
-                            <button class="btn-edit-svc" data-type="transfer" data-id="{{ $transfer->id }}">Edit</button>
-                            <button class="btn-del-svc"  data-type="transfer" data-id="{{ $transfer->id }}">Delete</button>
+                            <button class="btn-edit-svc" data-type="tour" data-id="{{ $tour->id }}">Edit</button>
+                            <button class="btn-del-svc"  data-type="tour" data-id="{{ $tour->id }}">Delete</button>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
-        @else
-            <div class="no-services"><i class="fas fa-exchange-alt"></i>No transfers available.</div>
-        @endif
-    </div>
+            @else
+            <div class="no-services"><i class="fas fa-map-marked-alt"></i>No tours available.</div>
+            @endif
+        </div>
 
-    {{-- Event Planning --}}
-    <div class="tab-pane" id="pane-events">
-        @if($events->count())
+        {{-- Car Rental --}}
+        <div class="tab-pane" id="pane-cars">
+            @if($vehicles->count())
             <div class="svc-grid">
-                @foreach($events as $event)
+                @foreach($vehicles as $vehicle)
                 <div class="svc-card">
-                    <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="{{ $event->title }}">
+                    <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name }} {{ $vehicle->model->name }}">
                     <div class="svc-card-body">
                         <div class="svc-card-head">
-                            <div class="svc-card-title">{{ $event->title }}</div>
-                            <div class="svc-card-price">From ${{ number_format($event->price) }}</div>
+                            <div class="svc-card-title">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</div>
+                            <div class="svc-card-price">${{ number_format($vehicle->price ?? 50) }} per day</div>
                         </div>
-                        <p class="svc-card-desc">{{ $event->description ?? 'Complete event planning from concept to execution. We handle everything for your special occasions.' }}</p>
+                        <p class="svc-card-desc">{{ Str::limit($vehicle->description ?? 'Reliable and comfortable vehicles for all your transportation needs. Well-maintained fleet with professional drivers available.', 150) }}</p>
                         <div class="svc-card-actions">
-                            <button class="btn-edit-svc" data-type="event" data-id="{{ $event->id }}">Edit</button>
-                            <button class="btn-del-svc"  data-type="event" data-id="{{ $event->id }}">Delete</button>
+                            <button class="btn-edit-svc" data-type="car" data-id="{{ $vehicle->id }}">Edit</button>
+                            <button class="btn-del-svc"  data-type="car" data-id="{{ $vehicle->id }}">Delete</button>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
-        @else
-            <div class="no-services"><i class="fas fa-calendar-check"></i>No events available.</div>
-        @endif
+            @else
+            <div class="no-services"><i class="fas fa-car"></i>No vehicles available.</div>
+            @endif
+        </div>
+
+        {{-- Transfers --}}
+        <div class="tab-pane" id="pane-transfers">
+            @if($transfers->count())
+                <div class="svc-grid">
+                    @foreach($transfers as $transfer)
+                    <div class="svc-card">
+                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="{{ $transfer->destination }} Transfer">
+                        <div class="svc-card-body">
+                            <div class="svc-card-head">
+                                <div class="svc-card-title">{{ $transfer->destination }} Transfer</div>
+                                <div class="svc-card-price">${{ number_format($transfer->price) }} per trip</div>
+                            </div>
+                            <p class="svc-card-desc">{{ $transfer->message ?? 'Professional transfer service with comfortable vehicles and reliable drivers.' }}</p>
+                            <div class="svc-card-actions">
+                                <button class="btn-edit-svc" data-type="transfer" data-id="{{ $transfer->id }}">Edit</button>
+                                <button class="btn-del-svc"  data-type="transfer" data-id="{{ $transfer->id }}">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="no-services"><i class="fas fa-exchange-alt"></i>No transfers available.</div>
+            @endif
+        </div>
+
+        {{-- Event Planning --}}
+        <div class="tab-pane" id="pane-events">
+            @if($events->count())
+                <div class="svc-grid">
+                    @foreach($events as $event)
+                    <div class="svc-card">
+                        <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="{{ $event->title }}">
+                        <div class="svc-card-body">
+                            <div class="svc-card-head">
+                                <div class="svc-card-title">{{ $event->title }}</div>
+                                <div class="svc-card-price">From ${{ number_format($event->price) }}</div>
+                            </div>
+                            <p class="svc-card-desc">{{ $event->description ?? 'Complete event planning from concept to execution. We handle everything for your special occasions.' }}</p>
+                            <div class="svc-card-actions">
+                                <button class="btn-edit-svc" data-type="event" data-id="{{ $event->id }}">Edit</button>
+                                <button class="btn-del-svc"  data-type="event" data-id="{{ $event->id }}">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="no-services"><i class="fas fa-calendar-check"></i>No events available.</div>
+            @endif
+        </div>
     </div>
 
     {{-- Edit Modal --}}

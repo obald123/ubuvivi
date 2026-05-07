@@ -1,48 +1,56 @@
+@php
+    $sidebarItems = [
+        [
+            'label' => 'Dashboard',
+            'route' => route('home'),
+            'icon' => 'fas fa-th-large',
+            'patterns' => ['home*'],
+        ],
+        [
+            'label' => 'Requests',
+            'route' => route('requests.index'),
+            'icon' => 'fas fa-inbox',
+            'patterns' => ['requests*'],
+        ],
+        [
+            'label' => 'Bookings',
+            'route' => route('bookings.index'),
+            'icon' => 'far fa-calendar-alt',
+            'patterns' => ['bookings*', 'tourBookings*', 'carBookings*', 'carTransfers*', 'payments*'],
+        ],
+        [
+            'label' => 'Services',
+            'route' => route('services.index'),
+            'icon' => 'fas fa-concierge-bell',
+            'patterns' => ['services*', 'vehicles*', 'itineraries*', 'types*', 'packages*'],
+        ],
+        [
+            'label' => 'Profile',
+            'route' => route('profile.index'),
+            'icon' => 'fas fa-user',
+            'patterns' => ['profile*', 'users*'],
+        ],
+    ];
+@endphp
+
 <aside id="sidebar-wrapper" class="bg-dark">
     <div class="sidebar-brand">
-        <div class="d-flex align-items-center">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Ubuvivi Tours"
-                 style="width:40px;height:40px;border-radius:50%;object-fit:cover;margin-right:12px;border:2px solid rgba(255,255,255,.16);">
-            <span class="brand-text">UBUVIVI Tours</span>
-        </div>
+        <a href="{{ route('home') }}" class="admin-sidebar-brand-link">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Ubuvivi Tours" class="admin-sidebar-logo">
+            <span class="admin-sidebar-brand-text">UBUVIVI Tours</span>
+        </a>
     </div>
     <ul class="sidebar-menu">
-        <li class="side-menus {{ Request::is('home*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('home') }}">
-                <i class="fas fa-th-large"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        
-        <li class="side-menus {{ Request::is('requests*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('requests.index') }}">
-                <i class="fas fa-file-alt"></i>
-                <span>Requests</span>
-            </a>
-        </li>
-        
-        <li class="side-menus {{ Request::is('bookings*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('bookings.index') }}">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Bookings</span>
-            </a>
-        </li>
-        
-        <li class="side-menus {{ Request::is('services*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('services.index') }}">
-                <i class="fas fa-cog"></i>
-                <span>Services</span>
-            </a>
-        </li>
-        
-        <li class="side-menus {{ Request::is('profile*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('profile.index') }}">
-                <i class="fas fa-user"></i>
-                <span>Profile</span>
-            </a>
-        </li>
-        
-        <li class="side-menus logout-item {{ Request::is('logout') ? 'active' : '' }}">
+        @foreach($sidebarItems as $item)
+            <li class="side-menus {{ request()->is(...$item['patterns']) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ $item['route'] }}">
+                    <i class="{{ $item['icon'] }}"></i>
+                    <span>{{ $item['label'] }}</span>
+                </a>
+            </li>
+        @endforeach
+
+        <li class="side-menus logout-item">
             <form class="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="nav-link logout-button">

@@ -1,13 +1,13 @@
 @extends('layouts.guest')
 
 @section('title')
-    Our Services | Transfer Services Rwanda - Ubuvivi
+    Our Services | Transport Services Rwanda - Ubuvivi
 @endsection
 
 @section('meta')
     <meta name="description"
-        content="Providing hassle-free Rwanda transfer services seven days a week, Our services are 24/7 so any time you get to the airport">
-    <meta name="keywords" content="ubuvivi, Rwanda Airport Transfers, Airport Transfer Services Rwanda, Airport Car Services Rwanda">
+        content="Providing hassle-free Rwanda transport services seven days a week, with reliable airport pickups and city transfers available 24/7.">
+    <meta name="keywords" content="ubuvivi, Rwanda transport services, airport transport Rwanda, airport car services Rwanda">
 @endsection
 
 @section('body-class', 'hero-page')
@@ -300,7 +300,7 @@
                             </div>
                             <div class="transfer-card-footer">
                                 <a href="{{ route('guest.contact') }}" class="transfer-btn">
-                                    Book This Transfer
+                                    Book This Transport
                                     <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
@@ -311,8 +311,8 @@
         @else
             <div class="text-center py-5">
                 <i class="fas fa-exchange-alt" style="font-size: 40px; color: #C85A2A; display: block; margin-bottom: 16px;"></i>
-                <h3 style="color: #666; margin-bottom: 16px;">No Transfers Available</h3>
-                <p style="color: #888;">Check back soon for available transfer services!</p>
+                <h3 style="color: #666; margin-bottom: 16px;">No Transport Services Available</h3>
+                <p style="color: #888;">Check back soon for available transport services!</p>
             </div>
         @endif
 

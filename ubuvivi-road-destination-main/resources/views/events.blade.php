@@ -1,12 +1,12 @@
 @extends('layouts.guest')
 
 @section('title')
-    Event Planning Services Rwanda - Ubuvivi
+    Conference Planning Services Rwanda - Ubuvivi
 @endsection
 
 @section('meta')
-    <meta name="description" content="Professional event planning services in Rwanda by Ubuvivi. From basic consultation to full event management.">
-    <meta name="keywords" content="ubuvivi, event planning Rwanda, wedding planning Kigali, event management Rwanda">
+    <meta name="description" content="Professional conference planning services in Rwanda by Ubuvivi. From private meetings to full conference management.">
+    <meta name="keywords" content="ubuvivi, conference planning Rwanda, conference management Kigali, corporate events Rwanda">
 @endsection
 
 @section('body-class', 'hero-page')
@@ -253,7 +253,7 @@
     {{-- ── Hero ── --}}
     <section class="events-hero">
         <div class="events-hero-content">
-            <h1>Unforgettable Events in Rwanda</h1>
+            <h1>Professional Conference Planning in Rwanda</h1>
             <p>From intimate gatherings to grand celebrations — we plan it all.</p>
         </div>
     </section>
@@ -309,7 +309,7 @@
     {{-- ── CTA Banner ── --}}
     <section class="events-cta">
         <div class="container">
-            <h2>Ready to Plan Your Event?</h2>
+            <h2>Ready to Plan Your Conference?</h2>
             <p>Contact us today and let's create something unforgettable together.</p>
             <a href="{{ route('guest.contact') }}" class="cta-btn">Get in Touch</a>
         </div>
@@ -346,7 +346,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="service">Service</label>
-                            <input type="text" id="service" name="service" value="Event Planning" readonly>
+                            <input type="text" id="service" name="service" value="Conference Planning" readonly>
                         </div>
                         <div class="form-group">
                             <label for="service-type">Service Type</label>

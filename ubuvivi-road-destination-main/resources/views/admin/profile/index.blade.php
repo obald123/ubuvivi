@@ -4,270 +4,681 @@
     Profile
 @endsection
 
+@php
+    $activeTab = old('active_tab');
+
+    if (!$activeTab && $errors->has('current_password')) {
+        $activeTab = 'security';
+    }
+
+    if (!$activeTab && (session('active_tab') || request()->query('tab'))) {
+        $activeTab = session('active_tab', request()->query('tab'));
+    }
+
+    $activeTab = in_array($activeTab, ['profile', 'security', 'users'], true) ? $activeTab : 'users';
+@endphp
+
 @section('css')
 <style>
-    .adm-topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:14px; }
-    .adm-topbar h1 { font-size:28px; font-weight:800; color:#1a1a2e; margin:0; }
-    .adm-topbar-right { display:flex; align-items:center; gap:12px; }
-    .adm-search { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #e8e8e8; border-radius:10px; padding:9px 16px; width:260px; }
-    .adm-search i { color:#bbb; font-size:14px; }
-    .adm-search input { border:none; outline:none; background:transparent; font-size:14px; color:#333; width:100%; }
-    .adm-search input::placeholder { color:#bbb; }
-    .adm-bell { width:40px; height:40px; border-radius:50%; background:#fff; border:1px solid #e8e8e8; display:flex; align-items:center; justify-content:center; color:#666; cursor:pointer; position:relative; }
-    .adm-bell-dot { position:absolute; top:9px; right:9px; width:8px; height:8px; border-radius:50%; background:#e74c3c; border:2px solid #fff; }
-    .adm-avatar { width:40px; height:40px; border-radius:50%; background:#1a1a2e; color:#fff; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; cursor:pointer; }
-    .adm-new-btn { background:#0D1F35; color:#fff; border:none; border-radius:10px; padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; white-space:nowrap; transition:background .2s; }
-    .adm-new-btn:hover { background:#1e3a5f; }
+    .profile-page {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        width: 100%;
+        --admin-search-width: 436px;
+    }
 
-    /* Tabs */
-    .pr-tabbar { display:flex; align-items:center; border-bottom:1px solid #e8e8e8; margin-bottom:24px; }
-    .pr-tab { padding:12px 22px; font-size:14px; font-weight:500; color:#888; cursor:pointer; border:none; background:none; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .2s; }
-    .pr-tab.active { color:#1a1a2e; border-bottom-color:#1a1a2e; font-weight:600; }
-    .pr-tab:hover:not(.active) { color:#555; }
+    .profile-toolbar {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+        padding-bottom: 2px;
+        border-bottom: 1px solid #dfe4ee;
+    }
 
-    .tab-pane { display:none; }
-    .tab-pane.active { display:block; }
+    .profile-tabs {
+        display: inline-flex;
+        align-items: center;
+        gap: 36px;
+        overflow-x: auto;
+        max-width: 100%;
+    }
 
-    /* Profile form panel */
-    .pr-panel { background:#fff; border-radius:16px; box-shadow:0 1px 8px rgba(0,0,0,.06); padding:28px 32px; max-width:740px; }
-    .form-row2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
-    @media(max-width:640px) { .form-row2 { grid-template-columns:1fr; } }
-    .pr-form-group { margin-bottom:0; }
-    .pr-form-group label { display:block; font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:7px; }
-    .pr-form-group input { width:100%; padding:11px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; outline:none; }
-    .pr-form-group input:focus { border-color:#2563EB; }
-    .pr-section-title { font-size:16px; font-weight:700; color:#1a1a2e; margin:24px 0 16px; }
-    .pr-section-title:first-child { margin-top:0; }
-    .pr-save-btn { background:#0D1F35; color:#fff; border:none; border-radius:8px; padding:11px 28px; font-size:14px; font-weight:600; cursor:pointer; transition:background .2s; margin-top:8px; }
-    .pr-save-btn:hover { background:#1e3a5f; }
+    .profile-tab {
+        position: relative;
+        border: 0;
+        background: transparent;
+        padding: 0 0 12px;
+        color: #313947;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+    }
 
-    /* Users table */
-    .users-panel { background:#fff; border-radius:16px; box-shadow:0 1px 8px rgba(0,0,0,.06); padding:24px 28px; }
-    .users-table { width:100%; border-collapse:collapse; }
-    .users-table th { text-align:left; font-size:13px; font-weight:500; color:#888; padding:10px 14px; border-bottom:1px solid #f0f0f0; }
-    .users-table td { padding:14px 14px; font-size:14px; color:#1a1a2e; border-bottom:1px solid #f7f7f7; vertical-align:middle; }
-    .users-table tr:last-child td { border-bottom:none; }
-    .users-table tr:hover td { background:#fafafa; }
-    .role-badge { display:inline-block; padding:3px 12px; border-radius:20px; font-size:12px; font-weight:500; background:#EEF2FF; color:#4F6CDE; }
-    .role-admin  { background:#FFF8E6; color:#F0A500; }
-    .role-client { background:#E8F8F0; color:#27AE60; }
-    .role-staff  { background:#F3EEFF; color:#7B5EE8; }
-    .action-btns { display:flex; gap:8px; }
-    .btn-icon-edit { width:34px; height:34px; border-radius:8px; background:#0D1F35; color:#fff; border:none; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:background .2s; }
-    .btn-icon-edit:hover { background:#1e3a5f; }
-    .btn-icon-del  { width:34px; height:34px; border-radius:8px; background:#E53935; color:#fff; border:none; display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer; transition:background .2s; }
-    .btn-icon-del:hover { background:#c62828; }
-    .no-data { text-align:center; color:#bbb; padding:36px 0; font-size:14px; }
+    .profile-tab::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 3px;
+        border-radius: 999px;
+        background: transparent;
+        transition: background .18s ease;
+    }
 
-    /* User Modal */
-    .adm-modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:2000; }
-    .adm-modal { background:#fff; border-radius:16px; padding:28px; max-width:520px; width:90%; max-height:90vh; overflow-y:auto; }
-    .adm-modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-    .adm-modal-head h3 { font-size:18px; font-weight:700; color:#1a1a2e; margin:0; }
-    .adm-modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:#aaa; }
-    .adm-modal-close:hover { color:#555; }
-    .adm-form-group { margin-bottom:16px; }
-    .adm-form-group label { display:block; font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:6px; }
-    .adm-form-group input, .adm-form-group select { width:100%; padding:10px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; outline:none; font-family:inherit; }
-    .adm-form-group input:focus, .adm-form-group select:focus { border-color:#2563EB; }
-    .adm-modal-foot { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
-    .btn-save { background:#0D1F35; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
-    .btn-save:hover { background:#1e3a5f; }
-    .btn-modal-cancel { background:#f0f0f0; color:#555; border:none; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
-    .btn-modal-cancel:hover { background:#e0e0e0; }
+    .profile-tab.is-active::after {
+        background: #2495e7;
+    }
+
+    .profile-tab:not(.is-active) {
+        color: #3d4554;
+        opacity: .92;
+    }
+
+    .profile-add-user {
+        border: 0;
+        background: #122c3b;
+        color: #fff;
+        height: 34px;
+        padding: 0 16px;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        box-shadow: 0 10px 20px rgba(18, 44, 59, .12);
+    }
+
+    .profile-add-user:hover {
+        background: #0f2431;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .profile-pane {
+        display: none;
+    }
+
+    .profile-pane.is-active {
+        display: block;
+    }
+
+    .profile-card,
+    .users-card {
+        background: #fff;
+        border: 1px solid #e4e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(15, 35, 52, .04);
+    }
+
+    .profile-card {
+        max-width: 760px;
+        padding: 28px 30px;
+    }
+
+    .profile-card h2 {
+        margin: 0 0 18px;
+        color: #1f2937;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .profile-field {
+        margin-bottom: 18px;
+    }
+
+    .profile-field:last-child {
+        margin-bottom: 0;
+    }
+
+    .profile-field label {
+        display: block;
+        margin-bottom: 7px;
+        color: #425063;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .profile-field input,
+    .profile-field select {
+        width: 100%;
+        height: 44px;
+        padding: 0 14px;
+        border: 1px solid #dfe4ee;
+        border-radius: 6px;
+        outline: 0;
+        color: #2d313d;
+        font-size: 14px;
+        background: #fff;
+    }
+
+    .profile-field input:focus,
+    .profile-field select:focus {
+        border-color: #2495e7;
+        box-shadow: 0 0 0 3px rgba(36, 149, 231, .10);
+    }
+
+    .profile-feedback {
+        margin-bottom: 16px;
+        padding: 11px 13px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .profile-feedback.success {
+        color: #166534;
+        background: #dcfce7;
+    }
+
+    .profile-feedback.error {
+        color: #b91c1c;
+        background: #fee2e2;
+    }
+
+    .profile-save {
+        border: 0;
+        background: #122c3b;
+        color: #fff;
+        height: 40px;
+        padding: 0 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .profile-save:hover {
+        background: #0f2431;
+    }
+
+    .users-table-wrap {
+        overflow-x: auto;
+    }
+
+    .users-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .users-table thead th {
+        padding: 14px 22px 12px;
+        border-bottom: 1px solid #edf1f6;
+        color: #5b6573;
+        font-size: 13px;
+        font-weight: 500;
+        text-align: left;
+    }
+
+    .users-table tbody td {
+        padding: 14px 22px;
+        border-bottom: 1px solid #edf1f6;
+        color: #2d313d;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .users-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    .users-table tbody tr:hover td {
+        background: #fbfcff;
+    }
+
+    .users-table th:nth-child(1),
+    .users-table th:nth-child(4),
+    .users-table th:nth-child(5),
+    .users-table th:nth-child(6),
+    .users-table td:nth-child(1),
+    .users-table td:nth-child(4),
+    .users-table td:nth-child(5),
+    .users-table td:nth-child(6) {
+        white-space: nowrap;
+    }
+
+    .users-table th:last-child,
+    .users-table td:last-child {
+        text-align: right;
+    }
+
+    .role-text {
+        color: #2d313d;
+        font-weight: 500;
+    }
+
+    .user-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .user-action-btn {
+        width: 34px;
+        height: 30px;
+        border: 0;
+        border-radius: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    .user-action-btn.edit {
+        background: #122c3b;
+    }
+
+    .user-action-btn.delete {
+        background: #ff2a2a;
+    }
+
+    .users-empty {
+        padding: 36px 22px;
+        text-align: center;
+        color: #9aa3b2;
+        font-size: 14px;
+    }
+
+    .user-modal-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(15, 42, 56, .45);
+        z-index: 2100;
+        padding: 18px;
+    }
+
+    .user-modal {
+        width: min(520px, 100%);
+        max-height: 90vh;
+        overflow-y: auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 24px 60px rgba(15, 35, 52, .22);
+        padding: 22px;
+    }
+
+    .user-modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .user-modal-head h2 {
+        margin: 0;
+        color: #183247;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .user-modal-close {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 0;
+        background: #f1f5fb;
+        color: #526071;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .user-modal-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .user-modal-foot {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .user-modal-btn {
+        border: 0;
+        border-radius: 8px;
+        height: 40px;
+        padding: 0 18px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .user-modal-btn.secondary {
+        background: #eef1f5;
+        color: #556274;
+    }
+
+    .user-modal-btn.primary {
+        background: #122c3b;
+        color: #fff;
+    }
+
+    @media (max-width: 991px) {
+        .users-table-wrap {
+            overflow-x: auto;
+        }
+
+        .users-table {
+            min-width: 900px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .profile-toolbar {
+            align-items: stretch;
+        }
+
+        .profile-tabs {
+            gap: 24px;
+        }
+
+        .profile-add-user {
+            align-self: flex-start;
+        }
+
+        .profile-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-card {
+            padding: 22px 18px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
+    <div class="profile-page">
+        @include('layouts.partials.admin_topbar', [
+            'title' => 'Profile',
+            'searchInputId' => 'profileSearch',
+            'searchAriaLabel' => 'Search users',
+        ])
 
-    <div class="adm-topbar">
-        <h1>Profile</h1>
-        <div class="adm-topbar-right">
-            <div class="adm-search">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search...">
+        <div class="profile-toolbar">
+            <div class="profile-tabs" role="tablist" aria-label="Profile sections">
+                <button
+                    type="button"
+                    class="profile-tab {{ $activeTab === 'profile' ? 'is-active' : '' }}"
+                    data-pane="profile"
+                    role="tab"
+                    aria-selected="{{ $activeTab === 'profile' ? 'true' : 'false' }}">
+                    Profile
+                </button>
+                <button
+                    type="button"
+                    class="profile-tab {{ $activeTab === 'security' ? 'is-active' : '' }}"
+                    data-pane="security"
+                    role="tab"
+                    aria-selected="{{ $activeTab === 'security' ? 'true' : 'false' }}">
+                    Security
+                </button>
+                <button
+                    type="button"
+                    class="profile-tab {{ $activeTab === 'users' ? 'is-active' : '' }}"
+                    data-pane="users"
+                    role="tab"
+                    aria-selected="{{ $activeTab === 'users' ? 'true' : 'false' }}">
+                    Users
+                </button>
             </div>
-            <div class="adm-bell">
-                <i class="fas fa-bell"></i>
-                <span class="adm-bell-dot"></span>
-            </div>
-            <div class="adm-avatar">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
-            <button class="adm-new-btn" id="btnAddUser">
+
+            <button
+                type="button"
+                class="profile-add-user"
+                id="addUserButton"
+                style="{{ $activeTab === 'users' ? '' : 'display:none;' }}">
                 <i class="fas fa-plus"></i> User
             </button>
         </div>
-    </div>
 
-    {{-- Tabs --}}
-    <div class="pr-tabbar">
-        <button class="pr-tab active" data-pane="profile">Profile</button>
-        <button class="pr-tab" data-pane="security">Security</button>
-        <button class="pr-tab" data-pane="users">Users</button>
-    </div>
+        <section class="profile-pane {{ $activeTab === 'profile' ? 'is-active' : '' }}" id="pane-profile">
+            <div class="profile-card">
+                <h2>Profile Information</h2>
 
-    {{-- Profile tab --}}
-    <div class="tab-pane active" id="pane-profile">
-        <div class="pr-panel">
-            <form method="POST" action="{{ route('profile.update') }}">
-                @csrf @method('PUT')
-                <div class="pr-section-title">Profile Information</div>
-                <div class="form-row2">
-                    <div class="pr-form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" value="{{ auth()->user()->name }}" required>
-                    </div>
-                    <div class="pr-form-group">
-                        <label>Email Address</label>
-                        <input type="email" name="email" value="{{ auth()->user()->email }}" required>
-                    </div>
-                </div>
-                @if(session('success'))
-                <div style="color:#27AE60;font-size:13px;margin-bottom:14px;">{{ session('success') }}</div>
+                @if(session('success') && $activeTab === 'profile')
+                    <div class="profile-feedback success">{{ session('success') }}</div>
                 @endif
-                @if($errors->any())
-                <div style="color:#E53935;font-size:13px;margin-bottom:14px;">{{ $errors->first() }}</div>
+
+                @if($errors->any() && $activeTab === 'profile' && !$errors->has('current_password'))
+                    <div class="profile-feedback error">{{ $errors->first() }}</div>
                 @endif
-                <button type="submit" class="pr-save-btn">Save Changes</button>
-            </form>
-        </div>
+
+                <form method="POST" action="{{ route('profile.update') }}">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="active_tab" value="profile">
+
+                    <div class="profile-grid">
+                        <div class="profile-field">
+                            <label for="profile-name">Full Name</label>
+                            <input id="profile-name" type="text" name="name" value="{{ old('name', $user->name) }}" required>
+                        </div>
+                        <div class="profile-field">
+                            <label for="profile-email">Email Address</label>
+                            <input id="profile-email" type="email" name="email" value="{{ old('email', $user->email) }}" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="profile-save">Save Changes</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="profile-pane {{ $activeTab === 'security' ? 'is-active' : '' }}" id="pane-security">
+            <div class="profile-card">
+                <h2>Security</h2>
+
+                @if(session('success') && $activeTab === 'security')
+                    <div class="profile-feedback success">{{ session('success') }}</div>
+                @endif
+
+                @if($errors->any() && $activeTab === 'security')
+                    <div class="profile-feedback error">{{ $errors->first() }}</div>
+                @endif
+
+                <form method="POST" action="{{ route('profile.update') }}">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="active_tab" value="security">
+                    <input type="hidden" name="name" value="{{ old('name', $user->name) }}">
+                    <input type="hidden" name="email" value="{{ old('email', $user->email) }}">
+
+                    <div class="profile-grid">
+                        <div class="profile-field">
+                            <label for="current-password">Current Password</label>
+                            <input id="current-password" type="password" name="current_password">
+                        </div>
+                        <div class="profile-field">
+                            <label for="new-password">New Password</label>
+                            <input id="new-password" type="password" name="new_password">
+                        </div>
+                        <div class="profile-field">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input id="confirm-password" type="password" name="new_password_confirmation">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="profile-save">Update Password</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="profile-pane {{ $activeTab === 'users' ? 'is-active' : '' }}" id="pane-users">
+            <div class="users-card">
+                @if($users->count())
+                    <div class="users-table-wrap">
+                        <table class="users-table" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Names</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($users as $index => $listedUser)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $listedUser->name }}</td>
+                                        <td>{{ $listedUser->email }}</td>
+                                        <td>{{ $listedUser->phone_number ?: 'N/A' }}</td>
+                                        <td><span class="role-text">{{ ucfirst($listedUser->role ?: 'client') }}</span></td>
+                                        <td>
+                                            <div class="user-actions">
+                                                <button type="button" class="user-action-btn edit" title="Edit user">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                <button type="button" class="user-action-btn delete" title="Delete user">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <div class="users-empty">No users found.</div>
+                @endif
+            </div>
+        </section>
     </div>
 
-    {{-- Security tab --}}
-    <div class="tab-pane" id="pane-security">
-        <div class="pr-panel">
-            <form method="POST" action="{{ route('profile.update') }}">
-                @csrf @method('PUT')
-                <input type="hidden" name="name" value="{{ auth()->user()->name }}">
-                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
-                <div class="pr-section-title">Change Password</div>
-                <div class="form-row2">
-                    <div class="pr-form-group">
-                        <label>Current Password</label>
-                        <input type="password" name="current_password">
-                    </div>
-                    <div class="pr-form-group">
-                        <label>New Password</label>
-                        <input type="password" name="new_password">
-                    </div>
+    <div class="user-modal-overlay" id="addUserModal">
+        <div class="user-modal">
+            <div class="user-modal-head">
+                <h2>Add User</h2>
+                <button type="button" class="user-modal-close" id="closeAddUserModal">&times;</button>
+            </div>
+
+            <div class="user-modal-grid">
+                <div class="profile-field">
+                    <label for="new-user-name">Full Name</label>
+                    <input id="new-user-name" type="text" placeholder="Full name">
                 </div>
-                <div class="form-row2">
-                    <div class="pr-form-group">
-                        <label>Confirm New Password</label>
-                        <input type="password" name="new_password_confirmation">
-                    </div>
-                    <div></div>
+                <div class="profile-field">
+                    <label for="new-user-email">Email Address</label>
+                    <input id="new-user-email" type="email" placeholder="Email address">
                 </div>
-                <button type="submit" class="pr-save-btn">Update Password</button>
-            </form>
-        </div>
-    </div>
+                <div class="profile-field">
+                    <label for="new-user-phone">Phone Number</label>
+                    <input id="new-user-phone" type="text" placeholder="Phone number">
+                </div>
+                <div class="profile-field">
+                    <label for="new-user-role">Role</label>
+                    <select id="new-user-role">
+                        <option value="admin">Admin</option>
+                        <option value="staff">Staff</option>
+                        <option value="client">Client</option>
+                    </select>
+                </div>
+                <div class="profile-field">
+                    <label for="new-user-password">Password</label>
+                    <input id="new-user-password" type="password" placeholder="Password">
+                </div>
+            </div>
 
-    {{-- Users tab --}}
-    <div class="tab-pane" id="pane-users">
-        <div class="users-panel">
-            @if($users->count())
-            <table class="users-table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Names</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($users as $i => $u)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>{{ $u->name }}</td>
-                        <td>{{ $u->email }}</td>
-                        <td>{{ $u->phone_number ?? 'N/A' }}</td>
-                        <td>
-                            @php $role = strtolower($u->role ?? 'client'); @endphp
-                            <span class="role-badge role-{{ $role }}">{{ ucfirst($u->role ?? 'client') }}</span>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn-icon-edit" title="Edit"><i class="fas fa-pen"></i></button>
-                                <button class="btn-icon-del"  title="Delete"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            @else
-            <div class="no-data"><i class="fas fa-users" style="font-size:28px;display:block;margin-bottom:10px;color:#ddd;"></i>No users found.</div>
-            @endif
-        </div>
-    </div>
-
-    {{-- Add User Modal --}}
-    <div class="adm-modal-overlay" id="addUserModal" style="display:none;">
-        <div class="adm-modal">
-            <div class="adm-modal-head">
-                <h3>Add User</h3>
-                <button class="adm-modal-close" id="closeAddUser">&times;</button>
-            </div>
-            <div class="adm-form-group">
-                <label>Full Name</label>
-                <input type="text" placeholder="Full name">
-            </div>
-            <div class="adm-form-group">
-                <label>Email</label>
-                <input type="email" placeholder="Email address">
-            </div>
-            <div class="adm-form-group">
-                <label>Phone Number</label>
-                <input type="text" placeholder="Phone number">
-            </div>
-            <div class="adm-form-group">
-                <label>Role</label>
-                <select>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Staff</option>
-                    <option value="client">Client</option>
-                </select>
-            </div>
-            <div class="adm-form-group">
-                <label>Password</label>
-                <input type="password" placeholder="Password">
-            </div>
-            <div class="adm-modal-foot">
-                <button class="btn-modal-cancel" id="cancelAddUser">Cancel</button>
-                <button class="btn-save">Create User</button>
+            <div class="user-modal-foot">
+                <button type="button" class="user-modal-btn secondary" id="cancelAddUserModal">Cancel</button>
+                <button type="button" class="user-modal-btn primary">Create User</button>
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Tabs
-    document.querySelectorAll('.pr-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.pr-tab').forEach(function(t){ t.classList.remove('active'); });
-            tab.classList.add('active');
-            document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
-            document.getElementById('pane-' + tab.dataset.pane).classList.add('active');
+document.addEventListener('DOMContentLoaded', function () {
+    var tabs = Array.from(document.querySelectorAll('.profile-tab'));
+    var panes = Array.from(document.querySelectorAll('.profile-pane'));
+    var addUserButton = document.getElementById('addUserButton');
+    var profileSearch = document.getElementById('profileSearch');
+    var addUserModal = document.getElementById('addUserModal');
+    var closeAddUserModal = document.getElementById('closeAddUserModal');
+    var cancelAddUserModal = document.getElementById('cancelAddUserModal');
+
+    function activatePane(name) {
+        tabs.forEach(function (tab) {
+            var active = tab.dataset.pane === name;
+            tab.classList.toggle('is-active', active);
+            tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+
+        panes.forEach(function (pane) {
+            pane.classList.toggle('is-active', pane.id === 'pane-' + name);
+        });
+
+        addUserButton.style.display = name === 'users' ? 'inline-flex' : 'none';
+        window.location.hash = name;
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            activatePane(tab.dataset.pane);
         });
     });
 
-    // Open Users tab if URL has #users
-    if (window.location.hash === '#users') {
-        document.querySelector('[data-pane="users"]').click();
+    if (window.location.hash) {
+        var hashTarget = window.location.hash.replace('#', '');
+        if (['profile', 'security', 'users'].indexOf(hashTarget) !== -1) {
+            activatePane(hashTarget);
+        }
     }
 
-    // Add User modal
-    var modal = document.getElementById('addUserModal');
-    document.getElementById('btnAddUser').addEventListener('click', function() { modal.style.display = 'flex'; });
-    document.getElementById('closeAddUser').addEventListener('click', function() { modal.style.display = 'none'; });
-    document.getElementById('cancelAddUser').addEventListener('click', function() { modal.style.display = 'none'; });
-    modal.addEventListener('click', function(e) { if (e.target === modal) modal.style.display = 'none'; });
+    if (profileSearch) {
+        profileSearch.addEventListener('input', function () {
+            var query = profileSearch.value.trim().toLowerCase();
+            var rows = document.querySelectorAll('#usersTable tbody tr');
+
+            rows.forEach(function (row) {
+                row.style.display = row.textContent.toLowerCase().indexOf(query) === -1 ? 'none' : '';
+            });
+        });
+    }
+
+    addUserButton.addEventListener('click', function () {
+        addUserModal.style.display = 'flex';
+    });
+
+    closeAddUserModal.addEventListener('click', function () {
+        addUserModal.style.display = 'none';
+    });
+
+    cancelAddUserModal.addEventListener('click', function () {
+        addUserModal.style.display = 'none';
+    });
+
+    addUserModal.addEventListener('click', function (event) {
+        if (event.target === addUserModal) {
+            addUserModal.style.display = 'none';
+        }
+    });
 });
 </script>
 @endsection

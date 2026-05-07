@@ -57,6 +57,7 @@
             padding: 16px 12px 24px;
             border-top: 1px solid rgba(255,255,255,.08);
         }
+        .cl-logout-form { margin: 0; }
         .cl-logout-btn {
             display: flex; align-items: center; gap: 12px;
             padding: 11px 14px; border-radius: 10px;
@@ -113,11 +114,13 @@
         </nav>
 
         <div class="cl-sidebar-footer">
-            <form id="cl-logout-form" action="{{ url('/logout') }}" method="POST" style="display:none;">@csrf</form>
-            <button class="cl-logout-btn"
-                    onclick="document.getElementById('cl-logout-form').submit()">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+            <form action="{{ route('logout') }}" method="POST" class="cl-logout-form"
+                  onsubmit="localStorage.clear(); sessionStorage.clear();">
+                @csrf
+                <button type="submit" class="cl-logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
         </div>
     </aside>
 

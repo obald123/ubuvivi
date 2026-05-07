@@ -112,9 +112,20 @@ class GuestController extends Controller
         return view("hotel-booking");
     }
 
-    public function tours_booking_options()
+    public function tours_booking_options(Request $request)
     {
-        return view("tours_booking_options");
+        $tour = null;
+        $tourId = $request->query('tour');
+
+        if ($tourId) {
+            $tour = Itinerary::find($tourId);
+
+            if ($tour) {
+                $tour = $this->normalizeTourContent($tour);
+            }
+        }
+
+        return view("tours_booking_options", compact('tour'));
     }
 
     public function tours_booking()
@@ -442,13 +453,28 @@ class GuestController extends Controller
             return redirect()->back();
         }
 
-        $tour->images = $tour->images ? $tour->images : array();
-        $tour->highlights = $tour->highlights ? $tour->highlights : array();
-        $tour->inclusions = $tour->inclusions ? $tour->inclusions : array();
-        $tour->exclusions = $tour->exclusions ? $tour->exclusions : array();
-        $tour->days_description = $tour->days_description ? $tour->days_description : array();
+        $tour = $this->normalizeTourContent($tour);
 
         return view("tours.view", compact("tour"));
+    }
+
+    public function tour_booking_account(Request $request, $id)
+    {
+        $tour = Itinerary::find($id);
+
+        if (empty($tour)) {
+            Flash::error('Tour not found');
+
+            return redirect()->back();
+        }
+
+        if (auth()->check()) {
+            return redirect()->route('tour.booking', ['id' => $id, 'type' => 'account']);
+        }
+
+        $request->session()->put('url.intended', route('tour.booking', ['id' => $id, 'type' => 'account']));
+
+        return redirect()->route('login');
     }
 
     public function tour_booking($id)
@@ -461,13 +487,22 @@ class GuestController extends Controller
             return redirect()->back();
         }
 
-        $tour->images = $tour->images ? $tour->images : array();
-        $tour->highlights = $tour->highlights ? $tour->highlights : array();
-        $tour->inclusions = $tour->inclusions ? $tour->inclusions : array();
-        $tour->exclusions = $tour->exclusions ? $tour->exclusions : array();
-        $tour->days_description = $tour->days_description ? $tour->days_description : array();
+        $tour = $this->normalizeTourContent($tour);
 
-        return view("tours.booking", compact("tour"));
+        $names = old('names');
+        $email = old('email');
+        $phone_number = old('phone_number');
+        $number_of_people = old('number_of_people');
+        $date = old('date');
+        $message = old('message');
+
+        if (auth()->check() && !$names && !$email && !$phone_number) {
+            $names = auth()->user()->name;
+            $email = auth()->user()->email;
+            $phone_number = auth()->user()->phone_number;
+        }
+
+        return view("tours.booking", compact("tour", "names", "email", "phone_number", "number_of_people", "date", "message"));
     }
 
     public function tour_booking_store_success(Request $request, $id)
@@ -492,6 +527,12 @@ class GuestController extends Controller
             "phone_number" => "required|string|max:13",
             "number_of_people" => "nullable",
             "date" => "nullable",
+            "preferred_time" => "nullable|string|max:10",
+            "preferred_meridiem" => "nullable|in:AM,PM",
+            "available_until_date" => "nullable|date",
+            "available_until_time" => "nullable|string|max:10",
+            "available_until_meridiem" => "nullable|in:AM,PM",
+            "message" => "nullable|string",
         ]);
 
         $tour = Itinerary::find($id);
@@ -506,7 +547,7 @@ class GuestController extends Controller
         $input["itinerary_id"] =  $tour->id;
         $input['number_of_people'] = $input['number_of_people'] ?? 1;
         $input['date'] = $input['date'] ?? "";
-        $input['message'] = $input['message'] ?? "";
+        $input['message'] = $this->buildTourBookingMessage($request);
 
         $booking = $this->tourBookingRepository->create($input);
 
@@ -770,5 +811,155 @@ class GuestController extends Controller
     {
         $models = Vehicle::with('model', 'brand')->get()->where('brand.name', "like", $brand)->pluck("model.name", "model.id")->all();
         return $models;
+    }
+
+    private function normalizeTourContent(Itinerary $tour): Itinerary
+    {
+        $tour->images = $this->normalizeImageList($tour->images);
+        $tour->highlights = $this->normalizeTitleList($tour->highlights);
+        $tour->inclusions = $this->normalizeTitleList($tour->inclusions);
+        $tour->exclusions = $this->normalizeTitleList($tour->exclusions);
+        $tour->days_description = $this->normalizeDaysDescription($tour->days_description, $tour->description);
+
+        return $tour;
+    }
+
+    private function normalizeImageList($value): array
+    {
+        if (is_array($value)) {
+            return array_values(array_filter($value, function ($item) {
+                return is_string($item) && trim($item) !== '';
+            }));
+        }
+
+        if (is_string($value) && trim($value) !== '') {
+            return [trim($value)];
+        }
+
+        return [];
+    }
+
+    private function normalizeTitleList($value): array
+    {
+        $items = [];
+
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                if (is_array($item)) {
+                    $title = trim((string) ($item['title'] ?? ''));
+
+                    if ($title !== '') {
+                        $items[] = ['title' => $title];
+                    }
+
+                    continue;
+                }
+
+                if (is_string($item) && trim($item) !== '') {
+                    $items[] = ['title' => trim($item)];
+                }
+            }
+
+            return $items;
+        }
+
+        if (is_string($value) && trim($value) !== '') {
+            foreach (preg_split("/\r\n|\n|\r/", $value) as $line) {
+                $title = trim($line);
+
+                if ($title !== '') {
+                    $items[] = ['title' => $title];
+                }
+            }
+        }
+
+        return $items;
+    }
+
+    private function normalizeDaysDescription($value, ?string $fallbackDescription = null): array
+    {
+        $items = [];
+
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                if (is_array($item)) {
+                    $title = trim((string) ($item['title'] ?? ''));
+                    $description = trim((string) ($item['description'] ?? ''));
+
+                    if ($title !== '' || $description !== '') {
+                        $items[] = [
+                            'title' => $title,
+                            'description' => $description,
+                        ];
+                    }
+
+                    continue;
+                }
+
+                if (is_string($item) && trim($item) !== '') {
+                    $items[] = [
+                        'title' => '',
+                        'description' => trim($item),
+                    ];
+                }
+            }
+
+            return $items;
+        }
+
+        if (is_string($value) && trim($value) !== '') {
+            $description = trim($value);
+
+            if ($description !== trim((string) $fallbackDescription)) {
+                $items[] = [
+                    'title' => '',
+                    'description' => $description,
+                ];
+            }
+        }
+
+        return $items;
+    }
+
+    private function buildTourBookingMessage(Request $request): string
+    {
+        $baseMessage = trim((string) ($request->input('message') ?? ''));
+        $timingDetails = [];
+
+        if ($request->filled('date') || $request->filled('preferred_time')) {
+            $startParts = array_filter([
+                $request->input('date'),
+                $request->input('preferred_time'),
+                $request->input('preferred_meridiem'),
+            ]);
+
+            if (!empty($startParts)) {
+                $timingDetails[] = 'Preferred start: ' . implode(' ', $startParts);
+            }
+        }
+
+        if ($request->filled('available_until_date') || $request->filled('available_until_time')) {
+            $availabilityParts = array_filter([
+                $request->input('available_until_date'),
+                $request->input('available_until_time'),
+                $request->input('available_until_meridiem'),
+            ]);
+
+            if (!empty($availabilityParts)) {
+                $timingDetails[] = 'Available until: ' . implode(' ', $availabilityParts);
+            }
+        }
+
+        if (empty($timingDetails)) {
+            return $baseMessage;
+        }
+
+        $timingBlock = implode("\n", $timingDetails);
+
+        if ($baseMessage === '') {
+            return $timingBlock;
+        }
+
+        return $baseMessage . "\n\n" . $timingBlock;
     }
 }

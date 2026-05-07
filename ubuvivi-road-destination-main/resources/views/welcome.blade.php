@@ -434,22 +434,22 @@
                    style="background-image: url('{{ asset('assets/images/backgrounds/bg_15.jpg') }}')">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Our Services</span>
-                        <h1>Seamless Airport &amp;<br>City Transfers</h1>
+                        <h1>Seamless Airport &amp;<br>City Transport</h1>
                         <p>Reliable, on-time pickup and drop-off services available 24/7 across Rwanda.</p>
-                        <span class="hero-slide-btn">Book Transfer &rarr;</span>
+                        <span class="hero-slide-btn">Book Transport &rarr;</span>
                     </div>
                 </a>
             </div>
 
-            {{-- Slide 4: Event Planning --}}
+            {{-- Slide 4: Conference Planning --}}
             <div class="carousel-item">
                 <a href="{{ route('guest.events') }}" class="hero-slide"
                    style="background-image: url('{{ asset('assets/images/backgrounds/bg_9.jpg') }}')">
                     <div class="hero-slide-content">
-                        <span class="hero-slide-tag">Event Planning</span>
-                        <h1>Unforgettable Events<br>in Rwanda</h1>
-                        <p>From corporate gatherings to dream weddings — we handle every detail for you.</p>
-                        <span class="hero-slide-btn">Plan Your Event &rarr;</span>
+                        <span class="hero-slide-tag">Conference Planning</span>
+                        <h1>Professional Conferences<br>in Rwanda</h1>
+                        <p>From executive meetings to large corporate summits, we handle every detail for you.</p>
+                        <span class="hero-slide-btn">Plan Your Conference &rarr;</span>
                     </div>
                 </a>
             </div>
@@ -552,7 +552,7 @@
                 <div class="col-lg-9">
                     <div class="obj-card-wrap">
                         <h3>Objective</h3>
-                        <p>UBUVIVI Car Rental &amp; Tours provides reliable car rentals, tours, and transfer services at affordable prices while ensuring excellent service and maximum client satisfaction.</p>
+                        <p>UBUVIVI Car Rental &amp; Tours provides reliable car rentals, tours, and transport services at affordable prices while ensuring excellent service and maximum client satisfaction.</p>
                         <div class="obj-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_12.jpg') }}')"></div>
                     </div>
                 </div>
@@ -634,20 +634,20 @@
                 </div>
             </div>
 
-            {{-- Private Transfers --}}
+            {{-- Private Transport --}}
             <div class="service-row row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
-                    <span class="orange-dash">Private Transfers</span>
+                    <span class="orange-dash">Private Transport</span>
                     <p class="mt-2">
-                        UBUVIVI offers convenient private transfer services across Rwanda. We provide pre-booked
+                        UBUVIVI offers convenient private transport services across Rwanda. We provide pre-booked
                         transportation for airport pickups, hotel transfers, and travel between cities or destinations.
                         Our professional drivers ensure safe, comfortable, and timely journeys for travelers moving
                         between airports, hotels, and tourist destinations.
                     </p>
-                    <a href="{{ route('guest.transfer') }}" class="service-link mt-3 d-inline-block">Book Transfer &raquo;</a>
+                    <a href="{{ route('guest.transfer') }}" class="service-link mt-3 d-inline-block">Book Transport &raquo;</a>
                 </div>
                 <div class="col-lg-6 order-lg-2" data-aos="fade-left">
-                    <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Private Transfers" class="service-img round-tr">
+                    <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Private Transport" class="service-img round-tr">
                 </div>
             </div>
         </div>
