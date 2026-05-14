@@ -169,6 +169,136 @@
     .no-services { text-align:center; padding:48px 20px; color:#bbb; }
     .no-services i { font-size:32px; display:block; margin-bottom:12px; }
 
+    /* Car Rental Card */
+    .car-svc-card {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f1;
+        box-shadow: 0 12px 28px rgba(18,44,59,.05);
+        padding: 16px 18px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .car-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .car-card-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: #182b39;
+        line-height: 1.2;
+    }
+
+    .car-card-year {
+        font-size: 13px;
+        font-weight: 700;
+        color: #182b39;
+        border: 2px dashed #a0aab5;
+        border-radius: 999px;
+        padding: 3px 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .car-card-img-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 120px;
+    }
+
+    .car-card-img-wrap img {
+        max-width: 100%;
+        max-height: 120px;
+        object-fit: contain;
+    }
+
+    .car-card-specs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+    }
+
+    .car-spec {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        color: #374151;
+    }
+
+    .car-spec i {
+        font-size: 22px;
+        color: #374151;
+    }
+
+    .car-spec span {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .car-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 2px;
+    }
+
+    .car-card-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #182b39;
+    }
+
+    .car-card-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-car-edit {
+        background: #e8670a;
+        color: #fff;
+        border: 1px solid #e8670a;
+        border-radius: 8px;
+        height: 34px;
+        padding: 0 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .2s;
+    }
+
+    .btn-car-edit:hover {
+        background: #c9560a;
+        border-color: #c9560a;
+    }
+
+    .btn-car-delete {
+        background: #fff;
+        color: #e8670a;
+        border: 1px solid #e8670a;
+        border-radius: 8px;
+        height: 34px;
+        padding: 0 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .2s;
+    }
+
+    .btn-car-delete:hover {
+        background: #e8670a;
+        color: #fff;
+    }
+
     /* Tab content visibility */
     .tab-pane { display:none; }
     .tab-pane.active { display:block; }
@@ -229,8 +359,12 @@
             @if($tours->count())
             <div class="svc-grid">
                 @foreach($tours as $tour)
+                @php
+                    $tourImages = is_array($tour->images) ? $tour->images : (is_string($tour->images) ? json_decode($tour->images, true) : []);
+                    $tourImg = (!empty($tourImages) && isset($tourImages[0])) ? $tourImages[0] : asset('assets/images/backgrounds/bg_11.jpg');
+                @endphp
                 <div class="svc-card">
-                    <img src="{{ asset('assets/images/backgrounds/bg_11.jpg') }}" alt="{{ $tour->title }}">
+                    <img src="{{ $tourImg }}" alt="{{ $tour->title }}" onerror="this.src='{{ asset('assets/images/backgrounds/bg_11.jpg') }}'">
                     <div class="svc-card-body">
                         <div class="svc-card-head">
                             <div class="svc-card-title">{{ $tour->title }}</div>
@@ -255,17 +389,33 @@
             @if($vehicles->count())
             <div class="svc-grid">
                 @foreach($vehicles as $vehicle)
-                <div class="svc-card">
-                    <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name }} {{ $vehicle->model->name }}">
-                    <div class="svc-card-body">
-                        <div class="svc-card-head">
-                            <div class="svc-card-title">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</div>
-                            <div class="svc-card-price">${{ number_format($vehicle->price ?? 50) }} per day</div>
+                @php
+                    $vImages = is_array($vehicle->images) ? $vehicle->images : [];
+                    $vImg = count($vImages) ? $vImages[0] : asset('assets/images/vehicles/not_found.png');
+                @endphp
+                <div class="car-svc-card">
+                    <div class="car-card-header">
+                        <span class="car-card-name">{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}</span>
+                        <span class="car-card-year">{{ $vehicle->production_year ?? '' }}</span>
+                    </div>
+                    <div class="car-card-img-wrap">
+                        <img src="{{ $vImg }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}" onerror="this.src='{{ asset('assets/images/vehicles/not_found.png') }}'">
+                    </div>
+                    <div class="car-card-specs">
+                        <div class="car-spec">
+                            <i class="fas fa-cog"></i>
+                            <span>{{ $vehicle->transmission->name ?? 'Manual' }}</span>
                         </div>
-                        <p class="svc-card-desc">{{ Str::limit($vehicle->description ?? 'Reliable and comfortable vehicles for all your transportation needs. Well-maintained fleet with professional drivers available.', 150) }}</p>
-                        <div class="svc-card-actions">
-                            <button class="btn-edit-svc" data-type="car" data-id="{{ $vehicle->id }}">Edit</button>
-                            <button class="btn-del-svc"  data-type="car" data-id="{{ $vehicle->id }}">Delete</button>
+                        <div class="car-spec">
+                            <i class="fas fa-gas-pump"></i>
+                            <span>{{ $vehicle->fuelType->name ?? 'Diesel' }}</span>
+                        </div>
+                    </div>
+                    <div class="car-card-footer">
+                        <span class="car-card-price">${{ number_format($vehicle->price ?? 0) }}</span>
+                        <div class="car-card-actions">
+                            <button class="btn-car-edit btn-edit-svc" data-type="car" data-id="{{ $vehicle->id }}">Edit</button>
+                            <button class="btn-car-delete btn-del-svc" data-type="car" data-id="{{ $vehicle->id }}">Delete</button>
                         </div>
                     </div>
                 </div>

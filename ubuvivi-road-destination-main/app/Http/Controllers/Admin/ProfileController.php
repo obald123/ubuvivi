@@ -47,4 +47,42 @@ class ProfileController extends Controller
             ->with('success', 'Profile updated successfully!')
             ->with('active_tab', $activeTab);
     }
+
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'role'     => 'required|in:admin,staff,client',
+            'phone'    => 'nullable|string|max:20',
+        ]);
+
+        User::create([
+            'name'         => $request->name,
+            'email'        => $request->email,
+            'password'     => Hash::make($request->password),
+            'role'         => $request->role,
+            'phone_number' => $request->phone,
+        ]);
+
+        return redirect()->route('profile.index', ['tab' => 'users'])
+            ->with('success', 'User created successfully.')
+            ->with('active_tab', 'users');
+    }
+
+    public function destroyUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'You cannot delete your own account.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('profile.index', ['tab' => 'users'])
+            ->with('success', 'User deleted.')
+            ->with('active_tab', 'users');
+    }
 }

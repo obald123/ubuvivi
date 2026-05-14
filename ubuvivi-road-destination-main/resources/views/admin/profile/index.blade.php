@@ -446,9 +446,8 @@
 
             <button
                 type="button"
-                class="profile-add-user"
-                id="addUserButton"
-                style="{{ $activeTab === 'users' ? '' : 'display:none;' }}">
+                class="profile-add-user{{ $activeTab !== 'users' ? ' d-none' : '' }}"
+                id="addUserButton">
                 <i class="fas fa-plus"></i> User
             </button>
         </div>
@@ -577,37 +576,40 @@
                 <button type="button" class="user-modal-close" id="closeAddUserModal">&times;</button>
             </div>
 
-            <div class="user-modal-grid">
-                <div class="profile-field">
-                    <label for="new-user-name">Full Name</label>
-                    <input id="new-user-name" type="text" placeholder="Full name">
+            <form method="POST" action="{{ route('profile.users.store') }}">
+                @csrf
+                <div class="user-modal-grid">
+                    <div class="profile-field">
+                        <label for="new-user-name">Full Name</label>
+                        <input id="new-user-name" name="name" type="text" placeholder="Full name" required>
+                    </div>
+                    <div class="profile-field">
+                        <label for="new-user-email">Email Address</label>
+                        <input id="new-user-email" name="email" type="email" placeholder="Email address" required>
+                    </div>
+                    <div class="profile-field">
+                        <label for="new-user-phone">Phone Number</label>
+                        <input id="new-user-phone" name="phone" type="text" placeholder="Phone number">
+                    </div>
+                    <div class="profile-field">
+                        <label for="new-user-role">Role</label>
+                        <select id="new-user-role" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                            <option value="client">Client</option>
+                        </select>
+                    </div>
+                    <div class="profile-field">
+                        <label for="new-user-password">Password</label>
+                        <input id="new-user-password" name="password" type="password" placeholder="Password" required minlength="8">
+                    </div>
                 </div>
-                <div class="profile-field">
-                    <label for="new-user-email">Email Address</label>
-                    <input id="new-user-email" type="email" placeholder="Email address">
-                </div>
-                <div class="profile-field">
-                    <label for="new-user-phone">Phone Number</label>
-                    <input id="new-user-phone" type="text" placeholder="Phone number">
-                </div>
-                <div class="profile-field">
-                    <label for="new-user-role">Role</label>
-                    <select id="new-user-role">
-                        <option value="admin">Admin</option>
-                        <option value="staff">Staff</option>
-                        <option value="client">Client</option>
-                    </select>
-                </div>
-                <div class="profile-field">
-                    <label for="new-user-password">Password</label>
-                    <input id="new-user-password" type="password" placeholder="Password">
-                </div>
-            </div>
 
-            <div class="user-modal-foot">
-                <button type="button" class="user-modal-btn secondary" id="cancelAddUserModal">Cancel</button>
-                <button type="button" class="user-modal-btn primary">Create User</button>
-            </div>
+                <div class="user-modal-foot">
+                    <button type="button" class="user-modal-btn secondary" id="cancelAddUserModal">Cancel</button>
+                    <button type="submit" class="user-modal-btn primary">Create User</button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -634,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pane.classList.toggle('is-active', pane.id === 'pane-' + name);
         });
 
-        addUserButton.style.display = name === 'users' ? 'inline-flex' : 'none';
+        addUserButton.classList.toggle('d-none', name !== 'users');
         window.location.hash = name;
     }
 

@@ -122,6 +122,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/users', [App\Http\Controllers\Admin\ProfileController::class, 'storeUser'])->name('profile.users.store');
+    Route::delete('/profile/users/{id}', [App\Http\Controllers\Admin\ProfileController::class, 'destroyUser'])->name('profile.users.destroy');
 });
 
 // Client portal

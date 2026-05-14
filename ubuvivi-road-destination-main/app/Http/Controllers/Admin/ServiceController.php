@@ -14,7 +14,7 @@ class ServiceController extends Controller
     public function index()
     {
         $tours = Itinerary::all();
-        $vehicles = Vehicle::with(['brand', 'model'])->get();
+        $vehicles = Vehicle::with(['brand', 'model', 'transmission', 'fuelType'])->get();
         $transfers = Transfer::with(['vehicle', 'driver'])->get();
         $events = Event::all();
         
