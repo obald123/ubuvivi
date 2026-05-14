@@ -51,11 +51,14 @@ class BookingController extends Controller
         switch ($status) {
             case 'Completed':
             case 'Active':
+            case 'Upcoming':
                 $model->approved = true;
                 break;
             case 'Cancelled':
-            case 'Pending':
                 $model->approved = false;
+                break;
+            case 'Pending':
+                $model->approved = null;
                 break;
         }
 

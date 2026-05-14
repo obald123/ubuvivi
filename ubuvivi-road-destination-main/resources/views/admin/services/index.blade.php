@@ -604,24 +604,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.btn-del-svc').forEach(function(btn) {
         btn.addEventListener('click', function() {
             if (confirm('Delete this service?')) {
-                const id = this.dataset.id;
+                const id   = this.dataset.id;
+                const type = this.dataset.type;
+                const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = `/services/${id}`;
-                
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                const csrfInput = document.createElement('input');
-                csrfInput.type = 'hidden';
-                csrfInput.name = '_token';
-                csrfInput.value = csrfToken;
-                
-                const methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                methodInput.value = 'DELETE';
-                
-                form.appendChild(csrfInput);
-                form.appendChild(methodInput);
+                form.action = '/services/' + id;
+
+                function addHidden(name, value) {
+                    var input = document.createElement('input');
+                    input.type  = 'hidden';
+                    input.name  = name;
+                    input.value = value;
+                    form.appendChild(input);
+                }
+
+                addHidden('_token', csrf);
+                addHidden('_method', 'DELETE');
+                addHidden('service_type', type);
+
                 document.body.appendChild(form);
                 form.submit();
             }

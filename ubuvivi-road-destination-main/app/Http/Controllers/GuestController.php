@@ -743,7 +743,6 @@ class GuestController extends Controller
                 return view("car.pay", compact("message", "booking", "error"));
             }
         } catch (\Throwable $th) {
-            throw $th;
             $error = true;
             $message = "Vehicle Payment Failed, try again later";
             return view("car.pay", compact("message", "booking", "error"));

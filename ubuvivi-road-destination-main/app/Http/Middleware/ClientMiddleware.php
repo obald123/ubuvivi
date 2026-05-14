@@ -14,10 +14,14 @@ class ClientMiddleware
         }
 
         $user = Auth::user();
-        if (!isset($user->role) || $user->role !== 'admin') {
+        if (isset($user->role) && in_array($user->role, ['client', 'staff'])) {
             return $next($request);
         }
 
-        return redirect()->route('home');
+        if (isset($user->role) && $user->role === 'admin') {
+            return redirect()->route('home');
+        }
+
+        return redirect()->route('login');
     }
 }

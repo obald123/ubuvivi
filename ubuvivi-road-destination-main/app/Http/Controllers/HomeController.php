@@ -27,27 +27,67 @@ class HomeController extends Controller
 
         $totalClients = User::where('role', 'client')->count();
 
-        $pendingRequests = CarTransfer::where('approved', 0)->count()
-                         + CarBooking::where('approved', 0)->count()
-                         + TourBooking::where('approved', 0)->count();
+        $pendingRequests = CarTransfer::whereNull('approved')->count()
+                         + CarBooking::whereNull('approved')->count()
+                         + TourBooking::whereNull('approved')->count();
 
-        $recentRequests = CarTransfer::latest()->take(3)->get()->map(function ($t) {
-            return [
-                'name'    => $t->names,
-                'service' => 'Hotel Transfer',
-                'date'    => $t->pickup_date,
-                'sub'     => $t->pickup_location . ' to ' . $t->destination,
-            ];
-        });
+        $recentRequests = collect()
+            ->merge(
+                TourBooking::with('tour')->latest()->take(5)->get()->map(fn ($b) => [
+                    'name'    => $b->names,
+                    'service' => 'Tour & Travel',
+                    'date'    => $b->date,
+                    'sub'     => optional($b->tour)->title ?? 'Tour Booking',
+                ])
+            )
+            ->merge(
+                CarBooking::latest()->take(5)->get()->map(fn ($b) => [
+                    'name'    => $b->names,
+                    'service' => 'Car Rental',
+                    'date'    => $b->delivery_date,
+                    'sub'     => $b->delivery_location ?? '',
+                ])
+            )
+            ->merge(
+                CarTransfer::latest()->take(5)->get()->map(fn ($b) => [
+                    'name'    => $b->names,
+                    'service' => 'Transfers',
+                    'date'    => $b->pickup_date,
+                    'sub'     => ($b->pickup_location ?? '') . ' to ' . ($b->destination ?? ''),
+                ])
+            )
+            ->sortByDesc('date')
+            ->take(3)
+            ->values();
 
-        $upcomingBookings = CarTransfer::where('approved', 1)->latest()->take(3)->get()->map(function ($t) {
-            return [
-                'name'    => $t->names,
-                'service' => 'Hotel Transfer',
-                'date'    => $t->pickup_date,
-                'sub'     => $t->pickup_location . ' to ' . $t->destination,
-            ];
-        });
+        $upcomingBookings = collect()
+            ->merge(
+                TourBooking::with('tour')->where('approved', true)->latest()->take(5)->get()->map(fn ($b) => [
+                    'name'    => $b->names,
+                    'service' => 'Tour & Travel',
+                    'date'    => $b->date,
+                    'sub'     => optional($b->tour)->title ?? 'Tour Booking',
+                ])
+            )
+            ->merge(
+                CarBooking::where('approved', true)->latest()->take(5)->get()->map(fn ($b) => [
+                    'name'    => $b->names,
+                    'service' => 'Car Rental',
+                    'date'    => $b->delivery_date,
+                    'sub'     => $b->delivery_location ?? '',
+                ])
+            )
+            ->merge(
+                CarTransfer::where('approved', true)->latest()->take(5)->get()->map(fn ($b) => [
+                    'name'    => $b->names,
+                    'service' => 'Transfers',
+                    'date'    => $b->pickup_date,
+                    'sub'     => ($b->pickup_location ?? '') . ' to ' . ($b->destination ?? ''),
+                ])
+            )
+            ->sortByDesc('date')
+            ->take(3)
+            ->values();
 
         // Monthly booking counts for the chart (last 7 months)
         $chartData = [];

@@ -37,35 +37,42 @@ class ClientDashboardController extends Controller
                 'type'     => 'tour',
             ]);
 
-        // Car rental bookings
-        $cars = DB::table('car_bookings')
+        // Car rental bookings — batch vehicle lookup to avoid N+1
+        $carBookingRows = DB::table('car_bookings')
             ->select('id', 'delivery_date as date', 'price', 'approved')
             ->where('email', $email)
+            ->get();
+
+        $carBookingIds = $carBookingRows->pluck('id')->toArray();
+
+        $vehiclesByBooking = DB::table('vehicle_bookings')
+            ->join('vehicles', 'vehicle_bookings.vehicle_id', '=', 'vehicles.id')
+            ->leftJoin('vehicle_brands', 'vehicles.brand_id', '=', 'vehicle_brands.id')
+            ->leftJoin('vehicle_models', 'vehicles.model_id', '=', 'vehicle_models.id')
+            ->whereIn('vehicle_bookings.car_booking_id', $carBookingIds)
+            ->select('vehicle_bookings.car_booking_id',
+                     'vehicle_brands.name as brand',
+                     'vehicle_models.name as model',
+                     'vehicles.production_year as year')
             ->get()
-            ->map(function ($b) {
-                $vehicle = DB::table('vehicle_bookings')
-                    ->join('vehicles', 'vehicle_bookings.vehicle_id', '=', 'vehicles.id')
-                    ->leftJoin('vehicle_brands', 'vehicles.brand_id', '=', 'vehicle_brands.id')
-                    ->leftJoin('vehicle_models', 'vehicles.model_id', '=', 'vehicle_models.id')
-                    ->where('vehicle_bookings.car_booking_id', $b->id)
-                    ->select('vehicle_brands.name as brand', 'vehicle_models.name as model',
-                             'vehicles.production_year as year')
-                    ->first();
+            ->keyBy('car_booking_id');
 
-                $name = $vehicle
-                    ? trim(($vehicle->brand ?? '') . ' ' . ($vehicle->model ?? '') . ' ' . ($vehicle->year ?? ''))
-                    : '';
+        $cars = $carBookingRows->map(function ($b) use ($vehiclesByBooking) {
+            $vehicle = $vehiclesByBooking->get($b->id);
+            $name = $vehicle
+                ? trim(($vehicle->brand ?? '') . ' ' . ($vehicle->model ?? '') . ' ' . ($vehicle->year ?? ''))
+                : '';
 
-                return (object)[
-                    'id'       => $b->id,
-                    'service'  => 'Car Rental',
-                    'name'     => $name ?: 'Car Rental',
-                    'date'     => $b->date,
-                    'price'    => $b->price,
-                    'approved' => $b->approved,
-                    'type'     => 'car_rental',
-                ];
-            });
+            return (object)[
+                'id'       => $b->id,
+                'service'  => 'Car Rental',
+                'name'     => $name ?: 'Car Rental',
+                'date'     => $b->date,
+                'price'    => $b->price,
+                'approved' => $b->approved,
+                'type'     => 'car_rental',
+            ];
+        });
 
         // Transfer bookings
         $transfers = DB::table('car_transfers')
@@ -113,22 +120,30 @@ class ClientDashboardController extends Controller
                 'name' => $b->name ?? 'Tour', 'date' => $b->date,
                 'price' => $b->price, 'approved' => $b->approved]);
 
-        $cars = DB::table('car_bookings')
+        $carRows = DB::table('car_bookings')
             ->select('id', 'delivery_date as date', 'price', 'approved')
-            ->where('email', $email)->get()
-            ->map(function ($b) {
-                $v = DB::table('vehicle_bookings')
-                    ->join('vehicles', 'vehicle_bookings.vehicle_id', '=', 'vehicles.id')
-                    ->leftJoin('vehicle_brands', 'vehicles.brand_id', '=', 'vehicle_brands.id')
-                    ->leftJoin('vehicle_models', 'vehicles.model_id', '=', 'vehicle_models.id')
-                    ->where('vehicle_bookings.car_booking_id', $b->id)
-                    ->select('vehicle_brands.name as brand', 'vehicle_models.name as model',
-                             'vehicles.production_year as year')->first();
-                $name = $v ? trim(($v->brand ?? '') . ' ' . ($v->model ?? '') . ' ' . ($v->year ?? '')) : '';
-                return (object)['id' => $b->id, 'service' => 'Car Rental',
-                    'name' => $name ?: 'Car Rental', 'date' => $b->date,
-                    'price' => $b->price, 'approved' => $b->approved];
-            });
+            ->where('email', $email)->get();
+
+        $carIds = $carRows->pluck('id')->toArray();
+
+        $vByBooking = DB::table('vehicle_bookings')
+            ->join('vehicles', 'vehicle_bookings.vehicle_id', '=', 'vehicles.id')
+            ->leftJoin('vehicle_brands', 'vehicles.brand_id', '=', 'vehicle_brands.id')
+            ->leftJoin('vehicle_models', 'vehicles.model_id', '=', 'vehicle_models.id')
+            ->whereIn('vehicle_bookings.car_booking_id', $carIds)
+            ->select('vehicle_bookings.car_booking_id',
+                     'vehicle_brands.name as brand',
+                     'vehicle_models.name as model',
+                     'vehicles.production_year as year')
+            ->get()->keyBy('car_booking_id');
+
+        $cars = $carRows->map(function ($b) use ($vByBooking) {
+            $v    = $vByBooking->get($b->id);
+            $name = $v ? trim(($v->brand ?? '') . ' ' . ($v->model ?? '') . ' ' . ($v->year ?? '')) : '';
+            return (object)['id' => $b->id, 'service' => 'Car Rental',
+                'name' => $name ?: 'Car Rental', 'date' => $b->date,
+                'price' => $b->price, 'approved' => $b->approved];
+        });
 
         $transfers = DB::table('car_transfers')
             ->select('id', 'pickup_date as date', 'price', 'approved', 'destination')

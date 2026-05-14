@@ -45,10 +45,10 @@ class Payment extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'tour_booking_id' => 'string',
-        'car_booking_id' => 'string',
-        'car_transfer_id' => 'string',
+        'id'              => 'integer',
+        'tour_booking_id' => 'integer',
+        'car_booking_id'  => 'integer',
+        'car_transfer_id' => 'integer',
         'transaction_ref' => 'string',
     ];
 
@@ -58,7 +58,7 @@ class Payment extends Model
      * @var array
      */
     public static $rules = [
-        'transaction_ref' => 'required|integer',
+        'transaction_ref' => 'required|string',
         'status' => 'required|string',
         'tour_booking_id' => 'nullable',
         'car_booking_id' => 'nullable',

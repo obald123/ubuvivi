@@ -179,42 +179,25 @@ class ServiceController extends Controller
         }
     }
     
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $type = $request->input('service_type');
+
+        $modelMap = [
+            'tour'     => Itinerary::class,
+            'car'      => Vehicle::class,
+            'transfer' => Transfer::class,
+            'event'    => Event::class,
+        ];
+
+        if (!$type || !isset($modelMap[$type])) {
+            return redirect()->route('services.index')->with('error', 'Unknown service type.');
+        }
+
         try {
-            // Find the service type and ID from the request
-            // For now, we'll handle deletion based on existing data structure
-            
-            // Try to find as tour/itinerary first
-            $service = Itinerary::find($id);
-            if ($service) {
-                $service->delete();
-                return redirect()->route('services.index')->with('success', 'Tour service deleted successfully');
-            }
-            
-            // Try to find as vehicle
-            $service = Vehicle::find($id);
-            if ($service) {
-                $service->delete();
-                return redirect()->route('services.index')->with('success', 'Car service deleted successfully');
-            }
-            
-            // Try to find as transfer
-            $service = Transfer::find($id);
-            if ($service) {
-                $service->delete();
-                return redirect()->route('services.index')->with('success', 'Transfer service deleted successfully');
-            }
-            
-            // Try to find as event
-            $service = Event::find($id);
-            if ($service) {
-                $service->delete();
-                return redirect()->route('services.index')->with('success', 'Event service deleted successfully');
-            }
-            
-            return redirect()->route('services.index')->with('error', 'Service not found');
-            
+            $service = $modelMap[$type]::findOrFail($id);
+            $service->delete();
+            return redirect()->route('services.index')->with('success', ucfirst($type) . ' service deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->route('services.index')->with('error', 'Failed to delete service: ' . $e->getMessage());
         }

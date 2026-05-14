@@ -46,7 +46,7 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/car/find", 'car_find')->name("car.find");
 
-    Route::get("/tours", 'tours_list');
+    Route::get("/tours", 'tours_list')->name('tour.list');
 
     Route::get("/car/{id}", 'car_view')->name("car.view");
 
@@ -150,90 +150,17 @@ Route::middleware("auth")->group(function () {
 
     Route::resource('payments', \App\Http\Controllers\PaymentController::class);
 
-    
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('bookingTypes', \App\Http\Controllers\Types\BookingTypeController::class, ["as" => 'types']);
-    });
 
     Route::group(['prefix' => 'types'], function () {
-        Route::resource('fuelTypes', \App\Http\Controllers\Types\FuelTypeController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
+        Route::resource('bookingTypes',  \App\Http\Controllers\Types\BookingTypeController::class,  ["as" => 'types']);
+        Route::resource('fuelTypes',     \App\Http\Controllers\Types\FuelTypeController::class,     ["as" => 'types']);
         Route::resource('transmissions', \App\Http\Controllers\Types\TransmissionController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
         Route::resource('vehicleBrands', \App\Http\Controllers\Types\VehicleBrandController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
         Route::resource('vehicleModels', \App\Http\Controllers\Types\VehicleModelController::class, ["as" => 'types']);
     });
 
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('fuelTypes', \App\Http\Controllers\Types\FuelTypeController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('bookingTypes', \App\Http\Controllers\Types\BookingTypeController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('fuelTypes', \App\Http\Controllers\Types\FuelTypeController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('bookingTypes', \App\Http\Controllers\Types\BookingTypeController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('vehicleBrands', \App\Http\Controllers\Types\VehicleBrandController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('vehicleModels', \App\Http\Controllers\Types\VehicleModelController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('bookingTypes', \App\Http\Controllers\Types\BookingTypeController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('vehicleModels', \App\Http\Controllers\Types\VehicleModelController::class, ["as" => 'types']);
-    });
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('bookingTypes', \App\Http\Controllers\Types\BookingTypeController::class, ["as" => 'types']);
-    });
-
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('fuelTypes', \App\Http\Controllers\Types\FuelTypeController::class, ["as" => 'types']);
-    });
-
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('vehicleBrands', \App\Http\Controllers\Types\VehicleBrandController::class, ["as" => 'types']);
-    });
-
-
-    Route::group(['prefix' => 'types'], function () {
-        Route::resource('vehicleModels', \App\Http\Controllers\Types\VehicleModelController::class, ["as" => 'types']);
-    });
-
-    Route::resource('carBookings', \App\Http\Controllers\CarBookingController::class);
-
+    Route::resource('carBookings',  \App\Http\Controllers\CarBookingController::class);
     Route::resource('carTransfers', \App\Http\Controllers\CarTransferController::class);
-
-
-    Route::resource('itineraries', \App\Http\Controllers\ItineraryController::class);
-
-
-    Route::resource('tourBookings', \App\Http\Controllers\TourBookingController::class);
-
-
-    Route::resource('tourBookings', \App\Http\Controllers\TourBookingController::class);
-
+    Route::resource('itineraries',  \App\Http\Controllers\ItineraryController::class);
     Route::resource('tourBookings', \App\Http\Controllers\TourBookingController::class);
 });
