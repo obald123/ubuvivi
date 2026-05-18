@@ -151,25 +151,31 @@
 </div>
 @endsection
 
+@php
+$bookingsJson = $bookings->map(function($b) {
+    return [
+        'id'                   => $b->id,
+        'names'                => $b->names,
+        'email'                => $b->email,
+        'phone_number'         => $b->phone_number,
+        'airline'              => $b->airline,
+        'departure_airport'    => $b->departure_airport,
+        'arrival_airport'      => $b->arrival_airport,
+        'trip_type'            => $b->trip_type,
+        'flight_class_label'   => $b->flight_class_label,
+        'number_of_passengers' => $b->number_of_passengers,
+        'departure_date'       => $b->departure_date ? $b->departure_date->format('d M Y') : null,
+        'return_date'          => $b->return_date    ? $b->return_date->format('d M Y')    : null,
+        'additional_info'      => $b->additional_info,
+        'passport_photos'      => $b->passport_photos ?? [],
+        'status_label'         => $b->status_label,
+    ];
+});
+@endphp
+
 @section('scripts')
 <script>
-var allBookings = @json($bookings->map(fn($b) => [
-    'id' => $b->id,
-    'names' => $b->names,
-    'email' => $b->email,
-    'phone_number' => $b->phone_number,
-    'airline' => $b->airline,
-    'departure_airport' => $b->departure_airport,
-    'arrival_airport' => $b->arrival_airport,
-    'trip_type' => $b->trip_type,
-    'flight_class_label' => $b->flight_class_label,
-    'number_of_passengers' => $b->number_of_passengers,
-    'departure_date' => $b->departure_date?->format('d M Y'),
-    'return_date' => $b->return_date?->format('d M Y'),
-    'additional_info' => $b->additional_info,
-    'passport_photos' => $b->passport_photos ?? [],
-    'status_label' => $b->status_label,
-]));
+var allBookings = @json($bookingsJson);
 
 var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
