@@ -79,7 +79,7 @@
         position: relative;
         border-radius: 16px;
         overflow: hidden;
-        height: 340px;
+        height: 420px;
         display: block;
         text-decoration: none;
     }
@@ -97,7 +97,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(to bottom, rgba(0,0,0,.08) 40%, rgba(0,0,0,.72) 100%);
+        background: linear-gradient(to bottom, rgba(0,0,0,.04) 20%, rgba(0,0,0,.82) 100%);
     }
     .event-card-bottom {
         position: absolute;
@@ -105,10 +105,10 @@
         left: 0;
         right: 0;
         z-index: 2;
-        padding: 22px 24px 26px;
+        padding: 22px 24px 28px;
     }
     .event-card-title {
-        font-size: 22px;
+        font-size: 21px;
         font-weight: 700;
         color: #fff;
         margin-bottom: 4px;
@@ -116,8 +116,30 @@
     }
     .event-card-subtitle {
         font-size: 13px;
-        color: rgba(255,255,255,.78);
-        margin-bottom: 14px;
+        color: rgba(255,255,255,.70);
+        margin-bottom: 12px;
+        font-style: italic;
+    }
+    .event-card-includes {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 16px;
+    }
+    .event-card-includes li {
+        font-size: 13px;
+        color: rgba(255,255,255,.88);
+        padding: 3px 0;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+    .event-card-includes li::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #C85A2A;
+        flex-shrink: 0;
     }
     .event-card-link {
         color: #C85A2A;
@@ -176,43 +198,68 @@
         </div>
     </section>
 
-    {{-- Services --}}
+    {{-- Conference Packages --}}
     <section class="events-services">
         <div class="container">
-            <h2 class="section-title">Our Services</h2>
+            <h2 class="section-title">Conference Packages</h2>
             <div class="title-underline"></div>
 
             <div class="row">
+
+                {{-- Basic --}}
                 <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
                     <a href="{{ route('guest.contact') }}" class="event-overlay-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_13.jpg') }}" alt="Basic Planning">
+                        <img src="{{ asset('assets/images/backgrounds/bg_13.jpg') }}" alt="Basic Package">
                         <div class="event-card-bottom">
-                            <div class="event-card-title">Basic Planning</div>
-                            <div class="event-card-subtitle">Consultation only</div>
+                            <div class="event-card-title">Basic Package</div>
+                            <div class="event-card-subtitle">Venue only — ideal for self-organised events</div>
+                            <ul class="event-card-includes">
+                                <li>Conference hall / venue</li>
+                                <li>Tables &amp; seating setup</li>
+                                <li>Projector &amp; screen</li>
+                            </ul>
                             <span class="event-card-link">Plan Your Event &raquo;</span>
                         </div>
                     </a>
                 </div>
+
+                {{-- Partial --}}
                 <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                     <a href="{{ route('guest.contact') }}" class="event-overlay-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Partial Planning">
+                        <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Partial Package">
                         <div class="event-card-bottom">
-                            <div class="event-card-title">Partial Planning</div>
-                            <div class="event-card-subtitle">We assist setup + vendors</div>
+                            <div class="event-card-title">Partial Package</div>
+                            <div class="event-card-subtitle">Venue + catering for a complete experience</div>
+                            <ul class="event-card-includes">
+                                <li>Conference hall / venue</li>
+                                <li>Catering &amp; refreshments</li>
+                                <li>Audio-visual equipment</li>
+                                <li>On-site event coordinator</li>
+                            </ul>
                             <span class="event-card-link">Plan Your Event &raquo;</span>
                         </div>
                     </a>
                 </div>
+
+                {{-- Full --}}
                 <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
                     <a href="{{ route('guest.contact') }}" class="event-overlay-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Full Planning">
+                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Full Package">
                         <div class="event-card-bottom">
-                            <div class="event-card-title">Full Planning</div>
-                            <div class="event-card-subtitle">We handle everything</div>
+                            <div class="event-card-title">Full Package</div>
+                            <div class="event-card-subtitle">All-inclusive — we handle everything</div>
+                            <ul class="event-card-includes">
+                                <li>Conference hall / venue</li>
+                                <li>Catering &amp; refreshments</li>
+                                <li>Guest transport &amp; transfers</li>
+                                <li>Décor &amp; branding setup</li>
+                                <li>Full on-site support</li>
+                            </ul>
                             <span class="event-card-link">Plan Your Event &raquo;</span>
                         </div>
                     </a>
                 </div>
+
             </div>
         </div>
     </section>
