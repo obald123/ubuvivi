@@ -9,12 +9,14 @@
     <meta name="keywords" content="ubuvivi contact, Ubuvivi Tours contact, Rwanda travel agency contact, Kigali tours contact">
 @endsection
 
+@section('body-class', 'hero-page')
+
 @section('css')
 <style>
     /* ── Hero ── */
     .contact-hero {
         position: relative;
-        height: 420px;
+        height: 480px;
         background: url('{{ asset("assets/images/backgrounds/bg_03.jpg") }}') center center / cover no-repeat;
         display: flex;
         align-items: center;

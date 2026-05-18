@@ -9,13 +9,15 @@
     <meta name="keywords" content="hotel booking Rwanda, hotels Kigali, accommodation Rwanda, Ubuvivi hotels">
 @endsection
 
+@section('body-class', 'hero-page')
+
 @section('css')
 <style>
     :root { --orange: #C85A2A; --navy: #0D1F35; }
 
     /* ── Hero ── */
     .hb-hero {
-        position: relative; height: 460px;
+        position: relative; height: 480px;
         background: url('{{ asset("assets/images/backgrounds/bg_11.jpg") }}') center/cover no-repeat;
         display: flex; align-items: center; justify-content: center; text-align: center;
     }

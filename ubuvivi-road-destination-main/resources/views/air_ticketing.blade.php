@@ -9,6 +9,8 @@
     <meta name="keywords" content="air ticketing Rwanda, flights from Kigali, book flights Rwanda, RwandaAir, Ubuvivi flights">
 @endsection
 
+@section('body-class', 'hero-page')
+
 @section('css')
 <style>
     :root { --orange: #C85A2A; --navy: #0D1F35; }
@@ -16,7 +18,7 @@
     /* ── Hero ── */
     .at-hero {
         position: relative;
-        height: 460px;
+        height: 480px;
         background: url('{{ asset("assets/images/backgrounds/bg_04.jpg") }}') center/cover no-repeat;
         display: flex; align-items: center; justify-content: center; text-align: center;
     }

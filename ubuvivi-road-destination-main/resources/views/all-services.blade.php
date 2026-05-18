@@ -9,12 +9,14 @@
     <meta name="keywords" content="ubuvivi services, Rwanda tours, car rental Rwanda, airport transport, conference planning Kigali">
 @endsection
 
+@section('body-class', 'hero-page')
+
 @section('css')
 <style>
     /* ── Hero ── */
     .services-hero {
         position: relative;
-        height: 420px;
+        height: 480px;
         background: url('{{ asset("assets/images/backgrounds/bg_01.jpg") }}') center center / cover no-repeat;
         display: flex;
         align-items: center;
