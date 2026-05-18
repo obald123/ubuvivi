@@ -62,6 +62,7 @@
         font-weight: 800;
         line-height: 1.15;
         margin-bottom: 16px;
+        color: #fff !important;
         text-shadow: 0 2px 20px rgba(0,0,0,.4);
     }
     .hero-slide-content p {

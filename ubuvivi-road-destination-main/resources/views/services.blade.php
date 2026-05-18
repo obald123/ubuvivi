@@ -55,6 +55,7 @@
     .transfers-hero-content h1 {
         font-size: clamp(32px, 5.5vw, 62px);
         font-weight: 800;
+        color: #fff !important;
         text-shadow: 0 2px 16px rgba(0,0,0,.4);
         max-width: 760px;
         margin: 0 auto;

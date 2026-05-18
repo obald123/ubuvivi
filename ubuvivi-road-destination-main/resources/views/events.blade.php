@@ -38,6 +38,7 @@
     .events-hero-content h1 {
         font-size: clamp(34px, 6vw, 64px);
         font-weight: 800;
+        color: #fff !important;
         text-shadow: 0 2px 16px rgba(0,0,0,.4);
         max-width: 760px;
         margin: 0 auto 16px;

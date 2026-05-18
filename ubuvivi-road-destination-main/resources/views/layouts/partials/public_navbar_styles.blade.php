@@ -21,6 +21,14 @@
     transition: background .25s ease, padding .25s ease, box-shadow .25s ease;
 }
 
+body:not(.hero-page) .ubu-navbar {
+    background: rgba(13, 31, 53, 0.97);
+}
+
+body:not(.hero-page) .ubu-navbar.scrolled {
+    background: #0D1F35;
+}
+
 .ubu-navbar .navbar-brand img {
     height: 60px;
 }

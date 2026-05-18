@@ -39,6 +39,7 @@
     .tours-hero-content h1 {
         font-size: clamp(42px, 7vw, 72px);
         font-weight: 800;
+        color: #fff !important;
         margin-bottom: 16px;
         text-shadow: 0 2px 12px rgba(0,0,0,.3);
     }

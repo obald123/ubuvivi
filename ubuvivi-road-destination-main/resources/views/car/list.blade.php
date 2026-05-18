@@ -41,6 +41,7 @@
     .cars-hero-content h1 {
         font-size: clamp(36px, 6vw, 64px);
         font-weight: 800;
+        color: #fff !important;
         margin-bottom: 0;
         text-shadow: 0 2px 16px rgba(0,0,0,.4);
     }

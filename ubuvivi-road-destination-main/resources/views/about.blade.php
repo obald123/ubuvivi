@@ -50,6 +50,7 @@
         .about-hero-content h1 {
             font-size: clamp(36px, 6vw, 68px);
             font-weight: 800;
+            color: #fff !important;
             line-height: 1.15;
             margin-bottom: 16px;
             text-shadow: 0 2px 20px rgba(0,0,0,.4);

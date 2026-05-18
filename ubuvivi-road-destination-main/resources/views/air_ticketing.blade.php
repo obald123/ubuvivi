@@ -27,7 +27,9 @@
     .at-hero-content { position: relative; z-index: 2; color: #fff; }
     .at-hero-content h1 {
         font-size: clamp(32px, 5vw, 58px);
-        font-weight: 800; margin-bottom: 14px;
+        font-weight: 800;
+        color: #fff !important;
+        margin-bottom: 14px;
     }
     .at-hero-content p {
         font-size: 16px; color: rgba(255,255,255,.85);

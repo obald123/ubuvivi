@@ -35,6 +35,7 @@
     .services-hero-content h1 {
         font-size: clamp(28px, 5vw, 54px);
         font-weight: 800;
+        color: #fff !important;
         text-shadow: 0 2px 16px rgba(0,0,0,.4);
         margin-bottom: 14px;
     }
