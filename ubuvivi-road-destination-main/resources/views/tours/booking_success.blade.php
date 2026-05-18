@@ -96,7 +96,7 @@
             </div>
             <h2>Something Went Wrong</h2>
             <p class="sub">{{ $message ?? 'We could not find your booking. Please try again or contact us.' }}</p>
-            <a href="{{ route('tours_list') ?? route('guest.home') }}" class="success-btn">Browse Tours</a>
+            <a href="{{ route('tour.list') }}" class="success-btn">Browse Tours</a>
         @else
             <div class="success-icon">
                 <i class="fas fa-check"></i>
