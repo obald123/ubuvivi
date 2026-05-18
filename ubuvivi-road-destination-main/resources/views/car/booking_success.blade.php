@@ -1,37 +1,95 @@
 @extends("layouts.guest")
+
 @section('title')
-    Booking Successful - Ubuvivi Car Rental
+    Booking Confirmed - Ubuvivi Car Rental
 @endsection
 
 @section('css')
-    <style>
-        .input_title {
-            font-size: 16px;
-        }
-
-    </style>
+<style>
+    .success-section {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px;
+        background: #f7f8fb;
+    }
+    .success-card {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 8px 40px rgba(13,31,53,.10);
+        padding: 56px 48px;
+        max-width: 560px;
+        width: 100%;
+        text-align: center;
+    }
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(34,197,94,.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+    }
+    .success-icon i { font-size: 38px; color: #22c55e; }
+    .success-card h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: #0D1F35;
+        margin-bottom: 10px;
+    }
+    .success-card .sub {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 32px;
+    }
+    .success-card .sub a {
+        color: #C85A2A;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .success-card .sub a:hover { text-decoration: underline; }
+    .success-btn {
+        display: inline-block;
+        background: #C85A2A;
+        color: #fff;
+        font-weight: 600;
+        font-size: 15px;
+        padding: 13px 34px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: background .2s;
+    }
+    .success-btn:hover { background: #a84520; color: #fff; text-decoration: none; }
+    .back-home {
+        display: block;
+        margin-top: 16px;
+        font-size: 14px;
+        color: #888;
+        text-decoration: none;
+    }
+    .back-home:hover { color: #0D1F35; }
+</style>
 @endsection
 
 @section('content')
-    <section class="search_section sec_ptb_100 clearfix" data-bg-color="#161829"
-        style="background-color: rgb(22, 24, 41);padding-top: 40px">
-    </section>
-    <section class="px-4 py-5 clearfix" style="background-color: rgb(255, 245, 175)">
-        <div class="container mb-4">
-            <div class="row justify-content-center flex-column align-items-center ">
-                <i class="fa fa-check-circle text-success fa-5x mb-4"></i>
-                <h3 class="text-center text-success mb-3">Success</h3>
-                <h5 class="text-center mb-3 font-primary font-weight-bold">Booking Information Received</h5>
-                <div class="col-12 col-md-8 col-lg-6">
-                    <h5 class="text-center mb-3 font-primary">
-                        Thank you for contacting us, one of our staff will get back to you as soon as possible to
-                        your email: <a style="text-decoration: underline;"
-                            href="mailto:{{ $booking->email }}">{{ $booking->email }}</a> . Regards
-                    </h5>
-                </div>
-                <a class="btn btn-primary" href="{{ $booking_route }}">Check approval status</a>
-
-            </div>
+<section class="success-section">
+    <div class="success-card">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
         </div>
-    </section>
+        <h2>Booking Confirmed!</h2>
+        <p class="sub">
+            Thank you for your booking. Our team will get back to you as soon as possible at
+            <a href="mailto:{{ $booking->email ?? '' }}">{{ $booking->email ?? '' }}</a>.
+        </p>
+        @if(!empty($booking_route))
+            <a href="{{ $booking_route }}" class="success-btn">Check Booking Status</a>
+        @endif
+        <a href="{{ route('guest.home') }}" class="back-home">← Back to Home</a>
+    </div>
+</section>
 @endsection

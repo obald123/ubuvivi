@@ -9,6 +9,9 @@
     <title>@yield('title', 'Ubuvivi Tours & Safaris')</title>
     @yield('meta')
     <link rel="canonical" href="{{ url()->current() }}">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="google-site-verification" content="3Jiqxe_pR4TUfsKpSTiWC5bMXT6ksTJLbK_LDqoCmFU">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/apple-touch-icon.png?v=1') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favsliicon-32x32.png?v=1') }}">
