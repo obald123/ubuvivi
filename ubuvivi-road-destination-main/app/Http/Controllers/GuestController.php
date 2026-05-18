@@ -785,6 +785,147 @@ class GuestController extends Controller
         }
     }
 
+    public function event_book_form(Request $request)
+    {
+        $packageKey = $request->query('package', 'basic');
+
+        $packages = [
+            'basic' => [
+                'label'       => 'Basic Package',
+                'tagline'     => 'Venue only — ideal for self-organised events',
+                'includes'    => ['Conference hall / venue', 'Tables & seating setup', 'Projector & screen'],
+            ],
+            'partial' => [
+                'label'       => 'Partial Package',
+                'tagline'     => 'Venue + catering for a complete experience',
+                'includes'    => ['Conference hall / venue', 'Catering & refreshments', 'Audio-visual equipment', 'On-site event coordinator'],
+            ],
+            'full' => [
+                'label'       => 'Full Package',
+                'tagline'     => 'All-inclusive — we handle everything',
+                'includes'    => ['Conference hall / venue', 'Catering & refreshments', 'Guest transport & transfers', 'Décor & branding setup', 'Full on-site support'],
+            ],
+        ];
+
+        $package = $packages[$packageKey] ?? $packages['basic'];
+
+        return view('events.book', compact('package', 'packageKey'));
+    }
+
+    public function event_book_store(Request $request)
+    {
+        $request->validate([
+            'names'           => 'required|string|max:255',
+            'email'           => 'required|email|max:255',
+            'phone_number'    => 'required|string|max:20',
+            'number_of_people'=> 'nullable|integer|min:1',
+            'date'            => 'required|date',
+            'event_time'      => 'nullable|string|max:10',
+            'event_details'   => 'nullable|string',
+            'message'         => 'nullable|string',
+        ]);
+
+        $packageLabel = $request->package_label ?? 'Event Planning';
+        $timePart     = trim(($request->event_time ?? '') . ' ' . ($request->event_meridiem ?? ''));
+        $dateTime     = trim($request->date . ($timePart ? ' ' . $timePart : ''));
+
+        $fullMessage  = "Package: {$packageLabel}\nDate & Time: {$dateTime}";
+        if ($request->filled('event_details'))  $fullMessage .= "\n\nEvent Details:\n" . $request->event_details;
+        if ($request->filled('message'))        $fullMessage .= "\n\nSpecial Requests:\n" . $request->message;
+
+        $booking = $this->tourBookingRepository->create([
+            'itinerary_id'    => null,
+            'names'           => $request->names,
+            'email'           => $request->email,
+            'phone_number'    => $request->phone_number,
+            'number_of_people'=> $request->number_of_people ?? 1,
+            'date'            => $dateTime,
+            'message'         => $fullMessage,
+            'price'           => '0',
+            'approved'        => false,
+        ]);
+
+        if ($booking) {
+            try {
+                $this->notify_admin($booking, route('tourBookings.show', $booking->id));
+                $this->sendMail($request->email, route('tour.booking.view', $booking->id));
+            } catch (\Throwable $th) {}
+        }
+
+        return redirect()->route('tour.book.success', $booking->id);
+    }
+
+    public function transfer_book_form(Request $request)
+    {
+        $typeKey = $request->query('type', 'airport');
+
+        $types = [
+            'airport' => [
+                'label'       => 'Airport Transfer',
+                'description' => 'Pickup and drop-off to/from the airport with comfort and reliability.',
+                'includes'    => ['Meet & greet', 'Luggage assistance', 'On-time pickup'],
+                'pickup_hint' => 'e.g. Kigali International Airport',
+                'dest_hint'   => 'e.g. Hotel / Home address',
+            ],
+            'hotel' => [
+                'label'       => 'Hotel Transfer',
+                'description' => 'Easy transportation between hotels, city locations, and nearby destinations.',
+                'includes'    => ['Door-to-door service', 'Comfortable vehicles', 'Flexible timing'],
+                'pickup_hint' => 'e.g. Marriott Hotel, Kigali',
+                'dest_hint'   => 'e.g. Serena Hotel / City Center',
+            ],
+            'city' => [
+                'label'       => 'City & Long-Distance Transfer',
+                'description' => 'Travel between cities or tourist destinations with safe and convenient transport.',
+                'includes'    => ['Private vehicle', 'Professional driver', 'Scenic routes across Rwanda'],
+                'pickup_hint' => 'e.g. Kigali City Center',
+                'dest_hint'   => 'e.g. Musanze / Akagera',
+            ],
+        ];
+
+        $service = $types[$typeKey] ?? $types['airport'];
+
+        return view('transfers.book', compact('service', 'typeKey'));
+    }
+
+    public function transfer_book_store(Request $request)
+    {
+        $request->validate([
+            'names'          => 'required|string|max:255',
+            'email'          => 'required|email|max:255',
+            'phone_number'   => 'required|string|max:20',
+            'pickup_location'=> 'required|string|max:255',
+            'destination'    => 'required|string|max:255',
+            'pickup_date'    => 'required|date',
+            'pickup_time'    => 'required|string|max:10',
+            'number_of_days' => 'nullable|integer|min:1',
+            'message'        => 'nullable|string',
+        ]);
+
+        $booking = $this->carTransferRepository->create([
+            'names'           => $request->names,
+            'email'           => $request->email,
+            'phone_number'    => $request->phone_number,
+            'pickup_location' => $request->pickup_location,
+            'destination'     => $request->destination,
+            'pickup_date'     => $request->pickup_date,
+            'pickup_time'     => trim($request->pickup_time . ' ' . ($request->pickup_meridiem ?? '')),
+            'number_of_days'  => $request->number_of_days ?? 1,
+            'message'         => trim(($request->service_label ?? '') . ($request->message ? "\n" . $request->message : '')),
+            'price'           => '0',
+            'approved'        => false,
+        ]);
+
+        if ($booking) {
+            try {
+                $this->notify_admin($booking, route('carTransfers.show', $booking->id));
+                $this->sendMail($request->email, route('car.transfer.view', $booking->id));
+            } catch (\Throwable $th) {}
+        }
+
+        return redirect()->route('car.transfer.view', $booking->id);
+    }
+
     public function sendMessage(Request $request)
     {
         $this->validate($request, [

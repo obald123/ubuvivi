@@ -60,6 +60,12 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::post("/car/transfer/pay/{id}", 'car_transfer_payment')->name("car.transfer.pay");
 
+    Route::get("/transfer/book", 'transfer_book_form')->name("transfer.book.form");
+    Route::post("/transfer/book", 'transfer_book_store')->name("transfer.book.store");
+
+    Route::get("/event/book", 'event_book_form')->name("event.book.form");
+    Route::post("/event/book", 'event_book_store')->name("event.book.store");
+
     Route::get("/tour/pay/{id}", 'tour_payment_form')->name("tour.payment.form");
 
     Route::get("/car/booking/pay/{id}", 'car_booking_payment_form')->name("car.booking.payment.form");

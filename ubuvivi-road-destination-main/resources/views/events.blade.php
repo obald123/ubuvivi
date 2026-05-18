@@ -208,7 +208,7 @@
 
                 {{-- Basic --}}
                 <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
-                    <a href="{{ route('guest.contact') }}" class="event-overlay-card">
+                    <a href="{{ route('event.book.form', ['package' => 'basic']) }}" class="event-overlay-card">
                         <img src="{{ asset('assets/images/backgrounds/bg_13.jpg') }}" alt="Basic Package">
                         <div class="event-card-bottom">
                             <div class="event-card-title">Basic Package</div>
@@ -225,7 +225,7 @@
 
                 {{-- Partial --}}
                 <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <a href="{{ route('guest.contact') }}" class="event-overlay-card">
+                    <a href="{{ route('event.book.form', ['package' => 'partial']) }}" class="event-overlay-card">
                         <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Partial Package">
                         <div class="event-card-bottom">
                             <div class="event-card-title">Partial Package</div>
@@ -243,7 +243,7 @@
 
                 {{-- Full --}}
                 <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <a href="{{ route('guest.contact') }}" class="event-overlay-card">
+                    <a href="{{ route('event.book.form', ['package' => 'full']) }}" class="event-overlay-card">
                         <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Full Package">
                         <div class="event-card-bottom">
                             <div class="event-card-title">Full Package</div>

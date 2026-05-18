@@ -158,7 +158,7 @@
                         <li>Luggage assistance</li>
                         <li>On-time pickup</li>
                     </ul>
-                    <a href="{{ route('guest.contact') }}" class="transfer-link">Book Your Transfer &raquo;</a>
+                    <a href="{{ route('transfer.book.form', ['type' => 'airport']) }}" class="transfer-link">Book Your Transfer &raquo;</a>
                 </div>
                 <div class="col-12 col-md-6 order-md-2">
                     <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="Airport Transfers" class="transfer-img">
@@ -176,7 +176,7 @@
                         <li>Comfortable vehicles</li>
                         <li>Flexible timing</li>
                     </ul>
-                    <a href="{{ route('guest.contact') }}" class="transfer-link">Book Your Transfer &raquo;</a>
+                    <a href="{{ route('transfer.book.form', ['type' => 'hotel']) }}" class="transfer-link">Book Your Transfer &raquo;</a>
                 </div>
                 <div class="col-12 col-md-6 order-md-1">
                     <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Hotel Transfers" class="transfer-img flip">
@@ -194,7 +194,7 @@
                         <li>Professional driver</li>
                         <li>Scenic routes across Rwanda</li>
                     </ul>
-                    <a href="{{ route('guest.contact') }}" class="transfer-link">Book Your Transfer &raquo;</a>
+                    <a href="{{ route('transfer.book.form', ['type' => 'city']) }}" class="transfer-link">Book Your Transfer &raquo;</a>
                 </div>
                 <div class="col-12 col-md-6 order-md-2">
                     <img src="{{ asset('assets/images/backgrounds/bg_5.jpg') }}" alt="Long Distance Transfer" class="transfer-img">
