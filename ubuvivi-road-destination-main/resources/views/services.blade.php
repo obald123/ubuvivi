@@ -29,7 +29,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,.52);
+        background: rgba(13, 31, 53, 0.65);
     }
     .transfers-hero-content {
         position: relative;

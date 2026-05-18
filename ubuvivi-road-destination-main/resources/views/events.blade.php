@@ -28,7 +28,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,.50);
+        background: rgba(13, 31, 53, 0.65);
     }
     .events-hero-content {
         position: relative;

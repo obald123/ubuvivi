@@ -9,8 +9,59 @@
         content="UBUVIVI leading in Tour operators company in Rwanda, book your dream vacation today for ubuvivi safaris, ubuvivi EAC Safari, ubuvivi Gorillas tracking & ubuvivi Hotel booking">
 @endsection
 
+@section('body-class', 'hero-page')
+
 @section('css')
     <style>
+        /* ── Hero ── */
+        .about-hero {
+            position: relative;
+            height: 100vh;
+            min-height: 520px;
+            background: url('{{ asset("assets/images/backgrounds/bg_02.jpg") }}') center center / cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .about-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(13, 31, 53, 0.65);
+        }
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+        }
+        .about-hero-tag {
+            display: inline-block;
+            background: #C85A2A;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 18px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+        }
+        .about-hero-content h1 {
+            font-size: clamp(36px, 6vw, 68px);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 20px rgba(0,0,0,.4);
+        }
+        .about-hero-content p {
+            font-size: clamp(15px, 2vw, 19px);
+            color: rgba(255,255,255,.88);
+            max-width: 580px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
         .about img {
             max-height: 350px;
             object-fit: cover;
@@ -20,11 +71,14 @@
 @endsection
 
 @section('content')
-    <section class="search_section clearfix pb-5" data-bg-color="#161829"
-        style="background-color: rgb(22, 24, 41);padding-top: 90px">
-
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <span class="about-hero-tag">Our Story</span>
+            <h1>Who We Are</h1>
+            <p>Rwanda's leading car rental &amp; tour company — connecting you to unforgettable destinations since day one.</p>
+        </div>
     </section>
-    <section style="background-color: rgb(255, 245, 175)" class="pt-md-5 about pt-0">
+    <section style="background-color: #fff;" class="about">
         <section>
             <div class="container mb-4">
                 <div class="clearfix py-5">
@@ -61,11 +115,11 @@
             </div>
         </section>
         <section class="search_section clearfix" data-aos="fade-up" data-aos-delay="400"
-            style="background-color: rgb(22, 24, 41);">
+            style="background-color: #0D1F35;">
             <div class="container py-5">
                 <div class="row justify-content-center text-light">
                     <div class="col-12 col-md-8 my-4">
-                        <h1 class="text-danger text-center">UBUVIVI Meaning</h1>
+                        <h1 style="color:#C85A2A" class="text-center">UBUVIVI Meaning</h1>
                         <p>
                             <span class="font-weight-bold">UBUVIVI</span> is a Rwandan word referring
                             to the fifth family generation, which
@@ -173,12 +227,12 @@
             </div>
 
         </section>
-        <section class="search_section clearfix" style="background-color: rgb(22, 24, 41);">
+        <section class="search_section clearfix" style="background-color: #0D1F35;">
             <div class="container py-5">
                 <div class="row justify-content-around text-light">
                     <div class="col-12 col-md-6 my-4">
                         <div class="">
-                            <h1 class="text-danger">Objective</h1>
+                            <h1 style="color:#C85A2A">Objective</h1>
                             <div>
                                 UBUVIVI Car Rental is created to solve
                                 problems that people have of missing
@@ -192,7 +246,7 @@
                     </div>
                     <div class="col-12 col-md-6 my-4">
                         <div class="">
-                            <h1 class="text-danger">Aim</h1>
+                            <h1 style="color:#C85A2A">Aim</h1>
                             <div>
                                 UBUVIVI car Rental and UBUVIVI tours
                                 and travels aim at making our clients

@@ -29,7 +29,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,.38);
+        background: rgba(13, 31, 53, 0.65);
     }
     .tours-hero-content {
         position: relative;

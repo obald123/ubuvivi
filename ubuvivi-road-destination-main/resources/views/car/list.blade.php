@@ -30,7 +30,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,.55);
+        background: rgba(13, 31, 53, 0.65);
     }
     .cars-hero-content {
         position: relative;
