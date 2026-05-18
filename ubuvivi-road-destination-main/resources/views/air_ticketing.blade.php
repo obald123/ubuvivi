@@ -199,6 +199,36 @@
     }
     .fl-book-btn:hover { background: var(--orange); }
 
+    /* ── Booking Form ── */
+    .at-form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-bottom: 18px;
+    }
+    .at-form-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 7px;
+    }
+    .at-form-input {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 9px;
+        font-size: 14px;
+        font-family: inherit;
+        color: #1a1a2e;
+        outline: none;
+        background: #fff;
+        transition: border-color .2s;
+        box-sizing: border-box;
+    }
+    .at-form-input:focus { border-color: #0D1F35; }
+    textarea.at-form-input { resize: vertical; min-height: 100px; }
+
     @media (max-width: 768px) {
         .at-inputs-row { flex-direction: column; gap: 0; }
         .at-input-group { border-right: none; border-bottom: 1px solid #ececec; }
@@ -210,6 +240,7 @@
         .fl-airline, .fl-price-col { flex: unset; }
         .fl-price-col { text-align: left; }
         .fl-times { width: 100%; }
+        .at-form-row { grid-template-columns: 1fr; }
     }
 </style>
 @endsection
@@ -312,6 +343,134 @@
                     @endforeach
                 </div>
                 <button class="slider-arrow-btn next-btn" onclick="slideDest(1)">&#8250;</button>
+            </div>
+        </div>
+    </section>
+
+    {{-- ── Book a Flight Form ── --}}
+    <section style="background:#f5f7fa; padding:80px 0 90px;" id="bookFlight">
+        <div class="container">
+            <div class="text-center" style="margin-bottom:40px;">
+                <span style="display:inline-flex;align-items:center;gap:10px;color:#C85A2A;font-weight:600;font-size:15px;margin-bottom:8px;">
+                    <span style="display:block;width:40px;height:2px;background:#C85A2A;"></span>Request a Flight
+                </span>
+                <h2 style="font-size:clamp(24px,3vw,34px);font-weight:800;color:#1a1a1a;margin-bottom:6px;">Book Your Flight with Us</h2>
+                <p style="font-size:15px;color:#666;max-width:520px;margin:0 auto;">Fill in your details below and our team will find the best available routes and prices for you.</p>
+            </div>
+
+            @if($errors->any())
+                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 18px;margin-bottom:22px;max-width:860px;margin-left:auto;margin-right:auto;font-size:14px;color:#dc2626;">
+                    @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
+                </div>
+            @endif
+
+            <div style="background:#fff;border-radius:20px;box-shadow:0 4px 32px rgba(13,31,53,.08);padding:40px 44px 48px;max-width:860px;margin:0 auto;">
+
+                <form action="{{ route('air.ticketing.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    {{-- Trip type --}}
+                    <div style="display:flex;gap:16px;margin-bottom:22px;flex-wrap:wrap;">
+                        <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;cursor:pointer;">
+                            <input type="radio" name="trip_type" value="round" id="tripRound" checked onchange="toggleReturn(this)"> Round Trip
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;cursor:pointer;">
+                            <input type="radio" name="trip_type" value="oneway" id="tripOneway" onchange="toggleReturn(this)"> One Way
+                        </label>
+                    </div>
+
+                    {{-- Row 1: Full Name --}}
+                    <div style="margin-bottom:18px;">
+                        <label class="at-form-label">Full Name <span style="color:#e74c3c">*</span></label>
+                        <input class="at-form-input" type="text" name="names" value="{{ old('names') }}" placeholder="Your full name" required>
+                    </div>
+
+                    {{-- Row 2: Email + Phone --}}
+                    <div class="at-form-row">
+                        <div>
+                            <label class="at-form-label">Email <span style="color:#e74c3c">*</span></label>
+                            <input class="at-form-input" type="email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required>
+                        </div>
+                        <div>
+                            <label class="at-form-label">Phone Number <span style="color:#e74c3c">*</span></label>
+                            <input class="at-form-input" type="tel" name="phone_number" value="{{ old('phone_number') }}" placeholder="+250 7XX XXX XXX" required>
+                        </div>
+                    </div>
+
+                    {{-- Row 3: Airline + Departure Airport --}}
+                    <div class="at-form-row">
+                        <div>
+                            <label class="at-form-label">Choose Airline <span style="color:#999;font-weight:400;">(optional)</span></label>
+                            <select class="at-form-input" name="airline">
+                                <option value="">Select an airline (optional)</option>
+                                <option value="RwandaAir" {{ old('airline')=='RwandaAir'?'selected':'' }}>RwandaAir</option>
+                                <option value="Ethiopian Airlines" {{ old('airline')=='Ethiopian Airlines'?'selected':'' }}>Ethiopian Airlines</option>
+                                <option value="Kenya Airways" {{ old('airline')=='Kenya Airways'?'selected':'' }}>Kenya Airways</option>
+                                <option value="Qatar Airways" {{ old('airline')=='Qatar Airways'?'selected':'' }}>Qatar Airways</option>
+                                <option value="Emirates" {{ old('airline')=='Emirates'?'selected':'' }}>Emirates</option>
+                                <option value="Turkish Airlines" {{ old('airline')=='Turkish Airlines'?'selected':'' }}>Turkish Airlines</option>
+                                <option value="British Airways" {{ old('airline')=='British Airways'?'selected':'' }}>British Airways</option>
+                                <option value="Air France" {{ old('airline')=='Air France'?'selected':'' }}>Air France</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="at-form-label">Departure Airport <span style="color:#e74c3c">*</span></label>
+                            <input class="at-form-input" type="text" name="departure_airport" value="{{ old('departure_airport', 'Kigali International Airport') }}" placeholder="Enter departure airport" required>
+                        </div>
+                    </div>
+
+                    {{-- Row 4: Arrival Airport + Passengers --}}
+                    <div class="at-form-row">
+                        <div>
+                            <label class="at-form-label">Arrival Airport <span style="color:#e74c3c">*</span></label>
+                            <input class="at-form-input" type="text" name="arrival_airport" value="{{ old('arrival_airport') }}" placeholder="Enter arrival airport" required>
+                        </div>
+                        <div>
+                            <label class="at-form-label">Number of Passengers <span style="color:#e74c3c">*</span></label>
+                            <input class="at-form-input" type="number" name="number_of_passengers" id="passengerCount" value="{{ old('number_of_passengers', 1) }}" min="1" max="10" required onchange="updatePassportFields()">
+                        </div>
+                    </div>
+
+                    {{-- Row 5: Departure + Return Dates --}}
+                    <div class="at-form-row">
+                        <div>
+                            <label class="at-form-label">Departure Date <span style="color:#e74c3c">*</span></label>
+                            <input class="at-form-input" type="date" name="departure_date" value="{{ old('departure_date') }}" min="{{ date('Y-m-d') }}" required>
+                        </div>
+                        <div id="returnDateWrap">
+                            <label class="at-form-label">Return Date</label>
+                            <input class="at-form-input" type="date" name="return_date" value="{{ old('return_date') }}" min="{{ date('Y-m-d') }}">
+                        </div>
+                    </div>
+
+                    {{-- Flight Class --}}
+                    <div style="margin-bottom:18px;">
+                        <label class="at-form-label">Flight Class <span style="color:#e74c3c">*</span></label>
+                        <select class="at-form-input" name="flight_class" required>
+                            <option value="economy"  {{ old('flight_class','economy')=='economy'  ?'selected':'' }}>Economy</option>
+                            <option value="premium"  {{ old('flight_class')=='premium'  ?'selected':'' }}>Premium Economy</option>
+                            <option value="business" {{ old('flight_class')=='business' ?'selected':'' }}>Business Class</option>
+                            <option value="first"    {{ old('flight_class')=='first'    ?'selected':'' }}>First Class</option>
+                        </select>
+                    </div>
+
+                    {{-- Passport Photos (dynamic) --}}
+                    <div id="passportSection" style="margin-bottom:18px;">
+                        <label class="at-form-label">Passenger Passport Photos</label>
+                        <div id="passportFields" class="at-form-row" style="margin-bottom:0;"></div>
+                    </div>
+
+                    {{-- Additional Info --}}
+                    <div style="margin-bottom:24px;">
+                        <label class="at-form-label">Additional Information</label>
+                        <textarea class="at-form-input" name="additional_info" rows="4" placeholder="Any special requirements, connecting flights, or preferences...">{{ old('additional_info') }}</textarea>
+                    </div>
+
+                    <button type="submit" style="width:100%;background:#C85A2A;color:#fff;border:none;border-radius:50px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:10px;">
+                        <i class="fas fa-paper-plane"></i> Submit Flight Request
+                    </button>
+                    <p style="text-align:center;font-size:13px;color:#999;margin-top:14px;">Our team will contact you with available options and pricing.</p>
+                </form>
             </div>
         </div>
     </section>
@@ -466,11 +625,32 @@ function searchFlights() {
 }
 
 function slideDest(dir) {
-    // visual-only nudge for desktop slider feel
     const grid = document.querySelector('.dest-slider-wrap .row');
     grid.style.transition = 'opacity .3s';
     grid.style.opacity = '0.6';
     setTimeout(() => { grid.style.opacity = '1'; }, 300);
 }
+
+function toggleReturn(radio) {
+    const wrap = document.getElementById('returnDateWrap');
+    if (wrap) wrap.style.display = radio.value === 'oneway' ? 'none' : '';
+}
+
+function updatePassportFields() {
+    const count = parseInt(document.getElementById('passengerCount').value) || 1;
+    const container = document.getElementById('passportFields');
+    container.innerHTML = '';
+    for (var i = 1; i <= count; i++) {
+        var div = document.createElement('div');
+        div.innerHTML =
+            '<label class="at-form-label">Passenger ' + i + ' Passport Photo</label>' +
+            '<input type="file" name="passport_photos[]" accept="image/*" class="at-form-input" style="padding:7px 14px;">';
+        container.appendChild(div);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updatePassportFields();
+});
 </script>
 @endsection

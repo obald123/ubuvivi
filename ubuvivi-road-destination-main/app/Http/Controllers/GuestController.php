@@ -108,9 +108,94 @@ class GuestController extends Controller
         return view("air_ticketing");
     }
 
+    public function air_ticketing_store(Request $request)
+    {
+        $request->validate([
+            'names'               => 'required|string|max:255',
+            'email'               => 'required|email|max:255',
+            'phone_number'        => 'required|string|max:20',
+            'departure_airport'   => 'required|string|max:255',
+            'arrival_airport'     => 'required|string|max:255',
+            'departure_date'      => 'required|date',
+            'return_date'         => 'nullable|date',
+            'number_of_passengers'=> 'required|integer|min:1|max:10',
+            'flight_class'        => 'required|in:economy,premium,business,first',
+            'trip_type'           => 'required|in:round,oneway',
+            'passport_photos.*'   => 'nullable|image|max:4096',
+        ]);
+
+        $photos = [];
+        if ($request->hasFile('passport_photos')) {
+            foreach ($request->file('passport_photos') as $file) {
+                if (!$file) continue;
+                try {
+                    $result   = \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::upload($file->getRealPath(), ['folder' => 'ubuvivi/passports']);
+                    $photos[] = $result->getSecurePath();
+                } catch (\Throwable $e) {}
+            }
+        }
+
+        \App\Models\FlightBooking::create([
+            'names'                => $request->names,
+            'email'                => $request->email,
+            'phone_number'         => $request->phone_number,
+            'airline'              => $request->airline,
+            'departure_airport'    => $request->departure_airport,
+            'arrival_airport'      => $request->arrival_airport,
+            'trip_type'            => $request->trip_type,
+            'flight_class'         => $request->flight_class,
+            'number_of_passengers' => $request->number_of_passengers,
+            'departure_date'       => $request->departure_date,
+            'return_date'          => $request->trip_type === 'round' ? $request->return_date : null,
+            'passport_photos'      => $photos,
+            'additional_info'      => $request->additional_info,
+            'approved'             => null,
+        ]);
+
+        return redirect()->route('booking.confirmed')->with([
+            'service' => 'Air Ticketing',
+            'names'   => $request->names,
+            'email'   => $request->email,
+        ]);
+    }
+
     public function hotel_booking()
     {
-        return view("hotel-booking");
+        $hotels = \App\Models\Hotel::where('available', true)->latest()->get();
+        return view("hotel-booking", compact('hotels'));
+    }
+
+    public function hotel_booking_store(Request $request)
+    {
+        $request->validate([
+            'names'            => 'required|string|max:255',
+            'email'            => 'required|email|max:255',
+            'phone_number'     => 'required|string|max:20',
+            'check_in'         => 'required|date',
+            'check_out'        => 'required|date|after:check_in',
+            'number_of_guests' => 'required|integer|min:1',
+            'room_type'        => 'nullable|string|max:100',
+            'message'          => 'nullable|string',
+        ]);
+
+        \App\Models\HotelBooking::create([
+            'hotel_id'         => $request->hotel_id ?: null,
+            'names'            => $request->names,
+            'email'            => $request->email,
+            'phone_number'     => $request->phone_number,
+            'check_in'         => $request->check_in,
+            'check_out'        => $request->check_out,
+            'number_of_guests' => $request->number_of_guests,
+            'room_type'        => $request->room_type,
+            'message'          => $request->message,
+            'approved'         => null,
+        ]);
+
+        return redirect()->route('booking.confirmed')->with([
+            'service' => 'Hotel Booking — ' . ($request->hotel_name ?? 'Hotel Request'),
+            'names'   => $request->names,
+            'email'   => $request->email,
+        ]);
     }
 
     public function tours_booking_options(Request $request)

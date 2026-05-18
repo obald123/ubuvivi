@@ -168,6 +168,30 @@
     }
     .hotel-book-btn:hover { background: var(--orange); }
 
+    /* ── Booking modal form fields ── */
+    .hb-fl {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 6px;
+    }
+    .hb-fi {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 9px;
+        font-size: 14px;
+        font-family: inherit;
+        color: #1a1a2e;
+        outline: none;
+        background: #fff;
+        transition: border-color .2s;
+        box-sizing: border-box;
+    }
+    .hb-fi:focus { border-color: #0D1F35; }
+    textarea.hb-fi { resize: vertical; min-height: 80px; }
+
     @media (max-width: 768px) {
         .hb-inputs-row { flex-direction: column; }
         .hb-input-group { border-right: none; border-bottom: 1px solid #ececec; }
@@ -176,6 +200,11 @@
         .hb-search-btn { width: 100%; justify-content: center; }
         .hb-guest-row { flex: unset; width: 100%; }
         .dest-slider-wrap { padding: 0 36px; }
+    }
+    @media (max-width: 576px) {
+        #hotelBookingModal > div { padding: 24px 18px 28px; border-radius: 18px 18px 0 0; }
+        #hotelBookingModal { align-items: flex-end !important; padding: 0; }
+        #hotelBookingModal > div > form [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
     }
 </style>
 @endsection
@@ -270,92 +299,46 @@
     {{-- ── Featured Hotels ── --}}
     <section class="featured-hotels-section">
         <div class="container">
-            <h2 class="fh-section-h">Featured Hotels</h2>
+            <h2 class="fh-section-h">Available Hotels</h2>
             <div class="fh-underline"></div>
 
-            @php
-            $hotels = [
-                [
-                    'name'     => 'Kigali Marriott Hotel',
-                    'location' => 'KN 3 Ave, Kigali',
-                    'stars'    => 5,
-                    'features' => ['Pool', 'Spa', 'Free Wi-Fi', 'Restaurant'],
-                    'price'    => '$280',
-                    'bg'       => 'bg_12.jpg',
-                ],
-                [
-                    'name'     => 'Radisson Blu Hotel',
-                    'location' => 'KG 2 Roundabout, Kigali',
-                    'stars'    => 5,
-                    'features' => ['Conference', 'Gym', 'Rooftop Bar', 'Parking'],
-                    'price'    => '$240',
-                    'bg'       => 'bg_13.jpg',
-                ],
-                [
-                    'name'     => 'Heaven Restaurant & Boutique Hotel',
-                    'location' => 'KN 29 St, Kigali',
-                    'stars'    => 4,
-                    'features' => ['Garden', 'Free Wi-Fi', 'Pool', 'Bar'],
-                    'price'    => '$185',
-                    'bg'       => 'bg_5.jpg',
-                ],
-                [
-                    'name'     => 'Gorilla\'s Nest Lodge',
-                    'location' => 'Musanze, Rwanda',
-                    'stars'    => 4,
-                    'features' => ['Safari View', 'Fireplace', 'Restaurant', 'Trekking'],
-                    'price'    => '$320',
-                    'bg'       => 'bg_7.jpg',
-                ],
-                [
-                    'name'     => 'One&Only Nyungwe House',
-                    'location' => 'Nyungwe Forest, Rwanda',
-                    'stars'    => 5,
-                    'features' => ['Forest View', 'Spa', 'Pool', 'All Inclusive'],
-                    'price'    => '$650',
-                    'bg'       => 'bg_02.jpg',
-                ],
-                [
-                    'name'     => 'Lake Kivu Serena Hotel',
-                    'location' => 'Gisenyi, Rwanda',
-                    'stars'    => 4,
-                    'features' => ['Lake View', 'Beach', 'Free Wi-Fi', 'Restaurant'],
-                    'price'    => '$210',
-                    'bg'       => 'bg_8.jpg',
-                ],
-            ];
-            @endphp
-
+            @if($hotels->count())
             <div class="row">
                 @foreach($hotels as $h)
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="hotel-card">
-                        <div class="hotel-card-img" style="background-image: url('{{ asset('assets/images/backgrounds/'.$h['bg']) }}');"></div>
+                        @if($h->cover_image)
+                            <div class="hotel-card-img" style="background-image:url('{{ $h->cover_image }}');"></div>
+                        @else
+                            <div class="hotel-card-img" style="background:#e4e8f0;display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-hotel" style="font-size:40px;color:#bbb;"></i>
+                            </div>
+                        @endif
                         <div class="hotel-card-body">
                             <div class="hotel-stars">
-                                @for($i=0; $i<$h['stars']; $i++)
-                                    <i class="fas fa-star"></i>
-                                @endfor
-                                @if($h['stars'] < 5)
-                                    <i class="far fa-star"></i>
-                                @endif
+                                @for($i = 0; $i < $h->stars; $i++)<i class="fas fa-star"></i>@endfor
+                                @for($i = $h->stars; $i < 5; $i++)<i class="far fa-star" style="color:#ddd;"></i>@endfor
                             </div>
-                            <div class="hotel-name">{{ $h['name'] }}</div>
+                            <div class="hotel-name">{{ $h->name }}</div>
                             <div class="hotel-location">
-                                <i class="fas fa-map-marker-alt"></i> {{ $h['location'] }}
+                                <i class="fas fa-map-marker-alt"></i> {{ $h->location }}
                             </div>
                             <div class="hotel-features">
-                                @foreach($h['features'] as $feat)
-                                    <span class="hotel-feature-tag">{{ $feat }}</span>
+                                @foreach(array_slice($h->amenities ?? [], 0, 4) as $am)
+                                    <span class="hotel-feature-tag">{{ $am }}</span>
                                 @endforeach
                             </div>
                             <div class="hotel-footer">
                                 <div>
                                     <div class="hotel-price-label">Starting from</div>
-                                    <span class="hotel-price">{{ $h['price'] }}</span>
-                                    <span class="hotel-price-night">/night</span>
+                                    @if($h->price_per_night)
+                                        <span class="hotel-price">${{ number_format($h->price_per_night, 0) }}</span>
+                                        <span class="hotel-price-night">/night</span>
+                                    @else
+                                        <span class="hotel-price" style="font-size:16px;color:#888;">Contact for price</span>
+                                    @endif
                                 </div>
-                                <button class="hotel-book-btn" onclick="alert('Contact us at +250 789 044 222 to book this hotel!')">
+                                <button class="hotel-book-btn" onclick="openBookingModal({{ $h->id }}, '{{ addslashes($h->name) }}')">
                                     Book Now
                                 </button>
                             </div>
@@ -364,9 +347,87 @@
                 </div>
                 @endforeach
             </div>
-
+            @else
+            <div style="text-align:center;padding:70px 20px;color:#aaa;">
+                <i class="fas fa-hotel" style="font-size:48px;display:block;margin-bottom:14px;"></i>
+                <p style="font-size:16px;">No hotels listed yet. Check back soon or contact us directly.</p>
+                <a href="{{ route('guest.contact') }}" style="display:inline-block;margin-top:16px;background:#C85A2A;color:#fff;padding:10px 28px;border-radius:50px;font-weight:600;text-decoration:none;">Contact Us</a>
+            </div>
+            @endif
         </div>
     </section>
+
+    {{-- ── Booking Modal ── --}}
+    <div id="hotelBookingModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:3000;align-items:center;justify-content:center;padding:16px;">
+        <div style="background:#fff;border-radius:20px;padding:32px 36px;max-width:600px;width:100%;max-height:92vh;overflow-y:auto;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;">
+                <h3 style="margin:0;font-size:20px;font-weight:700;color:#0D1F35;">Book <span id="modalHotelName"></span></h3>
+                <button onclick="closeBookingModal()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#aaa;line-height:1;">&times;</button>
+            </div>
+
+            @if($errors->any())
+                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#dc2626;">
+                    @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
+                </div>
+            @endif
+
+            <form action="{{ route('hotel.booking.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="hotel_id"   id="modalHotelId">
+                <input type="hidden" name="hotel_name" id="modalHotelNameHidden">
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div>
+                        <label class="hb-fl">Full Name <span style="color:#e74c3c">*</span></label>
+                        <input class="hb-fi" type="text" name="names" value="{{ old('names') }}" placeholder="Your full name" required>
+                    </div>
+                    <div>
+                        <label class="hb-fl">Email <span style="color:#e74c3c">*</span></label>
+                        <input class="hb-fi" type="email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label class="hb-fl">Phone Number <span style="color:#e74c3c">*</span></label>
+                    <input class="hb-fi" type="tel" name="phone_number" value="{{ old('phone_number') }}" placeholder="+250 7XX XXX XXX" required>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div>
+                        <label class="hb-fl">Check-in Date <span style="color:#e74c3c">*</span></label>
+                        <input class="hb-fi" type="date" name="check_in" value="{{ old('check_in') }}" min="{{ date('Y-m-d') }}" required>
+                    </div>
+                    <div>
+                        <label class="hb-fl">Check-out Date <span style="color:#e74c3c">*</span></label>
+                        <input class="hb-fi" type="date" name="check_out" value="{{ old('check_out') }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div>
+                        <label class="hb-fl">Number of Guests <span style="color:#e74c3c">*</span></label>
+                        <input class="hb-fi" type="number" name="number_of_guests" value="{{ old('number_of_guests', 1) }}" min="1" required>
+                    </div>
+                    <div>
+                        <label class="hb-fl">Room Type</label>
+                        <select class="hb-fi" name="room_type">
+                            <option value="">Select (optional)</option>
+                            <option value="Single">Single</option>
+                            <option value="Double">Double</option>
+                            <option value="Twin">Twin</option>
+                            <option value="Suite">Suite</option>
+                            <option value="Family">Family Room</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-bottom:22px;">
+                    <label class="hb-fl">Special Requests</label>
+                    <textarea class="hb-fi" name="message" rows="3" placeholder="Any preferences or special requirements...">{{ old('message') }}</textarea>
+                </div>
+                <button type="submit" style="width:100%;background:#C85A2A;color:#fff;border:none;border-radius:50px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;">
+                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Submit Booking Request
+                </button>
+                <p style="text-align:center;font-size:13px;color:#999;margin-top:12px;">Our team will confirm availability and pricing shortly.</p>
+            </form>
+        </div>
+    </div>
 
 @endsection
 
@@ -389,5 +450,30 @@ function slideHotelDest(dir) {
     grid.style.opacity = '0.6';
     setTimeout(() => { grid.style.opacity = '1'; }, 300);
 }
+
+function openBookingModal(id, name) {
+    document.getElementById('modalHotelId').value           = id;
+    document.getElementById('modalHotelNameHidden').value   = name;
+    document.getElementById('modalHotelName').textContent   = name;
+    document.getElementById('hotelBookingModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+    document.getElementById('hotelBookingModal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Re-open modal on validation error
+    @if($errors->any() && old('hotel_id'))
+    openBookingModal({{ old('hotel_id') }}, '{{ addslashes(old("hotel_name", "")) }}');
+    @endif
+
+    // Close on backdrop click
+    document.getElementById('hotelBookingModal').addEventListener('click', function(e) {
+        if (e.target === this) closeBookingModal();
+    });
+});
 </script>
 @endsection
