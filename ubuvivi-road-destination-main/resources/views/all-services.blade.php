@@ -151,11 +151,18 @@
 
 @section('content')
 
+@php $isPlanMode = request()->query('plan') == '1'; @endphp
+
     {{-- ── Hero ── --}}
     <section class="services-hero">
         <div class="services-hero-content">
-            <h1>What We Offer</h1>
-            <p>Explore our full range of travel, transport, and conference services across Rwanda.</p>
+            @if($isPlanMode)
+                <h1>Plan Your Trip</h1>
+                <p>Choose your travel essentials — tours, flights, and hotels — all in one place.</p>
+            @else
+                <h1>What We Offer</h1>
+                <p>Explore our full range of travel, transport, and conference services across Rwanda.</p>
+            @endif
         </div>
     </section>
 
@@ -163,14 +170,20 @@
     <section class="all-services-section">
         <div class="container">
             <div class="text-center mb-2">
-                <span class="section-label" style="justify-content:center;">Our Services</span>
-                <h2 class="section-heading">Everything You Need, In One Place</h2>
-                <p class="section-sub">From guided safaris to airport transfers and conference management — Ubuvivi has you covered.</p>
+                @if($isPlanMode)
+                    <span class="section-label" style="justify-content:center;">Trip Essentials</span>
+                    <h2 class="section-heading">Everything You Need for Your Trip</h2>
+                    <p class="section-sub">Start with a tour, book your flight, then secure your hotel — we handle it all.</p>
+                @else
+                    <span class="section-label" style="justify-content:center;">Our Services</span>
+                    <h2 class="section-heading">Everything You Need, In One Place</h2>
+                    <p class="section-sub">From guided safaris to airport transfers and conference management — Ubuvivi has you covered.</p>
+                @endif
             </div>
 
             <div class="row g-4">
 
-                {{-- Tours & Travel --}}
+                {{-- 1. Tours & Travel — always first --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ url('/tours') }}" class="service-card d-block">
                         <img src="{{ asset('assets/images/backgrounds/bg_6.jpg') }}" alt="Tours & Travel" class="service-card-img">
@@ -185,67 +198,7 @@
                     </a>
                 </div>
 
-                {{-- Car Rentals --}}
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ url('/cars') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Car Rentals" class="service-card-img">
-                        <div class="service-card-body">
-                            <div class="service-card-icon">
-                                <i class="fas fa-car"></i>
-                            </div>
-                            <div class="service-card-title">Car Rentals</div>
-                            <p class="service-card-desc">Choose from our fleet of well-maintained vehicles for self-drive adventures across Rwanda at competitive daily rates.</p>
-                            <span class="service-card-cta">View Fleet <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-
-                {{-- Transport Services --}}
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('guest.transfer') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Transport Services" class="service-card-img">
-                        <div class="service-card-body">
-                            <div class="service-card-icon">
-                                <i class="fas fa-shuttle-van"></i>
-                            </div>
-                            <div class="service-card-title">Transport Services</div>
-                            <p class="service-card-desc">Reliable airport pickups, hotel transfers, and city-to-city transport with professional drivers available 24/7.</p>
-                            <span class="service-card-cta">Book Transport <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-
-                {{-- Conference Planning --}}
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('guest.events') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_9.jpg') }}" alt="Conference Planning" class="service-card-img">
-                        <div class="service-card-body">
-                            <div class="service-card-icon">
-                                <i class="fas fa-calendar-check"></i>
-                            </div>
-                            <div class="service-card-title">Conference Planning</div>
-                            <p class="service-card-desc">From executive sessions to large corporate conferences, we handle every detail so you don't have to.</p>
-                            <span class="service-card-cta">Learn More <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-
-                {{-- Hotel Booking --}}
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('guest.hotel_booking') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_12.jpg') }}" alt="Hotel Booking" class="service-card-img">
-                        <div class="service-card-body">
-                            <div class="service-card-icon">
-                                <i class="fas fa-hotel"></i>
-                            </div>
-                            <div class="service-card-title">Hotel Booking</div>
-                            <p class="service-card-desc">Find and book the perfect hotel across Rwanda and Africa. We secure the best rates and locations for a comfortable stay.</p>
-                            <span class="service-card-cta">Browse Hotels <i class="fas fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-
-                {{-- Air Ticketing --}}
+                {{-- 2. Air Ticketing — second in plan mode --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.air_ticketing') }}" class="service-card d-block">
                         <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="Air Ticketing" class="service-card-img">
@@ -260,7 +213,77 @@
                     </a>
                 </div>
 
+                {{-- 3. Hotel Booking — third in plan mode --}}
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('guest.hotel_booking') }}" class="service-card d-block">
+                        <img src="{{ asset('assets/images/backgrounds/bg_12.jpg') }}" alt="Hotel Booking" class="service-card-img">
+                        <div class="service-card-body">
+                            <div class="service-card-icon">
+                                <i class="fas fa-hotel"></i>
+                            </div>
+                            <div class="service-card-title">Hotel Booking</div>
+                            <p class="service-card-desc">Find and book the perfect hotel across Rwanda and Africa. We secure the best rates and locations for a comfortable stay.</p>
+                            <span class="service-card-cta">Browse Hotels <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+
+                @if(!$isPlanMode)
+                {{-- Car Rentals — full mode only --}}
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ url('/cars') }}" class="service-card d-block">
+                        <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Car Rentals" class="service-card-img">
+                        <div class="service-card-body">
+                            <div class="service-card-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="service-card-title">Car Rentals</div>
+                            <p class="service-card-desc">Choose from our fleet of well-maintained vehicles for self-drive adventures across Rwanda at competitive daily rates.</p>
+                            <span class="service-card-cta">View Fleet <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- Transport Services — full mode only --}}
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('guest.transfer') }}" class="service-card d-block">
+                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Transport Services" class="service-card-img">
+                        <div class="service-card-body">
+                            <div class="service-card-icon">
+                                <i class="fas fa-shuttle-van"></i>
+                            </div>
+                            <div class="service-card-title">Transport Services</div>
+                            <p class="service-card-desc">Reliable airport pickups, hotel transfers, and city-to-city transport with professional drivers available 24/7.</p>
+                            <span class="service-card-cta">Book Transport <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- Conference Planning — full mode only --}}
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('guest.events') }}" class="service-card d-block">
+                        <img src="{{ asset('assets/images/backgrounds/bg_9.jpg') }}" alt="Conference Planning" class="service-card-img">
+                        <div class="service-card-body">
+                            <div class="service-card-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="service-card-title">Conference Planning</div>
+                            <p class="service-card-desc">From executive sessions to large corporate conferences, we handle every detail so you don't have to.</p>
+                            <span class="service-card-cta">Learn More <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+                @endif
+
             </div>
+
+            @if($isPlanMode)
+            <div class="text-center mt-5">
+                <a href="{{ route('guest.all_services') }}" style="color:#C85A2A;font-size:14px;font-weight:600;text-decoration:none;">
+                    <i class="fas fa-th-large" style="margin-right:6px;"></i>View All Services
+                </a>
+            </div>
+            @endif
         </div>
     </section>
 

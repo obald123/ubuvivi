@@ -875,7 +875,11 @@ class GuestController extends Controller
             } catch (\Throwable $th) {}
         }
 
-        return redirect()->route('tour.book.success', $booking->id);
+        return redirect()->route('booking.confirmed')->with([
+            'service' => 'Event Planning — ' . $packageLabel,
+            'names'   => $request->names,
+            'email'   => $request->email,
+        ]);
     }
 
     public function transfer_book_form(Request $request)
@@ -946,7 +950,20 @@ class GuestController extends Controller
             } catch (\Throwable $th) {}
         }
 
-        return redirect()->route('car.transfer.view', $booking->id);
+        return redirect()->route('booking.confirmed')->with([
+            'service' => 'Transfer — ' . ($request->service_label ?? 'Transfer Service'),
+            'names'   => $request->names,
+            'email'   => $request->email,
+        ]);
+    }
+
+    public function bookingConfirmed()
+    {
+        return view('booking_confirmed', [
+            'service' => session('service'),
+            'names'   => session('names'),
+            'email'   => session('email'),
+        ]);
     }
 
     public function sendMessage(Request $request)

@@ -59,6 +59,8 @@ Route::controller(GuestController::class)->group(function () {
     Route::get("/blog", 'blog_list')->name("blog.index");
     Route::get("/blog/{slug}", 'blog_show')->name("blog.show");
 
+    Route::get("/booking/confirmed", 'bookingConfirmed')->name("booking.confirmed");
+
     Route::get("/tour/pay/{id}", 'tour_payment_form')->name("tour.payment.form");
 
     Route::get("/car/booking/pay/{id}", 'car_booking_payment_form')->name("car.booking.payment.form");

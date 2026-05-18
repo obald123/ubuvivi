@@ -60,5 +60,5 @@
         </ul>
     </div>
 
-    <a href="{{ route('guest.all_services') }}" class="plan-trip-btn ml-lg-3 d-none d-lg-inline-flex">Plan Your Trip</a>
+    <a href="{{ route('guest.all_services') }}?plan=1" class="plan-trip-btn ml-lg-3 d-none d-lg-inline-flex">Plan Your Trip</a>
 </nav>

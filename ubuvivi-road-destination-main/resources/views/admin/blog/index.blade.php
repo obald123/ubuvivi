@@ -78,6 +78,58 @@
     .adm-modal-foot { display:flex; justify-content:flex-end; border-top:1px solid #f0f0f0; padding-top:18px; margin-top:8px; }
     .btn-save { background:#0D1F35; color:#fff; border:none; padding:11px 28px; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; }
     .btn-save:hover { background:#1e3a5f; }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+        .blog-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .blog-table { min-width: 700px; }
+    }
+
+    @media (max-width: 767px) {
+        .blog-page { gap: 16px; }
+
+        /* Toolbar stacks on mobile */
+        .blog-toolbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+        .blog-toolbar .admin-primary-btn { width: 100%; justify-content: center; }
+
+        /* Table horizontally scrollable */
+        .blog-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
+        .blog-table { min-width: 600px; }
+        .blog-table th,
+        .blog-table td { padding: 10px 12px; }
+
+        /* Hide excerpt on small screens to save space */
+        .blog-excerpt-cell { display: none; }
+        .blog-title-cell { max-width: none; font-size: 13px; }
+
+        /* Modal takes full screen width */
+        .adm-modal-overlay { padding: 0; align-items: flex-end; }
+        .adm-modal {
+            border-radius: 18px 18px 0 0;
+            padding: 22px 18px 28px;
+            max-height: 92vh;
+            width: 100%;
+            max-width: 100%;
+        }
+        .adm-modal-head h3 { font-size: 16px; }
+
+        /* Collapse 2-col form rows to 1 col */
+        .adm-form-row { grid-template-columns: 1fr !important; }
+        .adm-form-group[style*="grid-column"] { grid-column: auto !important; }
+
+        /* Full-width save button */
+        .adm-modal-foot { justify-content: stretch; }
+        .btn-save { width: 100%; text-align: center; padding: 13px 20px; }
+    }
+
+    @media (max-width: 480px) {
+        /* Hide cover column, rely on title info */
+        .blog-table { min-width: 420px; }
+        .blog-table .cover-col { display: none; }
+        .btn-tbl-edit,
+        .btn-tbl-del { padding: 5px 10px; font-size: 11px; }
+        .tbl-actions { gap: 6px; }
+    }
 </style>
 @endsection
 
@@ -105,7 +157,7 @@
         <table class="blog-table">
             <thead>
                 <tr>
-                    <th>Cover</th>
+                    <th class="cover-col">Cover</th>
                     <th>Title</th>
                     <th>Category</th>
                     <th>Status</th>
@@ -116,7 +168,7 @@
             <tbody id="blogTableBody">
                 @foreach($posts as $post)
                 <tr class="blog-row">
-                    <td>
+                    <td class="cover-col">
                         @if($post->image)
                             <img src="{{ $post->image }}" alt="{{ $post->title }}" class="blog-cover">
                         @else
