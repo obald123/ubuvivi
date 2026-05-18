@@ -303,22 +303,68 @@
     .tab-pane { display:none; }
     .tab-pane.active { display:block; }
 
-    /* Edit Modal */
-    .adm-modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:2000; }
-    .adm-modal { background:#fff; border-radius:16px; padding:28px; max-width:520px; width:90%; max-height:90vh; overflow-y:auto; }
-    .adm-modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-    .adm-modal-head h3 { font-size:18px; font-weight:700; color:#1a1a2e; margin:0; }
-    .adm-modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:#aaa; }
-    .adm-modal-close:hover { color:#555; }
-    .adm-form-group { margin-bottom:16px; }
-    .adm-form-group label { display:block; font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:6px; }
-    .adm-form-group input, .adm-form-group textarea { width:100%; padding:10px 14px; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; outline:none; font-family:inherit; resize:vertical; }
-    .adm-form-group input:focus, .adm-form-group textarea:focus { border-color:#2563EB; }
-    .adm-modal-foot { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
-    .btn-save { background:#0D1F35; color:#fff; border:none; padding:10px 24px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
+    /* ── Modal ── */
+    .adm-modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:2000; padding:16px; }
+    .adm-modal { background:#fff; border-radius:16px; padding:28px 32px; max-width:780px; width:100%; max-height:92vh; overflow-y:auto; }
+    .adm-modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+    .adm-modal-head h3 { font-size:19px; font-weight:700; color:#1a1a2e; margin:0; }
+    .adm-modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:#aaa; line-height:1; }
+    .adm-modal-close:hover { color:#333; }
+
+    /* Form grid rows */
+    .adm-form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+    .adm-form-row.single { grid-template-columns:1fr; }
+    .adm-form-group { margin-bottom:0; }
+    .adm-form-group label { display:block; font-size:13px; font-weight:500; color:#444; margin-bottom:6px; }
+    .adm-form-group input,
+    .adm-form-group textarea,
+    .adm-form-group select { width:100%; padding:10px 14px; border:1.5px solid #e0e0e0; border-radius:8px; font-size:14px; outline:none; font-family:inherit; resize:vertical; color:#1a1a2e; background:#fff; }
+    .adm-form-group input:focus,
+    .adm-form-group textarea:focus,
+    .adm-form-group select:focus { border-color:#0D1F35; }
+
+    /* Highlights */
+    .highlights-box { border:1.5px solid #e8e8e8; border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+    .highlight-row { display:grid; grid-template-columns:1fr 2fr auto auto; gap:10px; align-items:center; margin-bottom:10px; }
+    .highlight-row:last-of-type { margin-bottom:0; }
+    .highlight-row input { padding:9px 12px; border:1.5px solid #e0e0e0; border-radius:8px; font-size:13px; outline:none; font-family:inherit; width:100%; }
+    .highlight-row input:focus { border-color:#0D1F35; }
+    .btn-add-img { background:#f5f5f5; border:1.5px solid #e0e0e0; border-radius:8px; padding:8px 14px; font-size:13px; cursor:pointer; white-space:nowrap; color:#444; display:flex; align-items:center; gap:6px; }
+    .btn-add-img:hover { background:#ebebeb; }
+    .btn-del-row { background:none; border:none; cursor:pointer; color:#bbb; font-size:18px; padding:4px; }
+    .btn-del-row:hover { color:#e74c3c; }
+    .add-highlight-btn { display:inline-flex; align-items:center; gap:8px; background:none; border:none; color:#555; font-size:14px; font-weight:500; cursor:pointer; padding:6px 0; }
+    .add-highlight-btn:hover { color:#0D1F35; }
+    .highlight-thumb { width:52px; height:52px; border-radius:6px; object-fit:cover; display:block; }
+    .highlight-img-wrap { position:relative; display:inline-flex; }
+    .highlight-img-remove { position:absolute; top:-6px; right:-6px; width:18px; height:18px; border-radius:50%; background:#e74c3c; color:#fff; border:none; cursor:pointer; font-size:11px; display:flex; align-items:center; justify-content:center; }
+
+    /* Image upload area */
+    .img-upload-area { border:1.5px solid #e8e8e8; border-radius:10px; padding:14px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; min-height:80px; margin-bottom:16px; }
+    .img-slot { width:90px; height:80px; border:2px dashed #d0d0d0; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#bbb; font-size:22px; transition:border-color .2s; flex-shrink:0; }
+    .img-slot:hover { border-color:#0D1F35; color:#0D1F35; }
+    .img-preview-wrap { position:relative; }
+    .img-preview { width:90px; height:80px; object-fit:cover; border-radius:8px; display:block; }
+    .img-preview-remove { position:absolute; top:-6px; right:-6px; width:20px; height:20px; border-radius:50%; background:#e74c3c; color:#fff; border:none; cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center; }
+
+    /* Price counter */
+    .price-counter { display:inline-flex; align-items:center; gap:14px; font-size:14px; color:#444; margin-bottom:16px; }
+    .price-counter-label { font-size:13px; font-weight:500; color:#444; }
+    .btn-counter { width:28px; height:28px; border-radius:50%; border:1.5px solid #ccc; background:#fff; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#333; transition:border-color .2s; }
+    .btn-counter:hover { border-color:#0D1F35; color:#0D1F35; }
+    .price-val { font-size:15px; font-weight:700; color:#0D1F35; min-width:44px; text-align:center; }
+
+    /* Available checkbox */
+    .adm-check-row { display:flex; align-items:center; gap:8px; font-size:14px; color:#444; margin-bottom:16px; }
+    .adm-check-row input[type=checkbox] { width:16px; height:16px; accent-color:#0D1F35; cursor:pointer; }
+
+    /* Footer */
+    .adm-modal-foot { display:flex; justify-content:flex-end; margin-top:8px; border-top:1px solid #f0f0f0; padding-top:18px; }
+    .btn-save { background:#0D1F35; color:#fff; border:none; padding:11px 28px; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; }
     .btn-save:hover { background:#1e3a5f; }
-    .btn-modal-cancel { background:#f0f0f0; color:#555; border:none; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
-    .btn-modal-cancel:hover { background:#e0e0e0; }
+
+    /* Section label inside modal */
+    .adm-section-label { font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:10px; }
 
     @media(max-width:767px) {
         .svc-toolbar {
@@ -349,7 +395,7 @@
                     <button class="svc-tab" data-pane="events">Event Planning</button>
                 </div>
             </div>
-            <button class="admin-primary-btn" type="button" onclick="document.getElementById('newServiceModal').style.display='flex'">
+            <button class="admin-primary-btn" type="button" id="btnNewService">
                 <i class="fas fa-plus"></i> New Service
             </button>
         </div>
@@ -479,78 +525,170 @@
         </div>
     </div>
 
-    {{-- Edit Modal --}}
-    <div class="adm-modal-overlay" id="editServiceModal" style="display:none;">
+    {{-- ══ TOUR MODAL ══ --}}
+    <div class="adm-modal-overlay" id="tourModal" style="display:none;">
         <div class="adm-modal">
             <div class="adm-modal-head">
-                <h3>Edit Service</h3>
-                <button class="adm-modal-close" onclick="document.getElementById('editServiceModal').style.display='none'">&times;</button>
+                <h3 id="tourModalTitle">Add Service</h3>
+                <button class="adm-modal-close" onclick="closeModal('tourModal')">&times;</button>
             </div>
-            <form action="{{ route('services.update', '') }}" method="POST">
+            <form id="tourForm" action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="id" id="editServiceId">
-                <div class="adm-form-group">
-                    <label>Service Type</label>
-                    <select name="service_type" id="editServiceType" required style="width:100%;padding:10px 14px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;">
-                        <option value="tour">Tour & Travel</option>
-                        <option value="car">Car Rental</option>
-                        <option value="transfer">Transfer</option>
-                        <option value="event">Event Planning</option>
-                    </select>
+                <input type="hidden" name="_method" id="tourMethod" value="POST">
+                <input type="hidden" name="service_type" value="tour">
+                <input type="hidden" name="existing_images" id="tourExistingImages" value="[]">
+                <input type="hidden" name="existing_image_ids" id="tourExistingImageIds" value="[]">
+
+                <div class="adm-form-row">
+                    <div class="adm-form-group">
+                        <label>Tour Title</label>
+                        <input type="text" name="title" id="tourTitle" placeholder="" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>Days</label>
+                        <input type="number" name="days" id="tourDays" min="1" value="1">
+                    </div>
                 </div>
-                <div class="adm-form-group">
-                    <label>Title</label>
-                    <input type="text" name="title" id="editTitle" placeholder="Service title" required>
+
+                <div class="adm-form-row">
+                    <div class="adm-form-group">
+                        <label>Description</label>
+                        <textarea name="description" id="tourDesc" rows="3"></textarea>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>Inclusions <span style="font-weight:400;color:#999">(comma separated)</span></label>
+                        <textarea name="inclusions" id="tourInclusions" rows="3"></textarea>
+                    </div>
                 </div>
-                <div class="adm-form-group">
-                    <label>Price</label>
-                    <input type="number" name="price" id="editPrice" placeholder="Price" step="0.01" required>
+
+                <div class="adm-section-label">Tour Highlights</div>
+                <div class="highlights-box">
+                    <div id="highlightsList"></div>
+                    <button type="button" class="add-highlight-btn" id="btnAddHighlight">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Add Highlight
+                    </button>
                 </div>
-                <div class="adm-form-group">
-                    <label>Description</label>
-                    <textarea name="description" id="editDesc" rows="3" placeholder="Description" required></textarea>
+
+                <div class="adm-section-label">Tour image</div>
+                <div class="img-upload-area" id="tourImagesArea">
+                    <label class="img-slot" id="tourImgSlot" title="Add image">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <input type="file" name="tour_images[]" id="tourImageInput" accept="image/*" multiple style="display:none" onchange="handleTourImages(this)">
+                    </label>
                 </div>
+
+                <div class="price-counter">
+                    <span class="price-counter-label">Price per Person (dollars):</span>
+                    <button type="button" class="btn-counter" onclick="changePrice('tourPrice', -50)">&#8722;</button>
+                    <span class="price-val" id="tourPriceDisplay">100</span>
+                    <input type="hidden" name="price" id="tourPrice" value="100">
+                    <button type="button" class="btn-counter" onclick="changePrice('tourPrice', 50)">&#43;</button>
+                </div>
+
                 <div class="adm-modal-foot">
-                    <button type="button" class="btn-modal-cancel" onclick="document.getElementById('editServiceModal').style.display='none'">Cancel</button>
                     <button type="submit" class="btn-save">Save Changes</button>
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- New Service Modal --}}
-    <div class="adm-modal-overlay" id="newServiceModal" style="display:none;">
+    {{-- ══ CAR MODAL ══ --}}
+    <div class="adm-modal-overlay" id="carModal" style="display:none;">
         <div class="adm-modal">
             <div class="adm-modal-head">
-                <h3>New Service</h3>
-                <button class="adm-modal-close" onclick="document.getElementById('newServiceModal').style.display='none'">&times;</button>
+                <h3 id="carModalTitle">Add Service</h3>
+                <button class="adm-modal-close" onclick="closeModal('carModal')">&times;</button>
             </div>
-            <form action="{{ route('services.store') }}" method="POST">
+            <form id="carForm" action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="adm-form-group">
-                    <label>Service Type</label>
-                    <select name="service_type" required style="width:100%;padding:10px 14px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;">
-                        <option value="tour">Tours & Travel</option>
-                        <option value="car">Car Rental</option>
-                        <option value="transfer">Transfers</option>
-                        <option value="event">Event Planning</option>
-                    </select>
+                <input type="hidden" name="_method" id="carMethod" value="POST">
+                <input type="hidden" name="service_type" value="car">
+                <input type="hidden" name="existing_images" id="carExistingImages" value="[]">
+                <input type="hidden" name="existing_image_ids" id="carExistingImageIds" value="[]">
+
+                <div class="adm-form-row">
+                    <div class="adm-form-group">
+                        <label>Car Name</label>
+                        <input type="text" name="car_name" id="carName" placeholder="" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>Year</label>
+                        <input type="number" name="year" id="carYear" min="2000" max="2030" value="{{ date('Y') }}">
+                    </div>
                 </div>
-                <div class="adm-form-group">
-                    <label>Title</label>
-                    <input type="text" name="title" placeholder="Service title" required>
+
+                <div class="adm-form-row">
+                    <div class="adm-form-group">
+                        <label>Vehicle Transmission</label>
+                        <input type="text" name="transmission" id="carTransmission" placeholder="e.g. Manual">
+                    </div>
+                    <div class="adm-form-group">
+                        <label>Vehicle Fuel Type</label>
+                        <input type="text" name="fuel_type" id="carFuelType" placeholder="e.g. Diesel">
+                    </div>
                 </div>
-                <div class="adm-form-group">
-                    <label>Price</label>
-                    <input type="number" name="price" placeholder="Price" step="0.01" required>
+
+                <div class="adm-section-label">Vehicle image</div>
+                <div class="img-upload-area" id="carImagesArea">
+                    <label class="img-slot" id="carImgSlot" title="Add image">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <input type="file" name="vehicle_images[]" id="carImageInput" accept="image/*" multiple style="display:none" onchange="handleCarImages(this)">
+                    </label>
                 </div>
-                <div class="adm-form-group">
-                    <label>Description</label>
-                    <textarea name="description" rows="3" placeholder="Description" required></textarea>
+
+                <div class="price-counter">
+                    <span class="price-counter-label">Price per Day (dollars):</span>
+                    <button type="button" class="btn-counter" onclick="changePrice('carPrice', -10)">&#8722;</button>
+                    <span class="price-val" id="carPriceDisplay">100</span>
+                    <input type="hidden" name="price" id="carPrice" value="100">
+                    <button type="button" class="btn-counter" onclick="changePrice('carPrice', 10)">&#43;</button>
+                </div>
+
+                <div class="adm-check-row">
+                    <input type="checkbox" name="available" id="carAvailable">
+                    <label for="carAvailable">Available</label>
+                </div>
+
+                <div class="adm-modal-foot">
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- ══ SIMPLE MODAL (transfers / events) ══ --}}
+    <div class="adm-modal-overlay" id="simpleModal" style="display:none;">
+        <div class="adm-modal" style="max-width:520px;">
+            <div class="adm-modal-head">
+                <h3 id="simpleModalTitle">Add Service</h3>
+                <button class="adm-modal-close" onclick="closeModal('simpleModal')">&times;</button>
+            </div>
+            <form id="simpleForm" action="{{ route('services.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="_method" id="simpleMethod" value="POST">
+                <input type="hidden" name="service_type" id="simpleType">
+                <div class="adm-form-row single">
+                    <div class="adm-form-group">
+                        <label>Title</label>
+                        <input type="text" name="title" id="simpleTitle" required>
+                    </div>
+                </div>
+                <div class="adm-form-row single">
+                    <div class="adm-form-group">
+                        <label>Description</label>
+                        <textarea name="description" id="simpleDesc" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="price-counter">
+                    <span class="price-counter-label">Price:</span>
+                    <button type="button" class="btn-counter" onclick="changePrice('simplePrice', -10)">&#8722;</button>
+                    <span class="price-val" id="simplePriceDisplay">100</span>
+                    <input type="hidden" name="price" id="simplePrice" value="100">
+                    <button type="button" class="btn-counter" onclick="changePrice('simplePrice', 10)">&#43;</button>
                 </div>
                 <div class="adm-modal-foot">
-                    <button type="button" class="btn-modal-cancel" onclick="document.getElementById('newServiceModal').style.display='none'">Cancel</button>
-                    <button type="submit" class="btn-save">Create</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -560,75 +698,318 @@
 
 @section('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.svc-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.svc-tab').forEach(function(t){ t.classList.remove('active'); });
+var activeTab = 'tours';
+var highlightIndex = 0;
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Tabs ──
+    document.querySelectorAll('.svc-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.svc-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
             document.getElementById('pane-' + tab.dataset.pane).classList.add('active');
+            activeTab = tab.dataset.pane;
         });
     });
 
+    // ── Search ──
     var si = document.getElementById('searchInput');
-    if (si) si.addEventListener('input', function() {
+    if (si) si.addEventListener('input', function () {
         var val = si.value.toLowerCase();
-        document.querySelectorAll('.svc-card').forEach(function(card) {
+        document.querySelectorAll('.svc-card, .car-svc-card').forEach(function (card) {
             card.style.display = card.textContent.toLowerCase().includes(val) ? '' : 'none';
         });
     });
 
-    document.querySelectorAll('.btn-edit-svc').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            const type = this.dataset.type;
-            const id = this.dataset.id;
-            
-            // Set service ID for edit form
-            document.getElementById('editServiceId').value = id;
-            
-            // Populate modal fields based on service type
-            if (type === 'tour') {
-                document.getElementById('editServiceType').value = 'tour';
-            } else if (type === 'car') {
-                document.getElementById('editServiceType').value = 'car';
-            } else if (type === 'transfer') {
-                document.getElementById('editServiceType').value = 'transfer';
-            } else if (type === 'event') {
-                document.getElementById('editServiceType').value = 'event';
-            }
-            
-            document.getElementById('editServiceModal').style.display = 'flex';
+    // ── New Service button — open the right modal based on active tab ──
+    document.getElementById('btnNewService').addEventListener('click', function () {
+        if (activeTab === 'cars') {
+            openCarModal();
+        } else if (activeTab === 'tours') {
+            openTourModal();
+        } else {
+            openSimpleModal(activeTab === 'transfers' ? 'transfer' : 'event');
+        }
+    });
+
+    // ── Edit buttons ──
+    document.querySelectorAll('.btn-edit-svc').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var type = this.dataset.type;
+            var id   = this.dataset.id;
+            fetch('/services/' + type + '/' + id + '/data')
+                .then(r => r.json())
+                .then(data => {
+                    if (type === 'tour') loadTourModal(data);
+                    else if (type === 'car') loadCarModal(data);
+                    else loadSimpleModal(type, data);
+                });
         });
     });
 
-    document.querySelectorAll('.btn-del-svc').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            if (confirm('Delete this service?')) {
-                const id   = this.dataset.id;
-                const type = this.dataset.type;
-                const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/services/' + id;
-
-                function addHidden(name, value) {
-                    var input = document.createElement('input');
-                    input.type  = 'hidden';
-                    input.name  = name;
-                    input.value = value;
-                    form.appendChild(input);
-                }
-
-                addHidden('_token', csrf);
-                addHidden('_method', 'DELETE');
-                addHidden('service_type', type);
-
-                document.body.appendChild(form);
-                form.submit();
-            }
+    // ── Delete buttons ──
+    document.querySelectorAll('.btn-del-svc').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (!confirm('Delete this service?')) return;
+            var id   = this.dataset.id;
+            var type = this.dataset.type;
+            var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/services/' + id;
+            [['_token', csrf], ['_method', 'DELETE'], ['service_type', type]].forEach(function (p) {
+                var inp = document.createElement('input');
+                inp.type = 'hidden'; inp.name = p[0]; inp.value = p[1];
+                form.appendChild(inp);
+            });
+            document.body.appendChild(form);
+            form.submit();
         });
+    });
+
+    // ── Add Highlight ──
+    document.getElementById('btnAddHighlight').addEventListener('click', function () {
+        addHighlightRow();
     });
 });
+
+// ── Price counter ──
+function changePrice(inputId, delta) {
+    var inp = document.getElementById(inputId);
+    var val = Math.max(0, (parseInt(inp.value) || 0) + delta);
+    inp.value = val;
+    document.getElementById(inputId + 'Display').textContent = val;
+}
+
+function setPrice(inputId, val) {
+    val = parseInt(val) || 0;
+    document.getElementById(inputId).value = val;
+    document.getElementById(inputId + 'Display').textContent = val;
+}
+
+// ── Close modal ──
+function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+// ── Tour modal (add) ──
+function openTourModal() {
+    document.getElementById('tourModalTitle').textContent = 'Add Service';
+    document.getElementById('tourForm').action = '{{ route("services.store") }}';
+    document.getElementById('tourMethod').value = 'POST';
+    document.getElementById('tourTitle').value = '';
+    document.getElementById('tourDays').value = 1;
+    document.getElementById('tourDesc').value = '';
+    document.getElementById('tourInclusions').value = '';
+    document.getElementById('highlightsList').innerHTML = '';
+    document.getElementById('tourExistingImages').value = '[]';
+    document.getElementById('tourExistingImageIds').value = '[]';
+    clearImgArea('tourImagesArea', 'tourImgSlot');
+    setPrice('tourPrice', 100);
+    highlightIndex = 0;
+    addHighlightRow();
+    document.getElementById('tourModal').style.display = 'flex';
+}
+
+// ── Tour modal (edit) ──
+function loadTourModal(data) {
+    document.getElementById('tourModalTitle').textContent = 'Edit Service';
+    document.getElementById('tourForm').action = '/services/' + data.id;
+    document.getElementById('tourMethod').value = 'PUT';
+    document.getElementById('tourTitle').value = data.title || '';
+    document.getElementById('tourDays').value = data.days || 1;
+    document.getElementById('tourDesc').value = data.description || '';
+    document.getElementById('tourInclusions').value = data.inclusions || '';
+    document.getElementById('tourExistingImages').value = JSON.stringify(data.images || []);
+    document.getElementById('tourExistingImageIds').value = JSON.stringify(data.image_id || []);
+    setPrice('tourPrice', data.price || 100);
+
+    // Highlights
+    document.getElementById('highlightsList').innerHTML = '';
+    highlightIndex = 0;
+    var highlights = data.highlights || [];
+    if (highlights.length === 0) {
+        addHighlightRow();
+    } else {
+        highlights.forEach(function (h) { addHighlightRow(h); });
+    }
+
+    // Existing images preview
+    clearImgArea('tourImagesArea', 'tourImgSlot');
+    (data.images || []).forEach(function (url, i) {
+        insertImgPreview('tourImagesArea', 'tourImgSlot', url, i, 'tour');
+    });
+
+    document.getElementById('tourModal').style.display = 'flex';
+}
+
+// ── Car modal (add) ──
+function openCarModal() {
+    document.getElementById('carModalTitle').textContent = 'Add Service';
+    document.getElementById('carForm').action = '{{ route("services.store") }}';
+    document.getElementById('carMethod').value = 'POST';
+    document.getElementById('carName').value = '';
+    document.getElementById('carYear').value = new Date().getFullYear();
+    document.getElementById('carTransmission').value = '';
+    document.getElementById('carFuelType').value = '';
+    document.getElementById('carAvailable').checked = true;
+    document.getElementById('carExistingImages').value = '[]';
+    document.getElementById('carExistingImageIds').value = '[]';
+    clearImgArea('carImagesArea', 'carImgSlot');
+    setPrice('carPrice', 100);
+    document.getElementById('carModal').style.display = 'flex';
+}
+
+// ── Car modal (edit) ──
+function loadCarModal(data) {
+    document.getElementById('carModalTitle').textContent = 'Edit Service';
+    document.getElementById('carForm').action = '/services/' + data.id;
+    document.getElementById('carMethod').value = 'PUT';
+    document.getElementById('carName').value = data.car_name || '';
+    document.getElementById('carYear').value = data.year || new Date().getFullYear();
+    document.getElementById('carTransmission').value = data.transmission || '';
+    document.getElementById('carFuelType').value = data.fuel_type || '';
+    document.getElementById('carAvailable').checked = data.available || false;
+    document.getElementById('carExistingImages').value = JSON.stringify(data.images || []);
+    document.getElementById('carExistingImageIds').value = JSON.stringify(data.image_id || []);
+    setPrice('carPrice', data.price || 100);
+
+    clearImgArea('carImagesArea', 'carImgSlot');
+    (data.images || []).forEach(function (url, i) {
+        insertImgPreview('carImagesArea', 'carImgSlot', url, i, 'car');
+    });
+
+    document.getElementById('carModal').style.display = 'flex';
+}
+
+// ── Simple modal (transfer / event) ──
+function openSimpleModal(type) {
+    document.getElementById('simpleModalTitle').textContent = 'Add Service';
+    document.getElementById('simpleForm').action = '{{ route("services.store") }}';
+    document.getElementById('simpleMethod').value = 'POST';
+    document.getElementById('simpleType').value = type;
+    document.getElementById('simpleTitle').value = '';
+    document.getElementById('simpleDesc').value = '';
+    setPrice('simplePrice', 100);
+    document.getElementById('simpleModal').style.display = 'flex';
+}
+
+function loadSimpleModal(type, data) {
+    document.getElementById('simpleModalTitle').textContent = 'Edit Service';
+    document.getElementById('simpleForm').action = '/services/' + data.id;
+    document.getElementById('simpleMethod').value = 'PUT';
+    document.getElementById('simpleType').value = type;
+    document.getElementById('simpleTitle').value = data.title || '';
+    document.getElementById('simpleDesc').value = data.description || '';
+    setPrice('simplePrice', data.price || 100);
+    document.getElementById('simpleModal').style.display = 'flex';
+}
+
+// ── Highlights ──
+function addHighlightRow(h) {
+    h = h || {};
+    var idx = highlightIndex++;
+    var row = document.createElement('div');
+    row.className = 'highlight-row';
+    row.dataset.idx = idx;
+
+    var imgHtml = h.image
+        ? '<div class="highlight-img-wrap"><img src="' + h.image + '" class="highlight-thumb"><button type="button" class="highlight-img-remove" onclick="removeHighlightImg(this, ' + idx + ')">&times;</button><input type="hidden" name="highlight_existing_img_' + idx + '" value="' + h.image + '"></div>'
+        : '<button type="button" class="btn-add-img" onclick="triggerHighlightImg(this, ' + idx + ')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Image<input type="file" name="highlight_image_' + idx + '" accept="image/*" style="display:none" onchange="previewHighlightImg(this, ' + idx + ')"></button>';
+
+    row.innerHTML =
+        '<input type="text" name="highlight_title[]" placeholder="Highlight Title" value="' + (h.title || '') + '">' +
+        '<input type="text" name="highlight_desc[]" placeholder="Highlights Description" value="' + (h.description || '') + '">' +
+        imgHtml +
+        '<button type="button" class="btn-del-row" onclick="this.closest(\'.highlight-row\').remove()" title="Remove">&#128465;</button>';
+
+    document.getElementById('highlightsList').appendChild(row);
+}
+
+function triggerHighlightImg(btn, idx) {
+    btn.querySelector('input[type=file]').click();
+}
+
+function previewHighlightImg(input, idx) {
+    if (!input.files || !input.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var btn = input.closest('.btn-add-img');
+        var wrap = document.createElement('div');
+        wrap.className = 'highlight-img-wrap';
+        wrap.innerHTML = '<img src="' + e.target.result + '" class="highlight-thumb"><button type="button" class="highlight-img-remove" onclick="removeHighlightImg(this, ' + idx + ')">&times;</button>';
+        input.name = 'highlight_image_' + idx;
+        wrap.appendChild(input);
+        btn.replaceWith(wrap);
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+
+function removeHighlightImg(btn, idx) {
+    var wrap = btn.closest('.highlight-img-wrap');
+    var row  = wrap.closest('.highlight-row');
+    var newBtn = document.createElement('button');
+    newBtn.type = 'button';
+    newBtn.className = 'btn-add-img';
+    newBtn.onclick = function () { triggerHighlightImg(newBtn, idx); };
+    newBtn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Image<input type="file" name="highlight_image_' + idx + '" accept="image/*" style="display:none" onchange="previewHighlightImg(this, ' + idx + ')">';
+    wrap.replaceWith(newBtn);
+}
+
+// ── Image upload area ──
+function handleTourImages(input) { appendImgPreviews('tourImagesArea', 'tourImgSlot', input, 'tour'); }
+function handleCarImages(input)  { appendImgPreviews('carImagesArea', 'carImgSlot', input, 'car'); }
+
+function appendImgPreviews(areaId, slotId, input, prefix) {
+    if (!input.files) return;
+    Array.from(input.files).forEach(function (file, i) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var area = document.getElementById(areaId);
+            var slot = document.getElementById(slotId);
+            var wrap = document.createElement('div');
+            wrap.className = 'img-preview-wrap';
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'img-preview';
+            var rmBtn = document.createElement('button');
+            rmBtn.type = 'button';
+            rmBtn.className = 'img-preview-remove';
+            rmBtn.innerHTML = '&times;';
+            rmBtn.onclick = function () { wrap.remove(); };
+            wrap.appendChild(img);
+            wrap.appendChild(rmBtn);
+            area.insertBefore(wrap, slot);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function insertImgPreview(areaId, slotId, url, idx, prefix) {
+    var area = document.getElementById(areaId);
+    var slot = document.getElementById(slotId);
+    var wrap = document.createElement('div');
+    wrap.className = 'img-preview-wrap';
+    var img = document.createElement('img');
+    img.src = url; img.className = 'img-preview';
+    var rmBtn = document.createElement('button');
+    rmBtn.type = 'button'; rmBtn.className = 'img-preview-remove'; rmBtn.innerHTML = '&times;';
+    rmBtn.onclick = function () {
+        wrap.remove();
+        var existing = JSON.parse(document.getElementById(prefix + 'ExistingImages').value || '[]');
+        existing.splice(idx, 1);
+        document.getElementById(prefix + 'ExistingImages').value = JSON.stringify(existing);
+    };
+    wrap.appendChild(img); wrap.appendChild(rmBtn);
+    area.insertBefore(wrap, slot);
+}
+
+function clearImgArea(areaId, slotId) {
+    var area = document.getElementById(areaId);
+    var slot = document.getElementById(slotId);
+    Array.from(area.querySelectorAll('.img-preview-wrap')).forEach(el => el.remove());
+}
 </script>
 @endsection

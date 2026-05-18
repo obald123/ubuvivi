@@ -37,6 +37,7 @@ class Itinerary extends Model
 
     public $fillable = [
         'title',
+        'days',
         'price',
         'description',
         'images',

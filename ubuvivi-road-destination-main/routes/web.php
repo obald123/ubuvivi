@@ -116,6 +116,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/services', [App\Http\Controllers\Admin\ServiceController::class, 'index'])->name('services.index');
     Route::get('/services/create', [App\Http\Controllers\Admin\ServiceController::class, 'create'])->name('services.create');
     Route::post('/services', [App\Http\Controllers\Admin\ServiceController::class, 'store'])->name('services.store');
+    Route::get('/services/{type}/{id}/data', [App\Http\Controllers\Admin\ServiceController::class, 'getData'])->name('services.getData');
     Route::get('/services/{id}/edit', [App\Http\Controllers\Admin\ServiceController::class, 'edit'])->name('services.edit');
     Route::put('/services/{id}', [App\Http\Controllers\Admin\ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [App\Http\Controllers\Admin\ServiceController::class, 'destroy'])->name('services.destroy');
