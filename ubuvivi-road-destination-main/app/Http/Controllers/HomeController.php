@@ -15,6 +15,12 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    private function safeDate(?string $date): ?string
+    {
+        if (!$date) return null;
+        return trim(preg_replace('/\s+(AM|PM)\s*$/i', '', trim($date)));
+    }
+
     public function index()
     {
         $carBookings   = CarBooking::count();
@@ -36,7 +42,7 @@ class HomeController extends Controller
                 TourBooking::with('tour')->latest()->take(5)->get()->map(fn ($b) => [
                     'name'    => $b->names,
                     'service' => 'Tour & Travel',
-                    'date'    => $b->date,
+                    'date'    => $this->safeDate($b->date),
                     'sub'     => optional($b->tour)->title ?? 'Tour Booking',
                 ])
             )
@@ -65,7 +71,7 @@ class HomeController extends Controller
                 TourBooking::with('tour')->where('approved', true)->latest()->take(5)->get()->map(fn ($b) => [
                     'name'    => $b->names,
                     'service' => 'Tour & Travel',
-                    'date'    => $b->date,
+                    'date'    => $this->safeDate($b->date),
                     'sub'     => optional($b->tour)->title ?? 'Tour Booking',
                 ])
             )

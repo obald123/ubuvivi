@@ -397,7 +397,10 @@
                             <div class="panel-meta">{{ $req['sub'] }}</div>
                         </div>
                         <div class="panel-date">
-                            {{ $req['date'] ? \Carbon\Carbon::parse($req['date'])->format('d F Y') : 'Date pending' }}
+                            @php
+                                try { echo $req['date'] ? \Carbon\Carbon::parse($req['date'])->format('d F Y') : 'Date pending'; }
+                                catch (\Exception $e) { echo 'Date pending'; }
+                            @endphp
                         </div>
                     </div>
                 @empty
@@ -419,7 +422,10 @@
                             <div class="panel-meta">{{ $bk['sub'] }}</div>
                         </div>
                         <div class="panel-date">
-                            {{ $bk['date'] ? \Carbon\Carbon::parse($bk['date'])->format('d F Y') : 'Date pending' }}
+                            @php
+                                try { echo $bk['date'] ? \Carbon\Carbon::parse($bk['date'])->format('d F Y') : 'Date pending'; }
+                                catch (\Exception $e) { echo 'Date pending'; }
+                            @endphp
                         </div>
                     </div>
                 @empty
