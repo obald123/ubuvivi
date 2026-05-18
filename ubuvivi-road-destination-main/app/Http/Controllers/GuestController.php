@@ -298,8 +298,8 @@ class GuestController extends Controller
             return redirect()->back();
         }
 
-        $pickupTime = trim($request->pickup_time . ' ' . ($request->pickup_meridiem ?? ''));
-        $returnTime = trim($request->return_time . ' ' . ($request->return_meridiem ?? ''));
+        $pickupTime = $request->pickup_time ?? '';
+        $returnTime = $request->return_time ?? '';
 
         try {
             $start = \Carbon\Carbon::parse($request->pickup_date);
@@ -849,8 +849,8 @@ class GuestController extends Controller
         ]);
 
         $packageLabel = $request->package_label ?? 'Event Planning';
-        $timePart     = trim(($request->event_time ?? '') . ' ' . ($request->event_meridiem ?? ''));
-        $dateTime     = trim($request->date . ($timePart ? ' ' . $timePart : ''));
+        $timePart = $request->event_time ?? '';
+        $dateTime = trim($request->date . ($timePart ? ' ' . $timePart : ''));
 
         $fullMessage  = "Package: {$packageLabel}\nDate & Time: {$dateTime}";
         if ($request->filled('event_details'))  $fullMessage .= "\n\nEvent Details:\n" . $request->event_details;
@@ -932,7 +932,7 @@ class GuestController extends Controller
             'pickup_location' => $request->pickup_location,
             'destination'     => $request->destination,
             'pickup_date'     => $request->pickup_date,
-            'pickup_time'     => trim($request->pickup_time . ' ' . ($request->pickup_meridiem ?? '')),
+            'pickup_time'     => $request->pickup_time ?? '',
             'number_of_days'  => $request->number_of_days ?? 1,
             'message'         => trim(($request->service_label ?? '') . ($request->message ? "\n" . $request->message : '')),
             'price'           => '0',

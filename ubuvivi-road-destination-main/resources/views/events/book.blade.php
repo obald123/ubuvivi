@@ -299,10 +299,6 @@
                             <div class="eb-datetime-row">
                                 <input type="date" name="date" value="{{ old('date') }}" min="{{ date('Y-m-d') }}" required>
                                 <input type="time" name="event_time" value="{{ old('event_time') }}">
-                                <select name="event_meridiem">
-                                    <option value="AM">AM</option>
-                                    <option value="PM">PM</option>
-                                </select>
                             </div>
                         </div>
                     </div>

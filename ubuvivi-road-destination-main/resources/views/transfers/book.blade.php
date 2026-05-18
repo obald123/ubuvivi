@@ -336,15 +336,7 @@
                             </div>
                             <div class="tb-form-group">
                                 <label>Pickup Time <span style="color:#e74c3c">*</span></label>
-                                <div class="tb-time-row">
-                                    <input type="time" name="pickup_time" value="{{ old('pickup_time') }}" required>
-                                    <div class="tb-meridiem">
-                                        <select name="pickup_meridiem">
-                                            <option value="AM">AM</option>
-                                            <option value="PM">PM</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                <input type="time" name="pickup_time" value="{{ old('pickup_time') }}" required>
                             </div>
                         </div>
                         <div class="tb-form-row single" style="margin-bottom:26px;">
