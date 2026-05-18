@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AdminBookingMail;
+use App\Models\BlogPost;
 use App\Mail\BookingMail;
 use App\Mail\ContactMail;
 use App\Models\CarBooking;
@@ -783,6 +784,21 @@ class GuestController extends Controller
 
             return view("car.pay", compact("message", "booking", "error"));
         }
+    }
+
+    public function blog_list()
+    {
+        $posts   = BlogPost::where('published', true)->latest('published_at')->get();
+        $featured = $posts->first();
+        $rest    = $posts->skip(1);
+        return view('blog.index', compact('posts', 'featured', 'rest'));
+    }
+
+    public function blog_show($slug)
+    {
+        $post   = BlogPost::where('slug', $slug)->where('published', true)->firstOrFail();
+        $recent = BlogPost::where('published', true)->where('id', '!=', $post->id)->latest('published_at')->take(3)->get();
+        return view('blog.show', compact('post', 'recent'));
     }
 
     public function event_book_form(Request $request)

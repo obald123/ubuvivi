@@ -66,6 +66,9 @@ Route::controller(GuestController::class)->group(function () {
     Route::get("/event/book", 'event_book_form')->name("event.book.form");
     Route::post("/event/book", 'event_book_store')->name("event.book.store");
 
+    Route::get("/blog", 'blog_list')->name("blog.index");
+    Route::get("/blog/{slug}", 'blog_show')->name("blog.show");
+
     Route::get("/tour/pay/{id}", 'tour_payment_form')->name("tour.payment.form");
 
     Route::get("/car/booking/pay/{id}", 'car_booking_payment_form')->name("car.booking.payment.form");
@@ -127,6 +130,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/services/{id}', [App\Http\Controllers\Admin\ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [App\Http\Controllers\Admin\ServiceController::class, 'destroy'])->name('services.destroy');
     
+    Route::get('/admin/blog', [App\Http\Controllers\Admin\BlogController::class, 'index'])->name('blog.admin.index');
+    Route::post('/admin/blog', [App\Http\Controllers\Admin\BlogController::class, 'store'])->name('blog.admin.store');
+    Route::get('/admin/blog/{id}/data', [App\Http\Controllers\Admin\BlogController::class, 'getData'])->name('blog.admin.getData');
+    Route::put('/admin/blog/{id}', [App\Http\Controllers\Admin\BlogController::class, 'update'])->name('blog.admin.update');
+    Route::delete('/admin/blog/{id}', [App\Http\Controllers\Admin\BlogController::class, 'destroy'])->name('blog.admin.destroy');
+
     Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/users', [App\Http\Controllers\Admin\ProfileController::class, 'storeUser'])->name('profile.users.store');

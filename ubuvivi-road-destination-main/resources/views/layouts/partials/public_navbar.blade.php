@@ -34,6 +34,9 @@
                 <a class="nav-link {{ $servicesActive ? 'active-link' : '' }}" href="{{ route('guest.all_services') }}">Our Service</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('blog.*') ? 'active-link' : '' }}" href="{{ route('blog.index') }}">Blog</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('guest.contact') ? 'active-link' : '' }}" href="{{ route('guest.contact') }}">Contact</a>
             </li>
             <li class="nav-item">

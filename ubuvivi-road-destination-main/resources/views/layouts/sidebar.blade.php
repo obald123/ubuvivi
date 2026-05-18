@@ -25,6 +25,12 @@
             'patterns' => ['services*', 'vehicles*', 'itineraries*', 'types*', 'packages*'],
         ],
         [
+            'label' => 'Blog',
+            'route' => route('blog.admin.index'),
+            'icon' => 'fas fa-newspaper',
+            'patterns' => ['admin/blog*'],
+        ],
+        [
             'label' => 'Profile',
             'route' => route('profile.index'),
             'icon' => 'fas fa-user',
