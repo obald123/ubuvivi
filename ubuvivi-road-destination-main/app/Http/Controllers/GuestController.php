@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\UploadsImages;
 use App\Mail\AdminBookingMail;
 use App\Models\BlogPost;
 use App\Mail\BookingMail;
@@ -24,6 +25,7 @@ use Paypack\Paypack;
 
 class GuestController extends Controller
 {
+    use UploadsImages;
 
     private $carBookingRepository;
     private $carTransferRepository;
@@ -124,16 +126,7 @@ class GuestController extends Controller
             'passport_photos.*'   => 'nullable|image|max:4096',
         ]);
 
-        $photos = [];
-        if ($request->hasFile('passport_photos')) {
-            foreach ($request->file('passport_photos') as $file) {
-                if (!$file) continue;
-                try {
-                    $result   = \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::upload($file->getRealPath(), ['folder' => 'ubuvivi/passports']);
-                    $photos[] = $result->getSecurePath();
-                } catch (\Throwable $e) {}
-            }
-        }
+        [$photos] = $this->uploadImages($request, 'passport_photos', 'ubuvivi/passports');
 
         \App\Models\FlightBooking::create([
             'names'                => $request->names,

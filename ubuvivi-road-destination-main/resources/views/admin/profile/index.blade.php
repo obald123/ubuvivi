@@ -375,31 +375,16 @@
     }
 
     @media (max-width: 991px) {
-        .users-table-wrap {
-            overflow-x: auto;
-        }
-
-        .users-table {
-            min-width: 900px;
-        }
+        .users-table-wrap { overflow-x: auto; }
+        .users-table { min-width: 780px; }
+        .profile-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 767px) {
-        .profile-toolbar {
-            align-items: stretch;
-        }
-
-        .profile-tabs {
-            gap: 24px;
-        }
-
-        .profile-add-user {
-            align-self: flex-start;
-        }
-
-        .profile-grid {
-            grid-template-columns: 1fr;
-        }
+        .profile-toolbar { align-items: stretch; }
+        .profile-tabs { gap: 24px; }
+        .profile-add-user { align-self: flex-start; width: 100%; }
+        .profile-grid { grid-template-columns: 1fr; }
 
         .profile-card {
             padding: 22px 18px;

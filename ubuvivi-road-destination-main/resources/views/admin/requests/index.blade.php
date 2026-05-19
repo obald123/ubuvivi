@@ -358,13 +358,9 @@
     }
 
     @media (max-width: 991px) {
-        .req-table-wrap {
-            overflow-x: auto;
-        }
-
-        .req-table {
-            min-width: 760px;
-        }
+        .req-table-wrap { overflow-x: auto; }
+        .req-table { min-width: 760px; }
+        .req-filter-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 767px) {
@@ -416,6 +412,17 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @for($sk=0;$sk<5;$sk++)
+                        <tr class="skel-row">
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel" style="width:75%;"></span></td>
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel" style="width:70px;height:22px;border-radius:50px;"></span></td>
+                            <td><span class="skel" style="width:80px;height:28px;border-radius:7px;"></span></td>
+                        </tr>
+                        @endfor
                         @foreach($allRequests as $request)
                         <tr data-status="{{ $request['status_key'] }}">
                             <td>{{ $request['service'] }}</td>

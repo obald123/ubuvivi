@@ -90,8 +90,21 @@
                 </tr>
             </thead>
             <tbody id="hbTableBody">
+                @for($sk=0;$sk<5;$sk++)
+                <tr class="skel-row">
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel" style="width:70%;margin-bottom:6px;"></span><span class="skel short"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel" style="width:25px;"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel" style="width:70px;height:22px;border-radius:50px;"></span></td>
+                    <td><span class="skel" style="width:90px;height:28px;border-radius:7px;"></span></td>
+                </tr>
+                @endfor
                 @foreach($bookings as $b)
-                <tr class="hb-row">
+                <tr class="hb-row" data-searchable>
                     <td style="color:#aaa;font-size:12px;">{{ $b->id }}</td>
                     <td>
                         <div style="font-weight:600;color:#182b39;">{{ $b->names }}</div>
@@ -196,14 +209,5 @@ function updateStatus(id, status, btn) {
     .then(function(d){ if (d.success) location.reload(); });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var si = document.getElementById('hbSearch');
-    if (si) si.addEventListener('input', function() {
-        var val = si.value.toLowerCase();
-        document.querySelectorAll('.hb-row').forEach(function(r) {
-            r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
-        });
-    });
-});
 </script>
 @endsection

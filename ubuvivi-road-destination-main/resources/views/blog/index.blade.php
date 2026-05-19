@@ -181,7 +181,20 @@
                 @if($rest->count())
                 <div class="blog-section-label">More Articles</div>
                 <div class="blog-grid" id="blogGrid">
+                    @for($sk=0;$sk<3;$sk++)
+                    <div class="skel-card-wrap skel-card">
+                        <div class="skel skel-img"></div>
+                        <div class="skel-body" style="padding:18px 20px 22px;">
+                            <div class="skel skel-line" style="width:40%;height:20px;border-radius:50px;margin-bottom:12px;"></div>
+                            <div class="skel skel-line" style="width:90%;margin-bottom:8px;"></div>
+                            <div class="skel skel-line short" style="margin-bottom:6px;"></div>
+                            <div class="skel skel-line xshort"></div>
+                        </div>
+                    </div>
+                    @endfor
                     @foreach($rest as $post)
+                    {{-- wrap each real card so JS can find it --}}
+                    <div class="real-card" style="display:contents">
                     <a href="{{ route('blog.show', $post->slug) }}" class="blog-card blog-item" data-cat="{{ $post->category }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
                         @if($post->image)
                             <img src="{{ $post->image }}" alt="{{ $post->title }}" class="blog-card-img">
@@ -202,6 +215,7 @@
                             </div>
                         </div>
                     </a>
+                    </div>{{-- .real-card --}}
                     @endforeach
                 </div>
                 @endif

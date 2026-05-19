@@ -262,35 +262,6 @@
     .aim-card-wrap h3 { font-size: 26px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
     .aim-card-wrap p  { font-size: 15px; color: #555; line-height: 1.75; margin: 0; }
 
-    /* Objective card */
-    .obj-card-wrap {
-        position: relative;
-        background: #0D1F35;
-        border-radius: 20px 140px 140px 20px;
-        padding: 32px 220px 32px 36px;
-        overflow: hidden;
-        min-height: 180px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .obj-card-wrap h3 {
-        font-size: 26px; font-weight: 700; color: #fff;
-        margin-bottom: 12px; text-align: center;
-    }
-    .obj-card-wrap p  { font-size: 15px; color: rgba(255,255,255,.8); line-height: 1.75; margin: 0; }
-    .obj-circle {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 170px; height: 170px;
-        border-radius: 50%;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
     /* ── Services ── */
     .services-section { background: #fff; }
     .service-row { padding: 50px 0; border-bottom: 1px solid #f0f0f0; }
@@ -524,43 +495,9 @@
         </div>
     </section>
 
-    {{-- ── Our Objective & Aim ── --}}
+    {{-- ── Our Mission & Vision ── --}}
     <section class="objective-section sec-pad">
         <div class="container">
-
-            {{-- Row 1: Heading LEFT | Aim card RIGHT --}}
-            <div class="row align-items-center mb-4">
-                <div class="col-lg-4 mb-4 mb-lg-0" data-aos="fade-right">
-                    <div class="heading-block">
-                        <h2>Our Objective<br><em>&amp; Aim</em></h2>
-                        <div class="double-underline">
-                            <div class="line-orange"></div>
-                            <div class="line-dark"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8" data-aos="fade-left">
-                    <div class="aim-card-wrap">
-                        <div class="aim-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_13.jpg') }}')"></div>
-                        <h3>Aim</h3>
-                        <p>UBUVIVI car Rental and UBUVIVI tours and travels aim at making our clients smile as they enjoy the ride.</p>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Row 2: Objective card LEFT-aligned --}}
-            <div class="row" data-aos="fade-up">
-                <div class="col-lg-9">
-                    <div class="obj-card-wrap">
-                        <h3>Objective</h3>
-                        <p>UBUVIVI Car Rental &amp; Tours provides reliable car rentals, tours, and transport services at affordable prices while ensuring excellent service and maximum client satisfaction.</p>
-                        <div class="obj-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_12.jpg') }}')"></div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Divider --}}
-            <hr style="border-color:#f0f0f0; margin: 48px 0;">
 
             {{-- Row 3: Heading LEFT | Mission card RIGHT --}}
             <div class="row align-items-center mb-4">

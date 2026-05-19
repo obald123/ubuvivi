@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\UploadsImages;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class BlogController extends Controller
 {
+    use UploadsImages;
+
     public function index()
     {
         $posts = BlogPost::withTrashed()->latest()->get();
@@ -30,11 +32,7 @@ class BlogController extends Controller
         $imageId = null;
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            try {
-                $uploaded = Cloudinary::upload($request->file('image')->getRealPath(), ['folder' => 'ubuvivi/blog']);
-                $image    = $uploaded->getSecurePath();
-                $imageId  = $uploaded->getPublicId();
-            } catch (\Exception $e) {}
+            $image = $this->uploadImage($request->file('image'), 'ubuvivi/blog');
         }
 
         BlogPost::create([
@@ -82,11 +80,11 @@ class BlogController extends Controller
         $imageId = $post->image_id;
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            try {
-                $uploaded = Cloudinary::upload($request->file('image')->getRealPath(), ['folder' => 'ubuvivi/blog']);
-                $image    = $uploaded->getSecurePath();
-                $imageId  = $uploaded->getPublicId();
-            } catch (\Exception $e) {}
+            $newUrl = $this->uploadImage($request->file('image'), 'ubuvivi/blog');
+            if ($newUrl) {
+                $image   = $newUrl;
+                $imageId = null;
+            }
         }
 
         $wasPublished = $post->published;

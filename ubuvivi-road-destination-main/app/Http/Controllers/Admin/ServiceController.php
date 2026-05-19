@@ -13,9 +13,11 @@ use App\Models\Types\FuelType;
 use App\Models\Types\VehicleBrand;
 use App\Models\Types\VehicleModel;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Http\Controllers\Concerns\UploadsImages;
 
 class ServiceController extends Controller
 {
+    use UploadsImages;
     public function index()
     {
         $tours = Itinerary::all();
@@ -270,30 +272,6 @@ class ServiceController extends Controller
         }
     }
 
-    private function uploadImages(Request $request, string $fieldName): array
-    {
-        $images   = [];
-        $imageIds = [];
-
-        if ($request->hasFile($fieldName)) {
-            foreach ((array) $request->file($fieldName) as $file) {
-                if ($file && $file->isValid()) {
-                    try {
-                        $uploaded = Cloudinary::upload($file->getRealPath(), ['folder' => 'ubuvivi']);
-                        if ($uploaded) {
-                            $images[]   = $uploaded->getSecurePath();
-                            $imageIds[] = $uploaded->getPublicId();
-                        }
-                    } catch (\Exception $e) {
-                        // skip failed upload
-                    }
-                }
-            }
-        }
-
-        return [$images, $imageIds];
-    }
-
     private function processInclusions(string $raw): array
     {
         $items = [];
@@ -322,12 +300,8 @@ class ServiceController extends Controller
             if ($request->hasFile("highlight_image_{$i}")) {
                 $file = $request->file("highlight_image_{$i}");
                 if ($file && $file->isValid()) {
-                    try {
-                        $uploaded  = Cloudinary::upload($file->getRealPath(), ['folder' => 'ubuvivi']);
-                        $h['image'] = $uploaded ? $uploaded->getSecurePath() : $h['image'];
-                    } catch (\Exception $e) {
-                        // keep existing
-                    }
+                    $url = $this->uploadImage($file, 'ubuvivi');
+                    if ($url) $h['image'] = $url;
                 }
             }
 

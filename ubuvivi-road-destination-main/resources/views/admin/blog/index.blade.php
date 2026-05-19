@@ -166,8 +166,18 @@
                 </tr>
             </thead>
             <tbody id="blogTableBody">
+                @for($sk=0;$sk<5;$sk++)
+                <tr class="skel-row">
+                    <td><span class="skel icon"></span></td>
+                    <td><span class="skel" style="width:70%;margin-bottom:6px;"></span><span class="skel short"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel" style="width:80px;height:28px;border-radius:7px;"></span></td>
+                </tr>
+                @endfor
                 @foreach($posts as $post)
-                <tr class="blog-row">
+                <tr class="blog-row" data-searchable>
                     <td class="cover-col">
                         @if($post->image)
                             <img src="{{ $post->image }}" alt="{{ $post->title }}" class="blog-cover">
@@ -372,15 +382,5 @@ function previewImg(input, previewId) {
     reader.readAsDataURL(input.files[0]);
 }
 
-// Search
-document.addEventListener('DOMContentLoaded', function() {
-    var si = document.getElementById('blogSearch');
-    if (si) si.addEventListener('input', function() {
-        var val = si.value.toLowerCase();
-        document.querySelectorAll('.blog-row').forEach(function(row) {
-            row.style.display = row.textContent.toLowerCase().includes(val) ? '' : 'none';
-        });
-    });
-});
 </script>
 @endsection

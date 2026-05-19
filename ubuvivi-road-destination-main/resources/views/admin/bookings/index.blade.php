@@ -403,32 +403,16 @@
     }
 
     @media (max-width: 991px) {
-        .book-search {
-            min-width: 260px;
-        }
-
-        .table-wrap {
-            overflow-x: auto;
-        }
-
-        .book-table {
-            min-width: 760px;
-        }
+        .book-search { min-width: 260px; }
+        .table-wrap { overflow-x: auto; }
+        .book-table { min-width: 760px; }
+        .filter-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 767px) {
-        .book-tools {
-            width: 100%;
-        }
-
-        .book-search {
-            min-width: 0;
-            width: 100%;
-        }
-
-        .filter-row {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+        .book-tools { width: 100%; }
+        .book-search { min-width: 0; width: 100%; }
+        .filter-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
         .detail-row {
             flex-direction: column;
@@ -474,6 +458,17 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @for($sk=0;$sk<5;$sk++)
+                        <tr class="skel-row">
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel" style="width:75%;"></span></td>
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel short"></span></td>
+                            <td><span class="skel" style="width:70px;height:22px;border-radius:50px;"></span></td>
+                            <td><span class="skel" style="width:80px;height:28px;border-radius:7px;"></span></td>
+                        </tr>
+                        @endfor
                         @foreach($allBookings as $bk)
                             <tr data-status="{{ $bk['status_key'] }}">
                                 <td>{{ $bk['service'] }}</td>

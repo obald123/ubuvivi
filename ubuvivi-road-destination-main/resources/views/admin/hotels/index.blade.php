@@ -87,8 +87,21 @@
 
     @if($hotels->count())
     <div class="hotels-grid" id="hotelGrid">
+        @for($sk=0;$sk<3;$sk++)
+        <div class="skel-card-wrap">
+            <div class="skel-card">
+                <div class="skel skel-img"></div>
+                <div class="skel-body" style="padding:16px 18px 18px;">
+                    <div class="skel skel-line" style="width:75%;margin-bottom:8px;"></div>
+                    <div class="skel skel-line short" style="margin-bottom:12px;"></div>
+                    <div class="skel skel-line" style="width:50%;margin-bottom:6px;"></div>
+                    <div class="skel skel-btn" style="width:80px;height:28px;border-radius:7px;margin-top:18px;"></div>
+                </div>
+            </div>
+        </div>
+        @endfor
         @foreach($hotels as $hotel)
-        <div class="hotel-adm-card hotel-item" data-name="{{ strtolower($hotel->name) }} {{ strtolower($hotel->location) }}">
+        <div class="hotel-adm-card hotel-item" data-searchable data-name="{{ strtolower($hotel->name) }} {{ strtolower($hotel->location) }}">
             @if($hotel->cover_image)
                 <img src="{{ $hotel->cover_image }}" alt="{{ $hotel->name }}" class="hotel-adm-img">
             @else
@@ -306,14 +319,5 @@ function previewHotelImgs(input, previewId) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var si = document.getElementById('hotelSearch');
-    if (si) si.addEventListener('input', function() {
-        var val = si.value.toLowerCase();
-        document.querySelectorAll('.hotel-item').forEach(function(card) {
-            card.style.display = card.dataset.name.includes(val) ? '' : 'none';
-        });
-    });
-});
 </script>
 @endsection

@@ -149,11 +149,17 @@
     .cal-day.booked { background: #2563EB; color: #fff; font-weight: 600; }
     .cal-day.range  { background: #EEF2FF; color: #4F6CDE; font-weight: 500; }
 
-    @media (max-width: 960px) {
-        .cd-stats-bar { flex-direction: column; }
-        .cd-stat { border-right: none; border-bottom: 1px solid #f0f0f0; }
-        .cd-stat:last-child { border-bottom: none; }
+    @media (max-width: 991px) {
         .cd-bottom-row { grid-template-columns: 1fr; }
+        .cd-stats-bar { flex-wrap: wrap; }
+        .cd-stat { flex: 1 1 48%; border-right: none; border-bottom: 1px solid #f0f0f0; }
+        .cd-stat:last-child { border-bottom: none; }
+    }
+    @media (max-width: 767px) {
+        .cd-stats-bar { flex-direction: column; }
+        .cd-stat { flex: unset; width: 100%; }
+        .cd-topbar { flex-direction: column; align-items: stretch; gap: 12px; }
+        .cd-search { max-width: 100%; }
     }
     @media (max-width: 576px) {
         .cd-topbar { flex-direction: column; align-items: stretch; }

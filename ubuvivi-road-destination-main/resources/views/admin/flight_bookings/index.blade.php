@@ -96,8 +96,20 @@
                 </tr>
             </thead>
             <tbody id="fbTableBody">
+                @for($sk=0;$sk<5;$sk++)
+                <tr class="skel-row">
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel" style="width:70%;margin-bottom:6px;"></span><span class="skel short"></span></td>
+                    <td><span class="skel short" style="margin-bottom:5px;"></span><span class="skel short"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel" style="width:30px;"></span></td>
+                    <td><span class="skel short"></span></td>
+                    <td><span class="skel" style="width:70px;height:22px;border-radius:50px;"></span></td>
+                    <td><span class="skel" style="width:90px;height:28px;border-radius:7px;"></span></td>
+                </tr>
+                @endfor
                 @foreach($bookings as $b)
-                <tr class="fb-row">
+                <tr class="fb-row" data-searchable>
                     <td style="color:#aaa;font-size:12px;">{{ $b->id }}</td>
                     <td>
                         <div style="font-weight:600;color:#182b39;">{{ $b->names }}</div>
@@ -225,15 +237,5 @@ function updateStatus(id, status, btn) {
     });
 }
 
-// Search
-document.addEventListener('DOMContentLoaded', function() {
-    var si = document.getElementById('fbSearch');
-    if (si) si.addEventListener('input', function() {
-        var val = si.value.toLowerCase();
-        document.querySelectorAll('.fb-row').forEach(function(row) {
-            row.style.display = row.textContent.toLowerCase().includes(val) ? '' : 'none';
-        });
-    });
-});
 </script>
 @endsection

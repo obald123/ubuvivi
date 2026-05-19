@@ -208,11 +208,21 @@
         margin-top: 14px;
     }
 
+    @media(max-width: 991px) {
+        .eb-form-wrap { padding: 32px 28px 38px; max-width: 100%; }
+    }
     @media(max-width: 767px) {
         .eb-form-wrap { padding: 24px 18px 28px; }
         .eb-form-row { grid-template-columns: 1fr; }
         .eb-datetime-row { grid-template-columns: 1fr; }
         .eb-datetime-row input[type=time] { width: 100%; }
+        .eb-section { padding: 44px 0 60px; }
+        .eb-section-header { margin-bottom: 28px; }
+    }
+    @media(max-width: 480px) {
+        .eb-hero { height: 280px; }
+        .eb-hero-content h1 { font-size: 24px; }
+        .eb-submit { font-size: 15px; padding: 13px; }
     }
 </style>
 @endsection

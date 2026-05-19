@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Hotel;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Concerns\UploadsImages;
 
 class HotelController extends Controller
 {
+    use UploadsImages;
     public function index()
     {
         $hotels = Hotel::withTrashed()->latest()->get();
@@ -93,22 +94,6 @@ class HotelController extends Controller
     {
         Hotel::findOrFail($id)->delete();
         return redirect()->route('admin.hotels.index')->with('success', 'Hotel removed.');
-    }
-
-    private function uploadImages(Request $request, string $field): array
-    {
-        $images = [];
-        $ids    = [];
-        if ($request->hasFile($field)) {
-            foreach ($request->file($field) as $file) {
-                try {
-                    $result   = Cloudinary::upload($file->getRealPath(), ['folder' => 'ubuvivi/hotels']);
-                    $images[] = $result->getSecurePath();
-                    $ids[]    = $result->getPublicId();
-                } catch (\Throwable $e) {}
-            }
-        }
-        return [$images, $ids];
     }
 
     private function parseAmenities(?string $raw): array

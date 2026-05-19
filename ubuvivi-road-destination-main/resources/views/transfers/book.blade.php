@@ -226,10 +226,20 @@
     }
     .tb-submit:hover { background: #1e3a5f; }
 
+    @media(max-width: 991px) {
+        .tb-summary { position: static; margin-bottom: 28px; }
+        .tb-form-card { padding: 28px 24px 32px; }
+    }
     @media(max-width: 767px) {
         .tb-form-row { grid-template-columns: 1fr; }
         .tb-form-card { padding: 24px 18px 28px; }
         .tb-summary { position: static; margin-bottom: 28px; }
+        .tb-submit { border-radius: 50px; }
+        .tb-page { padding: 36px 0 60px; }
+    }
+    @media(max-width: 480px) {
+        .tb-page-title { font-size: 22px; }
+        .tb-time-row { grid-template-columns: 1fr; }
     }
 </style>
 @endsection

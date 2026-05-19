@@ -366,14 +366,22 @@
     /* Section label inside modal */
     .adm-section-label { font-size:13px; font-weight:600; color:#1a1a2e; margin-bottom:10px; }
 
+    @media(max-width:991px) {
+        .svc-grid { grid-template-columns: repeat(2, 1fr); }
+        .adm-modal { padding: 24px 22px 28px; }
+    }
     @media(max-width:767px) {
-        .svc-toolbar {
-            align-items: stretch;
-        }
-
-        .svc-tabbar {
-            width: 100%;
-        }
+        .svc-grid { grid-template-columns: 1fr; }
+        .svc-toolbar { align-items: stretch; }
+        .svc-tabbar { width: 100%; overflow-x: auto; }
+        .adm-modal-overlay { padding: 0; align-items: flex-end; }
+        .adm-modal { border-radius: 18px 18px 0 0; max-height: 92vh; width: 100%; max-width: 100%; padding: 22px 16px 28px; }
+        .adm-modal-row { grid-template-columns: 1fr !important; }
+        .adm-modal-foot { justify-content: stretch; }
+        .adm-modal-foot .btn-save { width: 100%; text-align: center; }
+    }
+    @media(max-width:480px) {
+        .svc-tabbar button { font-size: 12px; padding: 6px 12px; }
     }
 </style>
 @endsection

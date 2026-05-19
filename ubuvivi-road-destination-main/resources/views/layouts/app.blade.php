@@ -801,9 +801,46 @@
     <link rel="stylesheet" href="{{ asset('web/css/style.css?v=1') }}">
     <link rel="stylesheet" href="{{ asset('web/css/components.css?v=1') }}">
     @yield('css')
+    <style>
+        /* ── Page progress bar ── */
+        #page-bar {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, #C85A2A, #e87a42, #C85A2A);
+            background-size: 200% 100%;
+            z-index: 99999; width: 0; opacity: 0;
+            transition: width .3s ease, opacity .4s ease;
+            animation: bar-move 1.2s linear infinite;
+        }
+        #page-bar.running { opacity: 1; }
+        @keyframes bar-move { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        /* ── Skeleton shimmer ── */
+        @keyframes skel-shine {
+            0%   { background-position: -200% 0; }
+            100% { background-position:  200% 0; }
+        }
+        .skel {
+            background: linear-gradient(90deg,#f0f2f5 25%,#e4e6ea 50%,#f0f2f5 75%);
+            background-size: 200% 100%;
+            animation: skel-shine 1.4s ease-in-out infinite;
+            border-radius: 5px; display: block;
+        }
+        .skel-row td { padding: 14px 16px !important; border-bottom: 1px solid #f0f2f7; }
+        .skel-row td .skel { height: 14px; border-radius: 4px; }
+        .skel-row td .skel.short { width: 55%; }
+        .skel-row td .skel.icon { width: 28px; height: 28px; border-radius: 50%; }
+
+        /* fade-in for real rows after skeleton removed */
+        @keyframes row-in {
+            from { opacity: 0; transform: translateY(4px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .row-loaded { animation: row-in .25s ease forwards; }
+    </style>
 </head>
 
 <body>
+<div id="page-bar"></div>
 
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
@@ -840,6 +877,63 @@
 <script src="{{ mix('assets/js/profile.js') }}"></script>
 <script src="{{ mix('assets/js/custom/custom.js') }}"></script>
 @yield('page_js')
+
+<script>
+(function () {
+    /* ── Progress bar ── */
+    var bar = document.getElementById('page-bar');
+    function barStart() {
+        if (!bar) return;
+        bar.style.width = '0';
+        bar.classList.add('running');
+        setTimeout(function () { bar.style.width = '75%'; }, 10);
+    }
+    function barDone() {
+        if (!bar) return;
+        bar.style.width = '100%';
+        setTimeout(function () {
+            bar.classList.remove('running');
+            setTimeout(function () { bar.style.width = '0'; }, 400);
+        }, 200);
+    }
+    barStart();
+    window.addEventListener('load', barDone);
+    document.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href]');
+        if (!a) return;
+        var h = a.getAttribute('href') || '';
+        if (h.charAt(0) === '#' || h.indexOf('javascript') === 0 || a.target === '_blank') return;
+        barStart();
+    });
+    document.addEventListener('submit', function () { barStart(); });
+
+    /* ── Skeleton rows → real content ── */
+    document.addEventListener('DOMContentLoaded', function () {
+        /* Remove skeleton rows */
+        document.querySelectorAll('.skel-row').forEach(function (r) {
+            r.style.display = 'none';
+        });
+        /* Animate real rows in */
+        document.querySelectorAll('[data-searchable]').forEach(function (el, i) {
+            el.style.animationDelay = (i * 25) + 'ms';
+            el.classList.add('row-loaded');
+        });
+
+        /* ── Universal search ── */
+        var si = document.querySelector('.admin-page-search input');
+        if (!si) return;
+        si.addEventListener('input', function () {
+            var searchables = document.querySelectorAll('[data-searchable]');
+            if (!searchables.length) return;
+            var val = this.value.toLowerCase().trim();
+            searchables.forEach(function (el) {
+                el.style.display = (!val || el.textContent.toLowerCase().includes(val)) ? '' : 'none';
+            });
+        });
+    });
+})();
+</script>
+
 @yield('scripts')
 
 </html>

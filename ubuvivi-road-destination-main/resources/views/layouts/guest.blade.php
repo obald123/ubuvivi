@@ -305,9 +305,83 @@
         }
     </style>
     @yield('css')
+    <style>
+        #page-bar {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, #C85A2A, #e87a42, #C85A2A);
+            background-size: 200% 100%;
+            z-index: 99999; width: 0; opacity: 0;
+            transition: width .3s ease, opacity .4s ease;
+            animation: bar-move 1.2s linear infinite;
+        }
+        #page-bar.running { opacity: 1; }
+        @keyframes bar-move { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        @keyframes skel-shine {
+            0%   { background-position: -200% 0; }
+            100% { background-position:  200% 0; }
+        }
+        .skel {
+            background: linear-gradient(90deg,#f0f2f5 25%,#e4e6ea 50%,#f0f2f5 75%);
+            background-size: 200% 100%;
+            animation: skel-shine 1.4s ease-in-out infinite;
+            border-radius: 5px; display: block;
+        }
+        /* Skeleton card for public listing pages */
+        .skel-card { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+        .skel-card .skel-img  { height: 220px; border-radius: 0; }
+        .skel-card .skel-body { padding: 20px 22px 24px; }
+        .skel-card .skel-line { height: 13px; margin-bottom: 10px; border-radius: 4px; }
+        .skel-card .skel-line.short { width: 55%; }
+        .skel-card .skel-line.xshort { width: 35%; }
+        .skel-card .skel-btn  { height: 38px; border-radius: 50px; margin-top: 16px; width: 45%; }
+
+        @keyframes card-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .card-loaded { animation: card-in .3s ease forwards; }
+    </style>
 </head>
 
 <body class="@yield('body-class')">
+<div id="page-bar"></div>
+<script>
+(function(){
+    var bar = document.getElementById('page-bar');
+    function barStart(){
+        if(!bar) return;
+        bar.style.width='0'; bar.classList.add('running');
+        setTimeout(function(){bar.style.width='75%';},10);
+    }
+    function barDone(){
+        if(!bar) return;
+        bar.style.width='100%';
+        setTimeout(function(){
+            bar.classList.remove('running');
+            setTimeout(function(){bar.style.width='0';},400);
+        },200);
+    }
+    barStart();
+    window.addEventListener('load', barDone);
+    document.addEventListener('click',function(e){
+        var a=e.target.closest('a[href]');
+        if(!a) return;
+        var h=a.getAttribute('href')||'';
+        if(h.charAt(0)==='#'||h.indexOf('javascript')===0||a.target==='_blank') return;
+        barStart();
+    });
+    document.addEventListener('submit',function(){barStart();});
+    /* Remove skeleton cards/rows once DOM is ready */
+    document.addEventListener('DOMContentLoaded',function(){
+        document.querySelectorAll('.skel-card-wrap').forEach(function(c){c.style.display='none';});
+        document.querySelectorAll('.real-card').forEach(function(c,i){
+            c.style.animationDelay=(i*40)+'ms';
+            c.classList.add('card-loaded');
+        });
+    });
+})();
+</script>
     <div id="thetop"></div>
     <div class="backtotop bg-dark-1"><a href="#" class="scroll"><i class="far fa-arrow-up"></i></a></div>
 

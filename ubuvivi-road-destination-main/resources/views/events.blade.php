@@ -74,84 +74,99 @@
         border-radius: 2px;
     }
 
-    /* ── Overlay Cards ── */
-    .event-overlay-card {
-        position: relative;
+    /* ── Package Cards ── */
+    .event-pkg-card {
         border-radius: 16px;
         overflow: hidden;
-        height: 420px;
-        display: block;
+        background: #fff;
+        box-shadow: 0 4px 20px rgba(0,0,0,.08);
+        transition: transform .25s, box-shadow .25s;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
         text-decoration: none;
+        color: inherit;
     }
-    .event-overlay-card img {
+    .event-pkg-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 40px rgba(0,0,0,.14);
+        text-decoration: none;
+        color: inherit;
+    }
+    .event-pkg-img {
+        overflow: hidden;
+        height: 240px;
+        display: block;
+        flex-shrink: 0;
+    }
+    .event-pkg-img img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
         transition: transform .4s ease;
     }
-    .event-overlay-card:hover img {
+    .event-pkg-card:hover .event-pkg-img img {
         transform: scale(1.05);
     }
-    .event-overlay-card::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(0,0,0,.04) 20%, rgba(0,0,0,.82) 100%);
+    .event-pkg-body {
+        padding: 24px 26px 28px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
-    .event-card-bottom {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 2;
-        padding: 22px 24px 28px;
-    }
-    .event-card-title {
-        font-size: 21px;
+    .event-pkg-title {
+        font-size: 20px;
         font-weight: 700;
-        color: #fff;
+        color: #1a1a1a;
         margin-bottom: 4px;
-        line-height: 1.2;
+        line-height: 1.3;
     }
-    .event-card-subtitle {
+    .event-pkg-subtitle {
         font-size: 13px;
-        color: rgba(255,255,255,.70);
-        margin-bottom: 12px;
+        color: #888;
+        margin-bottom: 16px;
         font-style: italic;
     }
-    .event-card-includes {
+    .event-pkg-includes {
         list-style: none;
         padding: 0;
-        margin: 0 0 16px;
+        margin: 0 0 22px;
+        flex: 1;
     }
-    .event-card-includes li {
+    .event-pkg-includes li {
         font-size: 13px;
-        color: rgba(255,255,255,.88);
-        padding: 3px 0;
+        color: #555;
+        padding: 7px 0;
         display: flex;
         align-items: center;
-        gap: 7px;
+        gap: 8px;
+        border-bottom: 1px solid #f2f2f2;
     }
-    .event-card-includes li::before {
+    .event-pkg-includes li:last-child { border-bottom: none; }
+    .event-pkg-includes li::before {
         content: '';
-        width: 6px;
-        height: 6px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         background: #C85A2A;
         flex-shrink: 0;
     }
-    .event-card-link {
-        color: #C85A2A;
-        font-weight: 600;
-        font-size: 14px;
-        text-decoration: none;
+    .event-pkg-cta {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        transition: color .2s;
+        gap: 8px;
+        background: #C85A2A;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 11px 24px;
+        border-radius: 50px;
+        align-self: flex-start;
+        transition: background .2s;
+        text-decoration: none;
     }
-    .event-card-link:hover { color: #e8794a; }
+    .event-pkg-cta:hover { background: #a84520; color: #fff; text-decoration: none; }
 
     /* ── CTA Banner ── */
     .events-cta {
@@ -207,57 +222,69 @@
             <div class="row">
 
                 {{-- Basic --}}
-                <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="0">
-                    <a href="{{ route('event.book.form', ['package' => 'basic']) }}" class="event-overlay-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_13.jpg') }}" alt="Basic Package">
-                        <div class="event-card-bottom">
-                            <div class="event-card-title">Basic Package</div>
-                            <div class="event-card-subtitle">Venue only — ideal for self-organised events</div>
-                            <ul class="event-card-includes">
+                <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="0">
+                    <div class="event-pkg-card w-100">
+                        <div class="event-pkg-img">
+                            <img src="{{ asset('assets/images/backgrounds/bg_13.jpg') }}" alt="Basic Package">
+                        </div>
+                        <div class="event-pkg-body">
+                            <div class="event-pkg-title">Basic Package</div>
+                            <div class="event-pkg-subtitle">Venue only — ideal for self-organised events</div>
+                            <ul class="event-pkg-includes">
                                 <li>Conference hall / venue</li>
                                 <li>Tables &amp; seating setup</li>
                                 <li>Projector &amp; screen</li>
                             </ul>
-                            <span class="event-card-link">Plan Your Event &raquo;</span>
+                            <a href="{{ route('event.book.form', ['package' => 'basic']) }}" class="event-pkg-cta">
+                                Plan Your Event <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
-                    </a>
+                    </div>
                 </div>
 
                 {{-- Partial --}}
-                <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <a href="{{ route('event.book.form', ['package' => 'partial']) }}" class="event-overlay-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Partial Package">
-                        <div class="event-card-bottom">
-                            <div class="event-card-title">Partial Package</div>
-                            <div class="event-card-subtitle">Venue + catering for a complete experience</div>
-                            <ul class="event-card-includes">
+                <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="100">
+                    <div class="event-pkg-card w-100">
+                        <div class="event-pkg-img">
+                            <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Partial Package">
+                        </div>
+                        <div class="event-pkg-body">
+                            <div class="event-pkg-title">Partial Package</div>
+                            <div class="event-pkg-subtitle">Venue + catering for a complete experience</div>
+                            <ul class="event-pkg-includes">
                                 <li>Conference hall / venue</li>
                                 <li>Catering &amp; refreshments</li>
                                 <li>Audio-visual equipment</li>
                                 <li>On-site event coordinator</li>
                             </ul>
-                            <span class="event-card-link">Plan Your Event &raquo;</span>
+                            <a href="{{ route('event.book.form', ['package' => 'partial']) }}" class="event-pkg-cta">
+                                Plan Your Event <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
-                    </a>
+                    </div>
                 </div>
 
                 {{-- Full --}}
-                <div class="col-12 col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <a href="{{ route('event.book.form', ['package' => 'full']) }}" class="event-overlay-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Full Package">
-                        <div class="event-card-bottom">
-                            <div class="event-card-title">Full Package</div>
-                            <div class="event-card-subtitle">All-inclusive — we handle everything</div>
-                            <ul class="event-card-includes">
+                <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="200">
+                    <div class="event-pkg-card w-100">
+                        <div class="event-pkg-img">
+                            <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Full Package">
+                        </div>
+                        <div class="event-pkg-body">
+                            <div class="event-pkg-title">Full Package</div>
+                            <div class="event-pkg-subtitle">All-inclusive — we handle everything</div>
+                            <ul class="event-pkg-includes">
                                 <li>Conference hall / venue</li>
                                 <li>Catering &amp; refreshments</li>
                                 <li>Guest transport &amp; transfers</li>
                                 <li>Décor &amp; branding setup</li>
                                 <li>Full on-site support</li>
                             </ul>
-                            <span class="event-card-link">Plan Your Event &raquo;</span>
+                            <a href="{{ route('event.book.form', ['package' => 'full']) }}" class="event-pkg-cta">
+                                Plan Your Event <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
-                    </a>
+                    </div>
                 </div>
 
             </div>
