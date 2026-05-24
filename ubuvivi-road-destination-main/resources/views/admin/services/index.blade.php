@@ -418,7 +418,7 @@
                     $tourImg = (!empty($tourImages) && isset($tourImages[0])) ? $tourImages[0] : asset('assets/images/backgrounds/bg_11.jpg');
                 @endphp
                 <div class="svc-card">
-                    <img src="{{ $tourImg }}" alt="{{ $tour->title }}" onerror="this.src='{{ asset('assets/images/backgrounds/bg_11.jpg') }}'">
+                    <img src="{{ $tourImg }}" alt="{{ $tour->title }}" onerror="this.onerror=null;this.src='{{ asset('assets/images/backgrounds/bg_11.jpg') }}'">
                     <div class="svc-card-body">
                         <div class="svc-card-head">
                             <div class="svc-card-title">{{ $tour->title }}</div>
@@ -453,7 +453,7 @@
                         <span class="car-card-year">{{ $vehicle->production_year ?? '' }}</span>
                     </div>
                     <div class="car-card-img-wrap">
-                        <img src="{{ $vImg }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}" onerror="this.src='{{ asset('assets/images/vehicles/not_found.png') }}'">
+                        <img src="{{ $vImg }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}" onerror="this.onerror=null;this.src='{{ asset('assets/images/vehicles/not_found.png') }}'">
                     </div>
                     <div class="car-card-specs">
                         <div class="car-spec">

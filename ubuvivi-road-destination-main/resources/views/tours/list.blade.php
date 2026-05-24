@@ -95,13 +95,7 @@
         height: 220px;
         object-fit: cover;
         display: block;
-    }
-    .tour-card-img-placeholder {
-        width: 100%;
-        height: 220px;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        background: #f0f0f0;
     }
     .tour-card-body {
         padding: 18px 18px 0;
@@ -181,15 +175,15 @@
                     @foreach ($tours as $tour)
                         <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
                             <div class="tour-card w-100">
-                                @if ($tour->images && count($tour->images))
-                                    <div class="tour-card-img-placeholder"
-                                         style="background-image: url('{{ $tour->images[0] }}')">
-                                    </div>
-                                @else
-                                    <img src="{{ asset('assets/images/vehicles/not_found.png') }}"
-                                         alt="{{ $tour->title }}"
-                                         class="tour-card-img">
-                                @endif
+                                @php
+                                    $tourImgSrc = ($tour->images && count($tour->images))
+                                        ? $tour->images[0]
+                                        : asset('assets/images/backgrounds/bg_11.jpg');
+                                @endphp
+                                <img src="{{ $tourImgSrc }}"
+                                     alt="{{ $tour->title }}"
+                                     class="tour-card-img"
+                                     onerror="this.onerror=null;this.src='{{ asset('assets/images/backgrounds/bg_11.jpg') }}'">
 
                                 <div class="tour-card-body">
                                     <h3 class="tour-card-title">{{ $tour->title }}</h3>
