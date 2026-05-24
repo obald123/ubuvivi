@@ -19,18 +19,27 @@
         position: relative;
         height: 80vh;
         min-height: 500px;
-        background: url('{{ asset("assets/images/backgrounds/bg_8.jpg") }}') center center / cover no-repeat;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
+        background: #0e2a38;
+    }
+    .cars-hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        z-index: 0;
     }
     .cars-hero::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(13, 31, 53, 0.65);
+        background: rgba(13, 31, 53, 0.55);
+        z-index: 1;
     }
     .cars-hero-content {
         position: relative;
@@ -38,6 +47,7 @@
         color: #fff;
         padding-bottom: 80px;
     }
+    .search-bar-wrap { z-index: 10; }
     .cars-hero-content h1 {
         font-size: clamp(36px, 6vw, 64px);
         font-weight: 800;
@@ -339,6 +349,9 @@
 
     {{-- ── Hero ── --}}
     <section class="cars-hero">
+        <video class="cars-hero-video" autoplay muted loop playsinline>
+            <source src="{{ asset('videos/car-kigali.mp4') }}" type="video/mp4">
+        </video>
         <div class="cars-hero-content">
             <h1>Find Your Perfect Car</h1>
         </div>

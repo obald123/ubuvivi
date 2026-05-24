@@ -237,6 +237,12 @@
             overflow-wrap: anywhere;
         }
 
+        /* Prevent action-column button text from wrapping letter-by-letter */
+        .tbl-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .tbl-actions button,
+        .tbl-actions a { white-space: nowrap !important; }
+        td:has(.tbl-actions) { white-space: nowrap; }
+
         .main-content .table-responsive,
         .main-content .table-wrap,
         .main-content .req-panel,

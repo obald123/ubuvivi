@@ -18,7 +18,7 @@
         position: relative;
         height: 480px;
         min-height: 380px;
-        background: url('{{ asset("assets/images/backgrounds/bg_01.jpg") }}') center center / cover no-repeat;
+        background: url('{{ asset("images/conference-hero.jpg") }}') center center / cover no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -28,7 +28,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(13, 31, 53, 0.65);
+        background: rgba(13, 31, 53, 0.60);
     }
     .events-hero-content {
         position: relative;

@@ -39,10 +39,10 @@
     .pub-badge.yes { color:#16a34a; }
     .pub-badge.no  { color:#9ca3af; }
 
-    .tbl-actions { display:flex; gap:8px; }
-    .btn-tbl-edit { background:#0f5f86; color:#fff; border:none; border-radius:7px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; transition:background .2s; }
+    .tbl-actions { display:flex; gap:8px; align-items:center; }
+    .btn-tbl-edit { background:#0f5f86; color:#fff; border:none; border-radius:7px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; transition:background .2s; white-space:nowrap; }
     .btn-tbl-edit:hover { background:#0c4d6d; }
-    .btn-tbl-del { background:#fff; color:#e74c3c; border:1px solid #e74c3c; border-radius:7px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; }
+    .btn-tbl-del { background:#fff; color:#e74c3c; border:1px solid #e74c3c; border-radius:7px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
     .btn-tbl-del:hover { background:#e74c3c; color:#fff; }
 
     .no-posts { text-align:center; padding:60px 20px; color:#bbb; }

@@ -21,17 +21,21 @@
         min-height: 600px;
     }
     #heroCarousel { overflow: hidden; position: relative; }
-    #heroCarousel .carousel-inner { position: relative; z-index: 2; }
-    #heroCarousel .carousel-indicators { z-index: 3; }
+    #heroCarousel .carousel-indicators { z-index: 5; }
     #heroCarousel .carousel-control-prev,
-    #heroCarousel .carousel-control-next { z-index: 3; }
-    .hero-video-bg {
+    #heroCarousel .carousel-control-next { z-index: 5; }
+
+    /* Per-slide background video or image */
+    .slide-bg-video,
+    .slide-bg-img {
         position: absolute;
         inset: 0;
         width: 100%; height: 100%;
-        object-fit: cover;
         z-index: 0;
     }
+    .slide-bg-video { object-fit: cover; }
+    .slide-bg-img   { background-size: cover; background-position: center; background-repeat: no-repeat; }
+
     .hero-slide {
         height: 100%;
         display: flex;
@@ -39,6 +43,7 @@
         justify-content: center;
         text-decoration: none;
         position: relative;
+        z-index: 1;
     }
     .hero-slide::after {
         content: '';
@@ -370,12 +375,7 @@
 @section('content')
 
     {{-- ── Hero Carousel ── --}}
-    <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="5000" style="position:relative;">
-
-        {{-- Video background --}}
-        <video class="hero-video-bg" autoplay muted loop playsinline>
-            <source src="{{ asset('videos/giraffes.mp4') }}" type="video/mp4">
-        </video>
+    <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="8000" style="position:relative;">
 
         {{-- Indicators --}}
         <ol class="carousel-indicators">
@@ -388,8 +388,11 @@
         {{-- Slides --}}
         <div class="carousel-inner">
 
-            {{-- Slide 1: Tours & Travel --}}
-            <div class="carousel-item active">
+            {{-- Slide 1: Tours & Travel — Giraffes video --}}
+            <div class="carousel-item active" data-interval="8000">
+                <video class="slide-bg-video" id="hero-vid-0" autoplay muted playsinline>
+                    <source src="{{ asset('videos/giraffes.mp4') }}" type="video/mp4">
+                </video>
                 <a href="{{ url('/tours') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Tours &amp; Travel</span>
@@ -400,8 +403,11 @@
                 </a>
             </div>
 
-            {{-- Slide 2: Car Rentals --}}
-            <div class="carousel-item">
+            {{-- Slide 2: Car Rentals — Kigali driving video --}}
+            <div class="carousel-item" data-interval="8000">
+                <video class="slide-bg-video" id="hero-vid-1" muted playsinline>
+                    <source src="{{ asset('videos/car-kigali.mp4') }}" type="video/mp4">
+                </video>
                 <a href="{{ url('/cars') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Car Rentals</span>
@@ -412,8 +418,9 @@
                 </a>
             </div>
 
-            {{-- Slide 3: Our Services --}}
-            <div class="carousel-item">
+            {{-- Slide 3: Transport — airport/jet image --}}
+            <div class="carousel-item" data-interval="8000">
+                <div class="slide-bg-img" style="background-image:url('{{ asset('images/transport-hero.jpg') }}')"></div>
                 <a href="{{ route('guest.transfer') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Our Services</span>
@@ -424,8 +431,9 @@
                 </a>
             </div>
 
-            {{-- Slide 4: Conference Planning --}}
-            <div class="carousel-item">
+            {{-- Slide 4: Conference Planning — conference image --}}
+            <div class="carousel-item" data-interval="8000">
+                <div class="slide-bg-img" style="background-image:url('{{ asset('images/conference-hero.jpg') }}')"></div>
                 <a href="{{ route('guest.events') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Conference Planning</span>
@@ -662,15 +670,55 @@
 
 @section('scripts')
 <script>
-    $(document).ready(function () {
-        $('#heroCarousel').carousel({ interval: 5000, ride: 'carousel' });
-        // Re-trigger slide animation on each slide change
-        $('#heroCarousel').on('slide.bs.carousel', function () {
-            $(this).find('.carousel-item.active .hero-slide-content').css('animation', 'none');
-        });
-        $('#heroCarousel').on('slid.bs.carousel', function () {
-            $(this).find('.carousel-item.active .hero-slide-content').css('animation', '');
-        });
+$(document).ready(function () {
+    var $carousel = $('#heroCarousel');
+    var vid0 = document.getElementById('hero-vid-0');
+    var vid1 = document.getElementById('hero-vid-1');
+    var videoMap = { 0: vid0, 1: vid1 };
+    var DEFAULT_MS = 8000;
+
+    /* ── Set carousel interval from each video's natural duration ── */
+    function applyVideoDuration(video, slideIdx) {
+        if (!video) return;
+        function onMeta() {
+            var ms = Math.max(3000, Math.round(video.duration * 1000));
+            var $items = $carousel.find('.carousel-item');
+            /* video slides use their own duration; image slides match the longest video */
+            $items.eq(slideIdx).attr('data-interval', ms);
+            /* Apply same timing to image-only slides */
+            $items.eq(2).attr('data-interval', ms);
+            $items.eq(3).attr('data-interval', ms);
+        }
+        if (video.readyState >= 1) { onMeta(); } else { video.addEventListener('loadedmetadata', onMeta); }
+    }
+    applyVideoDuration(vid0, 0);
+    applyVideoDuration(vid1, 1);
+
+    /* ── Init carousel (Bootstrap picks up per-slide data-interval automatically) ── */
+    $carousel.carousel({ ride: 'carousel' });
+
+    /* ── Pause all videos before the slide animates away ── */
+    $carousel.on('slide.bs.carousel', function (e) {
+        [vid0, vid1].forEach(function (v) { if (v) v.pause(); });
+        /* Reset slide-up text animation */
+        $(e.relatedTarget).find('.hero-slide-content').css('animation', 'none');
     });
+
+    /* ── After slide: play the new slide's video (if any) and reset text animation ── */
+    $carousel.on('slid.bs.carousel', function (e) {
+        var newIdx = $(e.relatedTarget).index();
+        var video  = videoMap[newIdx];
+        if (video) {
+            video.currentTime = 0;
+            video.play().catch(function () {});
+        }
+        /* Re-trigger slide-up animation */
+        $(e.relatedTarget).find('.hero-slide-content').css('animation', '');
+
+        /* Update carousel interval for the *next* tick */
+        var interval = parseInt($(e.relatedTarget).attr('data-interval')) || DEFAULT_MS;
+        $carousel.data('bs.carousel') && ($carousel.data('bs.carousel')._config.interval = interval);
+    });
+});
 </script>
 @endsection

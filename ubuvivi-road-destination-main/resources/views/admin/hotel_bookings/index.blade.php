@@ -27,12 +27,12 @@
     .status-badge.approved { background:#e8f5e9; color:#2e7d32; }
     .status-badge.rejected { background:#fce4e4; color:#c62828; }
 
-    .tbl-actions { display:flex; gap:8px; flex-wrap:wrap; }
-    .btn-approve { background:#2e7d32; color:#fff; border:none; border-radius:7px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+    .tbl-actions { display:flex; gap:8px; flex-wrap:nowrap; align-items:center; }
+    .btn-approve { background:#2e7d32; color:#fff; border:none; border-radius:7px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; }
     .btn-approve:hover { background:#1b5e20; }
-    .btn-reject  { background:#c62828; color:#fff; border:none; border-radius:7px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+    .btn-reject  { background:#c62828; color:#fff; border:none; border-radius:7px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; }
     .btn-reject:hover  { background:#b71c1c; }
-    .btn-view    { background:#0f5f86; color:#fff; border:none; border-radius:7px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+    .btn-view    { background:#0f5f86; color:#fff; border:none; border-radius:7px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; }
     .btn-view:hover    { background:#0c4d6d; }
 
     .adm-modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.48); display:flex; align-items:center; justify-content:center; z-index:2000; padding:16px; }

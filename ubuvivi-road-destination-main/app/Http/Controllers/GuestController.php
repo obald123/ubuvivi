@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\UploadsImages;
+use App\Models\AdminNotification;
 use App\Mail\AdminBookingMail;
 use App\Models\BlogPost;
 use App\Mail\BookingMail;
@@ -145,6 +146,12 @@ class GuestController extends Controller
             'approved'             => null,
         ]);
 
+        AdminNotification::push(
+            'flight_booking',
+            "New flight booking from {$request->names} ({$request->departure_airport} → {$request->arrival_airport})",
+            route('admin.flight_bookings.index')
+        );
+
         return redirect()->route('booking.confirmed')->with([
             'service' => 'Air Ticketing',
             'names'   => $request->names,
@@ -183,6 +190,12 @@ class GuestController extends Controller
             'message'          => $request->message,
             'approved'         => null,
         ]);
+
+        AdminNotification::push(
+            'hotel_booking',
+            "New hotel booking from {$request->names} (check-in {$request->check_in})",
+            route('admin.hotel_bookings.index')
+        );
 
         return redirect()->route('booking.confirmed')->with([
             'service' => 'Hotel Booking — ' . ($request->hotel_name ?? 'Hotel Request'),
@@ -418,6 +431,12 @@ class GuestController extends Controller
             $admin_booking_route = route("carBookings.show", $booking->id);
             $booking_route = route("car.booking.view", $booking->id);
 
+            AdminNotification::push(
+                'car_booking',
+                "New car booking from {$request->name}",
+                $admin_booking_route
+            );
+
             try {
                 $this->notify_admin($booking, $admin_booking_route);
                 $this->sendMail($request->email, $booking_route);
@@ -639,6 +658,13 @@ class GuestController extends Controller
 
         if ($booking) {
             Flash::success("Booking information sent successfully");
+
+            AdminNotification::push(
+                'tour_booking',
+                "New tour booking from {$request->names} for \"{$tour->title}\"",
+                route("tourBookings.show", $booking->id)
+            );
+
             try {
                 $this->notify_admin($booking, route("tourBookings.show", $booking->id));
                 $this->sendMail($request->email, route("tour.booking.view", $booking->id));
@@ -947,6 +973,12 @@ class GuestController extends Controller
         ]);
 
         if ($booking) {
+            AdminNotification::push(
+                'event_booking',
+                "New event booking from {$request->names} ({$packageLabel})",
+                route('tourBookings.show', $booking->id)
+            );
+
             try {
                 $this->notify_admin($booking, route('tourBookings.show', $booking->id));
                 $this->sendMail($request->email, route('tour.booking.view', $booking->id));
@@ -1022,6 +1054,12 @@ class GuestController extends Controller
         ]);
 
         if ($booking) {
+            AdminNotification::push(
+                'transfer_booking',
+                "New transfer booking from {$request->names} ({$request->pickup_location} → {$request->destination})",
+                route('carTransfers.show', $booking->id)
+            );
+
             try {
                 $this->notify_admin($booking, route('carTransfers.show', $booking->id));
                 $this->sendMail($request->email, route('car.transfer.view', $booking->id));
@@ -1067,6 +1105,12 @@ class GuestController extends Controller
             \Log::error('ContactMail failed: ' . $th->getMessage());
             Flash::error("Failed to send message try again later");
         }
+
+        AdminNotification::push(
+            'contact',
+            "New contact message from {$request->names}: \"{$request->subject}\"",
+            null
+        );
 
         return redirect()->back();
     }

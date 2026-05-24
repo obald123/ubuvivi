@@ -148,6 +148,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/hotel-bookings/{id}/status', [App\Http\Controllers\Admin\HotelBookingController::class, 'updateStatus'])->name('admin.hotel_bookings.updateStatus');
     Route::delete('/admin/hotel-bookings/{id}', [App\Http\Controllers\Admin\HotelBookingController::class, 'destroy'])->name('admin.hotel_bookings.destroy');
 
+    // Notifications
+    Route::get('/admin/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('admin.notifications.index');
+    Route::post('/admin/notifications/read-all', [App\Http\Controllers\Admin\NotificationController::class, 'markAllRead'])->name('admin.notifications.readAll');
+    Route::post('/admin/notifications/{id}/read', [App\Http\Controllers\Admin\NotificationController::class, 'markRead'])->name('admin.notifications.read');
+
     Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/users', [App\Http\Controllers\Admin\ProfileController::class, 'storeUser'])->name('profile.users.store');
