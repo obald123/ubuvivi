@@ -64,7 +64,7 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => realpath(dirname(base_path(), 1) . "/data"),
+            'root' => storage_path('app/public'),
             'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
@@ -95,7 +95,7 @@ return [
 
 
     'links' => [
-        public_path('storage') => realpath(dirname(base_path(), 1) . "/data"),
+        public_path('storage') => storage_path('app/public'),
     ],
 
 ];
