@@ -1056,13 +1056,19 @@ class GuestController extends Controller
 
 
         try {
-            Mail::send(new ContactMail());
+            Mail::send(new ContactMail([
+                'name'    => $request->names,
+                'email'   => $request->email,
+                'subject' => $request->subject,
+                'message' => $request->message,
+            ]));
             Flash::success("Message Sent Successfully");
         } catch (\Throwable $th) {
+            \Log::error('ContactMail failed: ' . $th->getMessage());
             Flash::error("Failed to send message try again later");
         }
 
-        return view("contact");
+        return redirect()->back();
     }
 
     public function getModelByBrand($brand)

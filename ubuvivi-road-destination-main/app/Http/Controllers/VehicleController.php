@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\UploadsImages;
 use App\Http\Requests\CreateVehicleRequest;
 use App\Http\Requests\UpdateVehicleRequest;
 use App\Repositories\VehicleRepository;
@@ -10,13 +11,13 @@ use App\Models\Types\FuelType;
 use App\Models\Types\Transmission;
 use App\Models\Types\VehicleBrand;
 use App\Models\Types\VehicleModel;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
 
 class VehicleController extends AppBaseController
 {
+    use UploadsImages;
     public function image_available($image_url)
     {
         $headers = get_headers($image_url);
@@ -70,21 +71,10 @@ class VehicleController extends AppBaseController
     public function store(CreateVehicleRequest $request)
     {
         $input = $request->all();
-        $input["images"] = array();
-        $input['image_id'] = array();
 
-        // insert new images provided by the client
-        if ($request->hasFile("images")) {
-            foreach ($request->file("images") as $file) {
-                if (isset($file)) {
-                    $file_instance = Cloudinary::upload($file->getRealPath(), array("folder" => "ubuvivi"));
-                    if ($file_instance) {
-                        array_push($input["images"], $file_instance->getSecurePath());
-                        array_push($input['image_id'], $file_instance->getPublicId());
-                    }
-                }
-            }
-        }
+        [$urls, $ids] = $this->uploadImages($request, 'images', 'ubuvivi');
+        $input["images"]   = $urls;
+        $input['image_id'] = $ids;
 
         $input["plate_number"] = "";
         $input["price"] = 0;
@@ -163,40 +153,20 @@ class VehicleController extends AppBaseController
         }
 
         $input = $request->all();
-        $input["images"] = array();
-        $input['image_id'] = array();
-        $vehicle_images = is_array($vehicle->images) ? $vehicle->images : array();
-        $vehicle_image_ids = is_array($vehicle->image_id) ? $vehicle->image_id : array();
 
-        if (@count($vehicle_images) != @count($vehicle_image_ids)) {
-            $vehicle_images = array();
-            $vehicle_image_ids = array();
-        } else {
-            foreach ($vehicle_image_ids as $key => $image_id) {
-                if (!$this->image_available($vehicle_images[$key])) {
-                    unset($vehicle_images[$key]);
-                    unset($vehicle_image_ids[$key]);
-                }
-            }
-            $input["images"] = array_values($vehicle_images);
-            $input['image_id'] = array_values($vehicle_image_ids);
+        // Keep existing valid images
+        $existingUrls = is_array($vehicle->images)   ? $vehicle->images    : [];
+        $existingIds  = is_array($vehicle->image_id) ? $vehicle->image_id  : [];
+        if (count($existingUrls) !== count($existingIds)) {
+            $existingUrls = [];
+            $existingIds  = [];
         }
 
-        // insert new images provided by the client
-        if ($request->hasFile("images")) {
-            foreach ($request->file("images") as $file) {
-                if (isset($file)) {
-                    $file_instance = Cloudinary::upload($file->getRealPath(), array("folder" => "ubuvivi"));
-                    if ($file_instance) {
-                        array_push($input["images"], $file_instance->getSecurePath());
-                        array_push($input['image_id'], $file_instance->getPublicId());
-                    }
-                }
-            }
-        }
+        // Upload any newly submitted images (with Cloudinary → local fallback)
+        [$newUrls, $newIds] = $this->uploadImages($request, 'images', 'ubuvivi');
 
-        $input["images"] = json_encode($input["images"]);
-        $input['image_id'] = json_encode($input['image_id']);
+        $input["images"]   = json_encode(array_values(array_merge($existingUrls, $newUrls)));
+        $input['image_id'] = json_encode(array_values(array_merge($existingIds,  $newIds)));
         $input["plate_number"] = "";
         $input["for_sale"] = 0;
         $input["description"] = $input["description"] ?? "";

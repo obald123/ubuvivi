@@ -20,11 +20,20 @@
         height: 100vh;
         min-height: 600px;
     }
+    #heroCarousel { overflow: hidden; position: relative; }
+    #heroCarousel .carousel-inner { position: relative; z-index: 2; }
+    #heroCarousel .carousel-indicators { z-index: 3; }
+    #heroCarousel .carousel-control-prev,
+    #heroCarousel .carousel-control-next { z-index: 3; }
+    .hero-video-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
     .hero-slide {
         height: 100%;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -363,6 +372,11 @@
     {{-- ── Hero Carousel ── --}}
     <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="5000" style="position:relative;">
 
+        {{-- Video background --}}
+        <video class="hero-video-bg" autoplay muted loop playsinline>
+            <source src="{{ asset('videos/giraffes.mp4') }}" type="video/mp4">
+        </video>
+
         {{-- Indicators --}}
         <ol class="carousel-indicators">
             <li data-target="#heroCarousel" data-slide-to="0" class="active"></li>
@@ -376,8 +390,7 @@
 
             {{-- Slide 1: Tours & Travel --}}
             <div class="carousel-item active">
-                <a href="{{ url('/tours') }}" class="hero-slide"
-                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_6.jpg') }}')">
+                <a href="{{ url('/tours') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Tours &amp; Travel</span>
                         <h1>Discover Rwanda's<br>Breathtaking Wonders</h1>
@@ -389,8 +402,7 @@
 
             {{-- Slide 2: Car Rentals --}}
             <div class="carousel-item">
-                <a href="{{ url('/cars') }}" class="hero-slide"
-                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_14.jpg') }}')">
+                <a href="{{ url('/cars') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Car Rentals</span>
                         <h1>Drive Rwanda<br>at Your Own Pace</h1>
@@ -402,8 +414,7 @@
 
             {{-- Slide 3: Our Services --}}
             <div class="carousel-item">
-                <a href="{{ route('guest.transfer') }}" class="hero-slide"
-                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_15.jpg') }}')">
+                <a href="{{ route('guest.transfer') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Our Services</span>
                         <h1>Seamless Airport &amp;<br>City Transport</h1>
@@ -415,8 +426,7 @@
 
             {{-- Slide 4: Conference Planning --}}
             <div class="carousel-item">
-                <a href="{{ route('guest.events') }}" class="hero-slide"
-                   style="background-image: url('{{ asset('assets/images/backgrounds/bg_9.jpg') }}')">
+                <a href="{{ route('guest.events') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <span class="hero-slide-tag">Conference Planning</span>
                         <h1>Professional Conferences<br>in Rwanda</h1>

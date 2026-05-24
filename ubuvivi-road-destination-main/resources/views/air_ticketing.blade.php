@@ -19,12 +19,20 @@
     .at-hero {
         position: relative;
         height: 480px;
-        background: url('{{ asset("assets/images/backgrounds/bg_04.jpg") }}') center/cover no-repeat;
+        overflow: hidden;
         display: flex; align-items: center; justify-content: center; text-align: center;
+    }
+    .at-hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        z-index: 0;
     }
     .at-hero::after {
         content: ''; position: absolute; inset: 0;
         background: rgba(13,31,53,.65);
+        z-index: 1;
     }
     .at-hero-content { position: relative; z-index: 2; color: #fff; }
     .at-hero-content h1 {
@@ -249,6 +257,9 @@
 
     {{-- ── Hero ── --}}
     <section class="at-hero">
+        <video class="at-hero-video" autoplay muted loop playsinline>
+            <source src="{{ asset('videos/jet.mp4') }}" type="video/mp4">
+        </video>
         <div class="at-hero-content">
             <h1>Air Ticketing</h1>
             <p>Book flights easily with assistance in finding the best routes, prices, and travel options.</p>
