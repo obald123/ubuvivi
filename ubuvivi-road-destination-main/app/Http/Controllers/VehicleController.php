@@ -12,6 +12,7 @@ use App\Models\Types\Transmission;
 use App\Models\Types\VehicleBrand;
 use App\Models\Types\VehicleModel;
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Flash;
 use Response;
 
@@ -199,12 +200,12 @@ class VehicleController extends AppBaseController
             return redirect(route('vehicles.index'));
         }
 
-        $image_ids = $vehicle->image_id;
+        $image_ids = is_array($vehicle->image_id) ? $vehicle->image_id : [];
 
         $this->vehicleRepository->delete($id);
 
-        foreach ($image_ids as $image_id) {
-            Cloudinary::destroy($image_id);
+        foreach (array_filter($image_ids) as $image_id) {
+            try { Cloudinary::destroy($image_id); } catch (\Throwable $e) {}
         }
 
         Flash::success('Vehicle deleted successfully.');

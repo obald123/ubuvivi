@@ -485,8 +485,16 @@
             @if($transfers->count())
                 <div class="svc-grid">
                     @foreach($transfers as $transfer)
+                    @php
+                        $transferImgMap = [
+                            'airport' => asset('assets/images/backgrounds/bg_04.jpg'),
+                            'hotel'   => asset('assets/images/backgrounds/bg_15.jpg'),
+                            'private' => asset('assets/images/backgrounds/bg_5.jpg'),
+                        ];
+                        $transferCardImg = $transferImgMap[$transfer->transfer_type] ?? asset('assets/images/backgrounds/bg_5.jpg');
+                    @endphp
                     <div class="svc-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="{{ $transfer->destination }} Transfer">
+                        <img src="{{ $transferCardImg }}" alt="{{ $transfer->destination }} Transfer">
                         <div class="svc-card-body">
                             <div class="svc-card-head">
                                 <div class="svc-card-title">{{ $transfer->destination }} Transfer</div>
@@ -511,8 +519,17 @@
             @if($events->count())
                 <div class="svc-grid">
                     @foreach($events as $event)
+                    @php
+                        $eventImgMap = [
+                            'conference' => asset('images/conference-hero.jpg'),
+                            'corporate'  => asset('assets/images/backgrounds/bg_13.jpg'),
+                            'wedding'    => asset('assets/images/backgrounds/bg_14.jpg'),
+                            'party'      => asset('assets/images/backgrounds/bg_14.jpg'),
+                        ];
+                        $eventCardImg = $eventImgMap[$event->event_type] ?? asset('assets/images/backgrounds/bg_04.jpg');
+                    @endphp
                     <div class="svc-card">
-                        <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="{{ $event->title }}">
+                        <img src="{{ $eventCardImg }}" alt="{{ $event->title }}">
                         <div class="svc-card-body">
                             <div class="svc-card-head">
                                 <div class="svc-card-title">{{ $event->title }}</div>
