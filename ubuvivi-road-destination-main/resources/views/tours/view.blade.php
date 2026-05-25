@@ -19,11 +19,30 @@
     $sectionImages = count($galleryImages) > 1 ? array_slice($galleryImages, 1) : [];
     $bookingLink = route('guest.tours_booking_options', ['tour' => $tour->id]);
 
-    // Model auto-decodes JSON via accessors, so just extract titles
-    $inclusionItems = collect($tour->inclusions ?? [])->pluck('title')->filter()->values();
-    $exclusionItems = collect($tour->exclusions ?? [])->pluck('title')->filter()->values();
-    $highlightItems = collect($tour->highlights ?? [])->pluck('title')->filter()->values();
-    $agendaItems = collect($tour->days_description ?? [])
+    // Decode JSON fields - handle both string and array formats
+    $inclusions = $tour->inclusions ?? [];
+    if (is_string($inclusions)) {
+        $inclusions = json_decode($inclusions, true) ?? [];
+    }
+    $inclusionItems = collect($inclusions)->pluck('title')->filter()->values();
+
+    $exclusions = $tour->exclusions ?? [];
+    if (is_string($exclusions)) {
+        $exclusions = json_decode($exclusions, true) ?? [];
+    }
+    $exclusionItems = collect($exclusions)->pluck('title')->filter()->values();
+
+    $highlights = $tour->highlights ?? [];
+    if (is_string($highlights)) {
+        $highlights = json_decode($highlights, true) ?? [];
+    }
+    $highlightItems = collect($highlights)->pluck('title')->filter()->values();
+
+    $daysDesc = $tour->days_description ?? [];
+    if (is_string($daysDesc)) {
+        $daysDesc = json_decode($daysDesc, true) ?? [];
+    }
+    $agendaItems = collect($daysDesc)
         ->filter(function ($item) {
             return !empty($item['title']) || !empty($item['description']);
         })

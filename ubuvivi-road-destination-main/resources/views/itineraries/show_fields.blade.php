@@ -86,23 +86,35 @@
         </section>
     @endif
 
-    @if (!empty($itinerary->highlights))
+    @php
+        $highlights = $itinerary->highlights ?? [];
+        if (is_string($highlights)) {
+            $highlights = json_decode($highlights, true) ?? [];
+        }
+    @endphp
+    @if (!empty($highlights))
         <section class="mb-5">
             <h5>Tour Highlights</h5>
             <ul>
-                @foreach ($itinerary->highlights as $highlight)
+                @foreach ($highlights as $highlight)
                     <li>{{ $highlight['title'] }}</li>
                 @endforeach
             </ul>
         </section>
     @endif
 
-    @if (!empty($itinerary->days_description))
+    @php
+        $daysDesc = $itinerary->days_description ?? [];
+        if (is_string($daysDesc)) {
+            $daysDesc = json_decode($daysDesc, true) ?? [];
+        }
+    @endphp
+    @if (!empty($daysDesc))
         <section class="pb-5">
             <h5>Tour Agenda</h5>
             <div class="container ml-0">
                 <div class="timeline">
-                    @foreach ($itinerary->days_description as $description)
+                    @foreach ($daysDesc as $description)
                         <div class="timeline-section mb-3">
                             <div class="timeline-date">
                                 Day {{ $loop->iteration }}
@@ -121,23 +133,33 @@
         </section>
     @endif
 
+    @php
+        $inclusions = $itinerary->inclusions ?? [];
+        if (is_string($inclusions)) {
+            $inclusions = json_decode($inclusions, true) ?? [];
+        }
+        $exclusions = $itinerary->exclusions ?? [];
+        if (is_string($exclusions)) {
+            $exclusions = json_decode($exclusions, true) ?? [];
+        }
+    @endphp
     <div class="row">
-        @if (!empty($itinerary->inclusions))
+        @if (!empty($inclusions))
             <div class="col-12 col-md-6">
                 <h5>Inclusions</h5>
                 <ul>
-                    @foreach ($itinerary->inclusions as $inclusion)
+                    @foreach ($inclusions as $inclusion)
                         <li>{{ $inclusion['title'] }}</li>
                     @endforeach
                 </ul>
             </div>
         @endif
 
-        @if (!empty($itinerary->exclusions))
+        @if (!empty($exclusions))
             <div class="col-12 col-md-6">
                 <h5>Exclusions</h5>
                 <ul>
-                    @foreach ($itinerary->exclusions as $exclusion)
+                    @foreach ($exclusions as $exclusion)
                         <li>{{ $exclusion['title'] }}</li>
                     @endforeach
                 </ul>

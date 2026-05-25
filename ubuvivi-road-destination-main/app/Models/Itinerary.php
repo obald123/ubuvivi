@@ -57,12 +57,6 @@ class Itinerary extends Model
         'id' => 'integer',
         'title' => 'string',
         'price' => 'integer',
-        'images' => 'array',
-        'image_id' => 'array',
-        'highlights' => 'array',
-        'days_description' => 'array',
-        'inclusions' => 'array',
-        'exclusions' => 'array',
     ];
 
     /**
