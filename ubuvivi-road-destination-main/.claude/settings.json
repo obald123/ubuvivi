@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main/resources/views/car/**)"
+    ]
+  }
+}

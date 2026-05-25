@@ -225,7 +225,7 @@
                 <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="0">
                     <div class="event-pkg-card w-100">
                         <div class="event-pkg-img">
-                            <img src="{{ asset('assets/images/backgrounds/bg_13.jpg') }}" alt="Basic Package">
+                            <img src="{{ asset('assets/images/conference-basic.jpeg') }}" alt="Basic Package" onerror="this.onerror=null;this.src='{{ asset('assets/images/backgrounds/bg_13.jpg') }}'">
                         </div>
                         <div class="event-pkg-body">
                             <div class="event-pkg-title">Basic Package</div>
@@ -246,7 +246,7 @@
                 <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="100">
                     <div class="event-pkg-card w-100">
                         <div class="event-pkg-img">
-                            <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Partial Package">
+                            <img src="{{ asset('assets/images/conference-partial.jpg') }}" alt="Partial Package" onerror="this.onerror=null;this.src='{{ asset('assets/images/backgrounds/bg_14.jpg') }}'">
                         </div>
                         <div class="event-pkg-body">
                             <div class="event-pkg-title">Partial Package</div>
@@ -268,7 +268,7 @@
                 <div class="col-12 col-md-4 mb-4 d-flex" data-aos="fade-up" data-aos-delay="200">
                     <div class="event-pkg-card w-100">
                         <div class="event-pkg-img">
-                            <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Full Package">
+                            <img src="{{ asset('assets/images/conference-full.jpg') }}" alt="Full Package" onerror="this.onerror=null;this.src='{{ asset('assets/images/backgrounds/bg_15.jpg') }}'">
                         </div>
                         <div class="event-pkg-body">
                             <div class="event-pkg-title">Full Package</div>
