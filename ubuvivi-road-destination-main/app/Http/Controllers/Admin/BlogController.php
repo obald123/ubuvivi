@@ -7,6 +7,7 @@ use App\Http\Controllers\Concerns\UploadsImages;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
@@ -32,7 +33,14 @@ class BlogController extends Controller
         $imageId = null;
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $image = $this->uploadImage($request->file('image'), 'ubuvivi/blog');
+            $uploadedUrl = $this->uploadImage($request->file('image'), 'ubuvivi/blog');
+            if ($uploadedUrl) {
+                $image = $uploadedUrl;
+                Log::info('Blog image uploaded successfully: ' . $uploadedUrl);
+            } else {
+                Log::warning('Blog image upload returned null for post: ' . $request->title);
+                return redirect()->back()->with('error', 'Image upload failed. Please try again.');
+            }
         }
 
         BlogPost::create([
@@ -84,6 +92,10 @@ class BlogController extends Controller
             if ($newUrl) {
                 $image   = $newUrl;
                 $imageId = null;
+                Log::info('Blog image updated successfully: ' . $newUrl);
+            } else {
+                Log::warning('Blog image update failed for post ID: ' . $id);
+                return redirect()->back()->with('error', 'Image upload failed. Please try again.');
             }
         }
 

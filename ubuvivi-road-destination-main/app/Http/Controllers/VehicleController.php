@@ -74,8 +74,8 @@ class VehicleController extends AppBaseController
         $input = $request->all();
 
         [$urls, $ids] = $this->uploadImages($request, 'images', 'ubuvivi');
-        $input["images"]   = $urls;
-        $input['image_id'] = $ids;
+        $input["images"]   = json_encode($urls);
+        $input['image_id'] = json_encode($ids);
 
         $input["plate_number"] = "";
         $input["price"] = 0;

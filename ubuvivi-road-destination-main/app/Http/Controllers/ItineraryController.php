@@ -79,12 +79,12 @@ class ItineraryController extends AppBaseController
             }
         }
         $input['price'] = $input['price'] ?? 0;
-        $input["images"] = $input["images"];
-        $input["image_id"] = $input["image_id"];
-        $input['highlights'] = array_values($input["highlight"] ?? array());
-        $input['inclusions'] = array_values($input["inclusion"] ?? array());
-        $input['exclusions'] = array_values($input["exclusion"] ?? array());
-        $input['days_description'] = array_values($input["days_description"]);
+        $input["images"] = json_encode($input["images"]);
+        $input["image_id"] = json_encode($input["image_id"]);
+        $input['highlights'] = json_encode(array_values($input["highlight"] ?? array()));
+        $input['inclusions'] = json_encode(array_values($input["inclusion"] ?? array()));
+        $input['exclusions'] = json_encode(array_values($input["exclusion"] ?? array()));
+        $input['days_description'] = json_encode(array_values($input["days_description"]));
 
         $itinerary = $this->itineraryRepository->create($input);
 
@@ -193,12 +193,12 @@ class ItineraryController extends AppBaseController
         }
 
         $input['price'] = $input['price'] ?? 0;
-        $input["images"] = $itinerary_images;
-        $input["image_id"] = $itinerary_image_id;
-        $input['highlights'] = array_values($input["highlight"] ?? array());
-        $input['inclusions'] = array_values($input["inclusion"] ?? array());
-        $input['exclusions'] = array_values($input["exclusion"] ?? array());
-        $input['days_description'] = array_values($input["days_description"] ?? array());
+        $input["images"] = json_encode($itinerary_images);
+        $input["image_id"] = json_encode($itinerary_image_id);
+        $input['highlights'] = json_encode(array_values($input["highlight"] ?? array()));
+        $input['inclusions'] = json_encode(array_values($input["inclusion"] ?? array()));
+        $input['exclusions'] = json_encode(array_values($input["exclusion"] ?? array()));
+        $input['days_description'] = json_encode(array_values($input["days_description"] ?? array()));
         $input["description"] = $input["description"] ?? "";
 
 
