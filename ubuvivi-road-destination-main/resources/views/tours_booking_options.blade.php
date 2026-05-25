@@ -29,7 +29,7 @@
     .tour-choice-hero {
         position: relative;
         min-height: 430px;
-        background-image: url('{{ $heroImage }}');
+        background-image: url('{{ htmlspecialchars($heroImage ?? '', ENT_QUOTES, 'UTF-8') }}');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;

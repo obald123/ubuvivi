@@ -417,7 +417,7 @@
                                 {{-- Car image --}}
                                 <div class="car-card-img-wrap">
                                     @if($vehicle->images && count($vehicle->images))
-                                        <div class="img-bg" style="background-image: url('{{ $vehicle->images[0] }}')"></div>
+                                        <div class="img-bg" style="background-image: url('{{ htmlspecialchars($vehicle->images[0] ?? '', ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"></div>
                                     @else
                                         <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}">
                                     @endif

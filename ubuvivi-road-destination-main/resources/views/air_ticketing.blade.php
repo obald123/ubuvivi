@@ -335,10 +335,10 @@
                 <div class="row">
                     @php
                     $destinations = [
-                        ['name' => 'Zanzibar',  'country' => 'Tanzania', 'bg' => 'bg_8.jpg'],
-                        ['name' => 'Istanbul',  'country' => 'Turkey',   'bg' => 'bg_01.jpg'],
-                        ['name' => 'Cairo',     'country' => 'Egypt',    'bg' => 'bg_02.jpg'],
-                        ['name' => 'Paris',     'country' => 'France',   'bg' => 'bg_5.jpg'],
+                        ['name' => 'Zanzibar',  'country' => 'Tanzania', 'bg' => 'download (3).jpg'],
+                        ['name' => 'Istanbul',  'country' => 'Turkey',   'bg' => 'download (5).jpg'],
+                        ['name' => 'Cairo',     'country' => 'Egypt',    'bg' => 'unnamed.jpg'],
+                        ['name' => 'Paris',     'country' => 'France',   'bg' => 'download (4).jpg'],
                     ];
                     @endphp
                     @foreach($destinations as $dest)

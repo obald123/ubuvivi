@@ -273,10 +273,10 @@
                 <div class="row">
                     @php
                     $hotelDests = [
-                        ['name' => 'Kigali',     'tag' => 'Rwanda',   'bg' => 'bg_6.jpg'],
-                        ['name' => 'Musanze',    'tag' => 'Rwanda',   'bg' => 'bg_01.jpg'],
-                        ['name' => 'Nairobi',    'tag' => 'Kenya',    'bg' => 'bg_02.jpg'],
-                        ['name' => 'Zanzibar',   'tag' => 'Tanzania', 'bg' => 'bg_8.jpg'],
+                        ['name' => 'Kigali',     'tag' => 'Rwanda',   'bg' => 'download (6).jpg'],
+                        ['name' => 'Musanze',    'tag' => 'Rwanda',   'bg' => 'download (7).jpg'],
+                        ['name' => 'Rubavu',     'tag' => 'Rwanda',   'bg' => 'download (8).jpg'],
+                        ['name' => 'Karongi',    'tag' => 'Rwanda',   'bg' => 'images.jpg'],
                     ];
                     @endphp
                     @foreach($hotelDests as $d)
@@ -308,7 +308,7 @@
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="hotel-card">
                         @if($h->cover_image)
-                            <div class="hotel-card-img" style="background-image:url('{{ $h->cover_image }}');"></div>
+                            <div class="hotel-card-img" style="background-image:url('{{ htmlspecialchars($h->cover_image, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"></div>
                         @else
                             <div class="hotel-card-img" style="background:#e4e8f0;display:flex;align-items:center;justify-content:center;">
                                 <i class="fas fa-hotel" style="font-size:40px;color:#bbb;"></i>

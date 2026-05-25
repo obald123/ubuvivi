@@ -339,7 +339,7 @@
 
             <div class="quick-renting-form">
                 @php $carImage = (!empty($vehicle->images) && count($vehicle->images)) ? $vehicle->images[0] : null; @endphp
-                <div class="car-banner" @if($carImage) style="background-image: url('{{ $carImage }}');" @endif>
+                <div class="car-banner" @if($carImage) style="background-image: url('{{ htmlspecialchars($carImage, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;" @endif>
                     @if(!$carImage)
                         <div class="car-banner-fallback"><i class="fas fa-car"></i></div>
                     @endif
