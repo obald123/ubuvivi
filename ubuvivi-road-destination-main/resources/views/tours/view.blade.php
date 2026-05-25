@@ -7,8 +7,15 @@
 @section('body-class', 'hero-page')
 
 @php
-    $galleryImages = is_array($tour->images) ? array_values(array_filter($tour->images)) : [];
-    $heroImage = $galleryImages[0] ?? asset('assets/images/backgrounds/bg_11.jpg');
+    // Safely handle images - they're auto-cast to array by Eloquent
+    $images = $tour->images ?? [];
+    if (is_string($images)) {
+        $images = json_decode($images, true) ?? [];
+    }
+    $galleryImages = is_array($images) ? array_values(array_filter($images)) : [];
+    $heroImage = (!empty($galleryImages) && !empty($galleryImages[0]))
+        ? $galleryImages[0]
+        : asset('assets/images/backgrounds/bg_11.jpg');
     $sectionImages = count($galleryImages) > 1 ? array_slice($galleryImages, 1) : [];
     $bookingLink = route('guest.tours_booking_options', ['tour' => $tour->id]);
 
