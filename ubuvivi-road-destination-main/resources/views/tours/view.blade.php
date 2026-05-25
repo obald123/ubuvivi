@@ -19,6 +19,7 @@
     $sectionImages = count($galleryImages) > 1 ? array_slice($galleryImages, 1) : [];
     $bookingLink = route('guest.tours_booking_options', ['tour' => $tour->id]);
 
+    // Model auto-decodes JSON via accessors, so just extract titles
     $inclusionItems = collect($tour->inclusions ?? [])->pluck('title')->filter()->values();
     $exclusionItems = collect($tour->exclusions ?? [])->pluck('title')->filter()->values();
     $highlightItems = collect($tour->highlights ?? [])->pluck('title')->filter()->values();
