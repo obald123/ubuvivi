@@ -338,7 +338,10 @@
             <div class="alert-stack">@include('flash::message')</div>
 
             <div class="quick-renting-form">
-                @php $carImage = (!empty($vehicle->images) && count($vehicle->images)) ? $vehicle->images[0] : null; @endphp
+                @php
+                    $images = is_array($vehicle->images) ? $vehicle->images : (is_string($vehicle->images) ? json_decode($vehicle->images, true) : []);
+                    $carImage = (!empty($images) && count($images) > 0) ? $images[0] : null;
+                @endphp
                 <div class="car-banner" @if($carImage) style="background-image: url('{{ htmlspecialchars($carImage, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;" @endif>
                     @if(!$carImage)
                         <div class="car-banner-fallback"><i class="fas fa-car"></i></div>

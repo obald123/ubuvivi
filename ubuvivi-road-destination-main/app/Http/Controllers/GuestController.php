@@ -146,7 +146,7 @@ class GuestController extends Controller
             'approved'             => null,
         ]);
 
-        AdminNotification::push(
+        AdminNotification::notify(
             'flight_booking',
             "New flight booking from {$request->names} ({$request->departure_airport} → {$request->arrival_airport})",
             route('admin.flight_bookings.index')
@@ -191,7 +191,7 @@ class GuestController extends Controller
             'approved'         => null,
         ]);
 
-        AdminNotification::push(
+        AdminNotification::notify(
             'hotel_booking',
             "New hotel booking from {$request->names} (check-in {$request->check_in})",
             route('admin.hotel_bookings.index')
@@ -431,7 +431,7 @@ class GuestController extends Controller
             $admin_booking_route = route("carBookings.show", $booking->id);
             $booking_route = route("car.booking.view", $booking->id);
 
-            AdminNotification::push(
+            AdminNotification::notify(
                 'car_booking',
                 "New car booking from {$request->name}",
                 $admin_booking_route
@@ -659,7 +659,7 @@ class GuestController extends Controller
         if ($booking) {
             Flash::success("Booking information sent successfully");
 
-            AdminNotification::push(
+            AdminNotification::notify(
                 'tour_booking',
                 "New tour booking from {$request->names} for \"{$tour->title}\"",
                 route("tourBookings.show", $booking->id)
@@ -973,7 +973,7 @@ class GuestController extends Controller
         ]);
 
         if ($booking) {
-            AdminNotification::push(
+            AdminNotification::notify(
                 'event_booking',
                 "New event booking from {$request->names} ({$packageLabel})",
                 route('tourBookings.show', $booking->id)
@@ -1054,7 +1054,7 @@ class GuestController extends Controller
         ]);
 
         if ($booking) {
-            AdminNotification::push(
+            AdminNotification::notify(
                 'transfer_booking',
                 "New transfer booking from {$request->names} ({$request->pickup_location} → {$request->destination})",
                 route('carTransfers.show', $booking->id)
@@ -1106,7 +1106,7 @@ class GuestController extends Controller
             Flash::error("Failed to send message try again later");
         }
 
-        AdminNotification::push(
+        AdminNotification::notify(
             'contact',
             "New contact message from {$request->names}: \"{$request->subject}\"",
             null
