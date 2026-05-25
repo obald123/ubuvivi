@@ -59,7 +59,6 @@
     .tour-detail-hero {
         position: relative;
         min-height: 520px;
-        background-image: url('{{ htmlspecialchars($heroImage ?? '', ENT_QUOTES, 'UTF-8') }}');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -301,7 +300,7 @@
 @endsection
 
 @section('content')
-    <section class="tour-detail-hero">
+    <section class="tour-detail-hero" style="background-image: url('{{ htmlspecialchars($heroImage ?? '', ENT_QUOTES, 'UTF-8') }}');">
         <div class="container">
             <div class="tour-detail-caption">
                 <h1>{{ $tour->title }}</h1>
@@ -359,6 +358,20 @@
                 @elseif($highlightItems->isNotEmpty())
                     <section class="tour-fallback-panel">
                         <h2>Tour Highlights</h2>
+                        @php
+                            $highlights = is_array($tour->highlights) ? $tour->highlights : (is_string($tour->highlights) ? json_decode($tour->highlights, true) : []);
+                        @endphp
+                        @if($highlights && count($highlights) > 0 && isset($highlights[0]['image']))
+                            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:24px;">
+                                @foreach($highlights as $h)
+                                    @if(!empty($h['image']))
+                                        <div style="overflow:hidden; border-radius:8px;">
+                                            <img src="{{ $h['image'] }}" alt="{{ $h['title'] ?? 'Highlight' }}" style="width:100%; height:200px; object-fit:cover; display:block;" onerror="this.onerror=null;this.style.display='none';">
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
                         <ul class="tour-fallback-list">
                             @foreach($highlightItems as $highlight)
                                 <li>{{ $highlight }}</li>

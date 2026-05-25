@@ -13,8 +13,11 @@
     .post-hero {
         position: relative;
         height: 480px;
-        background: {{ $post->image ? "url('{$post->image}') center/cover no-repeat" : "linear-gradient(135deg,#0D1F35,#1e3a5f)" }};
+        background: {{ $post->image ? "url('" . htmlspecialchars($post->image, ENT_QUOTES, 'UTF-8') . "') center/cover no-repeat" : "linear-gradient(135deg,#0D1F35,#1e3a5f)" }};
         display: flex; align-items: flex-end; justify-content: flex-start;
+    }
+    .post-hero.fallback {
+        background: linear-gradient(135deg,#0D1F35,#1e3a5f) !important;
     }
     .post-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(13,31,53,.88) 0%, rgba(13,31,53,.3) 60%, transparent 100%); }
     .post-hero-content { position:relative; z-index:2; padding:0 0 44px; width:100%; }
@@ -211,4 +214,34 @@
         </div>
     </section>
 
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const heroSection = document.querySelector('.post-hero');
+    const img = new Image();
+
+    @if($post->image)
+        img.onerror = function () {
+            heroSection.classList.add('fallback');
+        };
+        img.src = '{{ $post->image }}';
+    @endif
+
+    // Handle images in recent posts sidebar
+    Array.from(document.querySelectorAll('.rp-img')).forEach(function (image) {
+        image.addEventListener('error', function () {
+            image.style.display = 'none';
+            const container = image.parentElement;
+            if (!container.querySelector('.rp-no-img')) {
+                const fallback = document.createElement('div');
+                fallback.className = 'rp-no-img';
+                fallback.innerHTML = '<i class="fas fa-newspaper"></i>';
+                container.insertBefore(fallback, image);
+            }
+        });
+    });
+});
+</script>
 @endsection

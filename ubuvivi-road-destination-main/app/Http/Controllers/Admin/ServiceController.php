@@ -318,21 +318,29 @@ class ServiceController extends Controller
     private function validateServiceRequest(Request $request, string $type): void
     {
         $rules = [
-            'title'       => 'required|string|max:255',
-            'description' => 'required|string',
-            'price'       => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0',
         ];
 
         switch ($type) {
             case 'tour':
+                $rules['title'] = 'required|string|max:255';
+                $rules['description'] = 'required|string';
                 $rules['tour_images.*'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120';
                 $rules['days'] = 'required|integer|min:1';
                 break;
             case 'car':
+                $rules['car_name'] = 'required|string|max:255';
                 $rules['vehicle_images.*'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120';
                 $rules['transmission'] = 'required|string|max:50';
                 $rules['fuel_type'] = 'required|string|max:50';
                 $rules['year'] = 'required|integer|min:1900|max:' . (date('Y') + 1);
+                break;
+            case 'transfer':
+                $rules['title'] = 'required|string|max:255';
+                break;
+            case 'event':
+                $rules['title'] = 'required|string|max:255';
+                $rules['description'] = 'required|string';
                 break;
         }
 
