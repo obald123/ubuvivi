@@ -57,6 +57,12 @@ class Itinerary extends Model
         'id' => 'integer',
         'title' => 'string',
         'price' => 'integer',
+        'images' => 'array',
+        'image_id' => 'array',
+        'highlights' => 'array',
+        'days_description' => 'array',
+        'inclusions' => 'array',
+        'exclusions' => 'array',
     ];
 
     /**
@@ -84,89 +90,5 @@ class Itinerary extends Model
     public function is_serialized($str)
     {
         return is_string($str) && ($str === 'b:0;' || @unserialize($str) !== false);
-    }
-
-    public function getImagesAttribute($value)
-    {
-        return $this->is_json($value) ? json_decode($value, true) : $value;
-    }
-
-    public function setImagesAttribute($value)
-    {
-        $this->attributes['images'] = $this->is_json($value) ? $value : json_encode($value);
-    }
-
-    public function getImageIdAttribute($value)
-    {
-        return $this->is_json($value) ? json_decode($value, true) : $value;
-    }
-
-    public function setImageIdAttribute($value)
-    {
-        $this->attributes['image_id'] = $this->is_json($value) ? $value : json_encode($value);
-    }
-
-    public function getHighlightsAttribute($value)
-    {
-        if ($this->is_serialized($value)) {
-            return unserialize($value);
-        } else if ($this->is_json($value)) {
-            return json_decode($value, true);
-        } else {
-            return $value;
-        }
-    }
-
-    public function setHighlightsAttribute($value)
-    {
-        $this->attributes['highlights'] = $this->is_json($value) ? $value : json_encode($value);
-    }
-
-    public function getDaysDescriptionAttribute($value)
-    {
-        if ($this->is_serialized($value)) {
-            return unserialize($value);
-        } else if ($this->is_json($value)) {
-            return json_decode($value, true);
-        } else {
-            return $value;
-        }
-    }
-
-    public function setDaysDescriptionAttribute($value)
-    {
-        $this->attributes['days_description'] = $this->is_json($value) ? $value : json_encode($value);
-    }
-
-    public function getInclusionsAttribute($value)
-    {
-        if ($this->is_serialized($value)) {
-            return unserialize($value);
-        } else if ($this->is_json($value)) {
-            return json_decode($value, true);
-        } else {
-            return $value;
-        }
-    }
-
-    public function setInclusionsAttribute($value)
-    {
-        $this->attributes['inclusions'] = $this->is_json($value) ? $value : json_encode($value);
-    }
-
-    public function getExclusionsAttribute($value)
-    {
-        if ($this->is_serialized($value)) {
-            return unserialize($value);
-        } else if ($this->is_json($value)) {
-            return json_decode($value, true);
-        } else {
-            return $value;
-        }
-    }
-
-    public function setExclusionsAttribute($value)
-    {
-        $this->attributes['exclusions'] = $this->is_json($value) ? $value : json_encode($value);
     }
 }

@@ -176,8 +176,9 @@
                         <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
                             <div class="tour-card w-100">
                                 @php
-                                    $tourImgSrc = ($tour->images && count($tour->images))
-                                        ? $tour->images[0]
+                                    $tourImages = is_array($tour->images) ? $tour->images : (is_string($tour->images) ? json_decode($tour->images, true) : []);
+                                    $tourImgSrc = (count($tourImages) && isset($tourImages[0]))
+                                        ? $tourImages[0]
                                         : asset('assets/images/backgrounds/bg_11.jpg');
                                 @endphp
                                 <img src="{{ $tourImgSrc }}"

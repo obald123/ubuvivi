@@ -416,8 +416,12 @@
 
                                 {{-- Car image --}}
                                 <div class="car-card-img-wrap">
-                                    @if($vehicle->images && count($vehicle->images))
-                                        <div class="img-bg" style="background-image: url('{{ htmlspecialchars($vehicle->images[0] ?? '', ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"></div>
+                                    @php
+                                        $vImages = is_array($vehicle->images) ? $vehicle->images : (is_string($vehicle->images) ? json_decode($vehicle->images, true) : []);
+                                        $vImg = (count($vImages) && isset($vImages[0])) ? $vImages[0] : asset('assets/images/vehicles/not_found.png');
+                                    @endphp
+                                    @if(count($vImages) && isset($vImages[0]))
+                                        <div class="img-bg" style="background-image: url('{{ htmlspecialchars($vImg, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"></div>
                                     @else
                                         <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}">
                                     @endif

@@ -10,7 +10,7 @@ class AdminNotification extends Model
 
     protected $casts = ['read_at' => 'datetime'];
 
-    public static function push(string $type, string $message, ?string $link = null): void
+    public static function notify(string $type, string $message, ?string $link = null): void
     {
         static::create(compact('type', 'message', 'link'));
     }

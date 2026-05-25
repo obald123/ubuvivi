@@ -192,10 +192,10 @@ class ServiceController extends Controller
                         'title'       => $request->title,
                         'days'        => (int) ($request->days ?? 1),
                         'description' => $request->description,
-                        'images'      => json_encode($allImages),
-                        'image_id'    => json_encode($allImageIds),
-                        'highlights'  => json_encode($highlights),
-                        'inclusions'  => json_encode($inclusions),
+                        'images'      => $allImages,
+                        'image_id'    => $allImageIds,
+                        'highlights'  => $highlights,
+                        'inclusions'  => $inclusions,
                         'price'       => (int) ($request->price ?? 100),
                     ]);
                     break;
@@ -218,8 +218,8 @@ class ServiceController extends Controller
                         'fuel_type_id'    => $fuelType->id,
                         'description'     => $request->car_name ?? $vehicle->description,
                         'price'           => (int) ($request->price ?? $vehicle->price),
-                        'images'          => json_encode($allImages),
-                        'image_id'        => json_encode($allImageIds),
+                        'images'          => $allImages,
+                        'image_id'        => $allImageIds,
                         'for_sale'        => $request->has('available'),
                     ]);
                     break;

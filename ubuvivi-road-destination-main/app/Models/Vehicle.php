@@ -186,24 +186,4 @@ class Vehicle extends Model
     {
         return $this->belongsToMany(CarTransfer::class, 'vehicle_bookings',  "vehicle_id", "car_transfer_id");
     }
-
-    public function getImagesAttribute($value)
-    {
-        return $this->is_json($value) ? json_decode($value, true) : $value;
-    }
-
-    public function setImagesAttribute($value)
-    {
-        $this->attributes['images'] = $this->is_json($value) ? $value : json_encode($value);
-    }
-
-    public function getImageIdAttribute($value)
-    {
-        return $this->is_json($value) ? json_decode($value, true) : $value;
-    }
-
-    public function setImageIdAttribute($value)
-    {
-        $this->attributes['image_id'] = $this->is_json($value) ? $value : json_encode($value);
-    }
 }

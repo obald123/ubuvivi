@@ -25,13 +25,20 @@
                     <div class="d-flex flex-column h-100 my-0 border shadow-sm">
                         <div class="card-body">
                             <div class="owl-carousel owl-theme">
-                                @isset($vehicle->images)
-                                    @foreach ($vehicle->images as $image)
+                                @php
+                                    $vImages = is_array($vehicle->images) ? $vehicle->images : (is_string($vehicle->images) ? json_decode($vehicle->images, true) : []);
+                                @endphp
+                                @if(count($vImages))
+                                    @foreach ($vImages as $image)
                                         <div class="item">
                                             <img alt="image" src="{{ $image }}">
                                         </div>
                                     @endforeach
-                                @endisset
+                                @else
+                                    <div class="item">
+                                        <img alt="image" src="{{ asset('assets/images/vehicles/not_found.png') }}">
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
