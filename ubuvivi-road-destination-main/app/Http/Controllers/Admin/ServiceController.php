@@ -84,6 +84,8 @@ class ServiceController extends Controller
     {
         $type = $request->service_type;
 
+        $this->validateServiceRequest($request, $type);
+
         try {
             switch ($type) {
                 case 'tour':
@@ -174,6 +176,8 @@ class ServiceController extends Controller
     {
         $type = $request->service_type;
 
+        $this->validateServiceRequest($request, $type);
+
         try {
             switch ($type) {
                 case 'tour':
@@ -192,10 +196,10 @@ class ServiceController extends Controller
                         'title'       => $request->title,
                         'days'        => (int) ($request->days ?? 1),
                         'description' => $request->description,
-                        'images'      => $allImages,
-                        'image_id'    => $allImageIds,
-                        'highlights'  => $highlights,
-                        'inclusions'  => $inclusions,
+                        'images'      => json_encode($allImages),
+                        'image_id'    => json_encode($allImageIds),
+                        'highlights'  => json_encode($highlights),
+                        'inclusions'  => json_encode($inclusions),
                         'price'       => (int) ($request->price ?? 100),
                     ]);
                     break;
@@ -218,8 +222,8 @@ class ServiceController extends Controller
                         'fuel_type_id'    => $fuelType->id,
                         'description'     => $request->car_name ?? $vehicle->description,
                         'price'           => (int) ($request->price ?? $vehicle->price),
-                        'images'          => $allImages,
-                        'image_id'        => $allImageIds,
+                        'images'          => json_encode($allImages),
+                        'image_id'        => json_encode($allImageIds),
                         'for_sale'        => $request->has('available'),
                     ]);
                     break;
@@ -309,5 +313,29 @@ class ServiceController extends Controller
         }
 
         return $highlights;
+    }
+
+    private function validateServiceRequest(Request $request, string $type): void
+    {
+        $rules = [
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string',
+            'price'       => 'required|numeric|min:0',
+        ];
+
+        switch ($type) {
+            case 'tour':
+                $rules['tour_images.*'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120';
+                $rules['days'] = 'required|integer|min:1';
+                break;
+            case 'car':
+                $rules['vehicle_images.*'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120';
+                $rules['transmission'] = 'required|string|max:50';
+                $rules['fuel_type'] = 'required|string|max:50';
+                $rules['year'] = 'required|integer|min:1900|max:' . (date('Y') + 1);
+                break;
+        }
+
+        $request->validate($rules);
     }
 }
