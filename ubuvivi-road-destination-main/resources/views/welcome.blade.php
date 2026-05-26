@@ -382,7 +382,7 @@
 
             {{-- Slide 1: Tours & Travel — Giraffes video --}}
             <div class="carousel-item active" data-interval="8000">
-                <video class="slide-bg-video" id="hero-vid-0" autoplay muted playsinline>
+                <video class="slide-bg-video" id="hero-vid-0" autoplay muted loop playsinline>
                     <source src="{{ asset('videos/giraffes.mp4') }}" type="video/mp4">
                 </video>
                 <a href="{{ url('/tours') }}" class="hero-slide">
@@ -396,7 +396,7 @@
 
             {{-- Slide 2: Car Rentals — Kigali driving video --}}
             <div class="carousel-item" data-interval="8000">
-                <video class="slide-bg-video" id="hero-vid-1" muted playsinline>
+                <video class="slide-bg-video" id="hero-vid-1" autoplay muted loop playsinline>
                     <source src="{{ asset('videos/Man_driving_car_in_Kigali_202605240630.mp4') }}" type="video/mp4">
                 </video>
                 <a href="{{ url('/cars') }}" class="hero-slide">
@@ -410,7 +410,7 @@
 
             {{-- Slide 3: Air Ticketing — Jet video --}}
             <div class="carousel-item" data-interval="8000">
-                <video class="slide-bg-video" id="hero-vid-2" muted playsinline>
+                <video class="slide-bg-video" id="hero-vid-2" autoplay muted loop playsinline>
                     <source src="{{ asset('videos/Jet_soaring_through_clear_sky_202605240346.mp4') }}" type="video/mp4">
                 </video>
                 <a href="{{ route('guest.air_ticketing') }}" class="hero-slide">
