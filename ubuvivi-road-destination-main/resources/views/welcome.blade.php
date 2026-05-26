@@ -104,16 +104,7 @@
     /* Carousel controls */
     #heroCarousel .carousel-control-prev,
     #heroCarousel .carousel-control-next {
-        width: 56px;
-        height: 56px;
-        background: rgba(255,255,255,.18);
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-        bottom: auto;
-        backdrop-filter: blur(6px);
-        opacity: 1;
-        transition: background .2s;
+        display: none;
     }
     #heroCarousel .carousel-control-prev { left: 28px; }
     #heroCarousel .carousel-control-next { right: 28px; }
@@ -383,6 +374,7 @@
             <li data-target="#heroCarousel" data-slide-to="1"></li>
             <li data-target="#heroCarousel" data-slide-to="2"></li>
             <li data-target="#heroCarousel" data-slide-to="3"></li>
+            <li data-target="#heroCarousel" data-slide-to="4"></li>
         </ol>
 
         {{-- Slides --}}
@@ -395,7 +387,6 @@
                 </video>
                 <a href="{{ url('/tours') }}" class="hero-slide">
                     <div class="hero-slide-content">
-                        <span class="hero-slide-tag">Tours &amp; Travel</span>
                         <h1>Discover Rwanda's<br>Breathtaking Wonders</h1>
                         <p>Gorilla trekking, national parks, and cultural experiences crafted by local experts.</p>
                         <span class="hero-slide-btn">Explore Tours &rarr;</span>
@@ -406,11 +397,10 @@
             {{-- Slide 2: Car Rentals — Kigali driving video --}}
             <div class="carousel-item" data-interval="8000">
                 <video class="slide-bg-video" id="hero-vid-1" muted playsinline>
-                    <source src="{{ asset('videos/car-kigali.mp4') }}" type="video/mp4">
+                    <source src="{{ asset('videos/Man_driving_car_in_Kigali_202605240630.mp4') }}" type="video/mp4">
                 </video>
                 <a href="{{ url('/cars') }}" class="hero-slide">
                     <div class="hero-slide-content">
-                        <span class="hero-slide-tag">Car Rentals</span>
                         <h1>Drive Rwanda<br>at Your Own Pace</h1>
                         <p>Choose from our fleet of premium, well-maintained vehicles for self-drive adventures.</p>
                         <span class="hero-slide-btn">View Fleet &rarr;</span>
@@ -418,12 +408,25 @@
                 </a>
             </div>
 
-            {{-- Slide 3: Transport — airport/jet image --}}
+            {{-- Slide 3: Air Ticketing — Jet video --}}
+            <div class="carousel-item" data-interval="8000">
+                <video class="slide-bg-video" id="hero-vid-2" muted playsinline>
+                    <source src="{{ asset('videos/Jet_soaring_through_clear_sky_202605240346.mp4') }}" type="video/mp4">
+                </video>
+                <a href="{{ route('guest.air_ticketing') }}" class="hero-slide">
+                    <div class="hero-slide-content">
+                        <h1>Global Air Ticketing<br>&amp; Flight Booking</h1>
+                        <p>Fast, reliable, and affordable flight bookings to any destination worldwide.</p>
+                        <span class="hero-slide-btn">Book a Flight &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
+            {{-- Slide 4: Transport — airport/jet image --}}
             <div class="carousel-item" data-interval="8000">
                 <div class="slide-bg-img" style="background-image:url('{{ asset('images/transport-hero.jpg') }}')"></div>
                 <a href="{{ route('guest.transfer') }}" class="hero-slide">
                     <div class="hero-slide-content">
-                        <span class="hero-slide-tag">Our Services</span>
                         <h1>Seamless Airport &amp;<br>City Transport</h1>
                         <p>Reliable, on-time pickup and drop-off services available 24/7 across Rwanda.</p>
                         <span class="hero-slide-btn">Book Transport &rarr;</span>
@@ -431,12 +434,11 @@
                 </a>
             </div>
 
-            {{-- Slide 4: Conference Planning — conference image --}}
+            {{-- Slide 5: Conference Planning — conference image --}}
             <div class="carousel-item" data-interval="8000">
                 <div class="slide-bg-img" style="background-image:url('{{ asset('images/conference-hero.jpg') }}')"></div>
                 <a href="{{ route('guest.events') }}" class="hero-slide">
                     <div class="hero-slide-content">
-                        <span class="hero-slide-tag">Conference Planning</span>
                         <h1>Professional Conferences<br>in Rwanda</h1>
                         <p>From executive meetings to large corporate summits, we handle every detail for you.</p>
                         <span class="hero-slide-btn">Plan Your Conference &rarr;</span>
@@ -674,7 +676,8 @@ $(document).ready(function () {
     var $carousel = $('#heroCarousel');
     var vid0 = document.getElementById('hero-vid-0');
     var vid1 = document.getElementById('hero-vid-1');
-    var videoMap = { 0: vid0, 1: vid1 };
+    var vid2 = document.getElementById('hero-vid-2');
+    var videoMap = { 0: vid0, 1: vid1, 2: vid2 };
     var DEFAULT_MS = 8000;
 
     /* ── Set carousel interval from each video's natural duration ── */
@@ -686,20 +689,21 @@ $(document).ready(function () {
             /* video slides use their own duration; image slides match the longest video */
             $items.eq(slideIdx).attr('data-interval', ms);
             /* Apply same timing to image-only slides */
-            $items.eq(2).attr('data-interval', ms);
             $items.eq(3).attr('data-interval', ms);
+            $items.eq(4).attr('data-interval', ms);
         }
         if (video.readyState >= 1) { onMeta(); } else { video.addEventListener('loadedmetadata', onMeta); }
     }
     applyVideoDuration(vid0, 0);
     applyVideoDuration(vid1, 1);
+    applyVideoDuration(vid2, 2);
 
     /* ── Init carousel (Bootstrap picks up per-slide data-interval automatically) ── */
     $carousel.carousel({ ride: 'carousel' });
 
     /* ── Pause all videos before the slide animates away ── */
     $carousel.on('slide.bs.carousel', function (e) {
-        [vid0, vid1].forEach(function (v) { if (v) v.pause(); });
+        [vid0, vid1, vid2].forEach(function (v) { if (v) v.pause(); });
         /* Reset slide-up text animation */
         $(e.relatedTarget).find('.hero-slide-content').css('animation', 'none');
     });
