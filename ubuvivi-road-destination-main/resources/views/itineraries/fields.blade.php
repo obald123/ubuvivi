@@ -38,7 +38,7 @@
             <div class="mt-2 row" id="highlight">
                 <div class="form-group col-12">
                     <div class="input-group">
-                        <input class="form-control" name="highlights[0][title]" placeholder="Title" />
+                        <input class="form-control" name="highlight[0][title]" placeholder="Title" />
                         <button class="btn btn-dark input-group-btn rounded-right" style="border-radius: 0" type="button"
                             id="remove_btn">Remove</button>
                     </div>

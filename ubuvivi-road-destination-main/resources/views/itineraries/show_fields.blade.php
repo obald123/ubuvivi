@@ -68,8 +68,12 @@
 
     </style>
 @endsection
+@php
+    $images = $itinerary->images ?? [];
+    $mainImage = !empty($images) && is_array($images) ? $images[0] : asset('/assets/images/vehicles/not_found.png');
+@endphp
 <img class="card-img-top"
-    src="{{ $itinerary->images ? $itinerary->images[0] : asset('/assets/images/vehicles/not_found.png') }}"
+    src="{{ $mainImage }}"
     alt="image" style="height: 250px;object-fit: cover;object-position: top;">
 <div class="card-body">
     <h3 class="mt-2">{{ $itinerary->title }}</h3>

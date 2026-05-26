@@ -25,8 +25,17 @@ class ItineraryController extends AppBaseController
 
     public function image_available($image_url)
     {
-        $headers = get_headers($image_url);
-        return stripos($headers[0], '200 OK') ? true : false;
+        if (empty($image_url)) return false;
+        
+        try {
+            $client = new \GuzzleHttp\Client(['timeout' => 5, 'connect_timeout' => 5]);
+            $response = $client->head($image_url);
+            return $response->getStatusCode() === 200;
+        } catch (\Throwable $th) {
+            // If HEAD fails, try GET as a fallback or assume it might be available if it's a valid URL format
+            // but for safety during update, we return false if we can't verify it.
+            return false;
+        }
     }
 
     /**
