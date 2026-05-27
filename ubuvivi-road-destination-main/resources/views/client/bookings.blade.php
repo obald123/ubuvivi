@@ -57,7 +57,17 @@
     .pg-btn.active { background:#2563EB; color:#fff; border-color:#2563EB; }
     .pg-arrow { background:none; border:1px solid #e8e8e8; }
 
-    @media(max-width:900px) { .cd-stats-bar{flex-direction:column} .cd-stat{border-right:none;border-bottom:1px solid #f0f0f0} }
+    @media(max-width:900px) {
+        .cd-stats-bar { flex-wrap: wrap; }
+        .cd-stat { flex: 1 1 48%; border-right: none; border-bottom: 1px solid #f0f0f0; }
+        .cd-stat:last-child { border-bottom: none; }
+    }
+    @media(max-width:576px) {
+        .cd-stats-bar { flex-direction: column; }
+        .cd-stat { flex: unset; width: 100%; }
+        .cd-topbar { flex-direction: column; align-items: stretch; }
+        .cd-search { max-width: 100%; }
+    }
 </style>
 @endsection
 
@@ -107,6 +117,7 @@
     {{-- Table --}}
     <div class="cd-panel">
         @if($all->count())
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="cd-table" id="bookingTable">
             <thead>
                 <tr>
@@ -145,6 +156,7 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
 
         {{-- Pagination --}}
         <div class="cd-pagination" id="pagination"></div>

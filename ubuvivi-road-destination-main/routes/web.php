@@ -201,6 +201,8 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::get('/client/new-booking',    [\App\Http\Controllers\ClientDashboardController::class, 'newBooking'])->name('client.new_booking');
     Route::get('/client/booking-types',  [\App\Http\Controllers\ClientDashboardController::class, 'bookingTypes'])->name('client.booking_types');
     Route::get('/client/profile',        [\App\Http\Controllers\ClientDashboardController::class, 'profile'])->name('client.profile');
+    Route::put('/client/profile',        [\App\Http\Controllers\ClientDashboardController::class, 'updateProfile'])->name('client.profile.update');
+    Route::put('/client/profile/password', [\App\Http\Controllers\ClientDashboardController::class, 'updatePassword'])->name('client.profile.password');
 });
 
 Route::controller(deleteImageController::class)->group(function () {
@@ -226,8 +228,6 @@ Route::middleware("auth")->group(function () {
         Route::resource('vehicleModels', \App\Http\Controllers\Types\VehicleModelController::class, ["as" => 'types']);
     });
 
-    Route::resource('carBookings',  \App\Http\Controllers\CarBookingController::class);
     Route::resource('carTransfers', \App\Http\Controllers\CarTransferController::class);
     Route::resource('itineraries',  \App\Http\Controllers\ItineraryController::class);
-    Route::resource('tourBookings', \App\Http\Controllers\TourBookingController::class);
 });

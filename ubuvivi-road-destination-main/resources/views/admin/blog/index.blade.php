@@ -82,7 +82,6 @@
     /* ── Responsive ── */
     @media (max-width: 991px) {
         .blog-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .blog-table { min-width: 700px; }
     }
 
     @media (max-width: 767px) {
@@ -94,7 +93,6 @@
 
         /* Table horizontally scrollable */
         .blog-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
-        .blog-table { min-width: 600px; }
         .blog-table th,
         .blog-table td { padding: 10px 12px; }
 
@@ -123,8 +121,6 @@
     }
 
     @media (max-width: 480px) {
-        /* Hide cover column, rely on title info */
-        .blog-table { min-width: 420px; }
         .blog-table .cover-col { display: none; }
         .btn-tbl-edit,
         .btn-tbl-del { padding: 5px 10px; font-size: 11px; }
@@ -382,5 +378,16 @@ function previewImg(input, previewId) {
     reader.readAsDataURL(input.files[0]);
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    var blogSearch = document.getElementById('blogSearch');
+    if (blogSearch) {
+        blogSearch.addEventListener('input', function () {
+            var q = blogSearch.value.trim().toLowerCase();
+            document.querySelectorAll('#blogTableBody .blog-row').forEach(function (row) {
+                row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+            });
+        });
+    }
+});
 </script>
 @endsection

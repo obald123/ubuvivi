@@ -47,6 +47,7 @@ class User extends Model implements UserContract, CanResetPassword
         'email',
         'phone_number',
         'role',
+        'avatar',
         'email_verified_at',
         'password',
         'two_factor_secret',

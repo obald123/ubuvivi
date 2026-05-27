@@ -16,7 +16,7 @@
             'label' => 'Bookings',
             'route' => route('bookings.index'),
             'icon' => 'far fa-calendar-alt',
-            'patterns' => ['bookings*', 'tourBookings*', 'carBookings*', 'carTransfers*', 'payments*'],
+            'patterns' => ['bookings*'],
         ],
         [
             'label' => 'Services',

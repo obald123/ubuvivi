@@ -375,8 +375,7 @@
     }
 
     @media (max-width: 991px) {
-        .users-table-wrap { overflow-x: auto; }
-        .users-table { min-width: 780px; }
+        .users-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .profile-grid { grid-template-columns: 1fr; }
     }
 

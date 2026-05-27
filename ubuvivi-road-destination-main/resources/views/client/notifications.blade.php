@@ -25,11 +25,11 @@
     .notif-item {
         display:flex; align-items:center; gap:16px;
         padding:16px 24px; border-bottom:1px solid #f5f5f5;
-        cursor:pointer; transition:background .15s;
+        cursor:default; transition:background .15s;
         position:relative;
     }
     .notif-item:last-child { border-bottom:none; }
-    .notif-item:first-child { background:#f7f8fa; }
+    .notif-item.unread { background:#f0f6ff; }
     .notif-item:hover { background:#f7f8fa; }
     .notif-icon {
         width:42px; height:42px; border-radius:50%;
@@ -40,14 +40,18 @@
     .ni-yellow { background:#FFF8E6; color:#F0A500; }
     .ni-purple { background:#F3EEFF; color:#7B5EE8; }
     .ni-blue   { background:#EEF2FF; color:#4F6CDE; }
+    .ni-red    { background:#FDECEA; color:#E53935; }
     .notif-body { flex:1; min-width:0; }
     .notif-title { font-size:14px; font-weight:700; color:#1a1a2e; margin-bottom:3px; }
     .notif-desc  { font-size:13px; color:#888; line-height:1.4; }
+    .notif-ago   { font-size:11px; color:#bbb; margin-top:2px; }
     .notif-dot {
         width:8px; height:8px; border-radius:50%;
-        background:#1a1a2e; flex-shrink:0;
+        background:#2563EB; flex-shrink:0;
     }
     .notif-dot.read { background:transparent; }
+    .notif-empty { text-align:center; padding:48px 20px; color:#bbb; font-size:14px; }
+    .notif-empty i { font-size:32px; display:block; margin-bottom:12px; }
 
     /* Pagination */
     .cd-pagination { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:20px; }
@@ -78,66 +82,49 @@
     </div>
 
     {{-- Notification list --}}
-    @php
-    $notifications = [
-        ['icon'=>'ni-green',  'fa'=>'fa-check-circle', 'title'=>'Booking Request Accepted',
-         'desc'=>'A booking request for the apartment has been accepted.', 'unread'=>true,  'tag'=>'all'],
-        ['icon'=>'ni-green',  'fa'=>'fa-check-circle', 'title'=>'Booking Request Accepted',
-         'desc'=>'A booking request for the apartment has been accepted.', 'unread'=>true,  'tag'=>'all'],
-        ['icon'=>'ni-yellow', 'fa'=>'fa-dollar-sign',  'title'=>'Payment Confirmation',
-         'desc'=>'A payment of $500 has been confirmed.',                 'unread'=>true,  'tag'=>'today'],
-        ['icon'=>'ni-purple', 'fa'=>'fa-cog',          'title'=>'System Update',
-         'desc'=>'System maintenance will occur on Sunday, July 21st, from 10 PM to 2 AM.', 'unread'=>false, 'tag'=>'history'],
-        ['icon'=>'ni-green',  'fa'=>'fa-check-circle', 'title'=>'Booking Request Accepted',
-         'desc'=>'A booking request for the apartment has been accepted.', 'unread'=>false, 'tag'=>'all'],
-        ['icon'=>'ni-green',  'fa'=>'fa-check-circle', 'title'=>'Booking Request Accepted',
-         'desc'=>'A booking request for the apartment has been accepted.', 'unread'=>false, 'tag'=>'all'],
-        ['icon'=>'ni-yellow', 'fa'=>'fa-dollar-sign',  'title'=>'Payment Confirmation',
-         'desc'=>'A payment of $500 has been confirmed.',                 'unread'=>false, 'tag'=>'today'],
-        ['icon'=>'ni-purple', 'fa'=>'fa-cog',          'title'=>'System Update',
-         'desc'=>'System maintenance will occur on Sunday, July 21st, from 10 PM to 2 AM.', 'unread'=>false, 'tag'=>'history'],
-        ['icon'=>'ni-purple', 'fa'=>'fa-cog',          'title'=>'System Update',
-         'desc'=>'System maintenance will occur on Sunday, July 21st, from 10 PM to 2 AM.', 'unread'=>false, 'tag'=>'history'],
-    ];
-    @endphp
-
     <div class="notif-list" id="notifList">
-        @foreach($notifications as $n)
-        <div class="notif-item" data-tag="{{ $n['tag'] }}">
+        @forelse($notifications as $n)
+        <div class="notif-item {{ $n['unread'] ? 'unread' : '' }}" data-tag="{{ $n['tag'] }}">
             <div class="notif-icon {{ $n['icon'] }}">
                 <i class="fas {{ $n['fa'] }}"></i>
             </div>
             <div class="notif-body">
                 <div class="notif-title">{{ $n['title'] }}</div>
                 <div class="notif-desc">{{ $n['desc'] }}</div>
+                <div class="notif-ago">{{ $n['ago'] }}</div>
             </div>
             <div class="notif-dot {{ $n['unread'] ? '' : 'read' }}"></div>
         </div>
-        @endforeach
-    </div>
-
-    {{-- Pagination --}}
-    <div class="cd-pagination">
-        <a class="pg-btn active">1</a>
-        <a class="pg-btn">2</a>
-        <a class="pg-btn">3</a>
-        <a class="pg-btn" style="font-size:16px;">&#8250;</a>
+        @empty
+        <div class="notif-empty">
+            <i class="fas fa-bell-slash"></i>
+            No notifications yet. <a href="{{ route('client.new_booking') }}" style="color:#4F9DE8;">Make your first booking</a>
+        </div>
+        @endforelse
     </div>
 
 @endsection
 
 @section('scripts')
 <script>
+var currentTab = 'all';
+
 function switchTab(tag, el) {
+    currentTab = tag;
     document.querySelectorAll('.ntab').forEach(function(t){ t.classList.remove('active'); });
     el.classList.add('active');
+    applyFilters();
+}
+
+function applyFilters() {
+    var q = document.querySelector('.cd-search input').value.trim().toLowerCase();
     document.querySelectorAll('.notif-item').forEach(function(item) {
-        if (tag === 'all' || item.dataset.tag === tag) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
+        var matchTab = (currentTab === 'all' || item.dataset.tag === currentTab);
+        var matchSearch = !q || item.textContent.toLowerCase().includes(q);
+        item.style.display = (matchTab && matchSearch) ? '' : 'none';
     });
 }
+
+document.querySelector('.cd-search input').addEventListener('input', applyFilters);
 </script>
 @endsection

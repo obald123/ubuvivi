@@ -9,7 +9,10 @@
       "Bash(cd \"/home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main\" && grep -r \"password.request\\\\|password.reset\" routes/ --include=\"*.php\")",
       "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/**)",
       "Bash(php -r \"echo 'Laravel Fortify Features:\\\\n'; echo '- Features::registration\\(\\) registers: /register routes\\\\n'; echo '- Features::resetPasswords\\(\\) registers: password.request, password.reset, password.confirm routes\\\\n'; echo '- Features::emailVerification\\(\\) registers: email verification routes\\\\n';\")",
-      "Bash(grep -n \"Fortify\\\\|Laravel\\\\\\\\\\\\\\\\Fortify\" \"C:\\\\Users\\\\LENOVO\\\\OneDrive\\\\Desktop\\\\ubuvivi-codebase\\\\ubuvivi-road-destination-main\\\\config\\\\app.php\")"
+      "Bash(grep -n \"Fortify\\\\|Laravel\\\\\\\\\\\\\\\\Fortify\" \"C:\\\\Users\\\\LENOVO\\\\OneDrive\\\\Desktop\\\\ubuvivi-codebase\\\\ubuvivi-road-destination-main\\\\config\\\\app.php\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\LENOVO\\\\OneDrive\\\\Desktop\\\\ubuvivi-codebase\" -Force)",
+      "Bash(Select-Object -Property Name, PSIsContainer)",
+      "Bash(ls -la \"c:\\\\\\\\Users\\\\\\\\LENOVO\\\\\\\\OneDrive\\\\\\\\Desktop\\\\\\\\ubuvivi-codebase\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\LENOVO\\OneDrive\\Desktop",

@@ -14,7 +14,7 @@
     .hb-count-badge.approved { background:#e8f5e9; color:#2e7d32; }
     .hb-count-badge.rejected { background:#fce4e4; color:#c62828; }
 
-    .hb-table-wrap { background:#fff; border-radius:16px; box-shadow:0 2px 16px rgba(13,31,53,.06); overflow:hidden; }
+    .hb-table-wrap { background:#fff; border-radius:16px; box-shadow:0 2px 16px rgba(13,31,53,.06); overflow-x:auto; -webkit-overflow-scrolling:touch; }
     .hb-table { width:100%; border-collapse:collapse; }
     .hb-table thead tr { background:#f8f9fb; }
     .hb-table th { padding:13px 16px; font-size:12px; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:.6px; border-bottom:1px solid #e8ecf2; white-space:nowrap; }
@@ -48,7 +48,7 @@
     .no-data { text-align:center; padding:60px 20px; color:#bbb; }
     .no-data i { font-size:36px; display:block; margin-bottom:12px; }
 
-    @media (max-width: 991px) { .hb-table-wrap { overflow-x:auto; } .hb-table { min-width:780px; } }
+    @media (max-width: 576px) { .hb-toolbar { flex-direction:column; align-items:flex-start; } }
     @media (max-width: 767px) {
         .hb-toolbar { flex-direction:column; align-items:flex-start; }
         .adm-modal-overlay { padding:0; align-items:flex-end; }
@@ -209,5 +209,16 @@ function updateStatus(id, status, btn) {
     .then(function(d){ if (d.success) location.reload(); });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    var hbSearch = document.getElementById('hbSearch');
+    if (hbSearch) {
+        hbSearch.addEventListener('input', function () {
+            var q = hbSearch.value.trim().toLowerCase();
+            document.querySelectorAll('#hbTableBody .hb-row').forEach(function (row) {
+                row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+            });
+        });
+    }
+});
 </script>
 @endsection

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Vehicle;
 
 class ClientDashboardController extends Controller
@@ -165,7 +167,99 @@ class ClientDashboardController extends Controller
     /* ── Notifications ── */
     public function notifications()
     {
-        return view('client.notifications');
+        $user  = Auth::user();
+        $email = $user->email;
+        $today = now()->toDateString();
+
+        $notifications = collect();
+
+        // Tour bookings
+        $tours = DB::table('tour_bookings')
+            ->leftJoin('itinerary', 'tour_bookings.itinerary_id', '=', 'itinerary.id')
+            ->select('tour_bookings.id', 'itinerary.title as name', 'tour_bookings.date',
+                     'tour_bookings.approved', 'tour_bookings.created_at')
+            ->where('tour_bookings.email', $email)
+            ->orderByDesc('tour_bookings.created_at')
+            ->get();
+
+        foreach ($tours as $b) {
+            $label = $b->name ?? 'Tour';
+            $notifications->push($this->bookingNotification('Tour & Travel', $label, $b->date, $b->approved, $b->created_at, $today));
+        }
+
+        // Car bookings
+        $cars = DB::table('car_bookings')
+            ->select('id', 'delivery_date as date', 'approved', 'created_at')
+            ->where('email', $email)
+            ->orderByDesc('created_at')
+            ->get();
+
+        foreach ($cars as $b) {
+            $notifications->push($this->bookingNotification('Car Rental', 'Car Rental', $b->date, $b->approved, $b->created_at, $today));
+        }
+
+        // Transfers
+        $transfers = DB::table('car_transfers')
+            ->select('id', 'pickup_date as date', 'approved', 'created_at', 'destination')
+            ->where('email', $email)
+            ->orderByDesc('created_at')
+            ->get();
+
+        foreach ($transfers as $b) {
+            $notifications->push($this->bookingNotification('Transfer', $b->destination ?: 'Transfer', $b->date, $b->approved, $b->created_at, $today));
+        }
+
+        $notifications = $notifications->sortByDesc('created_at')->values();
+
+        return view('client.notifications', compact('notifications'));
+    }
+
+    private function bookingNotification(string $service, string $label, $date, $approved, $createdAt, string $today): array
+    {
+        $created = \Carbon\Carbon::parse($createdAt);
+
+        if ($approved === true || $approved == 1) {
+            if ($date < $today) {
+                $title   = "{$service} Booking Completed";
+                $desc    = "Your booking for \"{$label}\" has been completed.";
+                $icon    = 'ni-green'; $fa = 'fa-check-circle';
+                $tag     = 'history';
+            } elseif ($date === $today) {
+                $title   = "{$service} Booking Active Today";
+                $desc    = "Your booking for \"{$label}\" is active today.";
+                $icon    = 'ni-blue'; $fa = 'fa-calendar-check';
+                $tag     = 'today';
+            } else {
+                $title   = "{$service} Booking Confirmed";
+                $desc    = "Your booking for \"{$label}\" on {$date} has been confirmed.";
+                $icon    = 'ni-green'; $fa = 'fa-check-circle';
+                $tag     = 'all';
+            }
+            $unread = false;
+        } elseif ($approved === false || $approved == 0) {
+            $title   = "{$service} Booking Not Approved";
+            $desc    = "Your booking for \"{$label}\" was not approved.";
+            $icon    = 'ni-red'; $fa = 'fa-times-circle';
+            $tag     = 'history';
+            $unread  = false;
+        } else {
+            $title   = "{$service} Booking Pending";
+            $desc    = "Your booking for \"{$label}\" is awaiting approval.";
+            $icon    = 'ni-yellow'; $fa = 'fa-clock';
+            $tag     = $created->isToday() ? 'today' : 'all';
+            $unread  = $created->isToday();
+        }
+
+        return [
+            'icon'       => $icon,
+            'fa'         => $fa,
+            'title'      => $title,
+            'desc'       => $desc,
+            'unread'     => $unread,
+            'tag'        => $tag,
+            'created_at' => $created,
+            'ago'        => $created->diffForHumans(),
+        ];
     }
 
     /* ── New Booking form ── */
@@ -207,5 +301,49 @@ class ClientDashboardController extends Controller
     {
         $user = Auth::user();
         return view('client.profile', compact('user'));
+    }
+
+    /* ── Update profile info + avatar ── */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name'   => 'required|string|max:255',
+            'email'  => 'required|email|max:255|unique:users,email,' . $user->id,
+            'avatar' => 'nullable|image|max:2048',
+        ]);
+
+        $data = ['name' => $request->name, 'email' => $request->email];
+
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = Storage::url($path);
+        }
+
+        DB::table('users')->where('id', $user->id)->update($data);
+
+        return back()->with('profile_success', 'Profile updated successfully.');
+    }
+
+    /* ── Change password ── */
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'current_password' => 'required',
+            'password'         => 'required|min:8|confirmed',
+        ]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.'])->with('open_password', true);
+        }
+
+        DB::table('users')->where('id', $user->id)->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back()->with('password_success', 'Password changed successfully.');
     }
 }

@@ -229,13 +229,13 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" placeholder="Full Name *" required>
+                                    <input type="text" name="names" class="form-control" placeholder="Full Name *" required>
                                 </div>
                                 <div class="col-md-6">
                                     <input type="email" name="email" class="form-control" placeholder="Email Address *" required>
                                 </div>
                             </div>
-                            <input type="text" name="subject" class="form-control" placeholder="Subject">
+                            <input type="text" name="subject" class="form-control" placeholder="Subject *" required>
                             <textarea name="message" class="form-control" rows="6" placeholder="Leave your message..." required></textarea>
                             <button type="submit" class="contact-submit-btn">Send Message</button>
                         </form>

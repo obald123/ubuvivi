@@ -399,8 +399,6 @@
                 <div class="svc-tabs">
                     <button class="svc-tab active" data-pane="tours">Tours &amp; Travel</button>
                     <button class="svc-tab" data-pane="cars">Car Rental</button>
-                    <button class="svc-tab" data-pane="transfers">Transfers</button>
-                    <button class="svc-tab" data-pane="events">Event Planning</button>
                 </div>
             </div>
             <button class="admin-primary-btn" type="button" id="btnNewService">
@@ -480,74 +478,6 @@
             @endif
         </div>
 
-        {{-- Transfers --}}
-        <div class="tab-pane" id="pane-transfers">
-            @if($transfers->count())
-                <div class="svc-grid">
-                    @foreach($transfers as $transfer)
-                    @php
-                        $transferImgMap = [
-                            'airport' => asset('assets/images/backgrounds/bg_04.jpg'),
-                            'hotel'   => asset('assets/images/backgrounds/bg_15.jpg'),
-                            'private' => asset('assets/images/backgrounds/bg_5.jpg'),
-                        ];
-                        $transferCardImg = $transferImgMap[$transfer->transfer_type] ?? asset('assets/images/backgrounds/bg_5.jpg');
-                    @endphp
-                    <div class="svc-card">
-                        <img src="{{ $transferCardImg }}" alt="{{ $transfer->destination }} Transfer">
-                        <div class="svc-card-body">
-                            <div class="svc-card-head">
-                                <div class="svc-card-title">{{ $transfer->destination }} Transfer</div>
-                                <div class="svc-card-price">${{ number_format($transfer->price) }} per trip</div>
-                            </div>
-                            <p class="svc-card-desc">{{ $transfer->message ?? 'Professional transfer service with comfortable vehicles and reliable drivers.' }}</p>
-                            <div class="svc-card-actions">
-                                <button class="btn-edit-svc" data-type="transfer" data-id="{{ $transfer->id }}">Edit</button>
-                                <button class="btn-del-svc"  data-type="transfer" data-id="{{ $transfer->id }}">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="no-services"><i class="fas fa-exchange-alt"></i>No transfers available.</div>
-            @endif
-        </div>
-
-        {{-- Event Planning --}}
-        <div class="tab-pane" id="pane-events">
-            @if($events->count())
-                <div class="svc-grid">
-                    @foreach($events as $event)
-                    @php
-                        $eventImgMap = [
-                            'conference' => asset('images/conference-hero.jpg'),
-                            'corporate'  => asset('assets/images/backgrounds/bg_13.jpg'),
-                            'wedding'    => asset('assets/images/backgrounds/bg_14.jpg'),
-                            'party'      => asset('assets/images/backgrounds/bg_14.jpg'),
-                        ];
-                        $eventCardImg = $eventImgMap[$event->event_type] ?? asset('assets/images/backgrounds/bg_04.jpg');
-                    @endphp
-                    <div class="svc-card">
-                        <img src="{{ $eventCardImg }}" alt="{{ $event->title }}">
-                        <div class="svc-card-body">
-                            <div class="svc-card-head">
-                                <div class="svc-card-title">{{ $event->title }}</div>
-                                <div class="svc-card-price">From ${{ number_format($event->price) }}</div>
-                            </div>
-                            <p class="svc-card-desc">{{ $event->description ?? 'Complete event planning from concept to execution. We handle everything for your special occasions.' }}</p>
-                            <div class="svc-card-actions">
-                                <button class="btn-edit-svc" data-type="event" data-id="{{ $event->id }}">Edit</button>
-                                <button class="btn-del-svc"  data-type="event" data-id="{{ $event->id }}">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="no-services"><i class="fas fa-calendar-check"></i>No events available.</div>
-            @endif
-        </div>
     </div>
 
     {{-- ══ TOUR MODAL ══ --}}
@@ -682,43 +612,6 @@
         </div>
     </div>
 
-    {{-- ══ SIMPLE MODAL (transfers / events) ══ --}}
-    <div class="adm-modal-overlay" id="simpleModal" style="display:none;">
-        <div class="adm-modal" style="max-width:520px;">
-            <div class="adm-modal-head">
-                <h3 id="simpleModalTitle">Add Service</h3>
-                <button class="adm-modal-close" onclick="closeModal('simpleModal')">&times;</button>
-            </div>
-            <form id="simpleForm" action="{{ route('services.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="_method" id="simpleMethod" value="POST">
-                <input type="hidden" name="service_type" id="simpleType">
-                <div class="adm-form-row single">
-                    <div class="adm-form-group">
-                        <label>Title</label>
-                        <input type="text" name="title" id="simpleTitle" required>
-                    </div>
-                </div>
-                <div class="adm-form-row single">
-                    <div class="adm-form-group">
-                        <label>Description</label>
-                        <textarea name="description" id="simpleDesc" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="price-counter">
-                    <span class="price-counter-label">Price:</span>
-                    <button type="button" class="btn-counter" onclick="changePrice('simplePrice', -10)">&#8722;</button>
-                    <span class="price-val" id="simplePriceDisplay">100</span>
-                    <input type="hidden" name="price" id="simplePrice" value="100">
-                    <button type="button" class="btn-counter" onclick="changePrice('simplePrice', 10)">&#43;</button>
-                </div>
-                <div class="adm-modal-foot">
-                    <button type="submit" class="btn-save">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
 @endsection
 
 @section('scripts')
@@ -752,10 +645,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btnNewService').addEventListener('click', function () {
         if (activeTab === 'cars') {
             openCarModal();
-        } else if (activeTab === 'tours') {
-            openTourModal();
         } else {
-            openSimpleModal(activeTab === 'transfers' ? 'transfer' : 'event');
+            openTourModal();
         }
     });
 
@@ -769,7 +660,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     if (type === 'tour') loadTourModal(data);
                     else if (type === 'car') loadCarModal(data);
-                    else loadSimpleModal(type, data);
                 });
         });
     });
@@ -907,29 +797,6 @@ function loadCarModal(data) {
     });
 
     document.getElementById('carModal').style.display = 'flex';
-}
-
-// ── Simple modal (transfer / event) ──
-function openSimpleModal(type) {
-    document.getElementById('simpleModalTitle').textContent = 'Add Service';
-    document.getElementById('simpleForm').action = '{{ route("services.store") }}';
-    document.getElementById('simpleMethod').value = 'POST';
-    document.getElementById('simpleType').value = type;
-    document.getElementById('simpleTitle').value = '';
-    document.getElementById('simpleDesc').value = '';
-    setPrice('simplePrice', 100);
-    document.getElementById('simpleModal').style.display = 'flex';
-}
-
-function loadSimpleModal(type, data) {
-    document.getElementById('simpleModalTitle').textContent = 'Edit Service';
-    document.getElementById('simpleForm').action = '/services/' + data.id;
-    document.getElementById('simpleMethod').value = 'PUT';
-    document.getElementById('simpleType').value = type;
-    document.getElementById('simpleTitle').value = data.title || '';
-    document.getElementById('simpleDesc').value = data.description || '';
-    setPrice('simplePrice', data.price || 100);
-    document.getElementById('simpleModal').style.display = 'flex';
 }
 
 // ── Highlights ──

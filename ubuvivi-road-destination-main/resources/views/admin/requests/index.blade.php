@@ -358,8 +358,7 @@
     }
 
     @media (max-width: 991px) {
-        .req-table-wrap { overflow-x: auto; }
-        .req-table { min-width: 760px; }
+        .req-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .req-filter-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 

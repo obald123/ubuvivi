@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title') | {{ config('app.name') }}</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover' name='viewport'>
     <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
 
     <!-- Bootstrap 4.1.1 -->
@@ -39,6 +39,17 @@
 
         * {
             box-sizing: border-box;
+        }
+
+        /* Touch target minimum sizes */
+        a, button, [role="button"], input[type="submit"], input[type="button"] {
+            min-height: 44px;
+        }
+
+        /* Text overflow safety net */
+        td, th {
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         body {
@@ -799,6 +810,31 @@
 
             .service-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .main-content {
+                padding: 16px 12px 24px;
+                border-radius: 0;
+            }
+
+            .admin-page-title {
+                font-size: 22px;
+            }
+
+            .admin-stage {
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 12px 10px 20px;
+            }
+
+            .admin-page-title {
+                font-size: 18px;
             }
         }
     </style>

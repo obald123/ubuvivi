@@ -217,6 +217,7 @@
     <div class="cd-panel">
         <div class="cd-panel-title">Upcoming Bookings</div>
         @if($upcoming->count())
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="cd-table">
             <thead>
                 <tr>
@@ -247,6 +248,7 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
         @else
         <div class="no-data">No upcoming bookings found.</div>
         @endif

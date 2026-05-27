@@ -319,5 +319,16 @@ function previewHotelImgs(input, previewId) {
     });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    var hotelSearch = document.getElementById('hotelSearch');
+    if (hotelSearch) {
+        hotelSearch.addEventListener('input', function () {
+            var q = hotelSearch.value.trim().toLowerCase();
+            document.querySelectorAll('.hotel-item').forEach(function (card) {
+                card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+            });
+        });
+    }
+});
 </script>
 @endsection

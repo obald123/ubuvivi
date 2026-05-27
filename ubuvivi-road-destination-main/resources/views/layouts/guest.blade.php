@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,viewport-fit=cover">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@yield('title', 'Ubuvivi Tours & Safaris')</title>
     @yield('meta')
@@ -129,7 +129,7 @@
             background: #fff;
             border-radius: 50px;
             overflow: hidden;
-            min-width: 360px;
+            width: min(100%, 360px);
         }
 
         .ubu-footer .subscribe-form input {
@@ -291,16 +291,33 @@
         @media (max-width: 767px) {
             .ubu-footer .footer-subscribe-row {
                 flex-direction: column;
-                padding: 28px 24px;
+                padding: 24px 18px;
+                gap: 16px;
             }
 
             .ubu-footer .subscribe-form {
-                min-width: 100%;
+                width: 100%;
             }
 
             .ubu-footer .footer-cols-row {
                 flex-direction: column;
-                gap: 32px;
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ubu-footer {
+                padding-top: 40px;
+            }
+
+            .ubu-footer .subscribe-form input {
+                padding: 12px 14px;
+                font-size: 13px;
+            }
+
+            .ubu-footer .subscribe-form button {
+                padding: 12px 18px;
+                font-size: 13px;
             }
         }
     </style>

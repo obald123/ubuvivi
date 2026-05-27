@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') - UBUVIVI Tours</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: #f0f2f8; color: #1a1a2e; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f8; color: #1a1a2e; overflow-x: hidden; }
+        a, button, [role="button"] { min-height: 44px; }
+        td, th, p { overflow-wrap: break-word; word-break: break-word; }
 
         /* ── Layout shell ── */
         .cl-layout { display: flex; min-height: 100vh; }
@@ -76,15 +78,61 @@
             min-height: 100vh;
         }
 
+        /* Tablet landscape — narrow the sidebar slightly */
+        @media (max-width: 1024px) {
+            .cl-sidebar { width: 210px; }
+            .cl-main { margin-left: 210px; padding: 24px 20px; }
+        }
+
         @media (max-width: 768px) {
-            .cl-sidebar { transform: translateX(-100%); transition: transform .3s; }
+            .cl-sidebar { width: 240px; transform: translateX(-100%); transition: transform .3s; }
             .cl-sidebar.open { transform: translateX(0); }
+            .cl-sidebar-overlay { display: block; }
             .cl-main { margin-left: 0; padding: 20px 16px; }
+            .cl-hamburger { display: flex; }
+        }
+
+        @media (max-width: 480px) {
+            .cl-main { padding: 14px 12px; }
+        }
+
+        /* Hamburger button — hidden on desktop */
+        .cl-hamburger {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 200;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #0D1F35;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,.25);
+        }
+
+        /* Tap-to-close overlay */
+        .cl-sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            z-index: 99;
         }
     </style>
     @yield('css')
 </head>
 <body>
+<button class="cl-hamburger" id="clHamburger" aria-label="Open menu" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</button>
+<div class="cl-sidebar-overlay" id="clOverlay" onclick="toggleSidebar()"></div>
+
 <div class="cl-layout">
 
     {{-- ── Sidebar ── --}}
@@ -133,7 +181,10 @@
 
 <script>
 function toggleSidebar() {
-    document.getElementById('clSidebar').classList.toggle('open');
+    var sidebar = document.getElementById('clSidebar');
+    var overlay = document.getElementById('clOverlay');
+    sidebar.classList.toggle('open');
+    if (overlay) overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
 }
 </script>
 @yield('scripts')

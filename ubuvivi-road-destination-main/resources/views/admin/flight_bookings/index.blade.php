@@ -16,7 +16,7 @@
     .fb-count-badge.approved { background:#e8f5e9; color:#2e7d32; }
     .fb-count-badge.rejected { background:#fce4e4; color:#c62828; }
 
-    .fb-table-wrap { background:#fff; border-radius:16px; box-shadow:0 2px 16px rgba(13,31,53,.06); overflow:hidden; }
+    .fb-table-wrap { background:#fff; border-radius:16px; box-shadow:0 2px 16px rgba(13,31,53,.06); overflow-x:auto; -webkit-overflow-scrolling:touch; }
     .fb-table { width:100%; border-collapse:collapse; }
     .fb-table thead tr { background:#f8f9fb; }
     .fb-table th { padding:13px 16px; font-size:12px; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:.6px; border-bottom:1px solid #e8ecf2; white-space:nowrap; }
@@ -53,7 +53,7 @@
     .no-data { text-align:center; padding:60px 20px; color:#bbb; }
     .no-data i { font-size:36px; display:block; margin-bottom:12px; }
 
-    @media (max-width: 991px) { .fb-table-wrap { overflow-x:auto; } .fb-table { min-width:800px; } }
+    @media (max-width: 576px) { .fb-toolbar { flex-direction:column; align-items:flex-start; } }
     @media (max-width: 767px) {
         .fb-toolbar { flex-direction:column; align-items:flex-start; }
         .adm-modal-overlay { padding:0; align-items:flex-end; }
@@ -237,5 +237,16 @@ function updateStatus(id, status, btn) {
     });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    var fbSearch = document.getElementById('fbSearch');
+    if (fbSearch) {
+        fbSearch.addEventListener('input', function () {
+            var q = fbSearch.value.trim().toLowerCase();
+            document.querySelectorAll('#fbTableBody .fb-row').forEach(function (row) {
+                row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+            });
+        });
+    }
+});
 </script>
 @endsection

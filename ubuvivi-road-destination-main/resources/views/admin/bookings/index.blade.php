@@ -43,7 +43,8 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        min-width: 416px;
+        width: 100%;
+        max-width: 416px;
         height: 46px;
         padding: 0 14px;
         background: #fff;
@@ -175,7 +176,8 @@
     }
 
     .table-wrap {
-        overflow-x: visible;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .book-table {
@@ -403,15 +405,12 @@
     }
 
     @media (max-width: 991px) {
-        .book-search { min-width: 260px; }
-        .table-wrap { overflow-x: auto; }
-        .book-table { min-width: 760px; }
         .filter-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 767px) {
         .book-tools { width: 100%; }
-        .book-search { min-width: 0; width: 100%; }
+        .book-search { max-width: 100%; }
         .filter-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
         .detail-row {
