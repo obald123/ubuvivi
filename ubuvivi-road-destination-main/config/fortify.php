@@ -91,7 +91,7 @@ return [
 
 
     'features' => [
-        Features::registration(),
+        // Features::registration(),
         // Features::resetPasswords(), // Disabled: using Auth::routes() instead
         // Features::emailVerification(),
         Features::updateProfileInformation(),
