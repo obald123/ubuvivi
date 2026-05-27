@@ -87,7 +87,7 @@ return [
     ],
 
 
-    'views' => true,
+    'views' => false,
 
 
     'features' => [
