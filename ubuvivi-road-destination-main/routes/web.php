@@ -137,9 +137,7 @@ Route::controller(GuestController::class)->group(function () {
     });
 });
 
-// Auth routes handled by Fortify service provider
-// Auth::routes(); // Disabled - using Fortify for authentication routes
-
+Auth::routes();
 
 // Admin dashboard (only for admin role)
 Route::middleware(['auth', 'admin'])->group(function () {
