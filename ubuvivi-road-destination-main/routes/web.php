@@ -137,10 +137,8 @@ Route::controller(GuestController::class)->group(function () {
     });
 });
 
-Auth::routes();
-
-// Logout route
-Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+// Auth routes handled by Fortify service provider
+// Auth::routes(); // Disabled - using Fortify for authentication routes
 
 
 // Admin dashboard (only for admin role)
