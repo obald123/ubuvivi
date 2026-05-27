@@ -57,12 +57,28 @@
                             <div class="card-body px-0">
                                 <div class="owl-carousel owl-theme">
                                     @isset($vehicle->images)
-                                        @foreach ($vehicle->images as $image)
+                                        @php
+                                            $images = is_string($vehicle->images) ? json_decode($vehicle->images, true) : $vehicle->images;
+                                            $images = is_array($images) ? $images : [];
+                                        @endphp
+                                        @if(count($images) > 0)
+                                            @foreach ($images as $image)
+                                                <div>
+                                                    <img class="rounded" style="max-height: 400px;object-fit: cover"
+                                                        alt="image" src="{{ $image }}">
+                                                </div>
+                                            @endforeach
+                                        @else
                                             <div>
                                                 <img class="rounded" style="max-height: 400px;object-fit: cover"
-                                                    alt="image" src="{{ $image }}">
+                                                    alt="image" src="{{ asset('/assets/images/vehicles/not_found.png') }}">
                                             </div>
-                                        @endforeach
+                                        @endif
+                                    @else
+                                        <div>
+                                            <img class="rounded" style="max-height: 400px;object-fit: cover"
+                                                alt="image" src="{{ asset('/assets/images/vehicles/not_found.png') }}">
+                                        </div>
                                     @endisset
                                 </div>
                             </div>

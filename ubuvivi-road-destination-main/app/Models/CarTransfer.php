@@ -46,8 +46,34 @@ class CarTransfer extends Model
         'number_of_days',
         'message',
         'price',
-        'approved'
+        'approved',
+        'access_token'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!$model->access_token) {
+                $model->access_token = self::generateUniqueToken();
+            }
+        });
+    }
+
+    public static function generateUniqueToken()
+    {
+        do {
+            $token = \Illuminate\Support\Str::random(32);
+        } while (self::where('access_token', $token)->exists());
+
+        return $token;
+    }
+
+    public static function findByToken($token)
+    {
+        return self::where('access_token', $token)->first();
+    }
 
     /**
      * The attributes that should be casted to native types.
@@ -66,7 +92,8 @@ class CarTransfer extends Model
         'number_of_days' => 'string',
         'message' => 'string',
         'price' => 'string',
-        'approved' => 'boolean'
+        'approved' => 'boolean',
+        'access_token' => 'string'
     ];
 
     /**

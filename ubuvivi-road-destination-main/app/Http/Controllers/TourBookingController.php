@@ -80,7 +80,14 @@ class TourBookingController extends AppBaseController
 
             return redirect(route('tourBookings.index'));
         }
+
         $itinerary = $tourBooking->tour;
+
+        if (empty($itinerary)) {
+            Flash::error('Associated tour not found for this booking');
+            return redirect(route('tourBookings.index'));
+        }
+
         $itinerary->images = $itinerary->images ? $itinerary->images : array();
         $itinerary->highlights = $itinerary->highlights ? $itinerary->highlights : array();
         $itinerary->inclusions = $itinerary->inclusions ? $itinerary->inclusions : array();

@@ -105,6 +105,14 @@ class Vehicle extends Model
         'description' => 'string'
     ];
 
+    public function getImagesAttribute($value)
+    {
+        if (is_string($value)) {
+            return json_decode($value, true) ?? [];
+        }
+        return is_array($value) ? $value : [];
+    }
+
     /**
      * Validation rules
      *

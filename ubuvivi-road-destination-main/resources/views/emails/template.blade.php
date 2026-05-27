@@ -1,1 +1,247 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml"><head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> <meta http-equiv="X-UA-Compatible" content="IE=Edge"><!--[if (gte mso 9)|(IE)]> <xml> <o:OfficeDocumentSettings> <o:AllowPNG/> <o:PixelsPerInch>96</o:PixelsPerInch> </o:OfficeDocumentSettings> </xml><![endif]--><!--[if (gte mso 9)|(IE)]> <style type="text/css"> body{width: 600px;margin: 0 auto;}table{border-collapse: collapse;}table, td{mso-table-lspace: 0pt;mso-table-rspace: 0pt;}img{-ms-interpolation-mode: bicubic;}</style><![endif]--> <style type="text/css"> body, p, div{font-family: inherit; font-size: 14px;}body{color: #171b34;}body a{color: #1188E6; text-decoration: none;}p{margin: 0; padding: 0;}table.wrapper{width: 100% !important; table-layout: fixed; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%;}img.max-width{max-width: 100% !important;}.column.of-2{width: 50%;}.column.of-3{width: 33.333%;}.column.of-4{width: 25%;}ul ul ul ul{list-style-type: disc !important;}ol ol{list-style-type: lower-roman !important;}ol ol ol{list-style-type: lower-latin !important;}ol ol ol ol{list-style-type: decimal !important;}@media screen and (max-width:480px){.preheader .rightColumnContent, .footer .rightColumnContent{text-align: left !important;}.preheader .rightColumnContent div, .preheader .rightColumnContent span, .footer .rightColumnContent div, .footer .rightColumnContent span{text-align: left !important;}.preheader .rightColumnContent, .preheader .leftColumnContent{font-size: 80% !important; padding: 5px 0;}table.wrapper-mobile{width: 100% !important; table-layout: fixed;}img.max-width{height: auto !important; max-width: 100% !important;}a.bulletproof-button{display: block !important; width: auto !important; font-size: 80%; padding-left: 0 !important; padding-right: 0 !important;}.columns{width: 100% !important;}.column{display: block !important; width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; margin-left: 0 !important; margin-right: 0 !important;}.no-display{display: none !important;}.social-icon-column{display: inline-block !important;}}</style> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""> <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet"> <style>body{font-family: "Nunito", sans-serif;}</style> </head><body> <center class="wrapper" data-link-color="#1188E6" data-body-style="font-size:14px; font-family:inherit; color:#171b34; background-color:#FFFFFF;"> <div class="webkit"> <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#FFFFFF"> <tr> <td valign="top" bgcolor="#FFFFFF" width="100%"> <table width="100%" role="content-container" class="outer" align="center" cellpadding="0" cellspacing="0" border="0"> <tr> <td width="100%"> <table width="100%" cellpadding="0" cellspacing="0" border="0"> <tr> <td><!--[if mso]> <center> <table><tr><td width="600"><![endif]--> <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;" align="center"> <tr> <td role="modules-container" style="padding:0px 0px 0px 0px; color:#171b34; text-align:left;" bgcolor="#FFFFFF" width="100%" align="left"> <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 0px 0px 0px;" bgcolor="#FFFFFF" data-distribution="1,3"> <tbody> <tr class="module-content"> <td valign="top" height=100%> <table style="width:150px; border-spacing:0; border-collapse:collapse; margin:auto;" cellpadding="0" cellspacing="0" class="column column-0 no-display"> <tbody> <tr> <td style="padding:0px;margin:0px;border-spacing:0;"> <table class="wrapper" role="module" data-type="image" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="b39cd11c-cc47-431f-9820-d961a4fb8d1a"> <tbody> <tr> <td style="font-size:6px; line-height:10px; padding:15px 15px 15px 15px;" valign="top" align="center"> <a href="https://ubuvivitours.com/"> <img border="0" style="display:block; color:#000000; text-decoration:none; font-size:16px; max-height:100px;" alt="" data-proportionally-constrained="true" data-responsive="false" src="http://cdn.mcauto-images-production.sendgrid.net/e0ee1e829dcbf8f1/a84bb41b-cc05-4136-883f-40e2d7ad8fcd/989x1080.png"> </a> </td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr><tr role="module-content"> <td height="100%" valign="top"> <table style="width:100%; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" class="column column-1"> <tbody> <tr> <td style="padding:0px;margin:0px;border-spacing:0;"> <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="9d06083a-85f8-4f64-990a-bb94f694147b" data-mc-module-version="2019-10-22"> <tbody> <tr> <td style="line-height:40px;" height="100%" valign="top" role="module-content"> <div> <h1 style="text-align: center"> <span style="font-family: inherit; font-size: 25px"> <strong>UBUVIVI TOURS & LOGISTICS.</strong> </span> </h1> </div></td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr></tbody> </table> <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:15px 0px 30px 0px;" bgcolor="#FFFFFF" data-distribution="1"> <tbody> <tr role="module-content"> <td height="100%" valign="top"> <table width="580" style="width:580px; border-spacing:0; border-collapse:collapse; margin:0px 10px 0px 10px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0"> <tbody> <tr> <td style="padding:0px;margin:0px;border-spacing:0;"> <table class="module" role="module" data-type="code" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="0eb6bee7-1453-44ce-996f-4732d6c04fb1"> <tbody> <tr> <td height="100%" valign="top" role="module-content"> <div style="border: 1px solid #d5d5d5; border-radius: 3px; padding: 15px 18px;font-family:inherit !important;"> <h2 style="margin-bottom: 10px;margin-top: 0;"> <span>Thank you for booking with us.</span> </h2> <div style="font-family: inherit;margin-bottom: 15px"> <div style="margin-bottom:5px; "> Your booking is well received </div><span>To check your booking information please click the link below:</span> </div><div style="font-family: inherit"> <a href="{{$link}}"><span>{{$link}}</span></a> </div></div></td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr></tbody> </table> <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c0626098-1cda-4710-a597-e147bcb2a3c5" data-mc-module-version="2019-10-22"> <tbody> <tr> <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"> <div> <div style="font-family: inherit; text-align: center"> <span style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 500; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; color: #171b34; background-color: #ffffff; font-size: 12px; font-family: inherit"><strong>Remera - Kisimenti KG11 Ave, Amahoro Stadium Road, Ikaze house, 3rd floor. .</strong> </span><span style="color: #171b34; background-color: #ffffff; font-size: 12px; font-family: inherit"><strong>&nbsp;</strong></span> </div><div></div></div></td></tr></tbody> </table> </td></tr></table><!--[if mso]> </td></tr></table> </center><![endif]--> </td></tr></table> </td></tr></table> </td></tr></table> </div></center></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation - Ubuvivi Tours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+        .header-logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        .info-box {
+            background-color: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        .info-box-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        .info-label {
+            font-weight: 500;
+            color: #333;
+        }
+        .info-value {
+            color: #667eea;
+            font-weight: 500;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            padding: 14px 40px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 15px;
+            margin: 20px 0;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .cta-wrapper {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .divider {
+            height: 1px;
+            background-color: #e8e8e8;
+            margin: 30px 0;
+        }
+        .footer-section {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-top: 1px solid #e8e8e8;
+            font-size: 13px;
+            color: #666;
+        }
+        .footer-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .footer-contact {
+            margin: 15px 0;
+            line-height: 1.8;
+        }
+        .footer-contact-item {
+            margin-bottom: 8px;
+        }
+        .footer-social {
+            margin-top: 20px;
+        }
+        .footer-social a {
+            display: inline-block;
+            margin-right: 15px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .confirmation-badge {
+            display: inline-block;
+            background-color: #4caf50;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0;
+            }
+            .content {
+                padding: 20px;
+            }
+            .header {
+                padding: 30px 15px;
+            }
+            .info-item {
+                flex-direction: column;
+            }
+            .cta-button {
+                width: 100%;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">✈️ UBUVIVI TOURS</div>
+            <div class="header-subtitle">Your Journey Starts Here</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="confirmation-badge">✓ Booking Confirmed</div>
+
+            <div class="greeting">Hello,</div>
+
+            <div class="message">
+                Thank you for booking with <strong>Ubuvivi Tours & Logistics!</strong> We're thrilled to help you plan an unforgettable journey. Your booking request has been successfully received and is now being processed by our team.
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">📋 What's Next?</div>
+                <div style="font-size: 13px; color: #555; line-height: 1.8;">
+                    <p>Our dedicated team will review your booking details and contact you within 24 hours with confirmation and additional information about your tour.</p>
+                </div>
+            </div>
+
+            <div class="cta-wrapper">
+                <a href="{{ $link }}" class="cta-button">View Your Booking Details</a>
+            </div>
+
+            <div class="message" style="font-size: 13px; background-color: #fffbf0; padding: 15px; border-radius: 4px; border-left: 3px solid #ff9800;">
+                <strong>📌 Important:</strong> You can track and manage your booking anytime by clicking the button above. Keep this email safe for your records.
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Help Section -->
+            <div style="background-color: #f5f5f5; padding: 20px; border-radius: 4px; margin: 20px 0;">
+                <div style="font-weight: 600; color: #333; margin-bottom: 10px; font-size: 14px;">Need Help?</div>
+                <div style="font-size: 13px; color: #666; line-height: 1.8;">
+                    <p>If you have any questions about your booking or need to make any changes, please don't hesitate to reach out to our customer support team.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-title">Ubuvivi Tours & Logistics</div>
+
+            <div class="footer-contact">
+                <div class="footer-contact-item">
+                    <strong>📍 Address:</strong> Remera - Kisimenti KG11 Ave, Amahoro Stadium Road, Ikaze House, 3rd Floor, Kigali, Rwanda
+                </div>
+                <div class="footer-contact-item">
+                    <strong>📧 Email:</strong> <a href="mailto:ubuvivitours@gmail.com" style="color: #667eea; text-decoration: none;">ubuvivitours@gmail.com</a>
+                </div>
+                <div class="footer-contact-item">
+                    <strong>🌐 Website:</strong> <a href="https://ubuvivitours.com" style="color: #667eea; text-decoration: none;">ubuvivitours.com</a>
+                </div>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://facebook.com" style="color: #667eea;">Facebook</a>
+                <a href="https://twitter.com" style="color: #667eea;">Twitter</a>
+                <a href="https://instagram.com" style="color: #667eea;">Instagram</a>
+            </div>
+
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e8e8e8; font-size: 11px; color: #999;">
+                <p>© 2026 Ubuvivi Tours & Logistics. All rights reserved.</p>
+                <p>This is an automated email. Please do not reply to this message. For support, contact our team directly.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

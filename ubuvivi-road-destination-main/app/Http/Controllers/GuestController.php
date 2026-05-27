@@ -41,15 +41,19 @@ class GuestController extends Controller
 
     public function sendMail($email, $link)
     {
-
         $data = ["link" => $link, 'email' => $email];
 
         try {
             Mail::send(new BookingMail($data));
-            Flash::success("Mail Sent Successfully");
+            \Log::info('Customer booking confirmation email sent successfully', ['email' => $email]);
+            return true;
         } catch (\Throwable $th) {
-            //throw $th;
-            Flash::error("Failed To send Email");
+            \Log::error('Failed to send customer booking email', [
+                'email' => $email,
+                'error' => $th->getMessage(),
+                'trace' => $th->getTraceAsString()
+            ]);
+            return false;
         }
     }
 
@@ -59,10 +63,19 @@ class GuestController extends Controller
 
         try {
             Mail::send(new AdminBookingMail($data));
-            Flash::success("Mail Sent Successfully");
+            \Log::info('Admin booking notification email sent successfully', [
+                'booking_id' => $booking->id,
+                'customer_email' => $booking->email
+            ]);
+            return true;
         } catch (\Throwable $th) {
-            //throw $th;
-            Flash::error("Failed To send Email");
+            \Log::error('Failed to send admin booking notification email', [
+                'booking_id' => $booking->id,
+                'customer_email' => $booking->email,
+                'error' => $th->getMessage(),
+                'trace' => $th->getTraceAsString()
+            ]);
+            return false;
         }
     }
 
@@ -129,7 +142,7 @@ class GuestController extends Controller
 
         [$photos] = $this->uploadImages($request, 'passport_photos', 'ubuvivi/passports');
 
-        \App\Models\FlightBooking::create([
+        $booking = \App\Models\FlightBooking::create([
             'names'                => $request->names,
             'email'                => $request->email,
             'phone_number'         => $request->phone_number,
@@ -151,6 +164,22 @@ class GuestController extends Controller
             "New flight booking from {$request->names} ({$request->departure_airport} → {$request->arrival_airport})",
             route('admin.flight_bookings.index')
         );
+
+        if ($booking) {
+            $admin_booking_route = route('admin.flight_bookings.index');
+            $booking_route = route('flight.booking.token.view', ['type' => 'flight', 'token' => $booking->access_token]);
+
+            $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
+            $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+            if (!$adminEmailSent || !$customerEmailSent) {
+                \Log::warning('Email delivery issue for flight booking', [
+                    'booking_id' => $booking->id,
+                    'admin_email_sent' => $adminEmailSent,
+                    'customer_email_sent' => $customerEmailSent
+                ]);
+            }
+        }
 
         return redirect()->route('booking.confirmed')->with([
             'service' => 'Air Ticketing',
@@ -178,7 +207,7 @@ class GuestController extends Controller
             'message'          => 'nullable|string',
         ]);
 
-        \App\Models\HotelBooking::create([
+        $booking = \App\Models\HotelBooking::create([
             'hotel_id'         => $request->hotel_id ?: null,
             'names'            => $request->names,
             'email'            => $request->email,
@@ -196,6 +225,22 @@ class GuestController extends Controller
             "New hotel booking from {$request->names} (check-in {$request->check_in})",
             route('admin.hotel_bookings.index')
         );
+
+        if ($booking) {
+            $admin_booking_route = route('admin.hotel_bookings.index');
+            $booking_route = route('hotel.booking.token.view', ['type' => 'hotel', 'token' => $booking->access_token]);
+
+            $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
+            $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+            if (!$adminEmailSent || !$customerEmailSent) {
+                \Log::warning('Email delivery issue for hotel booking', [
+                    'booking_id' => $booking->id,
+                    'admin_email_sent' => $adminEmailSent,
+                    'customer_email_sent' => $customerEmailSent
+                ]);
+            }
+        }
 
         return redirect()->route('booking.confirmed')->with([
             'service' => 'Hotel Booking — ' . ($request->hotel_name ?? 'Hotel Request'),
@@ -429,7 +474,7 @@ class GuestController extends Controller
             Flash::success("Booking information sent successfully");
 
             $admin_booking_route = route("carBookings.show", $booking->id);
-            $booking_route = route("car.booking.view", $booking->id);
+            $booking_route = route("car.booking.token.view", ['type' => 'car', 'token' => $booking->access_token]);
 
             AdminNotification::notify(
                 'car_booking',
@@ -437,10 +482,15 @@ class GuestController extends Controller
                 $admin_booking_route
             );
 
-            try {
-                $this->notify_admin($booking, $admin_booking_route);
-                $this->sendMail($request->email, $booking_route);
-            } catch (\Throwable $th) {
+            $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
+            $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+            if (!$adminEmailSent || !$customerEmailSent) {
+                \Log::warning('Email delivery issue for booking', [
+                    'booking_id' => $booking->id,
+                    'admin_email_sent' => $adminEmailSent,
+                    'customer_email_sent' => $customerEmailSent
+                ]);
             }
         } else {
             Flash::error("Booking Failed");
@@ -659,17 +709,24 @@ class GuestController extends Controller
         if ($booking) {
             Flash::success("Booking information sent successfully");
 
+            $admin_booking_route = route("tourBookings.show", $booking->id);
+            $booking_route = route("tour.booking.token.view", ['type' => 'tour', 'token' => $booking->access_token]);
+
             AdminNotification::notify(
                 'tour_booking',
                 "New tour booking from {$request->names} for \"{$tour->title}\"",
-                route("tourBookings.show", $booking->id)
+                $admin_booking_route
             );
 
-            try {
-                $this->notify_admin($booking, route("tourBookings.show", $booking->id));
-                $this->sendMail($request->email, route("tour.booking.view", $booking->id));
-            } catch (\Throwable $th) {
-                // throw $th;
+            $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
+            $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+            if (!$adminEmailSent || !$customerEmailSent) {
+                \Log::warning('Email delivery issue for tour booking', [
+                    'booking_id' => $booking->id,
+                    'admin_email_sent' => $adminEmailSent,
+                    'customer_email_sent' => $customerEmailSent
+                ]);
             }
         } else {
             Flash::error("Booking Failed");
@@ -953,15 +1010,27 @@ class GuestController extends Controller
         ]);
 
         $packageLabel = $request->package_label ?? 'Event Planning';
+        $packageKey = $request->package ?? 'basic';
         $timePart = $request->event_time ?? '';
         $dateTime = trim($request->date . ($timePart ? ' ' . $timePart : ''));
+
+        // Map package key to event package itinerary title
+        $packageTitleMap = [
+            'basic'   => 'Basic Event Package',
+            'partial' => 'Partial Event Package',
+            'full'    => 'Full Event Package',
+        ];
+
+        $packageTitle = $packageTitleMap[$packageKey] ?? 'Basic Event Package';
+        $eventItinerary = Itinerary::where('title', $packageTitle)->first();
+        $itineraryId = $eventItinerary ? $eventItinerary->id : null;
 
         $fullMessage  = "Package: {$packageLabel}\nDate & Time: {$dateTime}";
         if ($request->filled('event_details'))  $fullMessage .= "\n\nEvent Details:\n" . $request->event_details;
         if ($request->filled('message'))        $fullMessage .= "\n\nSpecial Requests:\n" . $request->message;
 
         $booking = $this->tourBookingRepository->create([
-            'itinerary_id'    => null,
+            'itinerary_id'    => $itineraryId,
             'names'           => $request->names,
             'email'           => $request->email,
             'phone_number'    => $request->phone_number,
@@ -979,10 +1048,19 @@ class GuestController extends Controller
                 route('tourBookings.show', $booking->id)
             );
 
-            try {
-                $this->notify_admin($booking, route('tourBookings.show', $booking->id));
-                $this->sendMail($request->email, route('tour.booking.view', $booking->id));
-            } catch (\Throwable $th) {}
+            $admin_booking_route = route('tourBookings.show', $booking->id);
+            $booking_route = route('tour.booking.token.view', ['type' => 'tour', 'token' => $booking->access_token]);
+
+            $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
+            $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+            if (!$adminEmailSent || !$customerEmailSent) {
+                \Log::warning('Email delivery issue for event booking', [
+                    'booking_id' => $booking->id,
+                    'admin_email_sent' => $adminEmailSent,
+                    'customer_email_sent' => $customerEmailSent
+                ]);
+            }
         }
 
         return redirect()->route('booking.confirmed')->with([
@@ -1060,10 +1138,19 @@ class GuestController extends Controller
                 route('carTransfers.show', $booking->id)
             );
 
-            try {
-                $this->notify_admin($booking, route('carTransfers.show', $booking->id));
-                $this->sendMail($request->email, route('car.transfer.view', $booking->id));
-            } catch (\Throwable $th) {}
+            $admin_booking_route = route('carTransfers.show', $booking->id);
+            $booking_route = route('car.transfer.token.view', ['type' => 'transfer', 'token' => $booking->access_token]);
+
+            $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
+            $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+            if (!$adminEmailSent || !$customerEmailSent) {
+                \Log::warning('Email delivery issue for transfer booking', [
+                    'booking_id' => $booking->id,
+                    'admin_email_sent' => $adminEmailSent,
+                    'customer_email_sent' => $customerEmailSent
+                ]);
+            }
         }
 
         return redirect()->route('booking.confirmed')->with([

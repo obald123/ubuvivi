@@ -1,1 +1,340 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml"><head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> <meta http-equiv="X-UA-Compatible" content="IE=Edge"> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""> <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet"><!--[if (gte mso 9)|(IE)]> <xml> <o:OfficeDocumentSettings> <o:AllowPNG/> <o:PixelsPerInch>96</o:PixelsPerInch> </o:OfficeDocumentSettings> </xml><![endif]--><!--[if (gte mso 9)|(IE)]> <style type="text/css"> body{width: 600px;margin: 0 auto;}table{border-collapse: collapse;}table, td{mso-table-lspace: 0pt;mso-table-rspace: 0pt;}img{-ms-interpolation-mode: bicubic;}</style><![endif]--> <style type="text/css"> body, p, div{font-family: inherit; font-size: 14px;}body{color: #171b34; font-family: "Nunito", sans-serif;}body a{color: #1188E6; text-decoration: none;}p{margin: 0; padding: 0;}table.wrapper{width: 100% !important; table-layout: fixed; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%;}img.max-width{max-width: 100% !important;}.column.of-2{width: 50%;}.column.of-3{width: 33.333%;}.column.of-4{width: 25%;}ul ul ul ul{list-style-type: disc !important;}ol ol{list-style-type: lower-roman !important;}ol ol ol{list-style-type: lower-latin !important;}ol ol ol ol{list-style-type: decimal !important;}@media screen and (max-width:480px){.preheader .rightColumnContent, .footer .rightColumnContent{text-align: left !important;}.preheader .rightColumnContent div, .preheader .rightColumnContent span, .footer .rightColumnContent div, .footer .rightColumnContent span{text-align: left !important;}.preheader .rightColumnContent, .preheader .leftColumnContent{font-size: 80% !important; padding: 5px 0;}table.wrapper-mobile{width: 100% !important; table-layout: fixed;}img.max-width{height: auto !important; max-width: 100% !important;}a.bulletproof-button{display: block !important; width: auto !important; font-size: 80%; padding-left: 0 !important; padding-right: 0 !important;}.columns{width: 100% !important;}.column{display: block !important; width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; margin-left: 0 !important; margin-right: 0 !important;}.no-display{display: none !important;}.social-icon-column{display: inline-block !important;}}</style></head><body> <center class="wrapper" data-link-color="#1188E6" data-body-style="font-size:14px; font-family:inherit; color:#171b34; background-color:#FFFFFF;"> <div class="webkit"> <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#FFFFFF"> <tr> <td valign="top" bgcolor="#FFFFFF" width="100%"> <table width="100%" role="content-container" class="outer" align="center" cellpadding="0" cellspacing="0" border="0"> <tr> <td width="100%"> <table width="100%" cellpadding="0" cellspacing="0" border="0"> <tr> <td><!--[if mso]> <center> <table><tr><td width="600"><![endif]--> <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;" align="center"> <tr> <td role="modules-container" style="padding:0px 0px 0px 0px; color:#171b34; text-align:left;" bgcolor="#FFFFFF" width="100%" align="left"> <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 0px 0px 0px;" bgcolor="#FFFFFF" data-distribution="1,3"> <tbody> <tr class="module-content"> <td valign="top" height=100%> <table style="width:150px; border-spacing:0; border-collapse:collapse; margin:auto;" cellpadding="0" cellspacing="0" class="column column-0 no-display"> <tbody> <tr> <td style="padding:0px;margin:0px;border-spacing:0;"> <table class="wrapper" role="module" data-type="image" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="b39cd11c-cc47-431f-9820-d961a4fb8d1a"> <tbody> <tr> <td style="font-size:6px; line-height:10px; padding:15px 15px 15px 15px;" valign="top" align="center"> <a href="https://ubuvivitours.com/"> <img border="0" style="display:block; color:#000000; text-decoration:none; font-size:16px; max-height:100px;" alt="" data-proportionally-constrained="true" data-responsive="false" src="http://cdn.mcauto-images-production.sendgrid.net/e0ee1e829dcbf8f1/a84bb41b-cc05-4136-883f-40e2d7ad8fcd/989x1080.png"> </a> </td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr><tr role="module-content"> <td height="100%" valign="top"> <table style="width:100%; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" class="column column-1"> <tbody> <tr> <td style="padding:0px;margin:0px;border-spacing:0;"> <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="9d06083a-85f8-4f64-990a-bb94f694147b" data-mc-module-version="2019-10-22"> <tbody> <tr> <td style="line-height:40px;" height="100%" valign="top" role="module-content"> <div> <h1 style="text-align: center"> <span style="font-family: inherit; font-size: 25px"> <strong>UBUVIVI TOURS & LOGISTICS.</strong> </span> </h1> </div></td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr></tbody> </table> <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:15px 0px 30px 0px;" bgcolor="#FFFFFF" data-distribution="1"> <tbody> <tr role="module-content"> <td height="100%" valign="top"> <table width="580" style="width:580px; border-spacing:0; border-collapse:collapse; margin:0px 10px 0px 10px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-0"> <tbody> <tr> <td style="padding:0px;margin:0px;border-spacing:0;"> <table class="module" role="module" data-type="code" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="0eb6bee7-1453-44ce-996f-4732d6c04fb1"> <tbody> <tr> <td height="100%" valign="top" role="module-content"> <div style="border: 1px solid #d5d5d5; border-radius: 3px; padding: 15px 18px;font-family:inherit !important;"> <h2 style="margin-bottom: 20px"> <span>New Booking Notification ({{date('jS F, Y h:i A', strtotime($booking->created_at ?? null))}})</span> </h2> <h3 style="margin-bottom: 0;line-height: 0.5;text-decoration: underline;"> Customer's Details: </h3> <div style="font-family: inherit;margin-bottom: 15px"> <span></span> <ul style="list-style: none;padding:0"> <li style="color: #171b34;margin-bottom: 10px;"> <strong>Names:</strong>{{$booking->name ?? $booking->names}}</li><li style="color: #171b34;margin-bottom: 10px;"> <strong>Email:</strong>{{$booking->email}}</li><li style="color: #171b34;margin-bottom: 10px;"> <strong>Phone Number:</strong>{{$booking->phone_number}}</li><li style="color: #171b34;margin-bottom: 10px;"> <strong>Booking:</strong>{{$link}}</li></ul> </div></div></td></tr></tbody> </table> </td></tr></tbody> </table> </td></tr></tbody> </table> <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="c0626098-1cda-4710-a597-e147bcb2a3c5" data-mc-module-version="2019-10-22"> <tbody> <tr> <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"> <div> <div style="font-family: inherit; text-align: center"> <span style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 500; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline; color: #171b34; background-color: #ffffff; font-size: 12px; font-family: inherit"><strong>Remera - Kisimenti KG11 Ave, Amahoro Stadium Road, Ikaze house, 3rd floor. .</strong></span><span style="color: #171b34; background-color: #ffffff; font-size: 12px; font-family: inherit"><strong>&nbsp;</strong></span> </div><div></div></div></td></tr></tbody> </table> </td></tr></table><!--[if mso]> </td></tr></table> </center><![endif]--> </td></tr></table> </td></tr></table> </td></tr></table> </div></center></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Booking Notification - Ubuvivi Tours Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 30px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-content h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .header-content p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .alert-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .booking-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f9fafb 100%);
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #fff;
+        }
+        .booking-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #c0392b;
+        }
+        .booking-time {
+            font-size: 12px;
+            color: #999;
+            font-weight: 500;
+        }
+        .status-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .booking-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .detail-item {
+            margin-bottom: 15px;
+        }
+        .detail-item:nth-child(n+3) {
+            grid-column: 1 / -1;
+        }
+        .detail-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        .detail-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        .detail-value a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .detail-value a:hover {
+            text-decoration: underline;
+        }
+        .action-section {
+            background-color: #fff5f5;
+            border: 1px solid #ffebee;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .action-section p {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .action-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white !important;
+            padding: 12px 35px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #e74c3c;
+        }
+        .info-box-title {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .info-box-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+        .divider {
+            height: 1px;
+            background-color: #e8e8e8;
+            margin: 25px 0;
+        }
+        .footer-section {
+            background-color: #f8f9fa;
+            padding: 25px 30px;
+            border-top: 1px solid #e8e8e8;
+            font-size: 12px;
+            color: #666;
+        }
+        .footer-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        .quick-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .stat-item {
+            background-color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #e74c3c;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0;
+            }
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .booking-details {
+                grid-template-columns: 1fr;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>🎯 NEW BOOKING ALERT</h1>
+                <p>Immediate action may be required</p>
+            </div>
+            <div class="alert-badge">⚡ PENDING REVIEW</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Main Booking Card -->
+            <div class="booking-card">
+                <div class="booking-header">
+                    <div>
+                        <div class="booking-title">{{ $booking->name ?? $booking->names }}</div>
+                        <div class="booking-time">{{ date('jS F, Y \a\t h:i A', strtotime($booking->created_at ?? now())) }}</div>
+                    </div>
+                    <div class="status-badge">Awaiting Approval</div>
+                </div>
+
+                <div class="booking-details">
+                    <div class="detail-item">
+                        <div class="detail-label">📧 Email Address</div>
+                        <div class="detail-value">{{ $booking->email }}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">📱 Phone Number</div>
+                        <div class="detail-value">{{ $booking->phone_number }}</div>
+                    </div>
+                    @if($booking->delivery_date ?? false)
+                    <div class="detail-item">
+                        <div class="detail-label">📅 Booking Date</div>
+                        <div class="detail-value">{{ date('jS F, Y', strtotime($booking->delivery_date)) }}</div>
+                    </div>
+                    @endif
+                    @if($booking->number_of_days ?? false)
+                    <div class="detail-item">
+                        <div class="detail-label">📆 Duration</div>
+                        <div class="detail-value">{{ $booking->number_of_days }} {{ $booking->number_of_days > 1 ? 'Days' : 'Day' }}</div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Action Section -->
+            <div class="action-section">
+                <p><strong>Review this booking and take action:</strong></p>
+                <a href="{{ $link }}" class="action-button">📋 View Full Booking Details</a>
+            </div>
+
+            <!-- Info Grid -->
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-box-title">⏰ Booking Status</div>
+                    <div class="info-box-value">Pending</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box-title">📊 Priority</div>
+                    <div class="info-box-value">High</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Customer Notes Section -->
+            @if($booking->message ?? false)
+            <div style="background-color: #fffbf0; padding: 15px; border-radius: 6px; border-left: 4px solid #ff9800; margin-bottom: 25px;">
+                <div style="font-size: 12px; color: #999; text-transform: uppercase; font-weight: 600; margin-bottom: 8px;">📝 Customer Notes</div>
+                <div style="font-size: 14px; color: #333; line-height: 1.6;">{{ $booking->message }}</div>
+            </div>
+            @endif
+
+            <!-- Quick Reference -->
+            <div style="background-color: #f0f8ff; padding: 15px; border-radius: 6px; border-left: 4px solid #2196F3;">
+                <div style="font-size: 12px; color: #999; text-transform: uppercase; font-weight: 600; margin-bottom: 8px;">📌 Next Steps</div>
+                <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #333; line-height: 1.8;">
+                    <li>Review booking details carefully</li>
+                    <li>Verify availability and pricing</li>
+                    <li>Contact customer if needed</li>
+                    <li>Approve or adjust booking terms</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-title">📋 Booking Reference</div>
+            <div style="font-family: monospace; background-color: #fff; padding: 10px; border-radius: 4px; color: #666; margin: 10px 0; word-break: break-all;">
+                ID: #{{ $booking->id }}
+            </div>
+
+            <div class="divider" style="margin: 15px 0;"></div>
+
+            <p style="margin: 10px 0; line-height: 1.6;">
+                This is an automated notification from Ubuvivi Tours booking system. Please respond to this booking promptly to maintain excellent customer service.
+            </p>
+
+            <p style="margin-top: 15px; font-size: 11px; color: #999;">
+                © 2026 Ubuvivi Tours & Logistics. Admin notifications are confidential.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

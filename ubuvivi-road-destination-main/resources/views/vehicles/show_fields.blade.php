@@ -5,18 +5,23 @@
             {{ $vehicle->production_year ?? '' }}</h3>
 
         <div class="row">
-            @if ($vehicle->images)
+            @php
+                $images = $vehicle->images;
+                if (is_string($images)) {
+                    $images = json_decode($images, true);
+                }
+                $images = is_array($images) ? $images : [];
+            @endphp
+            @if (count($images) > 0)
             <div class="col-12 col-md-6 show_image mb-3">
                 <div class="card shadow-none overflow-hidden">
                     <div class="card-body">
                         <div class="owl-carousel owl-theme">
-                            @isset($vehicle->images)
-                            @foreach ($vehicle->images as $image)
+                            @foreach ($images as $image)
                             <div>
                                 <img alt="image" class="rounded" src="{{ $image }}">
                             </div>
                             @endforeach
-                            @endisset
                         </div>
                     </div>
                 </div>

@@ -82,6 +82,44 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/tour/booking/{id}/account", 'tour_booking_account')->name("tour.booking.account");
 
+    Route::middleware('validate.booking.token')->group(function () {
+        Route::get('/booking/{type}/{token}', function ($type, $token) {
+            $booking = request()->booking;
+
+            if ($type === 'car') {
+                return redirect()->route('car.booking.view', $booking->id);
+            } elseif ($type === 'tour') {
+                return redirect()->route('tour.booking.view', $booking->id);
+            } elseif ($type === 'flight') {
+                return view('flight.booking_view', ['booking' => $booking]);
+            } elseif ($type === 'hotel') {
+                return view('hotel.booking_view', ['booking' => $booking]);
+            } elseif ($type === 'transfer') {
+                return redirect()->route('car.transfer.view', $booking->id);
+            }
+        })->where('type', 'car|tour|flight|hotel|transfer');
+
+        Route::get('/booking/{type}/{token}', function ($type, $token) {
+            return redirect()->route('car.booking.token.view', [$type, $token]);
+        })->name('car.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
+
+        Route::get('/booking/{type}/{token}', function ($type, $token) {
+            return redirect()->route('car.booking.token.view', [$type, $token]);
+        })->name('tour.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
+
+        Route::get('/booking/{type}/{token}', function ($type, $token) {
+            return redirect()->route('car.booking.token.view', [$type, $token]);
+        })->name('flight.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
+
+        Route::get('/booking/{type}/{token}', function ($type, $token) {
+            return redirect()->route('car.booking.token.view', [$type, $token]);
+        })->name('hotel.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
+
+        Route::get('/booking/{type}/{token}', function ($type, $token) {
+            return redirect()->route('car.booking.token.view', [$type, $token]);
+        })->name('car.transfer.token.view')->where('type', 'car|tour|flight|hotel|transfer');
+    });
+
     Route::group(["prefix" => "booking"], function () {
         Route::get("/car/{id}", "car_booking")->name("car.booking");
 
