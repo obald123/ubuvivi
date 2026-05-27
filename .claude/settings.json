@@ -5,7 +5,9 @@
       "Bash(Select-Object FullName, PSIsContainer)",
       "Bash(Format-Table -AutoSize)",
       "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main/resources/views/car/**)",
-      "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main/app/Http/Controllers/**)"
+      "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main/app/Http/Controllers/**)",
+      "Bash(cd \"/home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main\" && grep -r \"password.request\\\\|password.reset\" routes/ --include=\"*.php\")",
+      "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/**)"
     ],
     "additionalDirectories": [
       "C:\\Users\\LENOVO\\OneDrive\\Desktop",

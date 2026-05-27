@@ -30,7 +30,7 @@ class AdminBookingMail extends Mailable
     public function build()
     {
         return $this->view('emails.booking_notification')
-            ->from('bookings@ubuvivitours.com', env('MAIL_FROM_NAME'))
+            ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->to(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->replyTo($this->data['email'], $this->data['names'])
             ->subject("Booking Notification")

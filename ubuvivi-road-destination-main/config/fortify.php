@@ -133,7 +133,7 @@ return [
 
     'features' => [
         Features::registration(),
-        Features::resetPasswords(),
+        // Features::resetPasswords(), // Disabled: using Auth::routes() instead
         // Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),

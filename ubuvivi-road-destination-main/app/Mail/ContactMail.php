@@ -16,7 +16,7 @@ class ContactMail extends Mailable
     {
         return $this->view('emails.contact')
             ->subject($this->data['subject'])
-            ->from('contact@ubuvivitours.com', $this->data['name'])
+            ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->replyTo($this->data['email'], $this->data['name'])
             ->to(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->with([
