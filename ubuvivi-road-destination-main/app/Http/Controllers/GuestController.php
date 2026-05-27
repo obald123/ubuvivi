@@ -473,7 +473,7 @@ class GuestController extends Controller
         if ($booking) {
             Flash::success("Booking information sent successfully");
 
-            $admin_booking_route = route("carBookings.show", $booking->id);
+            $admin_booking_route = route("bookings.show", ['type' => 'car', 'id' => $booking->id]);
             $booking_route = route("car.booking.token.view", ['type' => 'car', 'token' => $booking->access_token]);
 
             AdminNotification::notify(
@@ -709,7 +709,7 @@ class GuestController extends Controller
         if ($booking) {
             Flash::success("Booking information sent successfully");
 
-            $admin_booking_route = route("tourBookings.show", $booking->id);
+            $admin_booking_route = route("bookings.show", ['type' => 'tour', 'id' => $booking->id]);
             $booking_route = route("tour.booking.token.view", ['type' => 'tour', 'token' => $booking->access_token]);
 
             AdminNotification::notify(
@@ -1045,10 +1045,10 @@ class GuestController extends Controller
             AdminNotification::notify(
                 'event_booking',
                 "New event booking from {$request->names} ({$packageLabel})",
-                route('tourBookings.show', $booking->id)
+                route('bookings.show', ['type' => 'tour', 'id' => $booking->id])
             );
 
-            $admin_booking_route = route('tourBookings.show', $booking->id);
+            $admin_booking_route = route('bookings.show', ['type' => 'tour', 'id' => $booking->id]);
             $booking_route = route('tour.booking.token.view', ['type' => 'tour', 'token' => $booking->access_token]);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
@@ -1135,10 +1135,10 @@ class GuestController extends Controller
             AdminNotification::notify(
                 'transfer_booking',
                 "New transfer booking from {$request->names} ({$request->pickup_location} → {$request->destination})",
-                route('carTransfers.show', $booking->id)
+                route('bookings.show', ['type' => 'transfer', 'id' => $booking->id])
             );
 
-            $admin_booking_route = route('carTransfers.show', $booking->id);
+            $admin_booking_route = route('bookings.show', ['type' => 'transfer', 'id' => $booking->id]);
             $booking_route = route('car.transfer.token.view', ['type' => 'transfer', 'token' => $booking->access_token]);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
