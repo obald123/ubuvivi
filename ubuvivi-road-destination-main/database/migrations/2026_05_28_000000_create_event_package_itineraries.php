@@ -1,14 +1,22 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateEventPackageItineraries extends Migration
 {
     public function up()
     {
+        // Only insert if table exists and doesn't already have event packages
+        if (!Schema::hasTable('itineraries')) {
+            return;
+        }
+
+        if (DB::table('itineraries')->where('title', 'like', '%Event%')->count() > 0) {
+            return;
+        }
+
         $now = now();
 
         DB::table('itineraries')->insert([
@@ -19,7 +27,7 @@ class CreateEventPackageItineraries extends Migration
                 'destination'     => 'Ubuvivi Venue - Kigali',
                 'available_from'  => $now,
                 'available_to'    => $now->addYears(2),
-                'images'          => json_encode([asset('assets/images/events/venue-basic.jpg')]),
+                'images'          => json_encode(['/assets/images/events/venue-basic.jpg']),
                 'highlights'      => json_encode([['title' => 'Conference hall/venue'], ['title' => 'Tables & seating setup'], ['title' => 'Projector & screen']]),
                 'inclusions'      => json_encode([['title' => 'Venue rental'], ['title' => 'Basic setup'], ['title' => 'AV equipment']]),
                 'exclusions'      => json_encode([['title' => 'Catering'], ['title' => 'Transport'], ['title' => 'Accommodation']]),
@@ -36,7 +44,7 @@ class CreateEventPackageItineraries extends Migration
                 'destination'     => 'Ubuvivi Venue - Kigali',
                 'available_from'  => $now,
                 'available_to'    => $now->addYears(2),
-                'images'          => json_encode([asset('assets/images/events/venue-partial.jpg')]),
+                'images'          => json_encode(['/assets/images/events/venue-partial.jpg']),
                 'highlights'      => json_encode([['title' => 'Conference hall/venue'], ['title' => 'Catering & refreshments'], ['title' => 'Audio-visual equipment'], ['title' => 'On-site event coordinator']]),
                 'inclusions'      => json_encode([['title' => 'Venue rental'], ['title' => 'Catering service'], ['title' => 'Professional AV setup'], ['title' => 'Event coordinator']]),
                 'exclusions'      => json_encode([['title' => 'Guest transport'], ['title' => 'Accommodation'], ['title' => 'Décor beyond basic setup']]),
@@ -53,7 +61,7 @@ class CreateEventPackageItineraries extends Migration
                 'destination'     => 'Ubuvivi Venue - Kigali',
                 'available_from'  => $now,
                 'available_to'    => $now->addYears(2),
-                'images'          => json_encode([asset('assets/images/events/venue-full.jpg')]),
+                'images'          => json_encode(['/assets/images/events/venue-full.jpg']),
                 'highlights'      => json_encode([['title' => 'Conference hall/venue'], ['title' => 'Catering & refreshments'], ['title' => 'Guest transport & transfers'], ['title' => 'Décor & branding setup'], ['title' => 'Full on-site support']]),
                 'inclusions'      => json_encode([['title' => 'Venue rental'], ['title' => 'Complete catering'], ['title' => 'Guest transport'], ['title' => 'Professional décor'], ['title' => 'Full event coordination'], ['title' => 'On-site event team']]),
                 'exclusions'      => json_encode([['title' => 'Accommodation (optional)'], ['title' => 'Premium catering upgrades']]),
@@ -68,12 +76,14 @@ class CreateEventPackageItineraries extends Migration
 
     public function down()
     {
-        DB::table('itineraries')
-            ->whereIn('title', [
-                'Basic Event Package',
-                'Partial Event Package',
-                'Full Event Package',
-            ])
-            ->delete();
+        if (Schema::hasTable('itineraries')) {
+            DB::table('itineraries')
+                ->whereIn('title', [
+                    'Basic Event Package',
+                    'Partial Event Package',
+                    'Full Event Package',
+                ])
+                ->delete();
+        }
     }
 }

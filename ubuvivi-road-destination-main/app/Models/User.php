@@ -5,7 +5,9 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -24,9 +26,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $two_factor_recovery_codes
  * @property string $remember_token
  */
-class User extends Model implements UserContract
+class User extends Model implements UserContract, CanResetPassword
 {
-    use Authenticatable;
+    use Authenticatable, CanResetPasswordTrait;
 
     use HasFactory;
 

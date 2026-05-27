@@ -1178,8 +1178,6 @@ class GuestController extends Controller
             "message" => "required",
         ]);
 
-
-
         try {
             Mail::send(new ContactMail([
                 'name'    => $request->names,
@@ -1187,9 +1185,18 @@ class GuestController extends Controller
                 'subject' => $request->subject,
                 'message' => $request->message,
             ]));
+            \Log::info('Contact message email sent successfully', [
+                'name' => $request->names,
+                'email' => $request->email,
+                'subject' => $request->subject
+            ]);
             Flash::success("Message Sent Successfully");
         } catch (\Throwable $th) {
-            \Log::error('ContactMail failed: ' . $th->getMessage());
+            \Log::error('ContactMail failed: ' . $th->getMessage(), [
+                'name' => $request->names,
+                'email' => $request->email,
+                'trace' => $th->getTraceAsString()
+            ]);
             Flash::error("Failed to send message try again later");
         }
 
