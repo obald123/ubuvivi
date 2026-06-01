@@ -36,11 +36,18 @@
                     <div class="card border-0 shadow-none">
                         <div class="card-body px-0">
                             <div class="row no-gutters">
-                                @if($booking->hotel && $booking->hotel->name)
+                                @php
+                                    $displayHotelName = $booking->booking_com_hotel_name
+                                        ?? optional($booking->hotel)->name;
+                                @endphp
+                                @if($displayHotelName)
                                     <div class="col-12 border-bottom py-3">
                                         <h6 class="bg-primary font-primary text-white p-2 mb-2">Hotel Name</h6>
                                         <p class="mb-1 font-15 px-2 font-primary">
-                                            {{ $booking->hotel->name ?? 'N/A' }}
+                                            {{ $displayHotelName }}
+                                            @if($booking->source === 'booking_com')
+                                                <span style="font-size:11px;background:#e8f0fe;color:#1a56db;padding:2px 8px;border-radius:50px;margin-left:6px;font-weight:600;">via Booking.com</span>
+                                            @endif
                                         </p>
                                     </div>
                                 @endif

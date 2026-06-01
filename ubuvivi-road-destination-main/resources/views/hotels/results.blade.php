@@ -239,8 +239,8 @@
                         <div class="hotel-price-label">total for stay · taxes may apply</div>
                     @endif
                     <div class="hotel-foot">
-                        <a href="{{ $bookingUrl }}" target="_blank" rel="noopener" class="btn-book-hotel">
-                            Book on Booking.com <i class="fas fa-external-link-alt" style="font-size:11px;margin-left:4px"></i>
+                        <a href="{{ route('guest.hotels.book', $hotelId) }}?check_in={{ $check_in }}&check_out={{ $check_out }}&adults={{ $adults }}&hotel_name={{ urlencode($name) }}&stars={{ $stars }}&rating={{ $rating }}&photo={{ urlencode($photo ?? '') }}&price={{ $price }}&currency={{ $currency }}" class="btn-book-hotel">
+                            <i class="fas fa-calendar-check" style="font-size:12px;margin-right:5px"></i>Book This Hotel
                         </a>
                     </div>
                 </div>

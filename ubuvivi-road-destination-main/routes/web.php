@@ -61,6 +61,8 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/hotels/search", 'booking_com_search')->name("guest.hotels.search");
     Route::get("/hotels/search/results", 'booking_com_results')->name("guest.hotels.results");
+    Route::get("/hotels/book/{hotel_id}", 'booking_com_hotel_detail')->name("guest.hotels.book");
+    Route::post("/hotels/book", 'booking_com_hotel_store')->name("guest.hotels.book.store");
 
     Route::post("/newsletter/subscribe", 'newsletter_subscribe')->name("newsletter.subscribe");
 

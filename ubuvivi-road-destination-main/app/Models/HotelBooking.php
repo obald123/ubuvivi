@@ -11,7 +11,8 @@ class HotelBooking extends Model
     use SoftDeletes, HasFactory;
 
     protected $fillable = [
-        'hotel_id', 'names', 'email', 'phone_number',
+        'hotel_id', 'source', 'booking_com_hotel_id', 'booking_com_hotel_name',
+        'names', 'email', 'phone_number',
         'check_in', 'check_out', 'number_of_guests',
         'room_type', 'message', 'approved', 'access_token',
     ];

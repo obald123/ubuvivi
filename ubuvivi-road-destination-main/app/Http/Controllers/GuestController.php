@@ -1524,4 +1524,159 @@ class GuestController extends Controller
 
         return view('hotels.results', $viewData);
     }
+
+    // ── Booking.com Hotel Detail & Internal Booking ─────────────────────────
+
+    public function booking_com_hotel_detail(Request $request, $hotel_id)
+    {
+        $apiKey  = config('services.rapidapi.booking_key');
+        $headers = [
+            'X-RapidAPI-Key'  => $apiKey,
+            'X-RapidAPI-Host' => 'booking-com15.p.rapidapi.com',
+        ];
+
+        // Data passed from the results card (fallback if API call fails)
+        $cardData = [
+            'hotel_id'   => $hotel_id,
+            'hotel_name' => $request->query('hotel_name', 'Hotel'),
+            'stars'      => (int) $request->query('stars', 0),
+            'rating'     => $request->query('rating'),
+            'photo'      => $request->query('photo'),
+            'price'      => $request->query('price'),
+            'currency'   => $request->query('currency', 'USD'),
+            'check_in'   => $request->query('check_in'),
+            'check_out'  => $request->query('check_out'),
+            'adults'     => (int) $request->query('adults', 1),
+        ];
+
+        $detail      = [];
+        $facilities  = [];
+        $highlights  = [];
+        $apiError    = false;
+
+        if ($apiKey && $cardData['check_in'] && $cardData['check_out']) {
+            try {
+                $response = Http::withHeaders($headers)
+                    ->withOptions(['verify' => false])
+                    ->timeout(15)
+                    ->get('https://booking-com15.p.rapidapi.com/api/v1/hotels/getHotelDetails', [
+                        'hotel_id'       => $hotel_id,
+                        'arrival_date'   => $cardData['check_in'],
+                        'departure_date' => $cardData['check_out'],
+                        'adults'         => $cardData['adults'],
+                        'languagecode'   => 'en-us',
+                        'currency_code'  => 'USD',
+                    ]);
+
+                if ($response->successful() && $response->json('status')) {
+                    $detail = $response->json('data', []);
+
+                    // Extract facilities
+                    $facilitiesBlock = $detail['facilities_block'] ?? [];
+                    foreach ($facilitiesBlock as $group) {
+                        $name = $group['name'] ?? '';
+                        $items = array_slice($group['facilities'] ?? [], 0, 6);
+                        foreach ($items as $item) {
+                            if (!empty($item['name'])) {
+                                $facilities[] = $item['name'];
+                            }
+                        }
+                    }
+
+                    // Extract highlights
+                    foreach ($detail['property_highlight_strip'] ?? [] as $h) {
+                        if (!empty($h['name'])) {
+                            $highlights[] = [
+                                'name' => $h['name'],
+                                'icon' => $h['icon_list'][0]['icon'] ?? null,
+                            ];
+                        }
+                    }
+                } else {
+                    $apiError = true;
+                    \Log::warning('[HotelDetail] API returned non-success for hotel ' . $hotel_id);
+                }
+            } catch (\Exception $e) {
+                $apiError = true;
+                \Log::warning('[HotelDetail] API exception for hotel ' . $hotel_id . ': ' . $e->getMessage());
+            }
+        }
+
+        // Build photo list: use photoUrls array from card if available, else use detail URL
+        $photos = array_filter([
+            $cardData['photo'],
+            $detail['url'] ? null : null, // placeholder
+        ]);
+
+        // Merge additional photo sizes from the card photo URL (booking.com supports size variants)
+        if ($cardData['photo']) {
+            $base = preg_replace('/square\d+/', 'square1024', $cardData['photo']);
+            $photos = array_unique([$cardData['photo'], $base]);
+        }
+
+        return view('hotels.detail', compact('cardData', 'detail', 'facilities', 'highlights', 'photos', 'apiError'));
+    }
+
+    public function booking_com_hotel_store(Request $request)
+    {
+        $request->validate([
+            'booking_com_hotel_id'   => 'required|string',
+            'booking_com_hotel_name' => 'required|string|max:255',
+            'names'                  => 'required|string|max:255',
+            'email'                  => 'required|email|max:255',
+            'phone_number'           => 'required|string|max:20',
+            'check_in'               => 'required|date',
+            'check_out'              => 'required|date|after:check_in',
+            'number_of_guests'       => 'required|integer|min:1',
+            'room_type'              => 'nullable|string|max:100',
+            'message'                => 'nullable|string',
+        ]);
+
+        \Log::info('[BookingComHotel] Booking submitted', [
+            'hotel_id'   => $request->booking_com_hotel_id,
+            'hotel_name' => $request->booking_com_hotel_name,
+            'email'      => $request->email,
+            'check_in'   => $request->check_in,
+            'check_out'  => $request->check_out,
+        ]);
+
+        $booking = \App\Models\HotelBooking::create([
+            'hotel_id'               => null,
+            'source'                 => 'booking_com',
+            'booking_com_hotel_id'   => $request->booking_com_hotel_id,
+            'booking_com_hotel_name' => $request->booking_com_hotel_name,
+            'names'                  => $request->names,
+            'email'                  => $request->email,
+            'phone_number'           => $request->phone_number,
+            'check_in'               => $request->check_in,
+            'check_out'              => $request->check_out,
+            'number_of_guests'       => $request->number_of_guests,
+            'room_type'              => $request->room_type,
+            'message'                => $request->message,
+            'approved'               => null,
+        ]);
+
+        \Log::info('[BookingComHotel] Booking record created', ['booking_id' => $booking->id]);
+
+        AdminNotification::notify(
+            'hotel_booking',
+            "New hotel booking request: {$request->booking_com_hotel_name} — {$request->names} (check-in {$request->check_in})",
+            route('bookings.index')
+        );
+
+        $adminEmailSent    = $this->notify_admin($booking, route('bookings.index'));
+        $customerEmailSent = $this->sendMail($request->email, url('/booking/hotel/' . $booking->access_token));
+
+        \Log::info('[BookingComHotel] Emails sent', [
+            'booking_id'          => $booking->id,
+            'admin_sent'          => $adminEmailSent,
+            'customer_sent'       => $customerEmailSent,
+        ]);
+
+        return redirect()->route('booking.confirmed')->with([
+            'service' => 'Hotel Booking — ' . $request->booking_com_hotel_name,
+            'names'   => $request->names,
+            'email'   => $request->email,
+        ]);
+    }
 }
