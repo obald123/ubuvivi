@@ -422,9 +422,9 @@
                 </a>
             </div>
 
-            {{-- Slide 4: Transport — airport/jet image --}}
+            {{-- Slide 4: Transport — car rental image --}}
             <div class="carousel-item" data-interval="8000">
-                <div class="slide-bg-img" style="background-image:url('{{ asset('images/transport-hero.jpg') }}')"></div>
+                <div class="slide-bg-img" style="background-image:url('{{ asset('assets/images/car-rental.jpg') }}')"></div>
                 <a href="{{ route('guest.transfer') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <h1>Seamless Airport &amp;<br>City Transport</h1>
@@ -588,7 +588,7 @@
                     <a href="{{ url('/cars') }}" class="service-link mt-3 d-inline-block">View Cars &raquo;</a>
                 </div>
                 <div class="col-lg-6 order-lg-1" data-aos="fade-right">
-                    <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Car Rental" class="service-img round-tl">
+                    <img src="{{ asset('assets/images/car-rental.jpg') }}" alt="Car Rental" class="service-img round-tl">
                 </div>
             </div>
 
@@ -605,7 +605,7 @@
                     <a href="{{ route('guest.transfer') }}" class="service-link mt-3 d-inline-block">Book Transport &raquo;</a>
                 </div>
                 <div class="col-lg-6 order-lg-2" data-aos="fade-left">
-                    <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Private Transport" class="service-img round-tr">
+                    <img src="{{ asset('assets/images/car-rental.jpg') }}" alt="Private Transport" class="service-img round-tr">
                 </div>
             </div>
         </div>

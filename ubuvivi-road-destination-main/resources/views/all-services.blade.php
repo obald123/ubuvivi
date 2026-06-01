@@ -23,18 +23,19 @@
         justify-content: center;
         text-align: center;
     }
-    .services-hero-bg {
+    .services-hero-video {
         position: absolute;
         inset: 0;
-        background: url('{{ asset("images/services-hero.jpg") }}') center center / cover no-repeat;
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
     }
     .services-hero::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(13, 31, 53, 0.48);
+        background: rgba(13, 31, 53, 0.52);
         z-index: 1;
     }
     .services-hero-content {
@@ -164,7 +165,9 @@
 
     {{-- ── Hero ── --}}
     <section class="services-hero">
-        <div class="services-hero-bg"></div>
+        <video class="services-hero-video" id="servicesHeroVideo" autoplay muted playsinline>
+            <source src="{{ asset('videos/giraffes.mp4') }}" type="video/mp4">
+        </video>
         <div class="services-hero-content">
             @if($isPlanMode)
                 <h1>Plan Your Trip</h1>
@@ -226,7 +229,7 @@
                 {{-- 3. Hotel Booking — third in plan mode --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.hotel_booking') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_12.jpg') }}" alt="Hotel Booking" class="service-card-img">
+                        <img src="{{ asset('assets/images/hotel-booking.jpg') }}" alt="Hotel Booking" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-hotel"></i>
@@ -242,7 +245,7 @@
                 {{-- Car Rentals — full mode only --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ url('/cars') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_14.jpg') }}" alt="Car Rentals" class="service-card-img">
+                        <img src="{{ asset('assets/images/car-rental.jpg') }}" alt="Car Rentals" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-car"></i>
@@ -257,7 +260,7 @@
                 {{-- Transport Services — full mode only --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.transfer') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_15.jpg') }}" alt="Transport Services" class="service-card-img">
+                        <img src="{{ asset('assets/images/car-rental.jpg') }}" alt="Transport Services" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-shuttle-van"></i>
@@ -297,4 +300,26 @@
         </div>
     </section>
 
+@endsection
+
+@section('scripts')
+<script>
+(function() {
+    var videos = [
+        "{{ asset('videos/giraffes.mp4') }}",
+        "{{ asset('videos/Man_driving_car_in_Kigali_202605240630.mp4') }}",
+        "{{ asset('videos/Jet_soaring_through_clear_sky_202605240346.mp4') }}"
+    ];
+    var idx = 0;
+    var vid = document.getElementById('servicesHeroVideo');
+    if (vid) {
+        vid.addEventListener('ended', function() {
+            idx = (idx + 1) % videos.length;
+            vid.src = videos[idx];
+            vid.load();
+            vid.play();
+        });
+    }
+})();
+</script>
 @endsection

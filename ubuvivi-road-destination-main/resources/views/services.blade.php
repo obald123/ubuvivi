@@ -18,7 +18,7 @@
         position: relative;
         height: 480px;
         min-height: 380px;
-        background: url('{{ asset("images/transport-hero.jpg") }}') center center / cover no-repeat;
+        background: url('{{ asset("assets/images/car-rental.jpg") }}') center center / cover no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
