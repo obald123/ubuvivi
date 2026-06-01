@@ -436,7 +436,7 @@
 
             {{-- Slide 5: Conference Planning — conference image --}}
             <div class="carousel-item" data-interval="8000">
-                <div class="slide-bg-img" style="background-image:url('{{ asset('images/conference-hero.jpg') }}')"></div>
+                <div class="slide-bg-img" style="background-image:url('{{ asset('images/conference-hero.webp') }}')"></div>
                 <a href="{{ route('guest.events') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <h1>Professional Conferences<br>in Rwanda</h1>

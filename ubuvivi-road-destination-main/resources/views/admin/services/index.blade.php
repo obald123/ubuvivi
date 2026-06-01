@@ -420,7 +420,7 @@
                     <div class="svc-card-body">
                         <div class="svc-card-head">
                             <div class="svc-card-title">{{ $tour->title }}</div>
-                            <div class="svc-card-price">${{ number_format($tour->price ?? 100) }} per person</div>
+                            <div class="svc-card-price">{{ ($tour->price ?? 0) > 0 ? '$'.number_format($tour->price).' per person' : 'Price on request' }}</div>
                         </div>
                         <p class="svc-card-desc">{{ Str::limit($tour->description ?? 'Explore amazing destinations with our guided tours. Professional guides, comfortable transportation, and unforgettable experiences.', 150) }}</p>
                         <div class="svc-card-actions">
@@ -514,6 +514,10 @@
                         <label>Inclusions <span style="font-weight:400;color:#999">(comma separated)</span></label>
                         <textarea name="inclusions" id="tourInclusions" rows="3"></textarea>
                     </div>
+                    <div class="adm-form-group">
+                        <label>Exclusions <span style="font-weight:400;color:#999">(comma separated)</span></label>
+                        <textarea name="exclusions" id="tourExclusions" rows="3"></textarea>
+                    </div>
                 </div>
 
                 <div class="adm-section-label">Tour Highlights</div>
@@ -533,7 +537,13 @@
                     </label>
                 </div>
 
-                <div class="price-counter">
+                <div class="adm-form-group" style="margin-bottom:8px;">
+                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                        <input type="checkbox" id="tourPriceOnRequest" onchange="toggleTourPrice(this)" style="width:16px;height:16px;accent-color:#0D1F35;">
+                        Price on request (no fixed price)
+                    </label>
+                </div>
+                <div class="price-counter" id="tourPriceRow">
                     <span class="price-counter-label">Price per Person (dollars):</span>
                     <button type="button" class="btn-counter" onclick="changePrice('tourPrice', -50)">&#8722;</button>
                     <span class="price-val" id="tourPriceDisplay">100</span>
@@ -691,6 +701,15 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ── Price counter ──
+function toggleTourPrice(checkbox) {
+    var row = document.getElementById('tourPriceRow');
+    row.style.display = checkbox.checked ? 'none' : '';
+    if (checkbox.checked) {
+        document.getElementById('tourPrice').value = 0;
+        document.getElementById('tourPriceDisplay').textContent = 0;
+    }
+}
+
 function changePrice(inputId, delta) {
     var inp = document.getElementById(inputId);
     var val = Math.max(0, (parseInt(inp.value) || 0) + delta);
@@ -718,6 +737,9 @@ function openTourModal() {
     document.getElementById('tourDays').value = 1;
     document.getElementById('tourDesc').value = '';
     document.getElementById('tourInclusions').value = '';
+    document.getElementById('tourExclusions').value = '';
+    document.getElementById('tourPriceOnRequest').checked = false;
+    document.getElementById('tourPriceRow').style.display = '';
     document.getElementById('highlightsList').innerHTML = '';
     document.getElementById('tourExistingImages').value = '[]';
     document.getElementById('tourExistingImageIds').value = '[]';
@@ -737,9 +759,13 @@ function loadTourModal(data) {
     document.getElementById('tourDays').value = data.days || 1;
     document.getElementById('tourDesc').value = data.description || '';
     document.getElementById('tourInclusions').value = data.inclusions || '';
+    document.getElementById('tourExclusions').value = data.exclusions || '';
+    var priceOnReq = !data.price || data.price === 0;
+    document.getElementById('tourPriceOnRequest').checked = priceOnReq;
+    document.getElementById('tourPriceRow').style.display = priceOnReq ? 'none' : '';
+    setPrice('tourPrice', priceOnReq ? 0 : (data.price || 100));
     document.getElementById('tourExistingImages').value = JSON.stringify(data.images || []);
     document.getElementById('tourExistingImageIds').value = JSON.stringify(data.image_id || []);
-    setPrice('tourPrice', data.price || 100);
 
     // Highlights
     document.getElementById('highlightsList').innerHTML = '';
@@ -855,8 +881,22 @@ function handleTourImages(input) { appendImgPreviews('tourImagesArea', 'tourImgS
 function handleCarImages(input)  { appendImgPreviews('carImagesArea', 'carImgSlot', input, 'car'); }
 
 function appendImgPreviews(areaId, slotId, input, prefix) {
-    if (!input.files) return;
-    Array.from(input.files).forEach(function (file, i) {
+    if (!input.files || !input.files.length) return;
+
+    // Capture the newly selected files before we modify anything
+    var newFiles = Array.from(input.files);
+
+    // Accumulate: merge previously accumulated + new picks into the input
+    var dt = new DataTransfer();
+    if (input._accumulated) {
+        input._accumulated.forEach(function (f) { dt.items.add(f); });
+    }
+    newFiles.forEach(function (f) { dt.items.add(f); });
+    input._accumulated = Array.from(dt.files);
+    try { input.files = dt.files; } catch (e) {}
+
+    // Show previews only for the newly selected files
+    newFiles.forEach(function (file) {
         var reader = new FileReader();
         reader.onload = function (e) {
             var area = document.getElementById(areaId);
@@ -870,7 +910,18 @@ function appendImgPreviews(areaId, slotId, input, prefix) {
             rmBtn.type = 'button';
             rmBtn.className = 'img-preview-remove';
             rmBtn.innerHTML = '&times;';
-            rmBtn.onclick = function () { wrap.remove(); };
+            rmBtn.onclick = function () {
+                wrap.remove();
+                // Remove file from accumulated list by matching name+size
+                if (input._accumulated) {
+                    input._accumulated = input._accumulated.filter(function (f) {
+                        return !(f.name === file.name && f.size === file.size);
+                    });
+                    var dt2 = new DataTransfer();
+                    input._accumulated.forEach(function (f) { dt2.items.add(f); });
+                    try { input.files = dt2.files; } catch (e) {}
+                }
+            };
             wrap.appendChild(img);
             wrap.appendChild(rmBtn);
             area.insertBefore(wrap, slot);

@@ -306,6 +306,8 @@
                 <h1>{{ $tour->title }}</h1>
                 @if(!empty($tour->price) && $tour->price > 0)
                     <div class="tour-detail-price">${{ number_format($tour->price) }} / person</div>
+                @else
+                    <div class="tour-detail-price" style="font-size:16px;font-weight:500;opacity:.85;">Price on request — <a href="{{ route('guest.contact') }}" style="color:#fff;text-decoration:underline;">Contact us</a></div>
                 @endif
             </div>
         </div>
@@ -380,12 +382,25 @@
                     </section>
                 @endif
 
-                @if($sectionImages && $agendaItems->isEmpty())
-                    @foreach($sectionImages as $extraImage)
-                        <article class="tour-stop">
-                            <img src="{{ $extraImage }}" alt="{{ $tour->title }}" class="tour-stop-image">
-                        </article>
-                    @endforeach
+                @if($sectionImages)
+                    @if($agendaItems->isEmpty())
+                        {{-- No agenda: show all extra images as a gallery --}}
+                        @if(count($sectionImages) > 1)
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:24px 0;">
+                                @foreach($sectionImages as $extraImage)
+                                    @if(!empty($extraImage))
+                                        <img src="{{ $extraImage }}" alt="{{ $tour->title }}" style="width:100%;height:240px;object-fit:cover;border-radius:10px;display:block;" onerror="this.onerror=null;this.style.display='none';">
+                                    @endif
+                                @endforeach
+                            </div>
+                        @else
+                            @if(!empty($sectionImages[0]))
+                                <article class="tour-stop">
+                                    <img src="{{ $sectionImages[0] }}" alt="{{ $tour->title }}" class="tour-stop-image">
+                                </article>
+                            @endif
+                        @endif
+                    @endif
                 @endif
 
                 <div class="tour-booking-cta" style="margin-top: 38px;">

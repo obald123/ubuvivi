@@ -42,7 +42,9 @@ class ServiceController extends Controller
 
                 $highlights = is_array($tour->highlights) ? $tour->highlights : [];
                 $inclusions = is_array($tour->inclusions) ? $tour->inclusions : [];
-                $incText = implode(', ', array_map(fn($i) => is_array($i) ? ($i['title'] ?? '') : $i, $inclusions));
+                $exclusions = is_array($tour->exclusions) ? $tour->exclusions : [];
+                $incText = implode(', ', array_filter(array_map(fn($i) => is_array($i) ? ($i['title'] ?? '') : $i, $inclusions)));
+                $excText = implode(', ', array_filter(array_map(fn($i) => is_array($i) ? ($i['title'] ?? '') : $i, $exclusions)));
                 $images = is_array($tour->images) ? $tour->images : [];
 
                 return response()->json([
@@ -51,9 +53,10 @@ class ServiceController extends Controller
                     'days'        => $tour->days ?? 1,
                     'description' => $tour->description,
                     'inclusions'  => $incText,
+                    'exclusions'  => $excText,
                     'highlights'  => $highlights,
                     'images'      => $images,
-                    'price'       => $tour->price ?? 100,
+                    'price'       => $tour->price ?? 0,
                 ]);
 
             case 'car':
@@ -92,6 +95,7 @@ class ServiceController extends Controller
                     [$images, $imageIds] = $this->uploadImages($request, 'tour_images');
                     $highlights = $this->processHighlights($request);
                     $inclusions = $this->processInclusions($request->inclusions ?? '');
+                    $exclusions = $this->processInclusions($request->exclusions ?? '');
 
                     Itinerary::create([
                         'title'            => $request->title,
@@ -101,9 +105,9 @@ class ServiceController extends Controller
                         'image_id'         => json_encode($imageIds),
                         'highlights'       => json_encode($highlights),
                         'inclusions'       => json_encode($inclusions),
-                        'exclusions'       => json_encode([]),
+                        'exclusions'       => json_encode($exclusions),
                         'days_description' => json_encode([]),
-                        'price'            => (int) ($request->price ?? 100),
+                        'price'            => (int) ($request->price ?? 0),
                     ]);
                     break;
 
@@ -191,6 +195,7 @@ class ServiceController extends Controller
 
                     $highlights = $this->processHighlights($request, $tour->highlights);
                     $inclusions = $this->processInclusions($request->inclusions ?? '');
+                    $exclusions = $this->processInclusions($request->exclusions ?? '');
 
                     $tour->update([
                         'title'       => $request->title,
@@ -200,7 +205,8 @@ class ServiceController extends Controller
                         'image_id'    => json_encode($allImageIds),
                         'highlights'  => json_encode($highlights),
                         'inclusions'  => json_encode($inclusions),
-                        'price'       => (int) ($request->price ?? 100),
+                        'exclusions'  => json_encode($exclusions),
+                        'price'       => (int) ($request->price ?? 0),
                     ]);
                     break;
 
