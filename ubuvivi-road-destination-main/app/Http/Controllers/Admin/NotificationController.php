@@ -16,7 +16,7 @@ class NotificationController extends Controller
                 'message' => $n->message,
                 'link'    => $n->link,
                 'read'    => !is_null($n->read_at),
-                'ago'     => $n->created_at->diffForHumans(),
+                'ago'     => $n->created_at->locale('en')->diffForHumans(),
             ];
         });
 

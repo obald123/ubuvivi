@@ -17,7 +17,7 @@
     .services-hero {
         position: relative;
         height: 480px;
-        background: url('{{ asset("assets/images/backgrounds/bg_01.jpg") }}') center center / cover no-repeat;
+        background: url('{{ asset("images/services-hero.jpg") }}') center center / cover no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;

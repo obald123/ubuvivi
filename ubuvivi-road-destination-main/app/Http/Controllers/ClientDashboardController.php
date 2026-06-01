@@ -209,6 +209,32 @@ class ClientDashboardController extends Controller
             $notifications->push($this->bookingNotification('Transfer', $b->destination ?: 'Transfer', $b->date, $b->approved, $b->created_at, $today));
         }
 
+        // Flight bookings
+        $flights = DB::table('flight_bookings')
+            ->select('id', 'departure_date as date', 'approved', 'created_at', 'departure_airport', 'arrival_airport')
+            ->where('email', $email)
+            ->orderByDesc('created_at')
+            ->get();
+
+        foreach ($flights as $b) {
+            $label = trim(($b->departure_airport ?? '') . ' → ' . ($b->arrival_airport ?? '')) ?: 'Flight';
+            $notifications->push($this->bookingNotification('Air Ticketing', $label, $b->date, $b->approved, $b->created_at, $today));
+        }
+
+        // Hotel bookings
+        $hotelBookings = DB::table('hotel_bookings')
+            ->leftJoin('hotels', 'hotel_bookings.hotel_id', '=', 'hotels.id')
+            ->select('hotel_bookings.id', 'hotel_bookings.check_in as date', 'hotel_bookings.approved',
+                     'hotel_bookings.created_at', 'hotels.name as hotel_name')
+            ->where('hotel_bookings.email', $email)
+            ->orderByDesc('hotel_bookings.created_at')
+            ->get();
+
+        foreach ($hotelBookings as $b) {
+            $label = $b->hotel_name ?: 'Hotel';
+            $notifications->push($this->bookingNotification('Hotel Booking', $label, $b->date, $b->approved, $b->created_at, $today));
+        }
+
         $notifications = $notifications->sortByDesc('created_at')->values();
 
         return view('client.notifications', compact('notifications'));
@@ -258,7 +284,7 @@ class ClientDashboardController extends Controller
             'unread'     => $unread,
             'tag'        => $tag,
             'created_at' => $created,
-            'ago'        => $created->diffForHumans(),
+            'ago'        => $created->locale('en')->diffForHumans(),
         ];
     }
 

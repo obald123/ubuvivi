@@ -13,11 +13,11 @@
     .post-hero {
         position: relative;
         height: 480px;
-        background: {{ $post->image ? "url('" . htmlspecialchars($post->image, ENT_QUOTES, 'UTF-8') . "') center/cover no-repeat" : "linear-gradient(135deg,#0D1F35,#1e3a5f)" }};
+        background: linear-gradient(135deg,#0D1F35,#1e3a5f);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         display: flex; align-items: flex-end; justify-content: flex-start;
-    }
-    .post-hero.fallback {
-        background: linear-gradient(135deg,#0D1F35,#1e3a5f) !important;
     }
     .post-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(13,31,53,.88) 0%, rgba(13,31,53,.3) 60%, transparent 100%); }
     .post-hero-content { position:relative; z-index:2; padding:0 0 44px; width:100%; }
@@ -125,7 +125,7 @@
 @section('content')
 
     {{-- Hero --}}
-    <section class="post-hero">
+    <section class="post-hero" @if($post->image) style="background-image: url('{{ $post->image }}');" @endif>
         <div class="post-hero-content">
             <div class="container">
                 <span class="post-tag tag-{{ $post->category }}">{{ $post->category_label }}</span>
