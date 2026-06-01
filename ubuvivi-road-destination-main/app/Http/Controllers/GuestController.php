@@ -167,7 +167,7 @@ class GuestController extends Controller
 
         if ($booking) {
             $admin_booking_route = route('admin.flight_bookings.index');
-            $booking_route = route('flight.booking.token.view', ['type' => 'flight', 'token' => $booking->access_token]);
+            $booking_route = url('/booking/flight/' . $booking->access_token);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
             $customerEmailSent = $this->sendMail($request->email, $booking_route);
@@ -228,7 +228,7 @@ class GuestController extends Controller
 
         if ($booking) {
             $admin_booking_route = route('admin.hotel_bookings.index');
-            $booking_route = route('hotel.booking.token.view', ['type' => 'hotel', 'token' => $booking->access_token]);
+            $booking_route = url('/booking/hotel/' . $booking->access_token);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
             $customerEmailSent = $this->sendMail($request->email, $booking_route);
@@ -473,8 +473,8 @@ class GuestController extends Controller
         if ($booking) {
             Flash::success("Booking information sent successfully");
 
-            $admin_booking_route = route("bookings.show", ['type' => 'car', 'id' => $booking->id]);
-            $booking_route = route("car.booking.token.view", ['type' => 'car', 'token' => $booking->access_token]);
+            $admin_booking_route = route("bookings.index");
+            $booking_route = url('/booking/car/' . $booking->access_token);
 
             AdminNotification::notify(
                 'car_booking',
@@ -709,8 +709,8 @@ class GuestController extends Controller
         if ($booking) {
             Flash::success("Booking information sent successfully");
 
-            $admin_booking_route = route("bookings.show", ['type' => 'tour', 'id' => $booking->id]);
-            $booking_route = route("tour.booking.token.view", ['type' => 'tour', 'token' => $booking->access_token]);
+            $admin_booking_route = route("bookings.index");
+            $booking_route = url('/booking/tour/' . $booking->access_token);
 
             AdminNotification::notify(
                 'tour_booking',
@@ -1045,11 +1045,11 @@ class GuestController extends Controller
             AdminNotification::notify(
                 'event_booking',
                 "New event booking from {$request->names} ({$packageLabel})",
-                route('bookings.show', ['type' => 'tour', 'id' => $booking->id])
+                route('bookings.index')
             );
 
-            $admin_booking_route = route('bookings.show', ['type' => 'tour', 'id' => $booking->id]);
-            $booking_route = route('tour.booking.token.view', ['type' => 'tour', 'token' => $booking->access_token]);
+            $admin_booking_route = route('bookings.index');
+            $booking_route = url('/booking/tour/' . $booking->access_token);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
             $customerEmailSent = $this->sendMail($request->email, $booking_route);
@@ -1135,11 +1135,11 @@ class GuestController extends Controller
             AdminNotification::notify(
                 'transfer_booking',
                 "New transfer booking from {$request->names} ({$request->pickup_location} → {$request->destination})",
-                route('bookings.show', ['type' => 'transfer', 'id' => $booking->id])
+                route('bookings.index')
             );
 
-            $admin_booking_route = route('bookings.show', ['type' => 'transfer', 'id' => $booking->id]);
-            $booking_route = route('car.transfer.token.view', ['type' => 'transfer', 'token' => $booking->access_token]);
+            $admin_booking_route = route('bookings.index');
+            $booking_route = url('/booking/transfer/' . $booking->access_token);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
             $customerEmailSent = $this->sendMail($request->email, $booking_route);

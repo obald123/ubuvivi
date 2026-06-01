@@ -19,22 +19,31 @@
         position: relative;
         height: 100vh;
         min-height: 560px;
-        background: url('{{ asset("assets/images/backgrounds/bg_11.jpg") }}') center center / cover no-repeat;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
     }
+    .tours-hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
     .tours-hero::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(13, 31, 53, 0.65);
+        background: linear-gradient(to bottom, rgba(0,0,0,.30) 0%, rgba(0,0,0,.15) 50%, rgba(0,0,0,.60) 100%);
+        z-index: 1;
     }
     .tours-hero-content {
         position: relative;
         z-index: 2;
         color: #fff;
+        padding: 0 20px;
     }
     .tours-hero-content h1 {
         font-size: clamp(42px, 7vw, 72px);
@@ -152,6 +161,9 @@
 
     {{-- ── Hero ── --}}
     <section class="tours-hero">
+        <video class="tours-hero-video" autoplay muted loop playsinline>
+            <source src="{{ asset('videos/giraffes.mp4') }}" type="video/mp4">
+        </video>
         <div class="tours-hero-content">
             <h1>Explore Rwanda</h1>
             <p>Discover unforgettable tours across Rwanda's most iconic destinations.</p>

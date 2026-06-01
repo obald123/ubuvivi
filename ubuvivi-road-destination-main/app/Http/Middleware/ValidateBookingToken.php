@@ -31,6 +31,9 @@ class ValidateBookingToken
             case 'hotel':
                 $booking = \App\Models\HotelBooking::findByToken($token);
                 break;
+            case 'transfer':
+                $booking = \App\Models\CarTransfer::findByToken($token);
+                break;
             default:
                 return abort(404, 'Invalid booking type.');
         }
