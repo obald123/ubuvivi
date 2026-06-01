@@ -162,11 +162,11 @@ class GuestController extends Controller
         AdminNotification::notify(
             'flight_booking',
             "New flight booking from {$request->names} ({$request->departure_airport} → {$request->arrival_airport})",
-            route('admin.flight_bookings.index')
+            route('bookings.index')
         );
 
         if ($booking) {
-            $admin_booking_route = route('admin.flight_bookings.index');
+            $admin_booking_route = route('bookings.index');
             $booking_route = url('/booking/flight/' . $booking->access_token);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
@@ -223,11 +223,11 @@ class GuestController extends Controller
         AdminNotification::notify(
             'hotel_booking',
             "New hotel booking from {$request->names} (check-in {$request->check_in})",
-            route('admin.hotel_bookings.index')
+            route('bookings.index')
         );
 
         if ($booking) {
-            $admin_booking_route = route('admin.hotel_bookings.index');
+            $admin_booking_route = route('bookings.index');
             $booking_route = url('/booking/hotel/' . $booking->access_token);
 
             $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);

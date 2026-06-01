@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\TourBooking;
 use App\Models\CarBooking;
 use App\Models\CarTransfer;
+use App\Models\FlightBooking;
+use App\Models\HotelBooking;
 use Carbon\Carbon;
 
 class BookingController extends Controller
@@ -22,9 +24,17 @@ class BookingController extends Controller
         $carTransfers = CarTransfer::with(['vehicle.brand', 'vehicle.model'])->get()
             ->map(fn (CarTransfer $booking) => $this->mapBookingRow($booking, 'CarTransfer'));
 
+        $flightBookings = FlightBooking::all()
+            ->map(fn (FlightBooking $booking) => $this->mapBookingRow($booking, 'FlightBooking'));
+
+        $hotelBookings = HotelBooking::with('hotel')->get()
+            ->map(fn (HotelBooking $booking) => $this->mapBookingRow($booking, 'HotelBooking'));
+
         $allBookings = $tourBookings
             ->concat($carBookings)
             ->concat($carTransfers)
+            ->concat($flightBookings)
+            ->concat($hotelBookings)
             ->sortByDesc('sort_date')
             ->values();
 
@@ -73,10 +83,12 @@ class BookingController extends Controller
     private function findBooking($type, $id)
     {
         return match ($type) {
-            'TourBooking' => TourBooking::with('tour')->findOrFail($id),
-            'CarBooking' => CarBooking::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
-            'CarTransfer' => CarTransfer::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
-            default => abort(404),
+            'TourBooking'   => TourBooking::with('tour')->findOrFail($id),
+            'CarBooking'    => CarBooking::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
+            'CarTransfer'   => CarTransfer::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
+            'FlightBooking' => FlightBooking::findOrFail($id),
+            'HotelBooking'  => HotelBooking::with('hotel')->findOrFail($id),
+            default         => abort(404),
         };
     }
 
@@ -116,22 +128,33 @@ class BookingController extends Controller
             'client' => $booking->names,
             'email' => $booking->email,
             'phone' => $booking->phone_number,
-            'message' => $booking->message ?: 'No extra details provided.',
-            'price' => $booking->price,
-            'location' => $booking->pickup_location ?? $booking->delivery_location ?? null,
-            'destination' => $booking->destination ?? null,
+            'message' => $booking->message ?: ($booking->additional_info ?? 'No extra details provided.'),
+            'price'   => $booking->price ?? null,
+        ] + ($modelType === 'FlightBooking' ? [
+            'location'       => $booking->departure_airport ?? null,
+            'destination'    => $booking->arrival_airport ?? null,
+            'number_of_people' => $booking->number_of_passengers ?? null,
+        ] : ($modelType === 'HotelBooking' ? [
+            'location'       => $booking->check_in  ? 'Check-in: '  . $booking->check_in->format('d M Y')  : null,
+            'destination'    => $booking->check_out ? 'Check-out: ' . $booking->check_out->format('d M Y') : null,
+            'number_of_people' => $booking->number_of_guests ?? null,
+        ] : [
+            'location'       => $booking->pickup_location ?? $booking->delivery_location ?? null,
+            'destination'    => $booking->destination ?? null,
             'number_of_days' => $booking->number_of_days ?? null,
             'number_of_people' => $booking->number_of_people ?? null,
-        ];
+        ]));
     }
 
     private function resolveServiceLabel(string $modelType): string
     {
         return match ($modelType) {
-            'TourBooking' => 'Tour & Travel',
-            'CarBooking' => 'Car Rental',
-            'CarTransfer' => 'Transfers',
-            default => 'Booking',
+            'TourBooking'   => 'Tour & Travel',
+            'CarBooking'    => 'Car Rental',
+            'CarTransfer'   => 'Transfers',
+            'FlightBooking' => 'Air Ticketing',
+            'HotelBooking'  => 'Hotel Booking',
+            default         => 'Booking',
         };
     }
 
@@ -139,6 +162,14 @@ class BookingController extends Controller
     {
         if ($modelType === 'TourBooking') {
             return $booking->tour->title ?? 'Tour Booking';
+        }
+
+        if ($modelType === 'FlightBooking') {
+            return trim(($booking->departure_airport ?? '') . ' → ' . ($booking->arrival_airport ?? '')) ?: 'Flight Booking';
+        }
+
+        if ($modelType === 'HotelBooking') {
+            return optional($booking->hotel)->name ?? ($booking->room_type ?? 'Hotel Booking');
         }
 
         $vehicle = $booking->vehicle?->first();
@@ -163,6 +194,14 @@ class BookingController extends Controller
 
         if ($booking instanceof CarBooking) {
             return $booking->delivery_date;
+        }
+
+        if ($booking instanceof FlightBooking) {
+            return $booking->departure_date?->toDateString();
+        }
+
+        if ($booking instanceof HotelBooking) {
+            return $booking->check_in?->toDateString();
         }
 
         return $booking->pickup_date;

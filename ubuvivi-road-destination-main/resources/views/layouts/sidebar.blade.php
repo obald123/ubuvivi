@@ -37,18 +37,6 @@
             'patterns' => ['admin/hotels*'],
         ],
         [
-            'label' => 'Hotel Bookings',
-            'route' => route('admin.hotel_bookings.index'),
-            'icon' => 'fas fa-bed',
-            'patterns' => ['admin/hotel-bookings*'],
-        ],
-        [
-            'label' => 'Flight Bookings',
-            'route' => route('admin.flight_bookings.index'),
-            'icon' => 'fas fa-plane',
-            'patterns' => ['admin/flight-bookings*'],
-        ],
-        [
             'label' => 'Profile',
             'route' => route('profile.index'),
             'icon' => 'fas fa-user',

@@ -165,22 +165,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/blog/{id}', [App\Http\Controllers\Admin\BlogController::class, 'update'])->name('blog.admin.update');
     Route::delete('/admin/blog/{id}', [App\Http\Controllers\Admin\BlogController::class, 'destroy'])->name('blog.admin.destroy');
 
-    // Flight Bookings
-    Route::get('/admin/flight-bookings', [App\Http\Controllers\Admin\FlightBookingController::class, 'index'])->name('admin.flight_bookings.index');
-    Route::post('/admin/flight-bookings/{id}/status', [App\Http\Controllers\Admin\FlightBookingController::class, 'updateStatus'])->name('admin.flight_bookings.updateStatus');
-    Route::delete('/admin/flight-bookings/{id}', [App\Http\Controllers\Admin\FlightBookingController::class, 'destroy'])->name('admin.flight_bookings.destroy');
-
     // Hotels
     Route::get('/admin/hotels', [App\Http\Controllers\Admin\HotelController::class, 'index'])->name('admin.hotels.index');
     Route::post('/admin/hotels', [App\Http\Controllers\Admin\HotelController::class, 'store'])->name('admin.hotels.store');
     Route::get('/admin/hotels/{id}/data', [App\Http\Controllers\Admin\HotelController::class, 'getData'])->name('admin.hotels.getData');
     Route::put('/admin/hotels/{id}', [App\Http\Controllers\Admin\HotelController::class, 'update'])->name('admin.hotels.update');
     Route::delete('/admin/hotels/{id}', [App\Http\Controllers\Admin\HotelController::class, 'destroy'])->name('admin.hotels.destroy');
-
-    // Hotel Bookings
-    Route::get('/admin/hotel-bookings', [App\Http\Controllers\Admin\HotelBookingController::class, 'index'])->name('admin.hotel_bookings.index');
-    Route::post('/admin/hotel-bookings/{id}/status', [App\Http\Controllers\Admin\HotelBookingController::class, 'updateStatus'])->name('admin.hotel_bookings.updateStatus');
-    Route::delete('/admin/hotel-bookings/{id}', [App\Http\Controllers\Admin\HotelBookingController::class, 'destroy'])->name('admin.hotel_bookings.destroy');
 
     // Notifications
     Route::get('/admin/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('admin.notifications.index');

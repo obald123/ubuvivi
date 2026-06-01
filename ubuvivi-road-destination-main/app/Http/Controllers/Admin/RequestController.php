@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\TourBooking;
 use App\Models\CarBooking;
 use App\Models\CarTransfer;
+use App\Models\FlightBooking;
+use App\Models\HotelBooking;
 use Carbon\Carbon;
 
 class RequestController extends Controller
@@ -22,9 +24,17 @@ class RequestController extends Controller
         $carTransfers = CarTransfer::with(['vehicle.brand', 'vehicle.model'])->get()
             ->map(fn (CarTransfer $booking) => $this->mapRequestRow($booking, 'CarTransfer'));
 
+        $flightBookings = FlightBooking::all()
+            ->map(fn (FlightBooking $booking) => $this->mapRequestRow($booking, 'FlightBooking'));
+
+        $hotelBookings = HotelBooking::with('hotel')->get()
+            ->map(fn (HotelBooking $booking) => $this->mapRequestRow($booking, 'HotelBooking'));
+
         $allRequests = $tourBookings
             ->concat($carBookings)
             ->concat($carTransfers)
+            ->concat($flightBookings)
+            ->concat($hotelBookings)
             ->sortByDesc('sort_date')
             ->values();
 
@@ -71,10 +81,12 @@ class RequestController extends Controller
     private function findRequest(string $type, int $id)
     {
         return match ($type) {
-            'TourBooking' => TourBooking::with('tour')->findOrFail($id),
-            'CarBooking' => CarBooking::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
-            'CarTransfer' => CarTransfer::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
-            default => abort(404),
+            'TourBooking'   => TourBooking::with('tour')->findOrFail($id),
+            'CarBooking'    => CarBooking::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
+            'CarTransfer'   => CarTransfer::with(['vehicle.brand', 'vehicle.model'])->findOrFail($id),
+            'FlightBooking' => FlightBooking::findOrFail($id),
+            'HotelBooking'  => HotelBooking::with('hotel')->findOrFail($id),
+            default         => abort(404),
         };
     }
 
@@ -105,31 +117,45 @@ class RequestController extends Controller
     {
         $date = $this->resolveRequestDate($request);
 
-        return [
-            'id' => $request->id,
+        $extra = [];
+        if ($modelType === 'FlightBooking') {
+            $extra['location']       = $request->departure_airport ?? null;
+            $extra['destination']    = $request->arrival_airport ?? null;
+            $extra['number_of_people'] = $request->number_of_passengers ?? null;
+        } elseif ($modelType === 'HotelBooking') {
+            $extra['location']       = $request->check_in  ? 'Check-in: '  . $request->check_in->format('d M Y')  : null;
+            $extra['destination']    = $request->check_out ? 'Check-out: ' . $request->check_out->format('d M Y') : null;
+            $extra['number_of_people'] = $request->number_of_guests ?? null;
+        } else {
+            $extra['location']       = $request->pickup_location ?? $request->delivery_location ?? null;
+            $extra['destination']    = $request->destination ?? null;
+            $extra['number_of_days'] = $request->number_of_days ?? null;
+            $extra['number_of_people'] = $request->number_of_people ?? null;
+        }
+
+        return array_merge([
+            'id'      => $request->id,
             'service' => $this->resolveServiceLabel($modelType),
-            'type' => $this->resolveTypeLabel($request, $modelType),
-            'status' => $this->getApprovalLabel($request),
-            'date' => $this->formatRequestDate($date),
-            'client' => $request->names,
-            'email' => $request->email,
-            'phone' => $request->phone_number,
-            'message' => $request->message ?: 'No extra details provided.',
-            'price' => $request->price,
-            'location' => $request->pickup_location ?? $request->delivery_location ?? null,
-            'destination' => $request->destination ?? null,
-            'number_of_days' => $request->number_of_days ?? null,
-            'number_of_people' => $request->number_of_people ?? null,
-        ];
+            'type'    => $this->resolveTypeLabel($request, $modelType),
+            'status'  => $this->getApprovalLabel($request),
+            'date'    => $this->formatRequestDate($date),
+            'client'  => $request->names,
+            'email'   => $request->email,
+            'phone'   => $request->phone_number,
+            'message' => $request->message ?: ($request->additional_info ?? 'No extra details provided.'),
+            'price'   => $request->price ?? null,
+        ], $extra);
     }
 
     private function resolveServiceLabel(string $modelType): string
     {
         return match ($modelType) {
-            'TourBooking' => 'Tour & Travel',
-            'CarBooking' => 'Car Rental',
-            'CarTransfer' => 'Transfers',
-            default => 'Request',
+            'TourBooking'   => 'Tour & Travel',
+            'CarBooking'    => 'Car Rental',
+            'CarTransfer'   => 'Transfers',
+            'FlightBooking' => 'Air Ticketing',
+            'HotelBooking'  => 'Hotel Booking',
+            default         => 'Request',
         };
     }
 
@@ -141,6 +167,14 @@ class RequestController extends Controller
 
         if ($modelType === 'CarTransfer') {
             return $request->destination ?: 'Transfer Request';
+        }
+
+        if ($modelType === 'FlightBooking') {
+            return trim(($request->departure_airport ?? '') . ' → ' . ($request->arrival_airport ?? '')) ?: 'Flight Request';
+        }
+
+        if ($modelType === 'HotelBooking') {
+            return optional($request->hotel)->name ?? ($request->room_type ?? 'Hotel Request');
         }
 
         $vehicle = $request->vehicle?->first();
@@ -165,6 +199,14 @@ class RequestController extends Controller
 
         if ($request instanceof CarBooking) {
             return $request->delivery_date;
+        }
+
+        if ($request instanceof FlightBooking) {
+            return $request->departure_date?->toDateString();
+        }
+
+        if ($request instanceof HotelBooking) {
+            return $request->check_in?->toDateString();
         }
 
         return $request->pickup_date;
