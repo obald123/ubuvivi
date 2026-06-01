@@ -415,10 +415,14 @@
                     <h3>Let's Plan Your Next Journey</h3>
                     <p>Get updates on tours, travel tips, and exclusive offers across Rwanda.</p>
                 </div>
-                <form class="subscribe-form" onsubmit="return false;">
-                    <input type="email" placeholder="Enter your Email">
+                <form class="subscribe-form" action="{{ route('newsletter.subscribe') }}" method="POST">
+                    @csrf
+                    <input type="email" name="email" placeholder="Enter your Email" required>
                     <button type="submit">Subscribe</button>
                 </form>
+                @if(session('subscribed'))
+                    <p style="color:#C85A2A;font-size:13px;margin-top:8px;font-weight:600;">{{ session('subscribed') }}</p>
+                @endif
             </div>
 
             <div class="footer-cols-row">

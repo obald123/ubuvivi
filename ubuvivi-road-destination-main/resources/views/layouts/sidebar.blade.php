@@ -37,6 +37,12 @@
             'patterns' => ['admin/hotels*'],
         ],
         [
+            'label' => 'Newsletter',
+            'route' => route('admin.subscribers.index'),
+            'icon' => 'fas fa-envelope-open-text',
+            'patterns' => ['admin/subscribers*'],
+        ],
+        [
             'label' => 'Profile',
             'route' => route('profile.index'),
             'icon' => 'fas fa-user',

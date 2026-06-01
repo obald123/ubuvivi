@@ -59,6 +59,11 @@ Route::controller(GuestController::class)->group(function () {
     Route::get("/blog", 'blog_list')->name("blog.index");
     Route::get("/blog/{slug}", 'blog_show')->name("blog.show");
 
+    Route::get("/hotels/search", 'booking_com_search')->name("guest.hotels.search");
+    Route::get("/hotels/search/results", 'booking_com_results')->name("guest.hotels.results");
+
+    Route::post("/newsletter/subscribe", 'newsletter_subscribe')->name("newsletter.subscribe");
+
     Route::get("/booking/confirmed", 'bookingConfirmed')->name("booking.confirmed");
 
     Route::post("/air-ticketing/book", 'air_ticketing_store')->name("air.ticketing.store");
@@ -171,6 +176,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/hotels/{id}/data', [App\Http\Controllers\Admin\HotelController::class, 'getData'])->name('admin.hotels.getData');
     Route::put('/admin/hotels/{id}', [App\Http\Controllers\Admin\HotelController::class, 'update'])->name('admin.hotels.update');
     Route::delete('/admin/hotels/{id}', [App\Http\Controllers\Admin\HotelController::class, 'destroy'])->name('admin.hotels.destroy');
+
+    // Newsletter Subscribers
+    Route::get('/admin/subscribers', [App\Http\Controllers\Admin\SubscriberController::class, 'index'])->name('admin.subscribers.index');
+    Route::delete('/admin/subscribers/{id}', [App\Http\Controllers\Admin\SubscriberController::class, 'destroy'])->name('admin.subscribers.destroy');
+    Route::post('/admin/subscribers/send', [App\Http\Controllers\Admin\SubscriberController::class, 'sendNewsletter'])->name('admin.subscribers.send');
 
     // Notifications
     Route::get('/admin/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('admin.notifications.index');

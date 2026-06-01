@@ -30,4 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'rapidapi' => [
+        'booking_key' => env('RAPIDAPI_BOOKING_KEY'),
+    ],
+
 ];

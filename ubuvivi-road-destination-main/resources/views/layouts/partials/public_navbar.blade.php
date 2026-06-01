@@ -6,6 +6,7 @@
         || request()->is('events*')
         || request()->is('air-ticketing*')
         || request()->is('hotel-booking*')
+        || request()->is('hotels*')
         || request()->is('tours-booking*');
 
     $accountRoute = route('login');
@@ -32,6 +33,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ $servicesActive ? 'active-link' : '' }}" href="{{ route('guest.all_services') }}">Our Service</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('hotels*') ? 'active-link' : '' }}" href="{{ route('guest.hotels.search') }}">Hotels</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('blog.*') ? 'active-link' : '' }}" href="{{ route('blog.index') }}">Blog</a>
