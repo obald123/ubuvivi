@@ -47,30 +47,25 @@
     }
 
     /* ── Search Bar ── */
-    .at-search-bar { background: var(--navy); padding: 24px 0 28px; }
-    .at-search-pills {
-        display: flex; align-items: center; gap: 8px;
-        margin-bottom: 18px; flex-wrap: wrap;
+    .at-search-bar { background: var(--navy); padding: 28px 0 32px; }
+    .at-trip-toggle {
+        display: flex; align-items: center; gap: 6px;
+        margin-bottom: 14px;
     }
-    .at-pill {
+    .at-trip-btn {
         display: inline-flex; align-items: center; gap: 6px;
-        background: rgba(255,255,255,.1);
-        border: 1px solid rgba(255,255,255,.2);
-        color: rgba(255,255,255,.9);
-        padding: 6px 16px; border-radius: 20px;
-        font-size: 13px; cursor: pointer;
-        transition: background .2s; user-select: none;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.22);
+        color: rgba(255,255,255,.85);
+        padding: 7px 18px; border-radius: 50px;
+        font-size: 13px; font-weight: 500; cursor: pointer;
+        transition: all .2s; user-select: none;
     }
-    .at-pill.active {
-        background: rgba(255,255,255,.95);
-        color: var(--navy); border-color: transparent; font-weight: 600;
+    .at-trip-btn.active {
+        background: #fff; color: var(--navy);
+        border-color: transparent; font-weight: 700;
     }
-    .at-pill:not(.active):hover { background: rgba(255,255,255,.2); }
-    .at-pill select {
-        background: transparent; border: none; outline: none;
-        color: inherit; font-size: 13px; cursor: pointer; padding: 0;
-    }
-    .at-pill.active select { color: var(--navy); }
+    .at-trip-btn:not(.active):hover { background: rgba(255,255,255,.22); }
 
     /* ── Inputs Row ── */
     .at-inputs-row {
@@ -78,35 +73,46 @@
         background: #fff; border-radius: 12px; overflow: hidden;
     }
     .at-input-group {
-        flex: 1; display: flex; align-items: center; gap: 10px;
-        padding: 14px 18px; border-right: 1px solid #ececec; min-width: 0;
+        flex: 1; display: flex; flex-direction: column;
+        justify-content: center; padding: 12px 18px;
+        border-right: 1px solid #ececec; min-width: 0;
     }
     .at-input-group:last-of-type { border-right: none; }
-    .at-input-group i { color: #aaa; font-size: 14px; flex-shrink: 0; }
-    .at-input-group input {
-        border: none; outline: none; background: transparent;
-        font-size: 14px; color: #333; width: 100%; min-width: 0;
+    .at-input-label {
+        font-size: 11px; color: #aaa; text-transform: uppercase;
+        letter-spacing: .5px; margin-bottom: 4px;
+        display: flex; align-items: center; gap: 6px;
     }
-    .at-input-group input::placeholder { color: #bbb; }
-    .at-date-sep { color: #ddd; margin: 0 4px; flex-shrink: 0; }
-    .at-swap-wrap {
-        display: flex; align-items: center; flex-shrink: 0;
-        padding: 0 4px; background: #fff;
+    .at-input-label i { color: var(--orange); font-size: 12px; }
+    .at-input-group input,
+    .at-input-group select {
+        border: none; outline: none; background: transparent;
+        font-size: 15px; color: #1a1a1a; width: 100%;
+        font-weight: 500; min-width: 0;
+    }
+    .at-input-group input::placeholder { color: #bbb; font-weight: 400; }
+    .at-input-group select option { color: #333; }
+    .at-swap-col {
+        display: flex; align-items: center; justify-content: center;
+        padding: 0 6px; background: #fff; flex-shrink: 0;
     }
     .at-swap-btn {
-        width: 36px; height: 36px; border-radius: 50%;
+        width: 34px; height: 34px; border-radius: 50%;
         background: var(--navy); color: #fff; border: none;
         display: flex; align-items: center; justify-content: center;
-        cursor: pointer; font-size: 12px;
+        cursor: pointer; font-size: 13px; flex-shrink: 0;
         transition: background .2s;
     }
     .at-swap-btn:hover { background: var(--orange); }
+    .at-search-btn-wrap {
+        display: flex; align-items: center; padding: 8px; flex-shrink: 0;
+    }
     .at-search-submit {
-        display: flex; align-items: center; justify-content: center;
-        width: 54px; height: 54px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
         background: var(--navy); color: #fff; border: none;
-        cursor: pointer; font-size: 18px; margin: 6px;
-        flex-shrink: 0; transition: background .2s;
+        border-radius: 10px; padding: 14px 24px;
+        font-size: 15px; font-weight: 700; cursor: pointer;
+        white-space: nowrap; transition: background .2s;
     }
     .at-search-submit:hover { background: var(--orange); }
 
@@ -243,13 +249,18 @@
     .at-form-input:focus { border-color: #0D1F35; }
     textarea.at-form-input { resize: vertical; min-height: 100px; }
 
-    @media (max-width: 768px) {
-        .at-inputs-row { flex-direction: column; gap: 0; }
-        .at-input-group { border-right: none; border-bottom: 1px solid #ececec; }
-        .at-input-group:last-of-type { border-bottom: none; }
-        .at-search-submit { width: calc(100% - 12px); border-radius: 8px; height: 48px; }
-        .at-swap-wrap { justify-content: center; padding: 8px; }
+    @media (max-width: 991px) {
+        .at-inputs-row { flex-wrap: wrap; }
+        .at-input-group { flex: 0 0 calc(50% - 1px); border-bottom: 1px solid #ececec; }
+        .at-swap-col { order: -1; display: none; }
+        .at-search-btn-wrap { flex: 0 0 100%; padding: 8px; }
+        .at-search-submit { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 575px) {
+        .at-input-group { flex: 0 0 100%; }
         .dest-slider-wrap { padding: 0 36px; }
+    }
+    @media (max-width: 768px) {
         .flight-row { flex-direction: column; align-items: flex-start; gap: 12px; }
         .fl-airline, .fl-price-col { flex: unset; }
         .fl-price-col { text-align: left; }
@@ -275,58 +286,63 @@
     {{-- ── Search Bar ── --}}
     <div class="at-search-bar">
         <div class="container">
-            {{-- Pills --}}
-            <div class="at-search-pills">
-                <span class="at-pill active" id="pill-round" onclick="setTripType('round')">
+            {{-- Trip type toggle --}}
+            <div class="at-trip-toggle">
+                <button type="button" class="at-trip-btn active" id="btn-round" onclick="setTripType('round')">
                     <i class="fas fa-exchange-alt"></i> Round Trip
-                </span>
-                <span class="at-pill" id="pill-oneway" onclick="setTripType('oneway')">One Way</span>
-
-                <span class="at-pill" style="padding: 4px 4px 4px 12px;">
-                    <i class="fas fa-user"></i>
-                    <select id="passSelect" onchange="updatePassLabel(this)" style="background:transparent;border:none;outline:none;color:inherit;font-size:13px;cursor:pointer;">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5+</option>
-                    </select>
-                    <span id="passLabel">Passenger</span>
-                </span>
-
-                <span class="at-pill" style="padding: 4px 4px 4px 12px;">
-                    <select id="classSelect" style="background:transparent;border:none;outline:none;color:inherit;font-size:13px;cursor:pointer;">
-                        <option>Economy</option>
-                        <option>Business</option>
-                        <option>First Class</option>
-                    </select>
-                </span>
+                </button>
+                <button type="button" class="at-trip-btn" id="btn-oneway" onclick="setTripType('oneway')">
+                    One Way
+                </button>
             </div>
 
-            {{-- Inputs --}}
+            {{-- Inputs row --}}
             <div class="at-inputs-row">
-                <div class="at-input-group" style="flex:1.3;">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <input type="text" id="fromInput" placeholder="From" value="Kigali">
+                <div class="at-input-group" style="flex:1.4;">
+                    <div class="at-input-label"><i class="fas fa-plane-departure"></i> From</div>
+                    <input type="text" id="fromInput" placeholder="Departure city" value="Kigali">
                 </div>
-                <div class="at-swap-wrap">
-                    <button class="at-swap-btn" onclick="swapLocations()" title="Swap">
+                <div class="at-swap-col">
+                    <button class="at-swap-btn" onclick="swapLocations()" title="Swap destinations">
                         <i class="fas fa-exchange-alt"></i>
                     </button>
                 </div>
-                <div class="at-input-group" style="flex:1.3;">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <input type="text" id="toInput" placeholder="To" value="Paris">
+                <div class="at-input-group" style="flex:1.4;">
+                    <div class="at-input-label"><i class="fas fa-plane-arrival"></i> To</div>
+                    <input type="text" id="toInput" placeholder="Destination city" value="Paris">
                 </div>
-                <div class="at-input-group" style="flex:1.6;">
-                    <i class="fas fa-calendar-alt"></i>
-                    <input type="date" id="depDate" title="Departure">
-                    <span class="at-date-sep" id="dateSep">|</span>
-                    <input type="date" id="retDate" title="Return" id="retDateField">
+                <div class="at-input-group">
+                    <div class="at-input-label"><i class="fas fa-calendar-alt"></i> Depart</div>
+                    <input type="date" id="depDate">
                 </div>
-                <button class="at-search-submit" onclick="searchFlights()" title="Search Flights">
-                    <i class="fas fa-search"></i>
-                </button>
+                <div class="at-input-group" id="retDateGroup">
+                    <div class="at-input-label"><i class="fas fa-calendar-alt"></i> Return</div>
+                    <input type="date" id="retDate">
+                </div>
+                <div class="at-input-group" style="flex:0 0 130px;">
+                    <div class="at-input-label"><i class="fas fa-user-friends"></i> Passengers</div>
+                    <select id="passSelect">
+                        <option value="1">1 Passenger</option>
+                        <option value="2">2 Passengers</option>
+                        <option value="3">3 Passengers</option>
+                        <option value="4">4 Passengers</option>
+                        <option value="5">5+ Passengers</option>
+                    </select>
+                </div>
+                <div class="at-input-group" style="flex:0 0 130px;">
+                    <div class="at-input-label"><i class="fas fa-chair"></i> Class</div>
+                    <select id="classSelect">
+                        <option>Economy</option>
+                        <option>Business</option>
+                        <option>First Class</option>
+                        <option>Premium Economy</option>
+                    </select>
+                </div>
+                <div class="at-search-btn-wrap">
+                    <button class="at-search-submit" onclick="searchFlights()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -341,19 +357,19 @@
                 <div class="dest-track" id="destTrack">
                     @php
                     $destinations = [
-                        ['name' => 'Zanzibar',  'country' => 'Tanzania',      'bg' => 'download (3).jpg'],
-                        ['name' => 'Istanbul',  'country' => 'Turkey',         'bg' => 'download (5).jpg'],
-                        ['name' => 'Cairo',     'country' => 'Egypt',          'bg' => 'unnamed.jpg'],
-                        ['name' => 'Paris',     'country' => 'France',         'bg' => 'download (4).jpg'],
-                        ['name' => 'Dubai',     'country' => 'UAE',            'bg' => 'bg_13.jpg'],
-                        ['name' => 'Nairobi',   'country' => 'Kenya',          'bg' => 'bg_14.jpg'],
-                        ['name' => 'New York',  'country' => 'United States',  'bg' => 'bg_15.jpg'],
+                        ['name' => 'Zanzibar',  'country' => 'Tanzania',      'img' => asset('assets/images/backgrounds/download (3).jpg')],
+                        ['name' => 'Istanbul',  'country' => 'Turkey',        'img' => asset('assets/images/backgrounds/download (5).jpg')],
+                        ['name' => 'Cairo',     'country' => 'Egypt',         'img' => asset('assets/images/backgrounds/unnamed.jpg')],
+                        ['name' => 'Paris',     'country' => 'France',        'img' => asset('assets/images/backgrounds/download (4).jpg')],
+                        ['name' => 'Dubai',     'country' => 'UAE',           'img' => asset('images/dubai.jpg')],
+                        ['name' => 'Nairobi',   'country' => 'Kenya',         'img' => asset('images/nairobi.jpg')],
+                        ['name' => 'New York',  'country' => 'United States', 'img' => asset('images/new-york.jpg')],
                     ];
                     @endphp
                     @foreach($destinations as $dest)
                     <div class="dest-slide">
                         <div class="dest-card">
-                            <div class="dest-card-img" style="background-image: url('{{ asset('assets/images/backgrounds/'.$dest['bg']) }}');"></div>
+                            <div class="dest-card-img" style="background-image: url('{{ $dest['img'] }}');"></div>
                             <div class="dest-card-body">
                                 <div class="dest-name">{{ $dest['name'] }}</div>
                                 <div class="dest-country">{{ $dest['country'] }}</div>
@@ -508,26 +524,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function setTripType(type) {
-    const roundPill  = document.getElementById('pill-round');
-    const onewayPill = document.getElementById('pill-oneway');
-    const retDate    = document.getElementById('retDate');
-    const dateSep    = document.getElementById('dateSep');
-    if (type === 'round') {
-        roundPill.classList.add('active');
-        onewayPill.classList.remove('active');
-        retDate.style.display = '';
-        dateSep.style.display = '';
-    } else {
-        onewayPill.classList.add('active');
-        roundPill.classList.remove('active');
-        retDate.style.display = 'none';
-        dateSep.style.display = 'none';
-    }
-}
-
-function updatePassLabel(sel) {
-    document.getElementById('passLabel').textContent =
-        parseInt(sel.value) > 1 ? 'Passengers' : 'Passenger';
+    document.getElementById('btn-round').classList.toggle('active',  type === 'round');
+    document.getElementById('btn-oneway').classList.toggle('active', type === 'oneway');
+    const retGroup = document.getElementById('retDateGroup');
+    if (retGroup) retGroup.style.display = type === 'oneway' ? 'none' : '';
 }
 
 function swapLocations() {

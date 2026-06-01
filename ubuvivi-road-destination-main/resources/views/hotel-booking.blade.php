@@ -279,19 +279,19 @@
                 <div class="dest-track" id="hotelDestTrack">
                     @php
                     $hotelDests = [
-                        ['name' => 'Kigali',     'tag' => 'Rwanda',   'bg' => 'download (6).jpg'],
-                        ['name' => 'Musanze',    'tag' => 'Rwanda',   'bg' => 'download (7).jpg'],
-                        ['name' => 'Rubavu',     'tag' => 'Rwanda',   'bg' => 'download (8).jpg'],
-                        ['name' => 'Karongi',    'tag' => 'Rwanda',   'bg' => 'images.jpg'],
-                        ['name' => 'Nyungwe',    'tag' => 'Rwanda',   'bg' => 'bg_7.jpg'],
-                        ['name' => 'Akagera',    'tag' => 'Rwanda',   'bg' => 'bg_8.jpg'],
-                        ['name' => 'Huye',       'tag' => 'Rwanda',   'bg' => 'bg_9.jpg'],
+                        ['name' => 'Kigali',  'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/download (6).jpg')],
+                        ['name' => 'Musanze', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/download (7).jpg')],
+                        ['name' => 'Rubavu',  'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/download (8).jpg')],
+                        ['name' => 'Karongi', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/images.jpg')],
+                        ['name' => 'Nyungwe', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/bg_7.jpg')],
+                        ['name' => 'Akagera', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/bg_8.jpg')],
+                        ['name' => 'Huye',    'tag' => 'Rwanda', 'img' => asset('images/huye.jpg')],
                     ];
                     @endphp
                     @foreach($hotelDests as $d)
                     <div class="dest-slide">
                         <div class="hb-dest-card">
-                            <div class="hb-dest-img" style="background-image: url('{{ asset('assets/images/backgrounds/'.$d['bg']) }}');"></div>
+                            <div class="hb-dest-img" style="background-image: url('{{ $d['img'] }}');"></div>
                             <div class="hb-dest-body">
                                 <div class="hb-dest-name">{{ $d['name'] }}</div>
                                 <div class="hb-dest-tag">{{ $d['tag'] }}</div>
