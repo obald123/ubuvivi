@@ -199,7 +199,7 @@
                         @if($post->image)
                             <img src="{{ $post->image }}" alt="{{ $post->title }}" class="blog-card-img">
                         @else
-                            <div class="blog-card-no-img"><i class="fas fa-newspaper"></i></div>
+                            <img src="{{ asset('images/conference-hero.webp') }}" alt="{{ $post->title }}" class="blog-card-img">
                         @endif
                         <div class="blog-card-body">
                             <span class="blog-card-tag tag-{{ $post->category }}">{{ $post->category_label }}</span>

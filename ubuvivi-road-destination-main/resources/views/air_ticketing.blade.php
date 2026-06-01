@@ -121,7 +121,8 @@
         width: 60px; height: 3px; background: var(--orange);
         margin: 0 auto 42px; border-radius: 2px;
     }
-    .dest-slider-wrap { position: relative; padding: 0 52px; }
+    .dest-slider-wrap { position: relative; padding: 0 52px; overflow: hidden; }
+    .dest-track { display: flex; gap: 0; transition: transform .4s ease; will-change: transform; }
     .slider-arrow-btn {
         position: absolute; top: 50%; transform: translateY(-50%);
         width: 40px; height: 40px; border-radius: 50%;
@@ -134,6 +135,11 @@
     .slider-arrow-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
     .slider-arrow-btn.prev-btn { left: 0; }
     .slider-arrow-btn.next-btn { right: 0; }
+    .dest-slide {
+        flex: 0 0 25%; max-width: 25%; padding: 0 10px; box-sizing: border-box;
+    }
+    @media (max-width: 991px) { .dest-slide { flex: 0 0 50%; max-width: 50%; } }
+    @media (max-width: 575px) { .dest-slide { flex: 0 0 100%; max-width: 100%; } }
     .dest-card {
         background: #fff; border-radius: 14px; overflow: hidden;
         box-shadow: 0 2px 18px rgba(0,0,0,.08);
@@ -330,19 +336,22 @@
         <div class="container">
             <h2 class="section-h">popular Destinations</h2>
             <div class="dest-underline"></div>
-            <div class="dest-slider-wrap">
+            <div class="dest-slider-wrap" id="destSliderWrap">
                 <button class="slider-arrow-btn prev-btn" onclick="slideDest(-1)">&#8249;</button>
-                <div class="row">
+                <div class="dest-track" id="destTrack">
                     @php
                     $destinations = [
-                        ['name' => 'Zanzibar',  'country' => 'Tanzania', 'bg' => 'download (3).jpg'],
-                        ['name' => 'Istanbul',  'country' => 'Turkey',   'bg' => 'download (5).jpg'],
-                        ['name' => 'Cairo',     'country' => 'Egypt',    'bg' => 'unnamed.jpg'],
-                        ['name' => 'Paris',     'country' => 'France',   'bg' => 'download (4).jpg'],
+                        ['name' => 'Zanzibar',  'country' => 'Tanzania',      'bg' => 'download (3).jpg'],
+                        ['name' => 'Istanbul',  'country' => 'Turkey',         'bg' => 'download (5).jpg'],
+                        ['name' => 'Cairo',     'country' => 'Egypt',          'bg' => 'unnamed.jpg'],
+                        ['name' => 'Paris',     'country' => 'France',         'bg' => 'download (4).jpg'],
+                        ['name' => 'Dubai',     'country' => 'UAE',            'bg' => 'bg_13.jpg'],
+                        ['name' => 'Nairobi',   'country' => 'Kenya',          'bg' => 'bg_14.jpg'],
+                        ['name' => 'New York',  'country' => 'United States',  'bg' => 'bg_15.jpg'],
                     ];
                     @endphp
                     @foreach($destinations as $dest)
-                    <div class="col-6 col-md-3 mb-4">
+                    <div class="dest-slide">
                         <div class="dest-card">
                             <div class="dest-card-img" style="background-image: url('{{ asset('assets/images/backgrounds/'.$dest['bg']) }}');"></div>
                             <div class="dest-card-body">
@@ -531,11 +540,15 @@ function searchFlights() {
     document.querySelector('.flights-section').scrollIntoView({ behavior: 'smooth' });
 }
 
+var destIdx = 0;
 function slideDest(dir) {
-    const grid = document.querySelector('.dest-slider-wrap .row');
-    grid.style.transition = 'opacity .3s';
-    grid.style.opacity = '0.6';
-    setTimeout(() => { grid.style.opacity = '1'; }, 300);
+    const track = document.getElementById('destTrack');
+    const slides = track.querySelectorAll('.dest-slide');
+    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
+    const maxIdx = Math.max(0, slides.length - visibleCount);
+    destIdx = Math.min(Math.max(destIdx + dir, 0), maxIdx);
+    const slideW = track.querySelector('.dest-slide').offsetWidth;
+    track.style.transform = 'translateX(-' + (destIdx * slideW) + 'px)';
 }
 
 function toggleReturn(radio) {

@@ -94,7 +94,13 @@
         width: 60px; height: 3px; background: var(--orange);
         margin: 0 auto 42px; border-radius: 2px;
     }
-    .dest-slider-wrap { position: relative; padding: 0 52px; }
+    .dest-slider-wrap { position: relative; padding: 0 52px; overflow: hidden; }
+    .dest-track { display: flex; transition: transform .4s ease; will-change: transform; }
+    .dest-slide {
+        flex: 0 0 25%; max-width: 25%; padding: 0 10px; box-sizing: border-box;
+    }
+    @media (max-width: 991px) { .dest-slide { flex: 0 0 50%; max-width: 50%; } }
+    @media (max-width: 575px) { .dest-slide { flex: 0 0 100%; max-width: 100%; } }
     .slider-arrow-btn {
         position: absolute; top: 50%; transform: translateY(-50%);
         width: 40px; height: 40px; border-radius: 50%;
@@ -268,19 +274,22 @@
         <div class="container">
             <h2 class="hb-section-h">Popular Destinations</h2>
             <div class="hb-underline"></div>
-            <div class="dest-slider-wrap">
+            <div class="dest-slider-wrap" id="hotelDestSliderWrap">
                 <button class="slider-arrow-btn prev-btn" onclick="slideHotelDest(-1)">&#8249;</button>
-                <div class="row">
+                <div class="dest-track" id="hotelDestTrack">
                     @php
                     $hotelDests = [
                         ['name' => 'Kigali',     'tag' => 'Rwanda',   'bg' => 'download (6).jpg'],
                         ['name' => 'Musanze',    'tag' => 'Rwanda',   'bg' => 'download (7).jpg'],
                         ['name' => 'Rubavu',     'tag' => 'Rwanda',   'bg' => 'download (8).jpg'],
                         ['name' => 'Karongi',    'tag' => 'Rwanda',   'bg' => 'images.jpg'],
+                        ['name' => 'Nyungwe',    'tag' => 'Rwanda',   'bg' => 'bg_7.jpg'],
+                        ['name' => 'Akagera',    'tag' => 'Rwanda',   'bg' => 'bg_8.jpg'],
+                        ['name' => 'Huye',       'tag' => 'Rwanda',   'bg' => 'bg_9.jpg'],
                     ];
                     @endphp
                     @foreach($hotelDests as $d)
-                    <div class="col-6 col-md-3 mb-4">
+                    <div class="dest-slide">
                         <div class="hb-dest-card">
                             <div class="hb-dest-img" style="background-image: url('{{ asset('assets/images/backgrounds/'.$d['bg']) }}');"></div>
                             <div class="hb-dest-body">
@@ -444,11 +453,15 @@ function searchHotels() {
     document.querySelector('.featured-hotels-section').scrollIntoView({ behavior: 'smooth' });
 }
 
+var hotelDestIdx = 0;
 function slideHotelDest(dir) {
-    const grid = document.querySelector('.hb-destinations-section .dest-slider-wrap .row');
-    grid.style.transition = 'opacity .3s';
-    grid.style.opacity = '0.6';
-    setTimeout(() => { grid.style.opacity = '1'; }, 300);
+    const track = document.getElementById('hotelDestTrack');
+    const slides = track.querySelectorAll('.dest-slide');
+    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
+    const maxIdx = Math.max(0, slides.length - visibleCount);
+    hotelDestIdx = Math.min(Math.max(hotelDestIdx + dir, 0), maxIdx);
+    const slideW = track.querySelector('.dest-slide').offsetWidth;
+    track.style.transform = 'translateX(-' + (hotelDestIdx * slideW) + 'px)';
 }
 
 function openBookingModal(id, name) {

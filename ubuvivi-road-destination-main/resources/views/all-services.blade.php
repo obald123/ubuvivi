@@ -201,7 +201,7 @@
                 {{-- 2. Air Ticketing — second in plan mode --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.air_ticketing') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_04.jpg') }}" alt="Air Ticketing" class="service-card-img">
+                        <img src="{{ asset('images/ticket.jpg') }}" alt="Air Ticketing" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-plane"></i>
@@ -262,7 +262,7 @@
                 {{-- Conference Planning — full mode only --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.events') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/backgrounds/bg_9.jpg') }}" alt="Conference Planning" class="service-card-img">
+                        <img src="{{ asset('images/conference-hero.webp') }}" alt="Conference Planning" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-calendar-check"></i>
