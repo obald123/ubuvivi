@@ -8,6 +8,7 @@ use App\Mail\AdminBookingMail;
 use App\Models\BlogPost;
 use App\Mail\BookingMail;
 use App\Mail\ContactMail;
+use App\Mail\WelcomeSubscriberMail;
 use App\Models\CarBooking;
 use App\Models\CarTransfer;
 use App\Models\Itinerary;
@@ -1385,7 +1386,13 @@ class GuestController extends Controller
             'subscribed_at' => now(),
         ]);
 
-        return redirect()->back()->with('subscribed', 'Thank you for subscribing! You will receive our latest updates.');
+        try {
+            Mail::to($request->email)->send(new WelcomeSubscriberMail());
+        } catch (\Exception $e) {
+            \Log::warning("Welcome subscriber email failed for {$request->email}: " . $e->getMessage());
+        }
+
+        return redirect()->back()->with('subscribed', 'Thank you for subscribing! A confirmation email has been sent to you.');
     }
 
     // ── Booking.com Hotel Search ────────────────────────────────────────────
@@ -1398,23 +1405,26 @@ class GuestController extends Controller
     public function booking_com_results(Request $request)
     {
         $request->validate([
-            'destination'   => 'required|string|max:255',
-            'check_in'      => 'required|date|after_or_equal:today',
-            'check_out'     => 'required|date|after:check_in',
-            'adults'        => 'required|integer|min:1|max:30',
+            'destination' => 'required|string|max:255',
+            'check_in'    => 'required|date',
+            'check_out'   => 'required|date|after:check_in',
+            'adults'      => 'required|integer|min:1|max:30',
         ]);
 
         $apiKey = config('services.rapidapi.booking_key');
 
+        $viewData = [
+            'hotels'      => [],
+            'destination' => $request->destination,
+            'check_in'    => $request->check_in,
+            'check_out'   => $request->check_out,
+            'adults'      => $request->adults,
+            'error'       => null,
+        ];
+
         if (!$apiKey) {
-            return view('hotels.results', [
-                'hotels'      => [],
-                'destination' => $request->destination,
-                'check_in'    => $request->check_in,
-                'check_out'   => $request->check_out,
-                'adults'      => $request->adults,
-                'error'       => 'Hotel search is not configured yet. Please contact us to book a hotel.',
-            ]);
+            $viewData['error'] = 'Hotel search is not configured yet. Please contact us to book a hotel.';
+            return view('hotels.results', $viewData);
         }
 
         $headers = [
@@ -1422,66 +1432,61 @@ class GuestController extends Controller
             'X-RapidAPI-Host' => 'booking-com15.p.rapidapi.com',
         ];
 
-        // Step 1: resolve destination ID
-        $destResponse = Http::withHeaders($headers)->get(
-            'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination',
-            ['query' => $request->destination]
-        );
+        try {
+            // Step 1: resolve destination ID
+            $destResponse = Http::withHeaders($headers)
+                ->withOptions(['verify' => false])
+                ->timeout(15)
+                ->get('https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination', [
+                    'query' => $request->destination,
+                ]);
 
-        if (!$destResponse->successful()) {
-            return view('hotels.results', [
-                'hotels'      => [],
-                'destination' => $request->destination,
-                'check_in'    => $request->check_in,
-                'check_out'   => $request->check_out,
-                'adults'      => $request->adults,
-                'error'       => 'Could not reach the hotel search service. Please try again later.',
-            ]);
+            if (!$destResponse->successful() || !$destResponse->json('status')) {
+                \Log::warning('Booking.com destination search failed: ' . $destResponse->body());
+                $viewData['error'] = 'Could not reach the hotel search service. Please try again later.';
+                return view('hotels.results', $viewData);
+            }
+
+            $destData = $destResponse->json('data', []);
+
+            if (empty($destData)) {
+                return view('hotels.results', $viewData);
+            }
+
+            // Prefer city result, fallback to first result
+            $dest = collect($destData)->firstWhere('dest_type', 'city') ?? $destData[0];
+            $destId   = $dest['dest_id'];
+            $destType = strtoupper($dest['search_type']); // API needs uppercase: CITY, AIRPORT, etc.
+
+            // Step 2: search hotels
+            $hotelsResponse = Http::withHeaders($headers)
+                ->withOptions(['verify' => false])
+                ->timeout(20)
+                ->get('https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels', [
+                    'dest_id'        => $destId,
+                    'search_type'    => $destType,
+                    'arrival_date'   => $request->check_in,
+                    'departure_date' => $request->check_out,
+                    'adults'         => $request->adults,
+                    'room_qty'       => 1,
+                    'page_number'    => 1,
+                    'languagecode'   => 'en-us',
+                    'currency_code'  => 'USD',
+                ]);
+
+            if (!$hotelsResponse->successful() || !$hotelsResponse->json('status')) {
+                \Log::warning('Booking.com hotel search failed: ' . $hotelsResponse->body());
+                $viewData['error'] = 'Hotel results could not be loaded. Please try again.';
+                return view('hotels.results', $viewData);
+            }
+
+            $viewData['hotels'] = $hotelsResponse->json('data.hotels', []);
+
+        } catch (\Exception $e) {
+            \Log::error('Booking.com API exception: ' . $e->getMessage());
+            $viewData['error'] = 'An error occurred while searching for hotels. Please try again later.';
         }
 
-        $destData = $destResponse->json('data', []);
-        if (empty($destData)) {
-            return view('hotels.results', [
-                'hotels'      => [],
-                'destination' => $request->destination,
-                'check_in'    => $request->check_in,
-                'check_out'   => $request->check_out,
-                'adults'      => $request->adults,
-                'error'       => null,
-            ]);
-        }
-
-        $destId   = $destData[0]['dest_id']    ?? null;
-        $destType = $destData[0]['search_type'] ?? 'CITY';
-
-        // Step 2: search hotels
-        $hotelsResponse = Http::withHeaders($headers)->get(
-            'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels',
-            [
-                'dest_id'        => $destId,
-                'search_type'    => $destType,
-                'arrival_date'   => $request->check_in,
-                'departure_date' => $request->check_out,
-                'adults'         => $request->adults,
-                'room_qty'       => 1,
-                'page_number'    => 1,
-                'languagecode'   => 'en-us',
-                'currency_code'  => 'USD',
-            ]
-        );
-
-        $hotels = [];
-        if ($hotelsResponse->successful()) {
-            $hotels = $hotelsResponse->json('data.hotels', []);
-        }
-
-        return view('hotels.results', [
-            'hotels'      => $hotels,
-            'destination' => $request->destination,
-            'check_in'    => $request->check_in,
-            'check_out'   => $request->check_out,
-            'adults'      => $request->adults,
-            'error'       => null,
-        ]);
+        return view('hotels.results', $viewData);
     }
 }

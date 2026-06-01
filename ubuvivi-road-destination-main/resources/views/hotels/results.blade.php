@@ -188,16 +188,24 @@
         <div class="hotels-grid">
             @forelse($hotels as $hotel)
             @php
-                $property   = $hotel['property'] ?? [];
-                $name       = $property['name'] ?? 'Hotel';
-                $location   = $property['wishlistName'] ?? ($property['countryCode'] ?? '');
-                $stars      = intval($property['propertyClass'] ?? 0);
-                $rating     = $property['reviewScore'] ?? null;
-                $reviewCount= $property['reviewCount'] ?? null;
-                $photo      = $property['photoUrls'][0] ?? null;
-                $currency   = $property['priceBreakdown']['grossPrice']['currency'] ?? 'USD';
-                $price      = $property['priceBreakdown']['grossPrice']['value'] ?? null;
-                $bookingUrl = 'https://www.booking.com/hotel/' . ($property['countryCode'] ?? 'rw') . '/' . \Illuminate\Support\Str::slug($name) . '.html';
+                $property    = $hotel['property'] ?? [];
+                $hotelId     = $hotel['hotel_id'] ?? ($property['id'] ?? null);
+                $name        = $property['name'] ?? 'Hotel';
+                $countryCode = $property['countryCode'] ?? 'rw';
+                $city        = $property['wishlistName'] ?? '';
+                $location    = $city ? $city . ', ' . strtoupper($countryCode) : strtoupper($countryCode);
+                $stars       = intval($property['accuratePropertyClass'] ?? $property['propertyClass'] ?? 0);
+                $rating      = $property['reviewScore'] ?? null;
+                $ratingWord  = $property['reviewScoreWord'] ?? null;
+                $reviewCount = $property['reviewCount'] ?? null;
+                $photo       = $property['photoUrls'][0] ?? null;
+                $breakdown   = $property['priceBreakdown'] ?? [];
+                $currency    = $breakdown['grossPrice']['currency'] ?? 'USD';
+                $price       = $breakdown['grossPrice']['value'] ?? null;
+                $oldPrice    = $breakdown['strikethroughPrice']['value'] ?? null;
+                $bookingUrl  = $hotelId
+                    ? 'https://www.booking.com/hotel/' . $countryCode . '/' . \Illuminate\Support\Str::slug($name) . '.html?aid=304142&hotel_id=' . $hotelId
+                    : 'https://www.booking.com/searchresults.html?ss=' . urlencode($name);
             @endphp
             <div class="hotel-result-card">
                 @if($photo)
@@ -219,12 +227,16 @@
                         <div class="hotel-rating">
                             <i class="fas fa-star" style="color:#f5c518;font-size:10px"></i>
                             {{ number_format($rating, 1) }}
-                            @if($reviewCount) <span style="font-weight:400;opacity:.8">({{ number_format($reviewCount) }})</span> @endif
+                            @if($ratingWord) <span style="font-weight:400;opacity:.85">&nbsp;{{ $ratingWord }}</span> @endif
+                            @if($reviewCount) <span style="font-weight:400;opacity:.7">({{ number_format($reviewCount) }})</span> @endif
                         </div>
                     @endif
                     @if($price)
+                        @if($oldPrice && $oldPrice > $price)
+                            <div style="font-size:12px;color:#aaa;text-decoration:line-through;margin-bottom:2px;">{{ $currency }} {{ number_format($oldPrice, 0) }}</div>
+                        @endif
                         <div class="hotel-price">{{ $currency }} {{ number_format($price, 0) }}</div>
-                        <div class="hotel-price-label">total for stay</div>
+                        <div class="hotel-price-label">total for stay · taxes may apply</div>
                     @endif
                     <div class="hotel-foot">
                         <a href="{{ $bookingUrl }}" target="_blank" rel="noopener" class="btn-book-hotel">

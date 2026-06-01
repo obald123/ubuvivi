@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\UploadsImages;
+use App\Mail\NewsletterMail;
 use App\Models\BlogPost;
+use App\Models\Subscriber;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -43,7 +46,7 @@ class BlogController extends Controller
             }
         }
 
-        BlogPost::create([
+        $post = BlogPost::create([
             'title'        => $request->title,
             'slug'         => Str::slug($request->title) . '-' . uniqid(),
             'category'     => $request->category,
@@ -54,6 +57,10 @@ class BlogController extends Controller
             'published'    => $request->has('published'),
             'published_at' => $request->has('published') ? now() : null,
         ]);
+
+        if ($request->has('published')) {
+            $this->notifySubscribers($post);
+        }
 
         return redirect()->route('blog.admin.index')->with('success', 'Post created successfully.');
     }
@@ -113,6 +120,11 @@ class BlogController extends Controller
             'published_at' => ($nowPublished && !$wasPublished) ? now() : $post->published_at,
         ]);
 
+        // Notify subscribers only when a post is newly published (not re-saved)
+        if ($nowPublished && !$wasPublished) {
+            $this->notifySubscribers($post);
+        }
+
         return redirect()->route('blog.admin.index')->with('success', 'Post updated successfully.');
     }
 
@@ -120,5 +132,28 @@ class BlogController extends Controller
     {
         BlogPost::findOrFail($id)->delete();
         return redirect()->route('blog.admin.index')->with('success', 'Post deleted.');
+    }
+
+    private function notifySubscribers(BlogPost $post): void
+    {
+        $subscribers = Subscriber::all();
+        if ($subscribers->isEmpty()) return;
+
+        $subject = 'New Post: ' . $post->title;
+        $postUrl = route('blog.show', $post->slug);
+        $excerpt = $post->excerpt ?: Str::limit(strip_tags($post->content ?? ''), 200);
+
+        $body = "We just published a new post on the Ubuvivi Tours blog!\n\n"
+              . "📰 {$post->title}\n\n"
+              . ($excerpt ? "{$excerpt}\n\n" : '')
+              . "Read the full post here:\n{$postUrl}";
+
+        foreach ($subscribers as $subscriber) {
+            try {
+                Mail::to($subscriber->email)->send(new NewsletterMail($subject, $body));
+            } catch (\Exception $e) {
+                Log::warning("Blog notification failed for {$subscriber->email}: " . $e->getMessage());
+            }
+        }
     }
 }
