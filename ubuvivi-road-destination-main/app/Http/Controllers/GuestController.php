@@ -1525,6 +1525,183 @@ class GuestController extends Controller
         return view('hotels.results', $viewData);
     }
 
+    // ── Booking.com Flight Search ───────────────────────────────────────────
+
+    public function flight_search()
+    {
+        return view('flights.search');
+    }
+
+    public function flight_results(Request $request)
+    {
+        $request->validate([
+            'from'        => 'required|string|max:100',
+            'to'          => 'required|string|max:100',
+            'depart_date' => 'required|date',
+            'adults'      => 'required|integer|min:1|max:9',
+            'cabin_class' => 'required|in:ECONOMY,PREMIUM_ECONOMY,BUSINESS,FIRST',
+            'trip_type'   => 'required|in:oneway,round',
+            'return_date' => 'required_if:trip_type,round|nullable|date|after:depart_date',
+        ]);
+
+        $apiKey  = config('services.rapidapi.booking_key');
+        $headers = [
+            'X-RapidAPI-Key'  => $apiKey,
+            'X-RapidAPI-Host' => 'booking-com15.p.rapidapi.com',
+        ];
+
+        $viewData = [
+            'flights'     => [],
+            'from'        => $request->from,
+            'to'          => $request->to,
+            'from_id'     => null,
+            'to_id'       => null,
+            'from_city'   => $request->from,
+            'to_city'     => $request->to,
+            'depart_date' => $request->depart_date,
+            'return_date' => $request->return_date,
+            'adults'      => $request->adults,
+            'cabin_class' => $request->cabin_class,
+            'trip_type'   => $request->trip_type,
+            'error'       => null,
+        ];
+
+        if (!$apiKey) {
+            $viewData['error'] = 'Flight search is not configured. Please contact us to book a flight.';
+            return view('flights.results', $viewData);
+        }
+
+        try {
+            // Resolve "from" airport ID
+            $fromResp = Http::withHeaders($headers)->withOptions(['verify' => false])->timeout(10)
+                ->get('https://booking-com15.p.rapidapi.com/api/v1/flights/searchDestination', ['query' => $request->from]);
+            $fromData = $fromResp->json('data', []);
+            $fromItem = collect($fromData)->firstWhere('type', 'AIRPORT') ?? ($fromData[0] ?? null);
+
+            if (!$fromItem) {
+                $viewData['error'] = 'Could not find an airport for "' . $request->from . '". Try using the city name or airport code.';
+                return view('flights.results', $viewData);
+            }
+
+            // Resolve "to" airport ID
+            $toResp = Http::withHeaders($headers)->withOptions(['verify' => false])->timeout(10)
+                ->get('https://booking-com15.p.rapidapi.com/api/v1/flights/searchDestination', ['query' => $request->to]);
+            $toData = $toResp->json('data', []);
+            $toItem = collect($toData)->firstWhere('type', 'AIRPORT') ?? ($toData[0] ?? null);
+
+            if (!$toItem) {
+                $viewData['error'] = 'Could not find an airport for "' . $request->to . '". Try using the city name or airport code.';
+                return view('flights.results', $viewData);
+            }
+
+            $fromId   = $fromItem['id'];
+            $toId     = $toItem['id'];
+            $fromCity = $fromItem['cityName'] ?? $fromItem['name'] ?? $request->from;
+            $toCity   = $toItem['cityName']   ?? $toItem['name']   ?? $request->to;
+
+            $viewData['from_id']   = $fromId;
+            $viewData['to_id']     = $toId;
+            $viewData['from_city'] = $fromCity;
+            $viewData['to_city']   = $toCity;
+
+            // Search flights
+            $params = [
+                'fromId'        => $fromId,
+                'toId'          => $toId,
+                'departDate'    => $request->depart_date,
+                'adults'        => $request->adults,
+                'cabinClass'    => $request->cabin_class,
+                'currency_code' => 'USD',
+                'sort'          => 'BEST',
+            ];
+            if ($request->trip_type === 'round' && $request->return_date) {
+                $params['returnDate'] = $request->return_date;
+            }
+
+            $flightsResp = Http::withHeaders($headers)->withOptions(['verify' => false])->timeout(20)
+                ->get('https://booking-com15.p.rapidapi.com/api/v1/flights/searchFlights', $params);
+
+            if (!$flightsResp->successful() || !$flightsResp->json('status')) {
+                \Log::warning('Flight search failed: ' . $flightsResp->body());
+                $viewData['error'] = 'Flight results could not be loaded. Please try again.';
+                return view('flights.results', $viewData);
+            }
+
+            $viewData['flights'] = $flightsResp->json('data.flightOffers', []);
+
+        } catch (\Exception $e) {
+            \Log::error('Flight search exception: ' . $e->getMessage());
+            $viewData['error'] = 'An error occurred while searching for flights. Please try again later.';
+        }
+
+        return view('flights.results', $viewData);
+    }
+
+    public function flight_book_store(Request $request)
+    {
+        $request->validate([
+            'names'              => 'required|string|max:255',
+            'email'              => 'required|email|max:255',
+            'phone_number'       => 'required|string|max:20',
+            'departure_airport'  => 'required|string|max:100',
+            'arrival_airport'    => 'required|string|max:100',
+            'departure_date'     => 'required|date',
+            'return_date'        => 'nullable|date',
+            'trip_type'          => 'required|string',
+            'flight_class'       => 'required|string',
+            'number_of_passengers' => 'required|integer|min:1',
+            'airline'            => 'nullable|string|max:255',
+            'additional_info'    => 'nullable|string',
+        ]);
+
+        \Log::info('[FlightBooking] Booking submitted', [
+            'from'  => $request->departure_airport,
+            'to'    => $request->arrival_airport,
+            'email' => $request->email,
+            'date'  => $request->departure_date,
+        ]);
+
+        $booking = \App\Models\FlightBooking::create([
+            'names'               => $request->names,
+            'email'               => $request->email,
+            'phone_number'        => $request->phone_number,
+            'airline'             => $request->airline,
+            'departure_airport'   => $request->departure_airport,
+            'arrival_airport'     => $request->arrival_airport,
+            'trip_type'           => $request->trip_type,
+            'flight_class'        => strtolower($request->flight_class),
+            'number_of_passengers'=> $request->number_of_passengers,
+            'departure_date'      => $request->departure_date,
+            'return_date'         => $request->return_date ?: null,
+            'additional_info'     => $request->additional_info,
+            'approved'            => null,
+        ]);
+
+        \Log::info('[FlightBooking] Record created', ['booking_id' => $booking->id]);
+
+        AdminNotification::notify(
+            'flight_booking',
+            "New flight booking: {$request->departure_airport} → {$request->arrival_airport} — {$request->names}",
+            route('bookings.index')
+        );
+
+        $booking_route = url('/booking/flight/' . $booking->access_token);
+        $adminEmailSent    = $this->notify_admin($booking, route('bookings.index'));
+        $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+        \Log::info('[FlightBooking] Emails sent', [
+            'booking_id'     => $booking->id,
+            'admin_sent'     => $adminEmailSent,
+            'customer_sent'  => $customerEmailSent,
+        ]);
+
+        return redirect()->route('booking.confirmed')->with([
+            'service' => 'Flight Booking — ' . $request->departure_airport . ' → ' . $request->arrival_airport,
+            'names'   => $request->names,
+            'email'   => $request->email,
+        ]);
+    }
+
     // ── Booking.com Hotel Detail & Internal Booking ─────────────────────────
 
     public function booking_com_hotel_detail(Request $request, $hotel_id)

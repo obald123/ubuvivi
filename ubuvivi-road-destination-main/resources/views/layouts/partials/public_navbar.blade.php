@@ -7,6 +7,7 @@
         || request()->is('air-ticketing*')
         || request()->is('hotel-booking*')
         || request()->is('hotels*')
+        || request()->is('flights*')
         || request()->is('tours-booking*');
 
     $accountRoute = route('login');
@@ -36,6 +37,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('hotels*') ? 'active-link' : '' }}" href="{{ route('guest.hotels.search') }}">Hotels</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('flights*') ? 'active-link' : '' }}" href="{{ route('guest.flights.search') }}">Flights</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('blog.*') ? 'active-link' : '' }}" href="{{ route('blog.index') }}">Blog</a>
