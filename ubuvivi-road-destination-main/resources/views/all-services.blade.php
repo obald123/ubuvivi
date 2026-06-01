@@ -17,20 +17,29 @@
     .services-hero {
         position: relative;
         height: 480px;
-        background: url('{{ asset("images/services-hero.jpg") }}') center center / cover no-repeat;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
     }
+    .services-hero-bg {
+        position: absolute;
+        inset: 0;
+        background: url('{{ asset("images/services-hero.jpg") }}') center center / cover no-repeat;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
     .services-hero::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(13, 31, 53, 0.68);
+        background: rgba(13, 31, 53, 0.48);
+        z-index: 1;
     }
     .services-hero-content {
         position: relative;
+        z-index: 2;
         z-index: 2;
         color: #fff;
     }
@@ -155,6 +164,7 @@
 
     {{-- ── Hero ── --}}
     <section class="services-hero">
+        <div class="services-hero-bg"></div>
         <div class="services-hero-content">
             @if($isPlanMode)
                 <h1>Plan Your Trip</h1>
