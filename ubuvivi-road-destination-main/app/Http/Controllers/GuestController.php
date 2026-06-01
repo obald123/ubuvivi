@@ -199,6 +199,16 @@ class GuestController extends Controller
 
     public function hotel_booking_store(Request $request)
     {
+        \Log::info('[HotelBooking] Form submitted', [
+            'ip'        => $request->ip(),
+            'email'     => $request->email,
+            'names'     => $request->names,
+            'hotel_id'  => $request->hotel_id,
+            'check_in'  => $request->check_in,
+            'check_out' => $request->check_out,
+            'guests'    => $request->number_of_guests,
+        ]);
+
         $request->validate([
             'names'            => 'required|string|max:255',
             'email'            => 'required|email|max:255',
@@ -209,6 +219,8 @@ class GuestController extends Controller
             'room_type'        => 'nullable|string|max:100',
             'message'          => 'nullable|string',
         ]);
+
+        \Log::info('[HotelBooking] Validation passed, creating booking record');
 
         $booking = \App\Models\HotelBooking::create([
             'hotel_id'         => $request->hotel_id ?: null,
@@ -223,27 +235,50 @@ class GuestController extends Controller
             'approved'         => null,
         ]);
 
+        \Log::info('[HotelBooking] Booking record created', [
+            'booking_id'   => $booking->id,
+            'access_token' => $booking->access_token,
+        ]);
+
         AdminNotification::notify(
             'hotel_booking',
             "New hotel booking from {$request->names} (check-in {$request->check_in})",
             route('bookings.index')
         );
 
-        if ($booking) {
-            $admin_booking_route = route('bookings.index');
-            $booking_route = url('/booking/hotel/' . $booking->access_token);
+        \Log::info('[HotelBooking] Admin dashboard notification created');
 
-            $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
-            $customerEmailSent = $this->sendMail($request->email, $booking_route);
+        $admin_booking_route  = route('bookings.index');
+        $booking_route        = url('/booking/hotel/' . $booking->access_token);
 
-            if (!$adminEmailSent || !$customerEmailSent) {
-                \Log::warning('Email delivery issue for hotel booking', [
-                    'booking_id' => $booking->id,
-                    'admin_email_sent' => $adminEmailSent,
-                    'customer_email_sent' => $customerEmailSent
-                ]);
-            }
+        \Log::info('[HotelBooking] Sending admin email', [
+            'admin_link' => $admin_booking_route,
+        ]);
+        $adminEmailSent = $this->notify_admin($booking, $admin_booking_route);
+
+        \Log::info('[HotelBooking] Sending customer email', [
+            'to'           => $request->email,
+            'booking_link' => $booking_route,
+        ]);
+        $customerEmailSent = $this->sendMail($request->email, $booking_route);
+
+        \Log::info('[HotelBooking] Email results', [
+            'booking_id'          => $booking->id,
+            'admin_email_sent'    => $adminEmailSent,
+            'customer_email_sent' => $customerEmailSent,
+        ]);
+
+        if (!$adminEmailSent || !$customerEmailSent) {
+            \Log::warning('[HotelBooking] One or more emails failed to send', [
+                'booking_id'          => $booking->id,
+                'admin_email_sent'    => $adminEmailSent,
+                'customer_email_sent' => $customerEmailSent,
+            ]);
         }
+
+        \Log::info('[HotelBooking] Redirecting to booking confirmed page', [
+            'booking_id' => $booking->id,
+        ]);
 
         return redirect()->route('booking.confirmed')->with([
             'service' => 'Hotel Booking — ' . ($request->hotel_name ?? 'Hotel Request'),
