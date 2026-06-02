@@ -20,13 +20,12 @@
 
     .badge-active { display:inline-block; background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; padding:3px 10px; border-radius:50px; font-size:11px; font-weight:600; }
 
-    .btn-del-sub { background:#fff; color:#e74c3c; border:1px solid #e74c3c; border-radius:7px; padding:5px 12px; font-size:12px; font-weight:600; cursor:pointer; }
-    .btn-del-sub:hover { background:#e74c3c; color:#fff; }
-
     .no-subs { text-align:center; padding:60px 20px; color:#bbb; }
     .no-subs i { font-size:40px; display:block; margin-bottom:12px; }
 
-    /* Modal */
+    .subscriber-count { font-size:14px; color:#666; }
+
+    /* ── Modal ── */
     .adm-modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.48); display:flex; align-items:center; justify-content:center; z-index:2000; padding:16px; }
     .adm-modal { background:#fff; border-radius:16px; padding:28px 32px; max-width:560px; width:100%; max-height:92vh; overflow-y:auto; }
     .adm-modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
@@ -44,47 +43,59 @@
     .btn-save:hover { background:#a84820; }
     .btn-cancel { background:#f0f0f0; color:#555; border:none; padding:11px 20px; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; }
 
-    .subscriber-count { font-size:14px; color:#666; }
-
     /* ── Responsive ── */
+
+    /* Tablet: hide # column */
+    @media (max-width: 991px) {
+        .subs-table th:nth-child(1),
+        .subs-table td:nth-child(1) { display:none; }
+    }
+
     @media (max-width: 767px) {
-        /* Toolbar stacks */
         .subs-toolbar { flex-direction:column; align-items:stretch; gap:10px; }
         .subs-toolbar .admin-primary-btn { width:100%; justify-content:center; text-align:center; }
 
-        /* Table: make it scroll horizontally on very small screens as fallback */
-        .subs-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+        /* Switch to card layout on mobile */
+        .subs-table-wrap { overflow:visible; background:transparent; border:none; box-shadow:none; }
+        .subs-table, .subs-table thead, .subs-table tbody,
+        .subs-table th, .subs-table td, .subs-table tr { display:block; }
+        .subs-table thead { display:none; }
 
-        /* Hide less-critical columns on mobile */
-        .subs-table th:nth-child(1),
-        .subs-table td:nth-child(1),
-        .subs-table th:nth-child(3),
-        .subs-table td:nth-child(3),
-        .subs-table th:nth-child(5),
-        .subs-table td:nth-child(5) { display:none; }
-
-        /* Wider email column */
-        .subs-table th:nth-child(2),
-        .subs-table td:nth-child(2) { max-width:180px; word-break:break-all; font-size:13px; }
-
-        /* Modal: bottom sheet on mobile */
-        .adm-modal-overlay { align-items:flex-end; padding:0; }
-        .adm-modal {
-            border-radius:20px 20px 0 0;
-            padding:22px 18px 32px;
-            max-height:88vh;
-            width:100%;
-            max-width:100%;
+        .subs-table tbody tr {
+            background:#fff;
+            border-radius:12px;
+            border:1px solid #e4e8f0;
+            box-shadow:0 2px 8px rgba(13,31,53,.05);
+            margin-bottom:10px;
+            padding:14px 16px;
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px 16px;
+            align-items:center;
         }
+        .subs-table td { border:none; padding:0; font-size:13px; }
+
+        /* Email — full width, bold */
+        .subs-table td:nth-child(2) {
+            width:100%;
+            font-weight:600;
+            color:#0D1F35;
+            font-size:14px;
+            word-break:break-all;
+        }
+        /* Name */
+        .subs-table td:nth-child(3) { color:#888; }
+        /* Date */
+        .subs-table td:nth-child(4) { color:#aaa; font-size:12px; }
+        /* Status badge */
+        .subs-table td:nth-child(5) { margin-left:auto; }
+
+        /* Modal: bottom sheet */
+        .adm-modal-overlay { align-items:flex-end; padding:0; }
+        .adm-modal { border-radius:20px 20px 0 0; padding:22px 18px 32px; max-height:88vh; width:100%; max-width:100%; }
         .adm-modal-foot { flex-direction:column-reverse; gap:8px; }
         .adm-modal-foot .btn-save,
         .adm-modal-foot .btn-cancel { width:100%; text-align:center; padding:13px; }
-    }
-
-    @media (max-width: 400px) {
-        /* On very small screens show only email and remove action */
-        .subs-table th:nth-child(4),
-        .subs-table td:nth-child(4) { display:none; }
     }
 </style>
 @endsection
@@ -140,7 +151,6 @@
                     <th>Name</th>
                     <th>Subscribed</th>
                     <th>Status</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -151,9 +161,6 @@
                     <td>{{ $sub->name ?? '—' }}</td>
                     <td>{{ $sub->subscribed_at ? $sub->subscribed_at->format('M d, Y') : $sub->created_at->format('M d, Y') }}</td>
                     <td><span class="badge-active">Active</span></td>
-                    <td>
-                        <button class="btn-del-sub" onclick="deleteSub({{ $sub->id }})">Remove</button>
-                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -204,21 +211,6 @@
 <script>
 function openNewsletterModal()  { document.getElementById('newsletterModal').style.display = 'flex'; }
 function closeNewsletterModal() { document.getElementById('newsletterModal').style.display = 'none'; }
-
-function deleteSub(id) {
-    if (!confirm('Remove this subscriber?')) return;
-    var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    var form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/admin/subscribers/' + id;
-    [['_token', csrf], ['_method', 'DELETE']].forEach(function(p) {
-        var inp = document.createElement('input');
-        inp.type = 'hidden'; inp.name = p[0]; inp.value = p[1];
-        form.appendChild(inp);
-    });
-    document.body.appendChild(form);
-    form.submit();
-}
 
 document.addEventListener('DOMContentLoaded', function () {
     var search = document.getElementById('subSearch');
