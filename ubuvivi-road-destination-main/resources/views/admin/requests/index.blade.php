@@ -411,17 +411,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for($sk=0;$sk<5;$sk++)
-                        <tr class="skel-row">
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel" style="width:75%;"></span></td>
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel" style="width:70px;height:22px;border-radius:50px;"></span></td>
-                            <td><span class="skel" style="width:80px;height:28px;border-radius:7px;"></span></td>
-                        </tr>
-                        @endfor
                         @foreach($allRequests as $request)
                         <tr data-status="{{ $request['status_key'] }}">
                             <td>{{ $request['service'] }}</td>
@@ -479,7 +468,7 @@ var activeRequestType = '';
 var activeRequestId = '';
 
 function getRequestRows() {
-    return Array.from(document.querySelectorAll('#requestTable tbody tr'));
+    return Array.from(document.querySelectorAll('#requestTable tbody tr[data-status]'));
 }
 
 function escapeHtml(value) {

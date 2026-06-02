@@ -457,17 +457,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for($sk=0;$sk<5;$sk++)
-                        <tr class="skel-row">
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel" style="width:75%;"></span></td>
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel short"></span></td>
-                            <td><span class="skel" style="width:70px;height:22px;border-radius:50px;"></span></td>
-                            <td><span class="skel" style="width:80px;height:28px;border-radius:7px;"></span></td>
-                        </tr>
-                        @endfor
                         @foreach($allBookings as $bk)
                             <tr data-status="{{ $bk['status_key'] }}">
                                 <td>{{ $bk['service'] }}</td>
@@ -517,7 +506,7 @@ var currentPage = 1;
 var currentFilter = 'all';
 
 function getBookingRows() {
-    return Array.from(document.querySelectorAll('#bookingTable tbody tr'));
+    return Array.from(document.querySelectorAll('#bookingTable tbody tr[data-status]'));
 }
 
 function getVisibleBookingRows() {

@@ -108,34 +108,131 @@ body:not(.hero-page) .ubu-navbar.scrolled {
     color: #fff;
 }
 
-@media (max-width: 767px) {
-    :root {
-        --navbar-height: 86px;
-    }
+/* ── Hamburger icon custom bars ── */
+.ubu-navbar .navbar-toggler {
+    border: none;
+    padding: 6px 8px;
+    outline: none !important;
+    box-shadow: none !important;
+    background: rgba(255,255,255,.1);
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background .2s;
+}
+.ubu-navbar .navbar-toggler:hover { background: rgba(200,90,42,.25); }
+.ubu-navbar .navbar-toggler-icon { display: none; } /* hide default icon */
+.ubu-navbar .navbar-toggler .hbg-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform .3s ease, opacity .3s ease, width .3s ease;
+    transform-origin: center;
+}
+.ubu-navbar .navbar-toggler[aria-expanded="true"] .hbg-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.ubu-navbar .navbar-toggler[aria-expanded="true"] .hbg-bar:nth-child(2) {
+    opacity: 0;
+    width: 0;
+}
+.ubu-navbar .navbar-toggler[aria-expanded="true"] .hbg-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
 
-    .ubu-navbar {
-        padding: 12px 16px;
-    }
+/* ── Mobile menu (< 992px = lg breakpoint) ── */
+@media (max-width: 991px) {
+    :root { --navbar-height: 80px; }
 
-    .ubu-navbar .navbar-brand img {
-        height: 52px;
-    }
+    .ubu-navbar { padding: 10px 18px; }
+
+    .ubu-navbar .navbar-brand img { height: 48px; }
 
     .ubu-navbar .navbar-collapse {
-        margin-top: 14px;
-        padding: 14px 16px;
-        border-radius: 18px;
-        background: rgba(13, 31, 53, .88);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        border: 1px solid rgba(255,255,255,.08);
+        position: fixed;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        max-height: calc(100vh - var(--navbar-height));
+        overflow-y: auto;
+        background: rgba(9, 22, 40, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255,255,255,.08);
+        padding: 16px 20px 24px;
+        box-shadow: 0 12px 40px rgba(0,0,0,.4);
+        z-index: 999;
     }
 
     .ubu-navbar .navbar-nav {
-        gap: 6px;
+        gap: 2px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+        margin-bottom: 16px;
     }
 
+    .ubu-navbar .nav-item { width: 100%; }
+
     .ubu-navbar .nav-link {
-        padding: 10px 0 !important;
+        padding: 12px 16px !important;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: background .2s;
     }
+    .ubu-navbar .nav-link:hover,
+    .ubu-navbar .nav-link.active-link {
+        background: rgba(200,90,42,.15);
+        color: var(--orange) !important;
+    }
+
+    /* dropdown inside mobile */
+    .ubu-navbar .dropdown-menu {
+        position: static !important;
+        float: none;
+        box-shadow: none;
+        background: rgba(255,255,255,.04);
+        border-radius: 10px;
+        margin: 6px 0 0 0;
+        padding: 4px;
+        border: 1px solid rgba(255,255,255,.06);
+    }
+    .ubu-navbar .dropdown-item {
+        border-radius: 8px;
+        padding: 10px 16px;
+    }
+
+    /* Plan Your Trip button in mobile menu */
+    .plan-trip-mobile {
+        display: flex !important;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        background: var(--orange);
+        border-color: var(--orange);
+        border-radius: 12px;
+        padding: 14px 24px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff !important;
+        text-decoration: none;
+        transition: background .2s;
+    }
+    .plan-trip-mobile:hover { background: #a84520; color: #fff !important; }
+}
+
+@media (max-width: 576px) {
+    .ubu-navbar { padding: 8px 14px; }
+    .ubu-navbar .navbar-brand img { height: 42px; }
 }

@@ -46,10 +46,45 @@
 
     .subscriber-count { font-size:14px; color:#666; }
 
+    /* ── Responsive ── */
     @media (max-width: 767px) {
-        .subs-toolbar { flex-direction:column; align-items:flex-start; }
-        .subs-table th:nth-child(3), .subs-table td:nth-child(3) { display:none; }
-        .adm-modal { padding:22px 18px 28px; }
+        /* Toolbar stacks */
+        .subs-toolbar { flex-direction:column; align-items:stretch; gap:10px; }
+        .subs-toolbar .admin-primary-btn { width:100%; justify-content:center; text-align:center; }
+
+        /* Table: make it scroll horizontally on very small screens as fallback */
+        .subs-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+
+        /* Hide less-critical columns on mobile */
+        .subs-table th:nth-child(1),
+        .subs-table td:nth-child(1),
+        .subs-table th:nth-child(3),
+        .subs-table td:nth-child(3),
+        .subs-table th:nth-child(5),
+        .subs-table td:nth-child(5) { display:none; }
+
+        /* Wider email column */
+        .subs-table th:nth-child(2),
+        .subs-table td:nth-child(2) { max-width:180px; word-break:break-all; font-size:13px; }
+
+        /* Modal: bottom sheet on mobile */
+        .adm-modal-overlay { align-items:flex-end; padding:0; }
+        .adm-modal {
+            border-radius:20px 20px 0 0;
+            padding:22px 18px 32px;
+            max-height:88vh;
+            width:100%;
+            max-width:100%;
+        }
+        .adm-modal-foot { flex-direction:column-reverse; gap:8px; }
+        .adm-modal-foot .btn-save,
+        .adm-modal-foot .btn-cancel { width:100%; text-align:center; padding:13px; }
+    }
+
+    @media (max-width: 400px) {
+        /* On very small screens show only email and remove action */
+        .subs-table th:nth-child(4),
+        .subs-table td:nth-child(4) { display:none; }
     }
 </style>
 @endsection
@@ -66,8 +101,30 @@
         <div class="adm-flash error"><i class="fas fa-exclamation-circle" style="margin-right:6px"></i>{{ session('error') }}</div>
     @endif
 
+    {{-- Stats summary --}}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;">
+        <div style="background:#fff;border-radius:12px;border:1px solid #e4e8f0;padding:16px 20px;display:flex;align-items:center;gap:12px;">
+            <div style="width:40px;height:40px;background:#f0fdf4;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-users" style="color:#15803d;font-size:16px;"></i>
+            </div>
+            <div>
+                <div style="font-size:22px;font-weight:800;color:#0D1F35;line-height:1;">{{ $subscribers->count() }}</div>
+                <div style="font-size:12px;color:#888;margin-top:2px;">Subscribers</div>
+            </div>
+        </div>
+        <div style="background:#fff;border-radius:12px;border:1px solid #e4e8f0;padding:16px 20px;display:flex;align-items:center;gap:12px;">
+            <div style="width:40px;height:40px;background:#fff8f4;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-envelope-open-text" style="color:#C85A2A;font-size:16px;"></i>
+            </div>
+            <div>
+                <div style="font-size:14px;font-weight:700;color:#0D1F35;line-height:1.3;">Newsletter</div>
+                <div style="font-size:12px;color:#888;margin-top:2px;">Ready to send</div>
+            </div>
+        </div>
+    </div>
+
     <div class="subs-toolbar">
-        <span class="subscriber-count">{{ $subscribers->count() }} subscriber{{ $subscribers->count() !== 1 ? 's' : '' }}</span>
+        <span class="subscriber-count">{{ $subscribers->count() }} active subscriber{{ $subscribers->count() !== 1 ? 's' : '' }}</span>
         <button class="admin-primary-btn" type="button" onclick="openNewsletterModal()">
             <i class="fas fa-paper-plane"></i> Send Newsletter
         </button>
