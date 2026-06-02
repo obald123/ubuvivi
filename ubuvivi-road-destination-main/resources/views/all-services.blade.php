@@ -156,6 +156,33 @@
         transition: gap .2s;
     }
     .service-card:hover .service-card-cta { gap: 14px; }
+
+    /* Secondary search link inside card */
+    .service-card-cta-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: auto;
+    }
+    .service-card-search-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #0D1F35;
+        color: #fff !important;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 50px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background .2s;
+    }
+    .service-card-search-link:hover { background: #C85A2A; color: #fff !important; text-decoration: none; }
+    /* Make non-link cards still look clickable */
+    .service-card-clickable { cursor: pointer; }
 </style>
 @endsection
 
@@ -211,34 +238,48 @@
                     </a>
                 </div>
 
-                {{-- 2. Air Ticketing — second in plan mode --}}
+                {{-- 2. Air Ticketing --}}
                 <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('guest.air_ticketing') }}" class="service-card d-block">
-                        <img src="{{ asset('images/ticket.jpg') }}" alt="Air Ticketing" class="service-card-img">
+                    <div class="service-card">
+                        <a href="{{ route('guest.air_ticketing') }}" class="d-block" style="text-decoration:none;color:inherit;">
+                            <img src="{{ asset('images/ticket.jpg') }}" alt="Air Ticketing" class="service-card-img">
+                        </a>
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-plane"></i>
                             </div>
                             <div class="service-card-title">Air Ticketing</div>
                             <p class="service-card-desc">Book flights from Kigali to destinations worldwide. We find the best fares across all major airlines so you travel for less.</p>
-                            <span class="service-card-cta">Book Flights <i class="fas fa-arrow-right"></i></span>
+                            <div class="service-card-cta-row">
+                                <a href="{{ route('guest.air_ticketing') }}" class="service-card-cta">Book Flights <i class="fas fa-arrow-right"></i></a>
+                                <a href="{{ route('guest.flights.search') }}" class="service-card-search-link">
+                                    <i class="fas fa-search"></i> Search a Flight
+                                </a>
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
 
-                {{-- 3. Hotel Booking — third in plan mode --}}
+                {{-- 3. Hotel Booking --}}
                 <div class="col-md-6 col-lg-4">
-                    <a href="{{ route('guest.hotel_booking') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/hotel-booking.jpg') }}" alt="Hotel Booking" class="service-card-img">
+                    <div class="service-card">
+                        <a href="{{ route('guest.hotel_booking') }}" class="d-block" style="text-decoration:none;color:inherit;">
+                            <img src="{{ asset('assets/images/hotel-booking.jpg') }}" alt="Hotel Booking" class="service-card-img">
+                        </a>
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-hotel"></i>
                             </div>
                             <div class="service-card-title">Hotel Booking</div>
                             <p class="service-card-desc">Find and book the perfect hotel across Rwanda and Africa. We secure the best rates and locations for a comfortable stay.</p>
-                            <span class="service-card-cta">Browse Hotels <i class="fas fa-arrow-right"></i></span>
+                            <div class="service-card-cta-row">
+                                <a href="{{ route('guest.hotel_booking') }}" class="service-card-cta">Browse Hotels <i class="fas fa-arrow-right"></i></a>
+                                <a href="{{ route('guest.hotels.search') }}" class="service-card-search-link">
+                                    <i class="fas fa-search"></i> Search a Hotel
+                                </a>
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
 
                 @if(!$isPlanMode)
@@ -260,7 +301,7 @@
                 {{-- Transport Services — full mode only --}}
                 <div class="col-md-6 col-lg-4">
                     <a href="{{ route('guest.transfer') }}" class="service-card d-block">
-                        <img src="{{ asset('assets/images/car-rental.jpg') }}" alt="Transport Services" class="service-card-img">
+                        <img src="{{ asset('assets/images/vehicles/landcruiser_prado_txl.jpg') }}" alt="Transport Services" class="service-card-img">
                         <div class="service-card-body">
                             <div class="service-card-icon">
                                 <i class="fas fa-shuttle-van"></i>

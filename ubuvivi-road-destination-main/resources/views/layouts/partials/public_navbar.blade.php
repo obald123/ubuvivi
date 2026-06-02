@@ -20,7 +20,7 @@
 
 <nav class="ubu-navbar navbar navbar-expand-lg" id="mainNavbar">
     <a class="navbar-brand" href="{{ route('guest.home') }}">
-        <img src="{{ asset('assets/images/logo.png?v=1') }}" alt="Ubuvivi Tours">
+        <img src="{{ asset('assets/images/logos.jpg?v=1') }}" alt="Ubuvivi Tours">
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,16 +39,6 @@
             <li class="nav-item">
                 <a class="nav-link {{ $servicesActive ? 'active-link' : '' }}" href="{{ route('guest.all_services') }}">
                     <i class="fas fa-concierge-bell" style="width:18px;opacity:.7"></i> Our Service
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('hotels*') ? 'active-link' : '' }}" href="{{ route('guest.hotels.search') }}">
-                    <i class="fas fa-hotel" style="width:18px;opacity:.7"></i> Hotels
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('flights*') ? 'active-link' : '' }}" href="{{ route('guest.flights.search') }}">
-                    <i class="fas fa-plane" style="width:18px;opacity:.7"></i> Flights
                 </a>
             </li>
             <li class="nav-item">

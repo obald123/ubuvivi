@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BookingStatusMail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use App\Models\TourBooking;
 use App\Models\CarBooking;
 use App\Models\CarTransfer;
 use App\Models\FlightBooking;
 use App\Models\HotelBooking;
-use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -55,29 +58,63 @@ class BookingController extends Controller
 
     public function updateStatus(Request $request, $type, $id)
     {
-        $model = $this->findBooking($type, $id);
-        $status = $request->input('status');
+        $model  = $this->findBooking($type, $id);
+        $status = $request->input('status'); // 'Approved' | 'Rejected' | 'Pending'
+
+        $previousApproved = $model->approved;
 
         switch ($status) {
+            case 'Approved':
             case 'Completed':
             case 'Active':
             case 'Upcoming':
                 $model->approved = true;
                 break;
+            case 'Rejected':
             case 'Cancelled':
                 $model->approved = false;
                 break;
-            case 'Pending':
+            default:
                 $model->approved = null;
                 break;
         }
 
         $model->save();
 
+        // Send status email only when moving from Pending to Approved or Rejected
+        if (is_null($previousApproved) && !is_null($model->approved)) {
+            try {
+                $typeKey   = $this->resolveTokenType($type);
+                $tokenLink = null;
+
+                if ($typeKey && method_exists($model, 'access_token') === false && isset($model->access_token)) {
+                    $tokenLink = url('/booking/' . $typeKey . '/' . $model->access_token);
+                }
+
+                Mail::to($model->email)->send(
+                    new BookingStatusMail($model->names, (bool) $model->approved, $tokenLink)
+                );
+            } catch (\Exception $e) {
+                Log::warning('Booking status email failed: ' . $e->getMessage());
+            }
+        }
+
         return response()->json([
             'success' => true,
-            'status' => $this->getBookingStatus($model->fresh()),
+            'status'  => $this->getBookingStatus($model->fresh()),
         ]);
+    }
+
+    private function resolveTokenType(string $modelType): ?string
+    {
+        return match ($modelType) {
+            'HotelBooking'  => 'hotel',
+            'FlightBooking' => 'flight',
+            'CarBooking'    => 'car',
+            'TourBooking'   => 'tour',
+            'CarTransfer'   => 'transfer',
+            default         => null,
+        };
     }
 
     private function findBooking($type, $id)
@@ -222,7 +259,11 @@ class BookingController extends Controller
 
     private function getBookingStatus($model)
     {
-        if (!$model->approved) {
+        if ($model->approved === false) {
+            return 'Rejected';
+        }
+
+        if (is_null($model->approved)) {
             return 'Pending';
         }
 

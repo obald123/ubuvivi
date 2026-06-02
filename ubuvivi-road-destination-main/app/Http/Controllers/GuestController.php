@@ -1712,27 +1712,37 @@ class GuestController extends Controller
             'X-RapidAPI-Host' => 'booking-com15.p.rapidapi.com',
         ];
 
-        // Data passed from the results card (fallback if API call fails)
+        // Data passed from the results card
         $cardData = [
             'hotel_id'   => $hotel_id,
             'hotel_name' => $request->query('hotel_name', 'Hotel'),
             'stars'      => (int) $request->query('stars', 0),
             'rating'     => $request->query('rating'),
-            'photo'      => $request->query('photo'),
-            'price'      => $request->query('price'),
-            'currency'   => $request->query('currency', 'USD'),
             'check_in'   => $request->query('check_in'),
             'check_out'  => $request->query('check_out'),
             'adults'     => (int) $request->query('adults', 1),
         ];
 
-        $detail      = [];
-        $facilities  = [];
-        $highlights  = [];
-        $apiError    = false;
+        // Collect all photos passed from results page (photo0, photo1, photo2 ...)
+        $passedPhotos = [];
+        for ($i = 0; $i < 10; $i++) {
+            $p = $request->query('photo' . $i);
+            if ($p) $passedPhotos[] = $p;
+        }
+        // Fallback single photo param
+        if (empty($passedPhotos) && $request->query('photo')) {
+            $passedPhotos[] = $request->query('photo');
+        }
+
+        $detail     = [];
+        $facilities = [];
+        $highlights = [];
+        $apiError   = false;
+        $photos     = $passedPhotos;
 
         if ($apiKey && $cardData['check_in'] && $cardData['check_out']) {
             try {
+                // Fetch hotel details
                 $response = Http::withHeaders($headers)
                     ->withOptions(['verify' => false])
                     ->timeout(15)
@@ -1749,46 +1759,53 @@ class GuestController extends Controller
                     $detail = $response->json('data', []);
 
                     // Extract facilities
-                    $facilitiesBlock = $detail['facilities_block'] ?? [];
-                    foreach ($facilitiesBlock as $group) {
-                        $name = $group['name'] ?? '';
-                        $items = array_slice($group['facilities'] ?? [], 0, 6);
-                        foreach ($items as $item) {
-                            if (!empty($item['name'])) {
-                                $facilities[] = $item['name'];
-                            }
+                    foreach ($detail['facilities_block'] ?? [] as $group) {
+                        foreach (array_slice($group['facilities'] ?? [], 0, 8) as $item) {
+                            if (!empty($item['name'])) $facilities[] = $item['name'];
                         }
                     }
 
                     // Extract highlights
                     foreach ($detail['property_highlight_strip'] ?? [] as $h) {
                         if (!empty($h['name'])) {
-                            $highlights[] = [
-                                'name' => $h['name'],
-                                'icon' => $h['icon_list'][0]['icon'] ?? null,
-                            ];
+                            $highlights[] = ['name' => $h['name']];
                         }
                     }
                 } else {
                     $apiError = true;
-                    \Log::warning('[HotelDetail] API returned non-success for hotel ' . $hotel_id);
+                    \Log::warning('[HotelDetail] API non-success for hotel ' . $hotel_id);
                 }
+
+                // Fetch hotel photos separately
+                $photoResp = Http::withHeaders($headers)
+                    ->withOptions(['verify' => false])
+                    ->timeout(10)
+                    ->get('https://booking-com15.p.rapidapi.com/api/v1/hotels/getHotelPhotos', [
+                        'hotel_id' => $hotel_id,
+                    ]);
+
+                if ($photoResp->successful() && $photoResp->json('status')) {
+                    $apiPhotos = $photoResp->json('data', []);
+                    $apiUrls   = [];
+                    foreach (array_slice($apiPhotos, 0, 12) as $p) {
+                        // Try common field names for the URL
+                        $url = $p['url_max'] ?? $p['url_1440'] ?? $p['url_max_1280'] ?? $p['url'] ?? null;
+                        if ($url) $apiUrls[] = $url;
+                    }
+                    if (!empty($apiUrls)) {
+                        $photos = $apiUrls;
+                    }
+                }
+
             } catch (\Exception $e) {
                 $apiError = true;
-                \Log::warning('[HotelDetail] API exception for hotel ' . $hotel_id . ': ' . $e->getMessage());
+                \Log::warning('[HotelDetail] Exception for hotel ' . $hotel_id . ': ' . $e->getMessage());
             }
         }
 
-        // Build photo list: use photoUrls array from card if available, else use detail URL
-        $photos = array_filter([
-            $cardData['photo'],
-            $detail['url'] ? null : null, // placeholder
-        ]);
-
-        // Merge additional photo sizes from the card photo URL (booking.com supports size variants)
-        if ($cardData['photo']) {
-            $base = preg_replace('/square\d+/', 'square1024', $cardData['photo']);
-            $photos = array_unique([$cardData['photo'], $base]);
+        // Ensure we have at least the card photo if nothing else loaded
+        if (empty($photos) && !empty($passedPhotos)) {
+            $photos = $passedPhotos;
         }
 
         return view('hotels.detail', compact('cardData', 'detail', 'facilities', 'highlights', 'photos', 'apiError'));

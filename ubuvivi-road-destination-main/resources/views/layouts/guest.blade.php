@@ -429,7 +429,7 @@
                 <div class="footer-col footer-col-brand">
                     <div class="footer-logo-wrap">
                         <a href="{{ url('/') }}">
-                            <img src="{{ asset('assets/images/logo.png?v=1') }}" alt="Ubuvivi Tours">
+                            <img src="{{ asset('assets/images/logos.jpg?v=1') }}" alt="Ubuvivi Tours">
                         </a>
                         <div class="footer-brand-info">
                             <span class="footer-addr-label">Main Office Address:</span>
@@ -477,7 +477,7 @@
             </div>
 
             <hr class="footer-divider">
-            <p class="copyright">Copyright © 2020. Ubuvivi Car Rental &amp; Tours.</p>
+            <p class="copyright">Copyright &copy; 2026. Ubuvivi Tours &amp; Travel.</p>
         </div>
     </footer>
 

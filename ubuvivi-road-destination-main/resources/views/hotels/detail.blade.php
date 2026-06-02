@@ -5,7 +5,7 @@
 @php
     $hotelName   = $detail['hotel_name']    ?? $cardData['hotel_name'];
     $address     = trim(($detail['address'] ?? '') . ', ' . ($detail['city'] ?? ''), ', ');
-    $country     = $detail['country_trans'] ?? strtoupper($cardData['currency'] ?? '');
+    $country     = $detail['country_trans'] ?? '';
     $stars       = intval($detail['quality_class'] ?? $cardData['stars']);
     $reviewCount = $detail['review_nr']     ?? null;
     $checkIn     = $cardData['check_in'];
@@ -16,16 +16,9 @@
         ? \Carbon\Carbon::parse($checkIn)->diffInDays(\Carbon\Carbon::parse($checkOut))
         : 1;
 
-    // Price — prefer per-night from detail API, fallback to card total
-    $pricePerNight = $detail['product_price_breakdown']['gross_amount_per_night']['amount_rounded']
-        ?? ($cardData['price'] ? $cardData['currency'] . ' ' . number_format($cardData['price'] / max($nights,1), 0) : null);
-    $totalPrice    = $detail['product_price_breakdown']['gross_amount']['amount_rounded']
-        ?? ($cardData['price'] ? $cardData['currency'] . ' ' . number_format($cardData['price'], 0) : null);
-    $oldPrice      = $detail['product_price_breakdown']['strikethrough_amount']['amount_rounded'] ?? null;
-
     $description  = $detail['hotel_text']['description'] ?? ($detail['hotel_text']['important_information'] ?? null);
     $mainPhoto    = $photos[0] ?? null;
-    $thumbPhotos  = array_slice($photos, 1, 4);
+    $thumbPhotos  = array_slice($photos, 1, 8);
 
     $rating = $cardData['rating'];
 @endphp
@@ -40,7 +33,7 @@
     /* Gallery */
     .gallery-main { width:100%; height:420px; object-fit:cover; border-radius:16px; display:block; background:#e0e3ea; }
     .gallery-placeholder { width:100%; height:420px; border-radius:16px; background:#e0e3ea; display:flex; align-items:center; justify-content:center; color:#bbb; font-size:52px; }
-    .gallery-thumbs { display:flex; gap:10px; margin-top:10px; }
+    .gallery-thumbs { display:flex; gap:10px; margin-top:10px; overflow-x:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
     .gallery-thumb { width:80px; height:60px; object-fit:cover; border-radius:8px; border:2px solid transparent; cursor:pointer; transition:border-color .2s; }
     .gallery-thumb:hover, .gallery-thumb.active { border-color:#C85A2A; }
 
@@ -159,22 +152,6 @@
                             </span>
                         @endif
                     </div>
-
-                    {{-- Price summary --}}
-                    @if($pricePerNight || $totalPrice)
-                        <div class="price-box">
-                            @if($oldPrice)
-                                <div class="price-old">{{ $oldPrice }}</div>
-                            @endif
-                            @if($pricePerNight)
-                                <div class="price-night">{{ $pricePerNight }}<span style="font-size:13px;font-weight:400;color:#aaa"> / night</span></div>
-                            @endif
-                            @if($totalPrice && $nights > 1)
-                                <div class="price-total">Total for {{ $nights }} night{{ $nights > 1 ? 's' : '' }}: <strong>{{ $totalPrice }}</strong></div>
-                            @endif
-                            <div class="price-label" style="margin-top:4px">Taxes and fees may apply at checkout</div>
-                        </div>
-                    @endif
 
                     {{-- Highlights --}}
                     @if(count($highlights))

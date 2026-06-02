@@ -195,7 +195,7 @@
 
     <div class="auth-page">
         <div class="auth-box">
-            <img src="{{ asset('assets/images/logo.png?v=1') }}" alt="Ubuvivi Tours" class="auth-logo">
+            <img src="{{ asset('assets/images/logos.jpg?v=1') }}" alt="Ubuvivi Tours" class="auth-logo">
             <h1 class="auth-title">UBUVIVI Tours</h1>
             @yield('content')
         </div>

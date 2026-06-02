@@ -18,7 +18,7 @@
     /* ── Hero ── */
     .hb-hero {
         position: relative; height: 480px;
-        background: url('{{ asset("assets/images/backgrounds/bg_11.jpg") }}') center/cover no-repeat;
+        background: url('{{ asset("assets/images/hotel-hero.png") }}') center/cover no-repeat;
         display: flex; align-items: center; justify-content: center; text-align: center;
     }
     .hb-hero::after {

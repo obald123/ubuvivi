@@ -255,6 +255,49 @@
         background: #eceff4;
     }
 
+    .status-pill.rejected {
+        color: #dc2626;
+        background: #fee2e2;
+    }
+
+    .modal-action-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #edf1f6;
+    }
+
+    .btn-approve {
+        flex: 1;
+        padding: 10px;
+        border: 0;
+        border-radius: 8px;
+        background: #16a34a;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .15s;
+    }
+    .btn-approve:hover { background: #15803d; }
+    .btn-approve:disabled { background: #86efac; cursor: default; }
+
+    .btn-reject {
+        flex: 1;
+        padding: 10px;
+        border: 0;
+        border-radius: 8px;
+        background: #dc2626;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .15s;
+    }
+    .btn-reject:hover { background: #b91c1c; }
+    .btn-reject:disabled { background: #fca5a5; cursor: default; }
+
     .view-link {
         border: 0;
         background: transparent;
@@ -495,6 +538,10 @@
             <button type="button" class="detail-close" onclick="closeBookingModal()">&times;</button>
         </div>
         <div id="bookingDetailBody"></div>
+        <div class="modal-action-row" id="bookingActionRow" style="display:none;">
+            <button class="btn-approve" id="btnApprove">Approve</button>
+            <button class="btn-reject"  id="btnReject">Reject</button>
+        </div>
     </div>
 </div>
 @endsection
@@ -573,28 +620,22 @@ function goToBookingPage(page) {
     renderBookingRows();
 }
 
-function openBookingModal(data) {
+var activeModelType = null;
+var activeModelId   = null;
+var csrf = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+
+function openBookingModal(data, mtype, mid) {
     var body = document.getElementById('bookingDetailBody');
-    if (!body) {
-        return;
-    }
+    if (!body) return;
+
+    activeModelType = mtype;
+    activeModelId   = mid;
 
     var optionalRows = '';
-    if (data.location) {
-        optionalRows += '<div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">' + escapeHtml(data.location) + '</span></div>';
-    }
-    if (data.destination) {
-        optionalRows += '<div class="detail-row"><span class="detail-label">Destination</span><span class="detail-value">' + escapeHtml(data.destination) + '</span></div>';
-    }
-    if (data.number_of_days) {
-        optionalRows += '<div class="detail-row"><span class="detail-label">Days</span><span class="detail-value">' + escapeHtml(String(data.number_of_days)) + '</span></div>';
-    }
-    if (data.number_of_people) {
-        optionalRows += '<div class="detail-row"><span class="detail-label">People</span><span class="detail-value">' + escapeHtml(String(data.number_of_people)) + '</span></div>';
-    }
-    if (data.price) {
-        optionalRows += '<div class="detail-row"><span class="detail-label">Price</span><span class="detail-value">' + escapeHtml(String(data.price)) + '</span></div>';
-    }
+    if (data.location)         optionalRows += '<div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">' + escapeHtml(data.location) + '</span></div>';
+    if (data.destination)      optionalRows += '<div class="detail-row"><span class="detail-label">Destination</span><span class="detail-value">' + escapeHtml(data.destination) + '</span></div>';
+    if (data.number_of_days)   optionalRows += '<div class="detail-row"><span class="detail-label">Days</span><span class="detail-value">' + escapeHtml(String(data.number_of_days)) + '</span></div>';
+    if (data.number_of_people) optionalRows += '<div class="detail-row"><span class="detail-label">People</span><span class="detail-value">' + escapeHtml(String(data.number_of_people)) + '</span></div>';
 
     body.innerHTML =
         '<div class="detail-section">' +
@@ -606,24 +647,72 @@ function openBookingModal(data) {
         '<div class="detail-section">' +
             '<h3>Booking</h3>' +
             '<div class="detail-row"><span class="detail-label">Service</span><span class="detail-value">' + escapeHtml(data.service || 'N/A') + '</span></div>' +
-            '<div class="detail-row"><span class="detail-label">Type</span><span class="detail-value">' + escapeHtml(data.type || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Details</span><span class="detail-value">' + escapeHtml(data.type || 'N/A') + '</span></div>' +
             '<div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">' + escapeHtml(data.date || 'N/A') + '</span></div>' +
-            '<div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">' + escapeHtml(data.status || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Status</span><span class="detail-value" id="modalStatusLabel">' + escapeHtml(data.status || 'N/A') + '</span></div>' +
             optionalRows +
         '</div>' +
-        '<div class="detail-section">' +
-            '<h3>Notes</h3>' +
-            '<div class="detail-row"><span class="detail-value" style="text-align:left;">' + escapeHtml(data.message || 'No extra details provided.') + '</span></div>' +
-        '</div>';
+        (data.message ? '<div class="detail-section"><h3>Notes</h3><div class="detail-row"><span class="detail-value" style="text-align:left;">' + escapeHtml(data.message) + '</span></div></div>' : '');
+
+    // Show approve/reject only when booking is pending
+    var actionRow = document.getElementById('bookingActionRow');
+    var isPending = (data.status || '').toLowerCase() === 'pending';
+    actionRow.style.display = isPending ? 'flex' : 'none';
 
     document.getElementById('bookingDetailModal').style.display = 'flex';
 }
 
+function sendStatusUpdate(status) {
+    if (!activeModelType || !activeModelId) return;
+
+    var btnApprove = document.getElementById('btnApprove');
+    var btnReject  = document.getElementById('btnReject');
+    btnApprove.disabled = true;
+    btnReject.disabled  = true;
+
+    fetch('/bookings/' + activeModelType + '/' + activeModelId + '/status', {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrf, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: status })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        if (data.success) {
+            // Update the status label in the modal
+            var label = document.getElementById('modalStatusLabel');
+            if (label) label.textContent = data.status || status;
+
+            // Update the row in the table
+            var rows = document.querySelectorAll('#bookingTable tbody tr[data-status]');
+            rows.forEach(function(row) {
+                var viewBtn = row.querySelector('[data-mid="' + activeModelId + '"][data-mtype="' + activeModelType + '"]');
+                if (viewBtn) {
+                    var pill = row.querySelector('.status-pill');
+                    if (pill) {
+                        var newStatus = (data.status || status).toLowerCase();
+                        pill.className = 'status-pill ' + newStatus;
+                        pill.textContent = data.status || status;
+                        row.dataset.status = newStatus;
+                    }
+                }
+            });
+
+            // Hide buttons since status is no longer pending
+            document.getElementById('bookingActionRow').style.display = 'none';
+        }
+    })
+    .catch(function() {
+        btnApprove.disabled = false;
+        btnReject.disabled  = false;
+        alert('Could not update the booking status. Please try again.');
+    });
+}
+
 function closeBookingModal() {
     var modal = document.getElementById('bookingDetailModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    if (modal) modal.style.display = 'none';
+    activeModelType = null;
+    activeModelId   = null;
 }
 
 function escapeHtml(value) {
@@ -638,9 +727,7 @@ function escapeHtml(value) {
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.filter-tab').forEach(function (button) {
         button.addEventListener('click', function () {
-            document.querySelectorAll('.filter-tab').forEach(function (item) {
-                item.classList.remove('active');
-            });
+            document.querySelectorAll('.filter-tab').forEach(function (item) { item.classList.remove('active'); });
             button.classList.add('active');
             currentFilter = button.dataset.filter;
             currentPage = 1;
@@ -650,36 +737,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var searchInput = document.getElementById('searchInput');
     if (searchInput) {
-        searchInput.addEventListener('input', function () {
-            currentPage = 1;
-            renderBookingRows();
-        });
+        searchInput.addEventListener('input', function () { currentPage = 1; renderBookingRows(); });
     }
 
     document.querySelectorAll('.btn-view').forEach(function (button) {
         button.addEventListener('click', function () {
             var modelType = button.dataset.mtype;
-            var modelId = button.dataset.mid;
-
+            var modelId   = button.dataset.mid;
             fetch('/bookings/' + modelType + '/' + modelId)
-                .then(function (response) { return response.json(); })
-                .then(function (data) { openBookingModal(data); })
+                .then(function (r) { return r.json(); })
+                .then(function (data) { openBookingModal(data, modelType, modelId); })
                 .catch(function () { alert('Unable to load booking details right now.'); });
         });
     });
 
+    document.getElementById('btnApprove').addEventListener('click', function() { sendStatusUpdate('Approved'); });
+    document.getElementById('btnReject').addEventListener('click',  function() { sendStatusUpdate('Rejected'); });
+
     var overlay = document.getElementById('bookingDetailModal');
     if (overlay) {
-        overlay.addEventListener('click', function (event) {
-            if (event.target === overlay) {
-                closeBookingModal();
-            }
-        });
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) closeBookingModal(); });
     }
 
-    if (document.getElementById('bookingTable')) {
-        renderBookingRows();
-    }
+    if (document.getElementById('bookingTable')) renderBookingRows();
 });
 </script>
 @endsection

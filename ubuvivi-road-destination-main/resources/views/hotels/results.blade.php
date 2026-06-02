@@ -198,14 +198,14 @@
                 $rating      = $property['reviewScore'] ?? null;
                 $ratingWord  = $property['reviewScoreWord'] ?? null;
                 $reviewCount = $property['reviewCount'] ?? null;
-                $photo       = $property['photoUrls'][0] ?? null;
-                $breakdown   = $property['priceBreakdown'] ?? [];
-                $currency    = $breakdown['grossPrice']['currency'] ?? 'USD';
-                $price       = $breakdown['grossPrice']['value'] ?? null;
-                $oldPrice    = $breakdown['strikethroughPrice']['value'] ?? null;
-                $bookingUrl  = $hotelId
-                    ? 'https://www.booking.com/hotel/' . $countryCode . '/' . \Illuminate\Support\Str::slug($name) . '.html?aid=304142&hotel_id=' . $hotelId
-                    : 'https://www.booking.com/searchresults.html?ss=' . urlencode($name);
+                // Collect all photo URLs (different sizes) from the search result
+                $photoUrls   = $property['photoUrls'] ?? [];
+                $photo       = $photoUrls[0] ?? null;
+                // Build photo query params (photo0, photo1, ...) for the detail page
+                $photoParams = '';
+                foreach (array_slice($photoUrls, 0, 5) as $pi => $pu) {
+                    $photoParams .= '&photo' . $pi . '=' . urlencode($pu);
+                }
             @endphp
             <div class="hotel-result-card">
                 @if($photo)
@@ -231,15 +231,8 @@
                             @if($reviewCount) <span style="font-weight:400;opacity:.7">({{ number_format($reviewCount) }})</span> @endif
                         </div>
                     @endif
-                    @if($price)
-                        @if($oldPrice && $oldPrice > $price)
-                            <div style="font-size:12px;color:#aaa;text-decoration:line-through;margin-bottom:2px;">{{ $currency }} {{ number_format($oldPrice, 0) }}</div>
-                        @endif
-                        <div class="hotel-price">{{ $currency }} {{ number_format($price, 0) }}</div>
-                        <div class="hotel-price-label">total for stay · taxes may apply</div>
-                    @endif
                     <div class="hotel-foot">
-                        <a href="{{ route('guest.hotels.book', $hotelId) }}?check_in={{ $check_in }}&check_out={{ $check_out }}&adults={{ $adults }}&hotel_name={{ urlencode($name) }}&stars={{ $stars }}&rating={{ $rating }}&photo={{ urlencode($photo ?? '') }}&price={{ $price }}&currency={{ $currency }}" class="btn-book-hotel">
+                        <a href="{{ route('guest.hotels.book', $hotelId) }}?check_in={{ $check_in }}&check_out={{ $check_out }}&adults={{ $adults }}&hotel_name={{ urlencode($name) }}&stars={{ $stars }}&rating={{ $rating }}{!! $photoParams !!}" class="btn-book-hotel">
                             <i class="fas fa-calendar-check" style="font-size:12px;margin-right:5px"></i>Book This Hotel
                         </a>
                     </div>

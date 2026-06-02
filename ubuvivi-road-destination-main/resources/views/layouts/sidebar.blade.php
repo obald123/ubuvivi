@@ -54,7 +54,7 @@
 <aside id="sidebar-wrapper" class="bg-dark">
     <div class="sidebar-brand">
         <a href="{{ route('home') }}" class="admin-sidebar-brand-link">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Ubuvivi Tours" class="admin-sidebar-logo">
+            <img src="{{ asset('assets/images/logos.jpg') }}" alt="Ubuvivi Tours" class="admin-sidebar-logo">
             <span class="admin-sidebar-brand-text">UBUVIVI Tours</span>
         </a>
     </div>
