@@ -1408,6 +1408,7 @@ class GuestController extends Controller
     public function newsletter_subscribe(Request $request)
     {
         $request->validate([
+            'name'  => 'required|string|max:255',
             'email' => 'required|email|max:255',
         ]);
 
@@ -1417,6 +1418,7 @@ class GuestController extends Controller
         }
 
         Subscriber::create([
+            'name'          => $request->name,
             'email'         => $request->email,
             'subscribed_at' => now(),
         ]);

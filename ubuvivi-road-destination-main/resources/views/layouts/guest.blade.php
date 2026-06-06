@@ -126,10 +126,11 @@
 
         .ubu-footer .subscribe-form {
             display: flex;
+            flex-wrap: wrap;
             background: #fff;
             border-radius: 50px;
             overflow: hidden;
-            width: min(100%, 360px);
+            width: min(100%, 500px);
         }
 
         .ubu-footer .subscribe-form input {
@@ -137,6 +138,7 @@
             outline: none;
             padding: 14px 20px;
             flex: 1;
+            min-width: 120px;
             font-size: 14px;
             color: #333;
             font-family: 'Poppins', sans-serif;
@@ -417,6 +419,7 @@
                 </div>
                 <form class="subscribe-form" action="{{ route('newsletter.subscribe') }}" method="POST">
                     @csrf
+                    <input type="text" name="name" placeholder="Your Name" required>
                     <input type="email" name="email" placeholder="Enter your Email" required>
                     <button type="submit">Subscribe</button>
                 </form>
