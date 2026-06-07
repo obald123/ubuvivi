@@ -85,17 +85,23 @@
         width: 100%;
         appearance: none;
         -webkit-appearance: none;
-        border: 1.5px solid #e0e0e0;
+        border: none;
         border-radius: 10px;
         padding: 12px 36px 12px 14px;
         font-size: 14px;
         color: #444;
-        background: #f9f9f9;
+        background: #f0f0f0;
         cursor: pointer;
         outline: none;
-        transition: border-color .2s;
+        transition: all .2s;
+        font-weight: 500;
     }
-    .search-bar .filter-select:focus { border-color: #C85A2A; }
+    .search-bar .filter-select:hover { background: #e6e6e6; }
+    .search-bar .filter-select:focus { 
+        background: #fff;
+        border: 2px solid #C85A2A;
+        padding: 11px 36px 11px 13px;
+    }
     .search-bar .filter-group::after {
         content: '\f107';
         font-family: 'Font Awesome 5 Free';
@@ -109,21 +115,24 @@
         font-size: 13px;
     }
     .search-bar .search-btn {
-        background: #0D1F35;
+        background: #C85A2A;
         color: #fff;
         border: none;
         border-radius: 10px;
-        padding: 12px 28px;
+        padding: 12px 32px;
         font-size: 14px;
         font-weight: 600;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 8px;
-        transition: background .2s;
+        transition: all .2s;
         white-space: nowrap;
     }
-    .search-bar .search-btn:hover { background: #C85A2A; }
+    .search-bar .search-btn:hover { 
+        background: #a84520;
+        transform: translateY(-1px);
+    }
 
     /* ── Cars Grid ── */
     .cars-grid-section {

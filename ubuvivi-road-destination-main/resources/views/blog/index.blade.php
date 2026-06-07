@@ -35,17 +35,17 @@
 
     /* ── Featured post ── */
     .featured-post {
-        display:grid; grid-template-columns:1.1fr 1fr; gap:0;
+        display:flex; flex-direction:column; gap:0;
         border-radius:16px; overflow:hidden;
         box-shadow:0 4px 24px rgba(13,31,53,.10);
         margin-bottom:28px;
         text-decoration:none; color:inherit;
         transition:box-shadow .25s;
-        max-height:240px;
+        max-width:100%;
     }
     .featured-post:hover { box-shadow:0 10px 36px rgba(13,31,53,.16); text-decoration:none; color:inherit; }
     .featured-img {
-        position:relative; overflow:hidden; height:240px;
+        position:relative; overflow:hidden; height:360px;
     }
     .featured-img img {
         width:100%; height:100%; object-fit:cover; display:block;
@@ -53,33 +53,25 @@
     }
     .featured-post:hover .featured-img img { transform:scale(1.04); }
     .featured-body {
-        background:#162D1E; padding:22px 26px;
-        display:flex; flex-direction:column; justify-content:center;
+        background:#fff; padding:28px 28px;
+        display:flex; flex-direction:column; justify-content:flex-start;
     }
     .featured-tag {
-        display:inline-block; padding:3px 11px; border-radius:50px;
-        font-size:11px; font-weight:700; letter-spacing:.7px; text-transform:uppercase;
-        margin-bottom:10px; width:fit-content;
+        display:none;
     }
     .featured-body h2 {
-        font-size:clamp(15px,2vw,20px); font-weight:800; color:#fff !important;
-        line-height:1.3; margin-bottom:8px;
+        font-size:clamp(18px,2.5vw,28px); font-weight:800; color:#1a1a1a !important;
+        line-height:1.35; margin-bottom:0;
     }
     .featured-excerpt {
-        font-size:13px; color:rgba(255,255,255,.68); line-height:1.55;
-        margin-bottom:12px;
-        display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+        display:none;
     }
     .featured-meta {
-        font-size:12px; color:rgba(255,255,255,.4); margin-bottom:14px;
+        display:none;
     }
     .featured-link {
-        display:inline-flex; align-items:center; gap:7px;
-        background:#C85A2A; color:#fff; font-weight:600; font-size:13px;
-        padding:8px 18px; border-radius:50px; text-decoration:none;
-        transition:background .2s; width:fit-content;
+        display:none;
     }
-    .featured-link:hover { background:#a84520; color:#fff; text-decoration:none; }
 
     /* ── Grid ── */
     .blog-section-label {
