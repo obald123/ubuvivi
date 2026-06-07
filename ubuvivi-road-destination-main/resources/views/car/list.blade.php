@@ -69,12 +69,13 @@
     .search-bar {
         background: #fff;
         border-radius: 16px;
-        box-shadow: 0 8px 40px rgba(0,0,0,.18);
+        box-shadow: 0 12px 48px rgba(0,0,0,.25);
         padding: 20px 24px;
         display: flex;
         align-items: center;
         gap: 12px;
         flex-wrap: wrap;
+        backdrop-filter: blur(2px);
     }
     .search-bar .filter-group {
         flex: 1;
@@ -85,31 +86,35 @@
         width: 100%;
         appearance: none;
         -webkit-appearance: none;
-        border: none;
+        border: 2px solid #ddd;
         border-radius: 10px;
-        padding: 12px 36px 12px 14px;
-        font-size: 14px;
-        color: #444;
-        background: #f0f0f0;
+        padding: 13px 36px 13px 14px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1a1a1a;
+        background: #fff;
         cursor: pointer;
         outline: none;
         transition: all .2s;
-        font-weight: 500;
-        box-shadow: 0 1px 3px rgba(0,0,0,.05);
+        box-shadow: 0 3px 12px rgba(0,0,0,.12);
     }
     .search-bar .filter-select:hover { 
-        background: #e6e6e6;
-        box-shadow: 0 2px 6px rgba(0,0,0,.08);
+        background: #fff;
+        border-color: #C85A2A;
+        box-shadow: 0 3px 16px rgba(200, 90, 42, .18);
     }
     .search-bar .filter-select:focus { 
         background: #fff;
         border: 2px solid #C85A2A;
-        padding: 11px 36px 11px 13px;
-        box-shadow: 0 4px 12px rgba(200, 90, 42, .15);
+        padding: 13px 36px 13px 14px;
+        box-shadow: 0 4px 20px rgba(200, 90, 42, .25);
     }
     .search-bar .filter-select option {
         background: #fff;
-        color: #444;
+        color: #1a1a1a;
+        font-weight: 600;
+        font-size: 15px;
+        padding: 10px;
     }
     .search-bar .filter-group::after {
         content: '\f107';

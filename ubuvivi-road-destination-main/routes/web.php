@@ -92,9 +92,25 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/car/transfer/{id}", 'car_transfer_view')->name("car.transfer.view");
 
-    Route::get("/tour/booking/{id}", 'tour_booking_view')->name("tour.booking.view");
+    Route::get("/tour/booking/{id}", 'tour_booking_view')->name("tour.booking.view")->whereNumber('id');
 
-    Route::get("/tour/booking/{id}/account", 'tour_booking_account')->name("tour.booking.account");
+    Route::get("/tour/booking/{id}/account", 'tour_booking_account')->name("tour.booking.account")->whereNumber('id');
+
+    Route::group(["prefix" => "booking"], function () {
+        Route::get("/car/{id}", "car_booking")->name("car.booking")->whereNumber('id');
+
+        Route::get("/tour/{id}", "tour_booking")->name("tour.booking")->whereNumber('id');
+
+        Route::post("/car/{id}", "car_booking_continue")->name("car.book.continue")->whereNumber('id');
+
+        Route::post("/car/{id}/book", "car_booking_store")->name("car.book")->whereNumber('id');
+
+        Route::post("/tour/{id}/book", "tour_booking_store")->name("tour.book")->whereNumber('id');
+
+        Route::get("tour/success/{id}", "tour_booking_store_success")->name("tour.book.success")->whereNumber('id');
+
+        Route::get("car/success/{type}/{id}", "car_booking_store_success")->name("car.book.success")->whereNumber('id');
+    });
 
     Route::middleware('validate.booking.token')->group(function () {
         Route::get('/booking/{type}/{token}', function ($type, $token) {
@@ -111,43 +127,9 @@ Route::controller(GuestController::class)->group(function () {
             } elseif ($type === 'transfer') {
                 return redirect()->route('car.transfer.view', $booking->id);
             }
-        })->where('type', 'car|tour|flight|hotel|transfer');
 
-        Route::get('/booking/{type}/{token}', function ($type, $token) {
-            return redirect()->route('car.booking.token.view', [$type, $token]);
-        })->name('car.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
-
-        Route::get('/booking/{type}/{token}', function ($type, $token) {
-            return redirect()->route('car.booking.token.view', [$type, $token]);
-        })->name('tour.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
-
-        Route::get('/booking/{type}/{token}', function ($type, $token) {
-            return redirect()->route('car.booking.token.view', [$type, $token]);
-        })->name('flight.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
-
-        Route::get('/booking/{type}/{token}', function ($type, $token) {
-            return redirect()->route('car.booking.token.view', [$type, $token]);
-        })->name('hotel.booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
-
-        Route::get('/booking/{type}/{token}', function ($type, $token) {
-            return redirect()->route('car.booking.token.view', [$type, $token]);
-        })->name('car.transfer.token.view')->where('type', 'car|tour|flight|hotel|transfer');
-    });
-
-    Route::group(["prefix" => "booking"], function () {
-        Route::get("/car/{id}", "car_booking")->name("car.booking");
-
-        Route::get("/tour/{id}", "tour_booking")->name("tour.booking");
-
-        Route::post("/car/{id}", "car_booking_continue")->name("car.book.continue");
-
-        Route::post("/car/{id}/book", "car_booking_store")->name("car.book");
-
-        Route::post("/tour/{id}/book", "tour_booking_store")->name("tour.book");
-
-        Route::get("tour/success/{id}", "tour_booking_store_success")->name("tour.book.success");
-
-        Route::get("car/success/{type}/{id}", "car_booking_store_success")->name("car.book.success");
+            abort(404);
+        })->name('booking.token.view')->where('type', 'car|tour|flight|hotel|transfer');
     });
 });
 

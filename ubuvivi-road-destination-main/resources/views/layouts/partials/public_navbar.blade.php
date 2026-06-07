@@ -20,7 +20,7 @@
 
 <nav class="ubu-navbar navbar navbar-expand-lg" id="mainNavbar">
     <a class="navbar-brand" href="{{ route('guest.home') }}">
-        <img src="{{ asset('assets/images/logos.jpg?v=1') }}" alt="Ubuvivi Tours">
+        <img src="{{ asset('assets/images/logos.jpg?v=2') }}" alt="Ubuvivi Tours">
     </a>
 
     {{-- Hamburger — Bootstrap hides this at lg+ automatically --}}
