@@ -250,12 +250,7 @@
                             </div>
                             <div class="service-card-title">Air Ticketing</div>
                             <p class="service-card-desc">Book flights from Kigali to destinations worldwide. We find the best fares across all major airlines so you travel for less.</p>
-                            <div class="service-card-cta-row">
-                                <a href="{{ route('guest.air_ticketing') }}" class="service-card-cta">Book Flights <i class="fas fa-arrow-right"></i></a>
-                                <a href="{{ route('guest.flights.search') }}" class="service-card-search-link">
-                                    <i class="fas fa-search"></i> Search a Flight
-                                </a>
-                            </div>
+                            <a href="{{ route('guest.air_ticketing') }}" class="service-card-cta">Book Flights <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -272,12 +267,7 @@
                             </div>
                             <div class="service-card-title">Hotel Booking</div>
                             <p class="service-card-desc">Find and book the perfect hotel across Rwanda and Africa. We secure the best rates and locations for a comfortable stay.</p>
-                            <div class="service-card-cta-row">
-                                <a href="{{ route('guest.hotel_booking') }}" class="service-card-cta">Browse Hotels <i class="fas fa-arrow-right"></i></a>
-                                <a href="{{ route('guest.hotels.search') }}" class="service-card-search-link">
-                                    <i class="fas fa-search"></i> Search a Hotel
-                                </a>
-                            </div>
+                            <a href="{{ route('guest.hotel_booking') }}" class="service-card-cta">Browse Hotels <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>

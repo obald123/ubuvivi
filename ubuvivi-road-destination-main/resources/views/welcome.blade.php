@@ -646,9 +646,9 @@
                     <div class="contact-form-card">
                         <form action="{{ url('/contact') }}" method="POST">
                             @csrf
-                            <input type="text" name="name" class="form-control" placeholder="Full Name *" required>
+                            <input type="text" name="names" class="form-control" placeholder="Full Name *" required>
                             <input type="email" name="email" class="form-control" placeholder="Email Address *" required>
-                            <input type="text" name="subject" class="form-control" placeholder="Subject">
+                            <input type="text" name="subject" class="form-control" placeholder="Subject" required>
                             <textarea name="message" class="form-control" rows="5" placeholder="Leave Your message" required></textarea>
                             <button type="submit" class="contact-submit-btn">Submit</button>
                         </form>
