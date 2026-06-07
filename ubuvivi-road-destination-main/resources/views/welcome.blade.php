@@ -605,7 +605,7 @@
                     <a href="{{ route('guest.transfer') }}" class="service-link mt-3 d-inline-block">Book Transport &raquo;</a>
                 </div>
                 <div class="col-lg-6 order-lg-2" data-aos="fade-left">
-                    <img src="{{ asset('assets/images/car-rental.jpg') }}" alt="Private Transport" class="service-img round-tr">
+                    <img src="{{ asset('assets/images/about/img_01.jpg') }}" alt="Private Transport" class="service-img round-tr">
                 </div>
             </div>
         </div>
