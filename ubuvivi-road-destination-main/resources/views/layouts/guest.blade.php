@@ -456,6 +456,8 @@
                         <li><a href="{{ url('/cars') }}">Car Rentals</a></li>
                         <li><a href="{{ route('guest.transfer') }}">Transport Services</a></li>
                         <li><a href="{{ route('guest.contact') }}">Contact</a></li>
+                        <li><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ url('/terms-conditions') }}">Terms & Conditions</a></li>
                         <li><a href="{{ route('login') }}">My account</a></li>
                     </ul>
                 </div>

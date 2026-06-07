@@ -95,12 +95,21 @@
         outline: none;
         transition: all .2s;
         font-weight: 500;
+        box-shadow: 0 1px 3px rgba(0,0,0,.05);
     }
-    .search-bar .filter-select:hover { background: #e6e6e6; }
+    .search-bar .filter-select:hover { 
+        background: #e6e6e6;
+        box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
     .search-bar .filter-select:focus { 
         background: #fff;
         border: 2px solid #C85A2A;
         padding: 11px 36px 11px 13px;
+        box-shadow: 0 4px 12px rgba(200, 90, 42, .15);
+    }
+    .search-bar .filter-select option {
+        background: #fff;
+        color: #444;
     }
     .search-bar .filter-group::after {
         content: '\f107';

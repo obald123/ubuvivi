@@ -12,7 +12,7 @@
         : asset('assets/images/backgrounds/bg_11.jpg');
 
     $guestRoute = $tour
-        ? route('tour.booking', ['id' => $tour->id, 'type' => 'guest'])
+        ? route('tour.booking', ['id' => $tour->id])
         : url('/tours');
 
     $accountRoute = $tour

@@ -59,6 +59,9 @@ Route::controller(GuestController::class)->group(function () {
     Route::get("/blog", 'blog_list')->name("blog.index");
     Route::get("/blog/{slug}", 'blog_show')->name("blog.show");
 
+    Route::get("/privacy-policy", 'privacy_policy')->name("privacy.policy");
+    Route::get("/terms-conditions", 'terms_conditions')->name("terms.conditions");
+
     Route::get("/flights/search",         'flight_search')->name("guest.flights.search");
     Route::get("/flights/search/results", 'flight_results')->name("guest.flights.results");
     Route::post("/flights/book",          'flight_book_store')->name("guest.flights.book.store");

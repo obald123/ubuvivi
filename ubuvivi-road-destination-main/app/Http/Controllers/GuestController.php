@@ -1875,4 +1875,14 @@ class GuestController extends Controller
             'email'   => $request->email,
         ]);
     }
+
+    public function privacy_policy()
+    {
+        return view('privacy-policy');
+    }
+
+    public function terms_conditions()
+    {
+        return view('terms-conditions');
+    }
 }

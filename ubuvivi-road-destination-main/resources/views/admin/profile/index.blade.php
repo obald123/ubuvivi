@@ -34,14 +34,14 @@
         justify-content: space-between;
         gap: 18px;
         flex-wrap: wrap;
-        padding-bottom: 2px;
-        border-bottom: 1px solid #dfe4ee;
+        padding: 16px 0;
+        border-bottom: 2px solid #f0f0f0;
     }
 
     .profile-tabs {
         display: inline-flex;
         align-items: center;
-        gap: 36px;
+        gap: 8px;
         overflow-x: auto;
         max-width: 100%;
     }
@@ -50,12 +50,15 @@
         position: relative;
         border: 0;
         background: transparent;
-        padding: 0 0 12px;
-        color: #313947;
+        padding: 10px 18px;
+        color: #666;
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
         white-space: nowrap;
+        border-radius: 6px 6px 0 0;
+        transition: all .2s ease;
+        margin-right: 4px;
     }
 
     .profile-tab::after {
@@ -63,29 +66,38 @@
         position: absolute;
         left: 0;
         right: 0;
-        bottom: -1px;
+        bottom: -2px;
         height: 3px;
-        border-radius: 999px;
+        border-radius: 2px 2px 0 0;
         background: transparent;
-        transition: background .18s ease;
+        transition: background .2s ease, width .2s ease;
+    }
+
+    .profile-tab.is-active {
+        background: #f5f5f5;
+        color: #2495e7;
     }
 
     .profile-tab.is-active::after {
         background: #2495e7;
     }
 
+    .profile-tab:hover {
+        background: #f9f9f9;
+        color: #1a1a1a;
+    }
+
     .profile-tab:not(.is-active) {
-        color: #3d4554;
-        opacity: .92;
+        color: #666;
     }
 
     .profile-add-user {
         border: 0;
-        background: #122c3b;
+        background: linear-gradient(135deg, #2495e7 0%, #1a7bc7 100%);
         color: #fff;
-        height: 34px;
-        padding: 0 16px;
-        border-radius: 4px;
+        height: 38px;
+        padding: 0 20px;
+        border-radius: 6px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -93,11 +105,14 @@
         font-size: 14px;
         font-weight: 600;
         white-space: nowrap;
-        box-shadow: 0 10px 20px rgba(18, 44, 59, .12);
+        box-shadow: 0 4px 12px rgba(36, 149, 231, .25);
+        transition: all .2s ease;
     }
 
     .profile-add-user:hover {
-        background: #0f2431;
+        background: linear-gradient(135deg, #1a7bc7 0%, #0f5a9e 100%);
+        box-shadow: 0 6px 16px rgba(36, 149, 231, .35);
+        transform: translateY(-2px);
         color: #fff;
         text-decoration: none;
     }
@@ -108,6 +123,12 @@
 
     .profile-pane.is-active {
         display: block;
+        animation: fadeIn .3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .profile-card,
@@ -125,10 +146,13 @@
     }
 
     .profile-card h2 {
-        margin: 0 0 18px;
+        margin: 0 0 20px;
         color: #1f2937;
         font-size: 18px;
         font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .profile-grid {
@@ -147,10 +171,12 @@
 
     .profile-field label {
         display: block;
-        margin-bottom: 7px;
+        margin-bottom: 8px;
         color: #425063;
         font-size: 13px;
         font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .5px;
     }
 
     .profile-field input,
@@ -158,51 +184,65 @@
         width: 100%;
         height: 44px;
         padding: 0 14px;
-        border: 1px solid #dfe4ee;
+        border: 1.5px solid #dfe4ee;
         border-radius: 6px;
         outline: 0;
         color: #2d313d;
         font-size: 14px;
         background: #fff;
+        transition: all .2s ease;
     }
 
     .profile-field input:focus,
     .profile-field select:focus {
         border-color: #2495e7;
         box-shadow: 0 0 0 3px rgba(36, 149, 231, .10);
+        background: #f9fcff;
     }
 
     .profile-feedback {
         margin-bottom: 16px;
-        padding: 11px 13px;
+        padding: 12px 14px;
         border-radius: 8px;
         font-size: 13px;
         font-weight: 500;
+        border-left: 4px solid;
     }
 
     .profile-feedback.success {
         color: #166534;
         background: #dcfce7;
+        border-left-color: #22c55e;
     }
 
     .profile-feedback.error {
         color: #b91c1c;
         background: #fee2e2;
+        border-left-color: #ef4444;
     }
 
     .profile-save {
         border: 0;
-        background: #122c3b;
+        background: linear-gradient(135deg, #2495e7 0%, #1a7bc7 100%);
         color: #fff;
         height: 40px;
-        padding: 0 18px;
+        padding: 0 24px;
         border-radius: 6px;
         font-size: 14px;
         font-weight: 600;
+        cursor: pointer;
+        transition: all .2s ease;
+        box-shadow: 0 4px 12px rgba(36, 149, 231, .2);
     }
 
     .profile-save:hover {
-        background: #0f2431;
+        background: linear-gradient(135deg, #1a7bc7 0%, #0f5a9e 100%);
+        box-shadow: 0 6px 16px rgba(36, 149, 231, .3);
+        transform: translateY(-2px);
+    }
+
+    .profile-save:active {
+        transform: translateY(0);
     }
 
     .users-table-wrap {
@@ -216,11 +256,14 @@
 
     .users-table thead th {
         padding: 14px 22px 12px;
-        border-bottom: 1px solid #edf1f6;
+        border-bottom: 2px solid #edf1f6;
         color: #5b6573;
         font-size: 13px;
-        font-weight: 500;
+        font-weight: 600;
         text-align: left;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        background: #f9fafb;
     }
 
     .users-table tbody td {
@@ -233,6 +276,10 @@
 
     .users-table tbody tr:last-child td {
         border-bottom: 0;
+    }
+
+    .users-table tbody tr {
+        transition: background .2s ease;
     }
 
     .users-table tbody tr:hover td {
@@ -256,8 +303,17 @@
     }
 
     .role-text {
-        color: #2d313d;
-        font-weight: 500;
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: capitalize;
+    }
+
+    .role-text {
+        color: #2495e7;
+        background: #e8efff;
     }
 
     .user-actions {
@@ -268,27 +324,40 @@
 
     .user-action-btn {
         width: 34px;
-        height: 30px;
+        height: 34px;
         border: 0;
-        border-radius: 0;
+        border-radius: 6px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         color: #fff;
         font-size: 13px;
         cursor: pointer;
+        transition: all .2s ease;
     }
 
     .user-action-btn.edit {
-        background: #122c3b;
+        background: #2495e7;
+    }
+
+    .user-action-btn.edit:hover {
+        background: #1a7bc7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(36, 149, 231, .3);
     }
 
     .user-action-btn.delete {
-        background: #ff2a2a;
+        background: #ef4444;
+    }
+
+    .user-action-btn.delete:hover {
+        background: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(239, 68, 68, .3);
     }
 
     .users-empty {
-        padding: 36px 22px;
+        padding: 50px 22px;
         text-align: center;
         color: #9aa3b2;
         font-size: 14px;
@@ -300,9 +369,10 @@
         display: none;
         align-items: center;
         justify-content: center;
-        background: rgba(15, 42, 56, .45);
+        background: rgba(15, 42, 56, .55);
         z-index: 2100;
         padding: 18px;
+        backdrop-filter: blur(3px);
     }
 
     .user-modal {
@@ -310,9 +380,9 @@
         max-height: 90vh;
         overflow-y: auto;
         background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 24px 60px rgba(15, 35, 52, .22);
-        padding: 22px;
+        border-radius: 12px;
+        box-shadow: 0 24px 60px rgba(15, 35, 52, .25);
+        padding: 28px;
     }
 
     .user-modal-head {
@@ -320,7 +390,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 20px;
     }
 
     .user-modal-head h2 {
@@ -339,6 +409,12 @@
         color: #526071;
         font-size: 18px;
         cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .user-modal-close:hover {
+        background: #e4ecf5;
+        transform: rotate(90deg);
     }
 
     .user-modal-grid {
@@ -351,17 +427,18 @@
         display: flex;
         justify-content: flex-end;
         gap: 10px;
-        margin-top: 20px;
+        margin-top: 24px;
     }
 
     .user-modal-btn {
         border: 0;
-        border-radius: 8px;
+        border-radius: 6px;
         height: 40px;
         padding: 0 18px;
         font-size: 13px;
         font-weight: 600;
         cursor: pointer;
+        transition: all .2s ease;
     }
 
     .user-modal-btn.secondary {
@@ -369,9 +446,20 @@
         color: #556274;
     }
 
+    .user-modal-btn.secondary:hover {
+        background: #e4ecf5;
+    }
+
     .user-modal-btn.primary {
-        background: #122c3b;
+        background: linear-gradient(135deg, #2495e7 0%, #1a7bc7 100%);
         color: #fff;
+        box-shadow: 0 4px 12px rgba(36, 149, 231, .2);
+    }
+
+    .user-modal-btn.primary:hover {
+        background: linear-gradient(135deg, #1a7bc7 0%, #0f5a9e 100%);
+        box-shadow: 0 6px 16px rgba(36, 149, 231, .3);
+        transform: translateY(-2px);
     }
 
     @media (max-width: 991px) {
@@ -381,7 +469,8 @@
 
     @media (max-width: 767px) {
         .profile-toolbar { align-items: stretch; }
-        .profile-tabs { gap: 24px; }
+        .profile-tabs { gap: 4px; }
+        .profile-tab { padding: 10px 12px; font-size: 13px; }
         .profile-add-user { align-self: flex-start; width: 100%; }
         .profile-grid { grid-template-columns: 1fr; }
 
@@ -525,7 +614,7 @@
                             </thead>
                             <tbody>
                                 @foreach($users as $index => $listedUser)
-                                    <tr>
+                                    <tr data-user-id="{{ $listedUser->id }}">
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $listedUser->name }}</td>
                                         <td>{{ $listedUser->email }}</td>
@@ -560,7 +649,7 @@
                 <button type="button" class="user-modal-close" id="closeAddUserModal">&times;</button>
             </div>
 
-            <form method="POST" action="{{ route('profile.users.store') }}">
+            <form method="POST" action="{{ route('profile.users.store') }}" id="addUserForm">
                 @csrf
                 <div class="user-modal-grid">
                     <div class="profile-field">
@@ -643,26 +732,60 @@ document.addEventListener('DOMContentLoaded', function () {
             var rows = document.querySelectorAll('#usersTable tbody tr');
 
             rows.forEach(function (row) {
-                row.style.display = row.textContent.toLowerCase().indexOf(query) === -1 ? 'none' : '';
+                var text = row.textContent.toLowerCase();
+                row.style.display = text.indexOf(query) === -1 ? 'none' : '';
             });
         });
     }
 
     addUserButton.addEventListener('click', function () {
         addUserModal.style.display = 'flex';
+        document.getElementById('new-user-name').focus();
     });
 
     closeAddUserModal.addEventListener('click', function () {
         addUserModal.style.display = 'none';
+        document.getElementById('addUserForm').reset();
     });
 
     cancelAddUserModal.addEventListener('click', function () {
         addUserModal.style.display = 'none';
+        document.getElementById('addUserForm').reset();
     });
 
     addUserModal.addEventListener('click', function (event) {
         if (event.target === addUserModal) {
             addUserModal.style.display = 'none';
+            document.getElementById('addUserForm').reset();
+        }
+    });
+
+    // Delete user with confirmation
+    var deleteButtons = document.querySelectorAll('.user-action-btn.delete');
+    deleteButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            var userName = row.querySelector('td:nth-child(2)').textContent;
+            
+            if (confirm('Are you sure you want to delete ' + userName + '? This action cannot be undone.')) {
+                var userId = row.getAttribute('data-user-id');
+                if (userId) {
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/profile/users/' + userId;
+                    form.innerHTML = '@csrf @method("DELETE")';
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            }
+        });
+    });
+
+    // Escape key to close modal
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && addUserModal.style.display === 'flex') {
+            addUserModal.style.display = 'none';
+            document.getElementById('addUserForm').reset();
         }
     });
 });

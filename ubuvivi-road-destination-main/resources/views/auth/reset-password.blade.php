@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           name="email" tabindex="1" value="{{ old('email') }}" autofocus>
+                           name="email" tabindex="1" value="{{ old('email') }}" autofocus required>
                     <div class="invalid-feedback">
                         {{ $errors->first('email') }}
                     </div>
@@ -31,7 +31,7 @@
                     <label for="password" class="control-label">Password</label>
                     <input id="password" type="password"
                            class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" name="password"
-                           tabindex="2">
+                           tabindex="2" required>
                     <div class="invalid-feedback">
                         {{ $errors->first('password') }}
                     </div>
@@ -40,7 +40,7 @@
                     <label for="password_confirmation" class="control-label">Confirm Password</label>
                     <input id="password_confirmation" type="password"
                            class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid': '' }}"
-                           name="password_confirmation" tabindex="2">
+                           name="password_confirmation" tabindex="2" required>
                     <div class="invalid-feedback">
                         {{ $errors->first('password_confirmation') }}
                     </div>
