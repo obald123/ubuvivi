@@ -482,7 +482,7 @@
     <div class="contain">
         <div>
             <div class="text-white d-flex flex-column align-items-center">
-                <img src="{{ asset('assets/images/logos.jpg') }}" height="100" class="logo rounded mb-5"
+                <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" height="100" class="logo rounded mb-5"
                     alt="Logo">
                 <h5 class="description text-center blur mt-5">STAY TUNED</h5>
                 <h1 class="title mt-2 display-4 text-center blur">WEBSITE LAUNCHING SOON<br></h1>

@@ -14,7 +14,7 @@
     <meta http-equiv="Expires" content="0">
     <meta name="google-site-verification" content="3Jiqxe_pR4TUfsKpSTiWC5bMXT6ksTJLbK_LDqoCmFU">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/apple-touch-icon.png?v=1') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favsliicon-32x32.png?v=1') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon-32x32.png?v=1') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicon-16x16.png?v=1') }}">
     <link rel="manifest" href="{{ asset('img/site.webmanifest?v=1') }}">
     <link rel="mask-icon" href="{{ asset('img/safari-pinned-tab.svg?v=1') }}" color="#5bbad5">
@@ -432,7 +432,7 @@
                 <div class="footer-col footer-col-brand">
                     <div class="footer-logo-wrap">
                         <a href="{{ url('/') }}">
-                            <img src="{{ asset('assets/images/logos.jpg?v=2') }}" alt="Ubuvivi Tours">
+                            <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" alt="Ubuvivi Tours">
                         </a>
                         <div class="footer-brand-info">
                             <span class="footer-addr-label">Main Office Address:</span>

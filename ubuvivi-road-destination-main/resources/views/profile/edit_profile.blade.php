@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-sm-3 preview-image-video-container float-right mt-1">
                                 <img id='edit_preview_photo' class="img-thumbnail user-img user-profile-img profilePicture"
-                                     src="{{asset('assets/images/logos.jpg')}}"/>
+                                     src="{{asset('img/android-chrome-512x512.png?v=1')}}"/>
                             </div>
                         </div>
                     </div>
@@ -50,4 +50,3 @@
         </div>
     </div>
 </div>
-

@@ -138,7 +138,7 @@
     {{-- ── Sidebar ── --}}
     <aside class="cl-sidebar" id="clSidebar">
         <div class="cl-sidebar-brand">
-            <img src="{{ asset('assets/images/logos.jpg') }}" alt="Ubuvivi Tours">
+            <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" alt="Ubuvivi Tours">
             <span>UBUVIVI Tours</span>
         </div>
 

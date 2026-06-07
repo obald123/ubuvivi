@@ -33,7 +33,7 @@
     <div class="top-bar"></div>
 
     <div class="header">
-        <img src="{{ asset('assets/images/logos.jpg') }}" alt="Ubuvivi Tours">
+        <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" alt="Ubuvivi Tours">
         <div>
             <div class="header-brand">Ubuvivi Tours &amp; Travel</div>
             <div class="header-sub">Newsletter</div>
