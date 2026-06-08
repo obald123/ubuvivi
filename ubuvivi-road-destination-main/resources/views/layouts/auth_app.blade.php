@@ -189,6 +189,7 @@
             font-size: 13px;
         }
     </style>
+    @stack('styles')
 </head>
 <body>
     @include('layouts.partials.public_navbar')

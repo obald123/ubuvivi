@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Class User
@@ -28,9 +29,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class User extends Model implements UserContract, CanResetPassword
 {
-    use Authenticatable, CanResetPasswordTrait;
-
-    use HasFactory;
+    use Authenticatable, CanResetPasswordTrait, Notifiable, HasFactory;
 
     public $table = 'users';
 

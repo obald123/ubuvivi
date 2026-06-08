@@ -1,39 +1,71 @@
 @extends('layouts.auth_app')
-@section('title')
-    Forgot Password
-@endsection
+
+@section('title', 'Forgot Password')
+
 @section('content')
-    <div class="card card-primary" style="border-radius: 15px">
-        <div class="card-header">
-            <h4>Reset Password</h4>
+
+    @if ($errors->any())
+        <div class="auth-errors">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (session('status'))
+        <div class="auth-status">
+            <i class="far fa-check-circle"></i>
+            {{ session('status') }}
+        </div>
+    @endif
+
+    <p class="auth-hint">
+        Enter your email address and we'll send you a link to reset your password.
+    </p>
+
+    <form method="POST" action="{{ route('password.email') }}">
+        @csrf
+
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-envelope"></i></div>
+            <input type="email" name="email" placeholder="Enter your email address"
+                value="{{ old('email') }}" required autofocus>
         </div>
 
-        <div class="card-body">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            <form method="POST" action="{{ route('password.email') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                        name="email" tabindex="1" value="{{ old('email') }}" autofocus required>
-                    <div class="invalid-feedback">
-                        {{ $errors->first('email') }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                        Send Reset Link
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="mt-5 text-muted text-center">
-        Recalled your login info? <a class="bg-primary px-2 py-1 rounded text-light" href="{{ route('login') }}">Sign
-            In</a>
-    </div>
+        <button type="submit" class="auth-submit">Send Reset Link</button>
+    </form>
+
+    <p class="auth-footer-link">
+        Remembered your password? <a href="{{ route('login') }}">Sign In</a>
+    </p>
+
 @endsection
+
+@push('styles')
+<style>
+    .auth-hint {
+        color: rgba(255,255,255,.72);
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .auth-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(22,163,74,.25);
+        border: 1px solid rgba(22,163,74,.5);
+        border-radius: 8px;
+        padding: 11px 14px;
+        margin-bottom: 16px;
+        color: #86efac;
+        font-size: 13px;
+        text-align: left;
+    }
+    .auth-status i { font-size: 15px; flex-shrink: 0; }
+</style>
+@endpush
+
