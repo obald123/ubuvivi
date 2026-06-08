@@ -1878,11 +1878,48 @@ class GuestController extends Controller
 
     public function privacy_policy()
     {
-        return view('privacy-policy');
+        $privacyContent = file_exists(base_path('policy.html'))
+            ? file_get_contents(base_path('policy.html'))
+            : '';
+
+        return view('privacy-policy', compact('privacyContent'));
     }
 
     public function terms_conditions()
     {
-        return view('terms-conditions');
+        $cookieContent = file_exists(base_path('terms.html'))
+            ? file_get_contents(base_path('terms.html'))
+            : '';
+
+        $termsImageDirectory = collect([
+            public_path('assets/images/terms-and-condition'),
+            public_path('assets/images/terms and condition'),
+            public_path('images/terms-and-condition'),
+            public_path('images/terms and condition'),
+        ])->first(function ($path) {
+            return is_dir($path);
+        });
+
+        $termsImages = collect();
+
+        if ($termsImageDirectory) {
+            $termsImages = collect(glob($termsImageDirectory . DIRECTORY_SEPARATOR . '*.{jpg,jpeg,png,webp}', GLOB_BRACE))
+                ->filter(function ($path) {
+                    $name = pathinfo($path, PATHINFO_FILENAME);
+
+                    return preg_match('/(?:^|[^0-9])([1-9]|1[0-5])(?:[^0-9]|$)/', $name);
+                })
+                ->sortBy(function ($path) {
+                    preg_match('/(?:^|[^0-9])([1-9]|1[0-5])(?:[^0-9]|$)/', pathinfo($path, PATHINFO_FILENAME), $matches);
+
+                    return (int) ($matches[1] ?? 0);
+                })
+                ->map(function ($path) {
+                    return str_replace(public_path() . DIRECTORY_SEPARATOR, '', $path);
+                })
+                ->values();
+        }
+
+        return view('terms-conditions', compact('cookieContent', 'termsImages'));
     }
 }
