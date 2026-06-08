@@ -59,99 +59,128 @@
     /* ── Search bar ── */
     .search-bar-wrap {
         position: absolute;
-        bottom: -36px;
+        bottom: -52px;
         left: 50%;
         transform: translateX(-50%);
         z-index: 10;
-        width: 90%;
-        max-width: 860px;
+        width: 92%;
+        max-width: 920px;
     }
     .search-bar {
         background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 12px 48px rgba(0,0,0,.25);
-        padding: 20px 24px;
+        border-radius: 18px;
+        box-shadow: 0 16px 56px rgba(0,0,0,.30);
+        padding: 22px 28px;
         display: flex;
-        align-items: center;
-        gap: 12px;
+        align-items: flex-end;
+        gap: 14px;
         flex-wrap: wrap;
-        backdrop-filter: blur(2px);
     }
     .search-bar .filter-group {
         flex: 1;
-        min-width: 160px;
+        min-width: 170px;
         position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .search-bar .filter-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+    .search-bar .filter-label i {
+        color: #C85A2A;
+        font-size: 12px;
     }
     .search-bar .filter-select {
         width: 100%;
         appearance: none;
         -webkit-appearance: none;
-        border: 2px solid #ddd;
+        border: 1.5px solid #e2e8f0;
         border-radius: 10px;
-        padding: 13px 36px 13px 14px;
-        font-size: 15px;
+        padding: 11px 36px 11px 14px;
+        font-size: 14px;
         font-weight: 600;
-        color: #1a1a1a;
-        background: #fff;
+        color: #1e293b;
+        background: #f8fafc;
         cursor: pointer;
         outline: none;
-        transition: all .2s;
-        box-shadow: 0 3px 12px rgba(0,0,0,.12);
+        transition: border-color .2s, box-shadow .2s, background .2s;
     }
-    .search-bar .filter-select:hover { 
-        background: #fff;
+    .search-bar .filter-select:hover {
         border-color: #C85A2A;
-        box-shadow: 0 3px 16px rgba(200, 90, 42, .18);
-    }
-    .search-bar .filter-select:focus { 
         background: #fff;
-        border: 2px solid #C85A2A;
-        padding: 13px 36px 13px 14px;
-        box-shadow: 0 4px 20px rgba(200, 90, 42, .25);
+    }
+    .search-bar .filter-select:focus {
+        border-color: #C85A2A;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(200,90,42,.12);
     }
     .search-bar .filter-select option {
         background: #fff;
-        color: #1a1a1a;
+        color: #1e293b;
         font-weight: 600;
-        font-size: 15px;
-        padding: 10px;
     }
-    .search-bar .filter-group::after {
-        content: '\f107';
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
+    .search-bar .filter-chevron {
         position: absolute;
         right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #888;
+        bottom: 13px;
+        color: #9ca3af;
         pointer-events: none;
-        font-size: 13px;
+        font-size: 12px;
     }
     .search-bar .search-btn {
         background: #C85A2A;
         color: #fff;
         border: none;
         border-radius: 10px;
-        padding: 12px 32px;
+        padding: 13px 32px;
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 8px;
-        transition: all .2s;
+        transition: background .2s, transform .18s;
         white-space: nowrap;
+        align-self: flex-end;
+        height: 44px;
+        letter-spacing: .3px;
     }
-    .search-bar .search-btn:hover { 
+    .search-bar .search-btn:hover {
         background: #a84520;
         transform: translateY(-1px);
+    }
+    /* ── divider between filters ── */
+    .filter-divider {
+        width: 1px;
+        height: 44px;
+        background: #e2e8f0;
+        align-self: flex-end;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+        .search-bar-wrap { bottom: auto; position: relative; left: auto; transform: none; width: 100%; max-width: 100%; margin-top: -24px; padding: 0 16px; }
+        .filter-divider { display: none; }
+        .search-bar { padding: 18px; gap: 12px; border-radius: 14px; }
+        .search-bar .search-btn { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 480px) {
+        .search-bar { padding: 14px; gap: 10px; }
+        .search-bar .filter-group { min-width: 100%; }
     }
 
     /* ── Cars Grid ── */
     .cars-grid-section {
         background: #f7f7f7;
-        padding: 100px 0 80px;
+        padding: 120px 0 80px;
     }
     .car-card {
         background: #fff;
@@ -383,9 +412,14 @@
         <div class="search-bar-wrap">
             <form action="/cars" method="GET">
                 <div class="search-bar">
+
+                    {{-- Brand --}}
                     <div class="filter-group">
+                        <span class="filter-label">
+                            <i class="fas fa-car"></i> Brand
+                        </span>
                         <select id="brand_select" name="vehicle_brand" class="filter-select">
-                            <option value="">Vehicle Brand</option>
+                            <option value="">All Brands</option>
                             @foreach ($brands as $brand)
                                 <option value="{{ $brand->name }}"
                                     @if(request('vehicle_brand') == $brand->name) selected @endif>
@@ -393,27 +427,47 @@
                                 </option>
                             @endforeach
                         </select>
+                        <i class="fas fa-chevron-down filter-chevron"></i>
                     </div>
+
+                    <div class="filter-divider"></div>
+
+                    {{-- Model --}}
                     <div class="filter-group">
+                        <span class="filter-label">
+                            <i class="fas fa-tag"></i> Model
+                        </span>
                         <select id="model_select" name="vehicle_model" class="filter-select">
-                            <option value="">Vehicle Model</option>
+                            <option value="">All Models</option>
                             @if(request('vehicle_model'))
                                 <option value="{{ request('vehicle_model') }}" selected>{{ request('vehicle_model') }}</option>
                             @endif
                         </select>
+                        <i class="fas fa-chevron-down filter-chevron"></i>
                     </div>
+
+                    <div class="filter-divider"></div>
+
+                    {{-- Price --}}
                     <div class="filter-group">
+                        <span class="filter-label">
+                            <i class="fas fa-dollar-sign"></i> Price
+                        </span>
                         <select name="price" class="filter-select">
-                            <option value="">Price</option>
-                            <option value="low" @if(request('price')=='low') selected @endif>Low to High</option>
+                            <option value="">Any Price</option>
+                            <option value="low"  @if(request('price')=='low')  selected @endif>Low to High</option>
                             <option value="high" @if(request('price')=='high') selected @endif>High to Low</option>
                         </select>
+                        <i class="fas fa-chevron-down filter-chevron"></i>
                     </div>
+
+                    {{-- Submit --}}
                     <button type="submit" class="search-btn" id="sbmt_btn">
                         <span id="sbmt_btn_loading" class="fas fa-spinner fa-spin" style="display:none;"></span>
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search" id="sbmt_btn_icon"></i>
                         <span id="sbmt_btn_text">Search</span>
                     </button>
+
                 </div>
             </form>
         </div>
@@ -516,6 +570,7 @@
         function getModels() {
             var brand = $('#brand_select').val();
             $('#sbmt_btn_loading').show();
+            $('#sbmt_btn_icon').hide();
             $('#sbmt_btn_text').hide();
             $('#sbmt_btn').attr('disabled', true);
             $('#model_select').attr('disabled', true);
@@ -532,12 +587,14 @@
                         $('#model_select').append($('<option>', { value: value.name, text: value.name, selected: isSelected }));
                     });
                     $('#sbmt_btn_loading').hide();
+                    $('#sbmt_btn_icon').show();
                     $('#sbmt_btn_text').show();
                     $('#sbmt_btn').attr('disabled', false);
                     $('#model_select').attr('disabled', false);
                 },
                 error: function () {
                     $('#sbmt_btn_loading').hide();
+                    $('#sbmt_btn_icon').show();
                     $('#sbmt_btn_text').show();
                     $('#sbmt_btn').attr('disabled', false);
                     $('#model_select').attr('disabled', false);
