@@ -88,7 +88,15 @@
         line-height: 1.8;
     }
     .legal-content table {
-        width: 100%;
+        width: 100% !important;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 24px;
+    }
+    .legal-content table td,
+    .legal-content table th {
+        min-width: 120px;
     }
     @media (max-width: 768px) {
         .legal-container {

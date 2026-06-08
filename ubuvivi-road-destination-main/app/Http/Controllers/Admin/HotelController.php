@@ -12,7 +12,7 @@ class HotelController extends Controller
     use UploadsImages;
     public function index()
     {
-        $hotels = Hotel::withTrashed()->latest()->get();
+        $hotels = Hotel::latest()->get();
         return view('admin.hotels.index', compact('hotels'));
     }
 

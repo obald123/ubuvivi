@@ -18,7 +18,7 @@ class BlogController extends Controller
 
     public function index()
     {
-        $posts = BlogPost::withTrashed()->latest()->get();
+        $posts = BlogPost::latest()->get();
         return view('admin.blog.index', compact('posts'));
     }
 
