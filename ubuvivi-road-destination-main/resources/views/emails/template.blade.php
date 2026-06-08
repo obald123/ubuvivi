@@ -5,40 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Confirmation - Ubuvivi Tours</title>
     <style>
-        body { margin:0; padding:0; background:#f4f4f4; font-family:Arial, sans-serif; color:#333; }
-        .wrap { max-width:580px; margin:28px auto; background:#fff; border:1px solid #e0e0e0; }
-        .top-bar { height:4px; background:#C85A2A; }
-        .header { padding:24px 32px; border-bottom:1px solid #ececec; display:flex; align-items:center; gap:14px; }
-        .header img { height:44px; width:auto; object-fit:contain; }
-        .header-brand { font-size:17px; font-weight:700; color:#0D1F35; line-height:1.2; }
-        .header-sub { font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
-        .body { padding:32px; }
-        .subject-line { font-size:18px; font-weight:700; color:#0D1F35; margin-bottom:16px; }
-        .body p { font-size:14px; color:#444; line-height:1.75; margin:0 0 16px; }
-        .divider { border:none; border-top:1px solid #ececec; margin:24px 0; }
-        .highlight { background:#f9f6f4; border-left:3px solid #C85A2A; padding:14px 18px; margin:20px 0; font-size:13px; color:#444; line-height:1.7; }
-        .btn-wrap { text-align:center; margin:28px 0; }
-        .btn { display:inline-block; background:#C85A2A; color:#fff !important; text-decoration:none; padding:13px 36px; font-size:14px; font-weight:700; }
-        .footer { background:#0D1F35; padding:22px 32px; }
-        .footer p { font-size:12px; color:rgba(255,255,255,.6); margin:0 0 4px; line-height:1.6; }
+        body { margin:0; padding:0; background:#f0f2f5; font-family:'Helvetica Neue',Arial,sans-serif; color:#333; }
+        .outer { padding:40px 16px; }
+        .wrap { max-width:560px; margin:0 auto; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.08); }
+
+        /* Header */
+        .header { padding:32px 40px 24px; text-align:center; border-bottom:1px solid #f0f0f0; }
+        .header img { height:70px; width:70px; border-radius:50%; object-fit:cover; display:block; margin:0 auto 12px; }
+        .header-brand { font-size:18px; font-weight:700; color:#1a1a2e; letter-spacing:.2px; }
+        .header-sub { font-size:12px; color:#aaa; text-transform:uppercase; letter-spacing:1px; margin-top:3px; }
+
+        /* Body */
+        .body { padding:32px 40px; }
+        .subject-line { font-size:20px; font-weight:700; color:#1a1a2e; margin-bottom:14px; }
+        .body p { font-size:15px; color:#555; line-height:1.8; margin:0 0 14px; }
+        .divider { border:none; border-top:1px solid #f0f0f0; margin:24px 0; }
+
+        /* Highlight box */
+        .highlight { background:#fafafa; border-left:3px solid #C85A2A; border-radius:0 6px 6px 0; padding:14px 18px; margin:20px 0; font-size:14px; color:#555; line-height:1.75; }
+
+        /* Button */
+        .btn-wrap { text-align:center; margin:28px 0 20px; }
+        .btn { display:inline-block; background:#C85A2A; color:#fff !important; text-decoration:none; padding:14px 40px; font-size:15px; font-weight:700; border-radius:6px; letter-spacing:.3px; }
+
+        /* Footer */
+        .footer { padding:20px 40px 28px; text-align:center; }
+        .footer p { font-size:12px; color:#bbb; margin:0 0 4px; line-height:1.7; }
         .footer a { color:#C85A2A; text-decoration:none; }
+
         @media (max-width:600px) {
-            .wrap { margin:0; border:none; }
-            .header, .body { padding:20px; }
-            .footer { padding:20px; }
+            .outer { padding:20px 0; }
+            .wrap { border-radius:0; box-shadow:none; }
+            .header, .body, .footer { padding-left:24px; padding-right:24px; }
         }
     </style>
 </head>
 <body>
+<div class="outer">
 <div class="wrap">
-    <div class="top-bar"></div>
 
     <div class="header">
         <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" alt="Ubuvivi Tours">
-        <div>
-            <div class="header-brand">Ubuvivi Tours &amp; Travel</div>
-            <div class="header-sub">Kigali, Rwanda</div>
-        </div>
+        <div class="header-brand">Ubuvivi Tours &amp; Travel</div>
+        <div class="header-sub">Kigali, Rwanda</div>
     </div>
 
     <div class="body">
@@ -47,7 +56,7 @@
         <p>Thank you for your booking. We have received your request and our team will review it and get back to you within <strong>24 hours</strong>.</p>
 
         <div class="highlight">
-            To view your booking details and track its status, click the button below. Keep this link — it is unique to your booking.
+            To view your booking details and track its status, click the button below. Keep this link &mdash; it is unique to your booking.
         </div>
 
         <div class="btn-wrap">
@@ -56,14 +65,16 @@
 
         <hr class="divider">
 
-        <p style="font-size:13px;color:#888;">If you have any questions, reply to this email or contact us at <a href="mailto:ubuvivitours@gmail.com" style="color:#C85A2A;">ubuvivitours@gmail.com</a> or call +250 789 044 222.</p>
+        <p style="font-size:13px;color:#aaa;text-align:center;">If you have any questions, contact us at <a href="mailto:ubuvivitours@gmail.com" style="color:#C85A2A;">ubuvivitours@gmail.com</a> or call +250 789 044 222.</p>
     </div>
 
     <div class="footer">
         <p>Ubuvivi Tours &amp; Travel &mdash; Remera, Kigali, Rwanda</p>
-        <p><a href="mailto:ubuvivitours@gmail.com">ubuvivitours@gmail.com</a> &nbsp;|&nbsp; <a href="https://ubuvivitours.com">ubuvivitours.com</a></p>
-        <p style="margin-top:10px;color:rgba(255,255,255,.35);">&copy; {{ date('Y') }} Ubuvivi Tours &amp; Travel. All rights reserved.</p>
+        <p><a href="mailto:ubuvivitours@gmail.com">ubuvivitours@gmail.com</a> &nbsp;&bull;&nbsp; <a href="https://ubuvivitours.com">ubuvivitours.com</a></p>
+        <p style="margin-top:8px;">&copy; {{ date('Y') }} Ubuvivi Tours &amp; Travel. All rights reserved.</p>
     </div>
+
+</div>
 </div>
 </body>
 </html>

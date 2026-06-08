@@ -544,23 +544,21 @@ class GuestController extends Controller
         $message = "Something unexpected happened";
 
         if (empty($booking)) {
+            $itinerary = null;
             $message = "We couldn't find this booking in our records";
-            return view("tours.booking_view")->with(compact("booking", "message"));
-        }
-
-        if (empty($booking->tour)) {
-            $message = "We couldn't find any tour associated to your booking, please try booking again.";
-            return view("tours.booking_view")->with(compact("booking", "message"));
+            return view("tours.booking_view")->with(compact("booking", "itinerary", "message"));
         }
 
         $itinerary = $booking->tour;
-        $itinerary->images = $itinerary->images ? $itinerary->images : array();
-        $itinerary->highlights = $itinerary->highlights ? $itinerary->highlights : array();
-        $itinerary->inclusions = $itinerary->inclusions ? $itinerary->inclusions : array();
-        $itinerary->exclusions = $itinerary->exclusions ? $itinerary->exclusions : array();
-        $itinerary->days_description = $itinerary->days_description ? $itinerary->days_description : array();
+        if ($itinerary) {
+            $itinerary->images = $itinerary->images ?: [];
+            $itinerary->highlights = $itinerary->highlights ?: [];
+            $itinerary->inclusions = $itinerary->inclusions ?: [];
+            $itinerary->exclusions = $itinerary->exclusions ?: [];
+            $itinerary->days_description = $itinerary->days_description ?: [];
+        }
 
-        return view("tours.booking_view", compact("booking", "itinerary"));
+        return view("tours.booking_view", compact("booking", "itinerary", "message"));
     }
 
     public function car_booking_view($id)
@@ -1043,7 +1041,10 @@ class GuestController extends Controller
         $packageLabel = $request->package_label ?? 'Event Planning';
         $packageKey = $request->package ?? 'basic';
         $timePart = $request->event_time ?? '';
-        $dateTime = trim($request->date . ($timePart ? ' ' . $timePart : ''));
+        // Store only the clean date (YYYY-MM-DD) so Carbon can always parse it
+        $cleanDate = substr(trim($request->date), 0, 10);
+        // Build a human-readable datetime for the message
+        $displayDateTime = $cleanDate . ($timePart ? ' ' . $timePart : '');
 
         // Map package key to event package itinerary title
         $packageTitleMap = [
@@ -1056,7 +1057,7 @@ class GuestController extends Controller
         $eventItinerary = Itinerary::where('title', $packageTitle)->first();
         $itineraryId = $eventItinerary ? $eventItinerary->id : null;
 
-        $fullMessage  = "Package: {$packageLabel}\nDate & Time: {$dateTime}";
+        $fullMessage  = "Package: {$packageLabel}\nDate & Time: {$displayDateTime}";
         if ($request->filled('event_details'))  $fullMessage .= "\n\nEvent Details:\n" . $request->event_details;
         if ($request->filled('message'))        $fullMessage .= "\n\nSpecial Requests:\n" . $request->message;
 
@@ -1066,7 +1067,7 @@ class GuestController extends Controller
             'email'           => $request->email,
             'phone_number'    => $request->phone_number,
             'number_of_people'=> $request->number_of_people ?? 1,
-            'date'            => $dateTime,
+            'date'            => $cleanDate,
             'message'         => $fullMessage,
             'price'           => '0',
             'approved'        => false,

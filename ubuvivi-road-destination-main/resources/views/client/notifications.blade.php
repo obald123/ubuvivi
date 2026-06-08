@@ -67,7 +67,7 @@
     <div class="cd-topbar">
         <div class="cd-search">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search...">
+            <input type="text" id="notifSearch" placeholder="Search notifications..." autocomplete="off">
         </div>
         <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
             <i class="fas fa-plus"></i> New Booking
@@ -117,14 +117,18 @@ function switchTab(tag, el) {
 }
 
 function applyFilters() {
-    var q = document.querySelector('.cd-search input').value.trim().toLowerCase();
+    var inp = document.getElementById('notifSearch');
+    var q   = inp ? inp.value.trim().toLowerCase() : '';
     document.querySelectorAll('.notif-item').forEach(function(item) {
-        var matchTab = (currentTab === 'all' || item.dataset.tag === currentTab);
+        var matchTab    = (currentTab === 'all' || item.dataset.tag === currentTab);
         var matchSearch = !q || item.textContent.toLowerCase().includes(q);
         item.style.display = (matchTab && matchSearch) ? '' : 'none';
     });
 }
 
-document.querySelector('.cd-search input').addEventListener('input', applyFilters);
+document.addEventListener('DOMContentLoaded', function () {
+    var inp = document.getElementById('notifSearch');
+    if (inp) inp.addEventListener('input', applyFilters);
+});
 </script>
 @endsection

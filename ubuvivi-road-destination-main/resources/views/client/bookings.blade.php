@@ -77,7 +77,7 @@
     <div class="cd-topbar">
         <div class="cd-search">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search..." id="searchInput" oninput="filterSearch(this.value)">
+            <input type="text" placeholder="Search bookings..." id="searchInput" autocomplete="off">
         </div>
         <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
             <i class="fas fa-plus"></i> New Booking
@@ -128,17 +128,18 @@
             <tbody>
                 @foreach($all as $bk)
                 @php
-                    $today = now()->toDateString();
-                    if ($bk->date < $today)                              $status = 'completed';
-                    elseif ($bk->date === $today && $bk->approved)       $status = 'active';
-                    elseif ($bk->approved)                               $status = 'upcoming';
-                    elseif (!is_null($bk->approved) && !$bk->approved)   $status = 'rejected';
-                    else                                                 $status = 'pending';
+                    $today   = now()->toDateString();
+                    $bkDate  = substr($bk->date ?? '', 0, 10); // normalize to YYYY-MM-DD
+                    if ($bkDate < $today)                               $status = 'completed';
+                    elseif ($bkDate === $today && $bk->approved)        $status = 'active';
+                    elseif ($bk->approved)                              $status = 'upcoming';
+                    elseif (!is_null($bk->approved) && !$bk->approved)  $status = 'rejected';
+                    else                                                $status = 'pending';
                 @endphp
                 <tr data-status="{{ $status }}">
                     <td><strong>{{ $bk->service }}</strong></td>
                     <td>{{ $bk->name }}</td>
-                    <td>{{ \Carbon\Carbon::parse($bk->date)->format('d F Y') }}</td>
+                    <td>{{ $bkDate ? \Carbon\Carbon::parse($bkDate)->format('d F Y') : '—' }}</td>
                     <td>$ {{ number_format($bk->price) }}</td>
                     <td>
                         @if($status === 'completed')
@@ -154,6 +155,12 @@
                     <td><a href="#" class="cd-link">View Details</a></td>
                 </tr>
                 @endforeach
+                <tr id="noResultsRow" style="display:none;">
+                    <td colspan="6" style="text-align:center;padding:40px 20px;color:#aaa;font-size:14px;">
+                        <i class="fas fa-search" style="font-size:24px;display:block;margin-bottom:10px;"></i>
+                        No bookings match your search.
+                    </td>
+                </tr>
             </tbody>
         </table>
         </div>
@@ -177,51 +184,72 @@ var currentFilter = 'all';
 var rowsPerPage   = 7;
 var currentPage   = 1;
 
-function allRows() {
-    return Array.from(document.querySelectorAll('#bookingTable tbody tr'));
+function dataRows() {
+    // all real booking rows (exclude the no-results placeholder)
+    return Array.from(document.querySelectorAll('#bookingTable tbody tr:not(#noResultsRow)'));
+}
+
+function getSearch() {
+    var el = document.getElementById('searchInput');
+    return el ? el.value.trim().toLowerCase() : '';
 }
 
 function visibleRows() {
-    return allRows().filter(function(r) {
+    var search = getSearch();
+    return dataRows().filter(function(r) {
         if (currentFilter !== 'all' && r.dataset.status !== currentFilter) return false;
-        var search = document.getElementById('searchInput').value.toLowerCase();
         if (search && !r.textContent.toLowerCase().includes(search)) return false;
         return true;
     });
 }
 
 function renderPage() {
-    var rows = visibleRows();
+    var rows  = visibleRows();
     var total = rows.length;
     var pages = Math.max(1, Math.ceil(total / rowsPerPage));
     if (currentPage > pages) currentPage = 1;
 
-    allRows().forEach(function(r) { r.style.display = 'none'; });
+    // Hide all data rows first
+    dataRows().forEach(function(r) { r.style.display = 'none'; });
+
+    // Show current page slice
     var start = (currentPage - 1) * rowsPerPage;
     rows.slice(start, start + rowsPerPage).forEach(function(r) { r.style.display = ''; });
 
-    // Pagination buttons
+    // No-results placeholder
+    var noRow = document.getElementById('noResultsRow');
+    if (noRow) noRow.style.display = total === 0 ? '' : 'none';
+
+    // Pagination
     var pg = document.getElementById('pagination');
     if (!pg) return;
     var html = '';
+    if (currentPage > 1)
+        html += '<a class="pg-btn pg-arrow" onclick="goPage(' + (currentPage - 1) + '">&#8249;</a>';
     for (var i = 1; i <= pages; i++) {
         html += '<a class="pg-btn' + (i === currentPage ? ' active' : '') + '" onclick="goPage(' + i + ')">' + i + '</a>';
     }
-    if (currentPage < pages) html += '<a class="pg-btn pg-arrow" onclick="goPage(' + (currentPage+1) + ')">&#8250;</a>';
+    if (currentPage < pages)
+        html += '<a class="pg-btn pg-arrow" onclick="goPage(' + (currentPage + 1) + ')">&#8250;</a>';
     pg.innerHTML = html;
 }
 
 function filterTab(status, el) {
-    currentFilter = status; currentPage = 1;
-    document.querySelectorAll('.ftab').forEach(function(t){ t.classList.remove('active'); });
+    currentFilter = status;
+    currentPage   = 1;
+    document.querySelectorAll('.ftab').forEach(function(t) { t.classList.remove('active'); });
     el.classList.add('active');
     renderPage();
 }
 
-function filterSearch() { currentPage = 1; renderPage(); }
-
 function goPage(p) { currentPage = p; renderPage(); }
 
-document.addEventListener('DOMContentLoaded', renderPage);
+document.addEventListener('DOMContentLoaded', function () {
+    renderPage();
+    var inp = document.getElementById('searchInput');
+    if (inp) {
+        inp.addEventListener('input', function () { currentPage = 1; renderPage(); });
+    }
+});
 </script>
 @endsection
