@@ -47,7 +47,7 @@
         color: #fff;
         padding-bottom: 80px;
     }
-    .search-bar-wrap { z-index: 10; }
+
     .cars-hero-content h1 {
         font-size: clamp(36px, 6vw, 64px);
         font-weight: 800;
@@ -58,11 +58,11 @@
 
     /* ── Search bar ── */
     .search-bar-wrap {
-        position: absolute;
-        bottom: -52px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10;
+        position: relative;
+        z-index: 100;
+        margin-top: -52px;
+        margin-left: auto;
+        margin-right: auto;
         width: 92%;
         max-width: 920px;
     }
@@ -167,7 +167,7 @@
     }
 
     @media (max-width: 768px) {
-        .search-bar-wrap { bottom: auto; position: relative; left: auto; transform: none; width: 100%; max-width: 100%; margin-top: -24px; padding: 0 16px; }
+        .search-bar-wrap { margin-top: -24px; width: 100%; max-width: 100%; padding: 0 16px; }
         .filter-divider { display: none; }
         .search-bar { padding: 18px; gap: 12px; border-radius: 14px; }
         .search-bar .search-btn { width: 100%; justify-content: center; }
@@ -180,7 +180,7 @@
     /* ── Cars Grid ── */
     .cars-grid-section {
         background: #f7f7f7;
-        padding: 120px 0 80px;
+        padding: 50px 0 80px;
     }
     .car-card {
         background: #fff;
@@ -407,10 +407,11 @@
         <div class="cars-hero-content">
             <h1>Find Your Perfect Car</h1>
         </div>
+    </section>
 
-        {{-- Search bar --}}
-        <div class="search-bar-wrap">
-            <form action="/cars" method="GET">
+    {{-- Search bar (outside hero so overflow:hidden does not clip it) --}}
+    <div class="search-bar-wrap">
+        <form action="/cars" method="GET">
                 <div class="search-bar">
 
                     {{-- Brand --}}
@@ -471,7 +472,6 @@
                 </div>
             </form>
         </div>
-    </section>
 
     {{-- ── Cars Grid ── --}}
     <section class="cars-grid-section">

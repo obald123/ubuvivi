@@ -72,7 +72,7 @@
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Search...">
         </div>
-        <a href="{{ route('client.new_booking') }}" class="cd-new-btn">
+        <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
             <i class="fas fa-plus"></i> New Booking
         </a>
     </div>

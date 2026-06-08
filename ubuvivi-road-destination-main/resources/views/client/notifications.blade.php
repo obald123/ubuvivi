@@ -69,7 +69,7 @@
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Search...">
         </div>
-        <a href="{{ route('client.new_booking') }}" class="cd-new-btn">
+        <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
             <i class="fas fa-plus"></i> New Booking
         </a>
     </div>
@@ -98,7 +98,7 @@
         @empty
         <div class="notif-empty">
             <i class="fas fa-bell-slash"></i>
-            No notifications yet. <a href="{{ route('client.new_booking') }}" style="color:#4F9DE8;">Make your first booking</a>
+            No notifications yet. <a href="{{ route('guest.all_services') }}" style="color:#4F9DE8;">Make your first booking</a>
         </div>
         @endforelse
     </div>

@@ -79,7 +79,7 @@
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Search..." id="searchInput" oninput="filterSearch(this.value)">
         </div>
-        <a href="{{ route('client.new_booking') }}" class="cd-new-btn">
+        <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
             <i class="fas fa-plus"></i> New Booking
         </a>
     </div>
@@ -164,7 +164,7 @@
         @else
         <div class="no-data">
             <i class="fas fa-suitcase" style="font-size:32px;display:block;margin-bottom:12px;color:#ddd;"></i>
-            No bookings found. <a href="{{ route('client.new_booking') }}" style="color:#4F9DE8;">Make your first booking</a>
+            No bookings found. <a href="{{ route('guest.all_services') }}" style="color:#4F9DE8;">Make your first booking</a>
         </div>
         @endif
     </div>
