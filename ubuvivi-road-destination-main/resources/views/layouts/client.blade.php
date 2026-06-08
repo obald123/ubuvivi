@@ -145,28 +145,44 @@
         <nav class="cl-nav">
             <a href="{{ route('client.dashboard') }}"
                class="cl-nav-item {{ request()->is('client/dashboard') ? 'active' : '' }}">
-                <i class="fas fa-th-large"></i> Dashboard
+                <i class="fas fa-th-large"></i>
+                <span data-en="Dashboard" data-fr="Tableau de bord">Dashboard</span>
             </a>
             <a href="{{ route('client.bookings') }}"
                class="cl-nav-item {{ request()->is('client/bookings') ? 'active' : '' }}">
-                <i class="fas fa-calendar-alt"></i> My Bookings
+                <i class="fas fa-calendar-alt"></i>
+                <span data-en="My Bookings" data-fr="Mes réservations">My Bookings</span>
             </a>
             <a href="{{ route('client.notifications') }}"
                class="cl-nav-item {{ request()->is('client/notifications') ? 'active' : '' }}">
-                <i class="fas fa-bell"></i> Notifications
+                <i class="fas fa-bell"></i>
+                <span data-en="Notifications" data-fr="Notifications">Notifications</span>
             </a>
             <a href="{{ route('client.profile') }}"
                class="cl-nav-item {{ request()->is('client/profile') ? 'active' : '' }}">
-                <i class="fas fa-user"></i> Profile
+                <i class="fas fa-user"></i>
+                <span data-en="Profile" data-fr="Profil">Profile</span>
             </a>
         </nav>
 
         <div class="cl-sidebar-footer">
+            {{-- Language toggle --}}
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;">
+                <button id="cl-lang-en" onclick="setLang('en')"
+                    style="flex:1;border:1.5px solid rgba(255,255,255,.2);border-radius:7px;padding:7px 0;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.55);transition:all .2s;letter-spacing:.5px;">
+                    EN
+                </button>
+                <button id="cl-lang-fr" onclick="setLang('fr')"
+                    style="flex:1;border:1.5px solid rgba(255,255,255,.2);border-radius:7px;padding:7px 0;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.55);transition:all .2s;letter-spacing:.5px;">
+                    FR
+                </button>
+            </div>
             <form action="{{ route('logout') }}" method="POST" class="cl-logout-form"
-                  onsubmit="localStorage.clear(); sessionStorage.clear();">
+                  onsubmit="localStorage.removeItem('cl_locale'); sessionStorage.clear();">
                 @csrf
                 <button type="submit" class="cl-logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-en="Logout" data-fr="Déconnexion">Logout</span>
                 </button>
             </form>
         </div>
@@ -186,6 +202,61 @@ function toggleSidebar() {
     sidebar.classList.toggle('open');
     if (overlay) overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
 }
+
+/* ── Language switcher ── */
+function applyLang(lang) {
+    document.querySelectorAll('[data-en]').forEach(function(el) {
+        var text = lang === 'fr' ? (el.getAttribute('data-fr') || el.getAttribute('data-en')) : el.getAttribute('data-en');
+        if (!text) return;
+        // Inputs/textareas: update placeholder only
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = text;
+        } else {
+            el.textContent = text;
+        }
+    });
+    // Highlight active lang button in sidebar
+    var enBtn = document.getElementById('cl-lang-en');
+    var frBtn = document.getElementById('cl-lang-fr');
+    if (enBtn && frBtn) {
+        if (lang === 'fr') {
+            frBtn.style.background = 'rgba(255,255,255,.15)';
+            frBtn.style.color = '#fff';
+            frBtn.style.borderColor = 'rgba(255,255,255,.5)';
+            enBtn.style.background = 'transparent';
+            enBtn.style.color = 'rgba(255,255,255,.55)';
+            enBtn.style.borderColor = 'rgba(255,255,255,.2)';
+        } else {
+            enBtn.style.background = 'rgba(255,255,255,.15)';
+            enBtn.style.color = '#fff';
+            enBtn.style.borderColor = 'rgba(255,255,255,.5)';
+            frBtn.style.background = 'transparent';
+            frBtn.style.color = 'rgba(255,255,255,.55)';
+            frBtn.style.borderColor = 'rgba(255,255,255,.2)';
+        }
+    }
+    // Highlight profile page buttons if they exist
+    var pEn = document.getElementById('lang-en-btn');
+    var pFr = document.getElementById('lang-fr-btn');
+    if (pEn && pFr) {
+        if (lang === 'fr') {
+            pFr.style.background = '#0D1F35'; pFr.style.color = '#fff'; pFr.style.borderColor = '#0D1F35';
+            pEn.style.background = '#fff';    pEn.style.color = '#1a1a2e'; pEn.style.borderColor = '#e0e0e0';
+        } else {
+            pEn.style.background = '#0D1F35'; pEn.style.color = '#fff'; pEn.style.borderColor = '#0D1F35';
+            pFr.style.background = '#fff';    pFr.style.color = '#1a1a2e'; pFr.style.borderColor = '#e0e0e0';
+        }
+    }
+}
+
+function setLang(lang) {
+    localStorage.setItem('cl_locale', lang);
+    applyLang(lang);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    applyLang(localStorage.getItem('cl_locale') || 'en');
+});
 </script>
 @yield('scripts')
 </body>

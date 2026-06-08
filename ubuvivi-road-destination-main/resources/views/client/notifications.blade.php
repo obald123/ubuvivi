@@ -67,18 +67,19 @@
     <div class="cd-topbar">
         <div class="cd-search">
             <i class="fas fa-search"></i>
-            <input type="text" id="notifSearch" placeholder="Search notifications..." autocomplete="off">
+            <input type="text" id="notifSearch" placeholder="Search notifications..." autocomplete="off"
+                   data-en="Search notifications..." data-fr="Rechercher...">
         </div>
         <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
-            <i class="fas fa-plus"></i> New Booking
+            <i class="fas fa-plus"></i> <span data-en="New Booking" data-fr="Nouvelle réservation">New Booking</span>
         </a>
     </div>
 
     {{-- Tabs --}}
     <div class="notif-tabs">
-        <button class="ntab active" onclick="switchTab('all',this)">All</button>
-        <button class="ntab" onclick="switchTab('today',this)">Today</button>
-        <button class="ntab" onclick="switchTab('history',this)">History</button>
+        <button class="ntab active" onclick="switchTab('all',this)"><span data-en="All" data-fr="Tous">All</span></button>
+        <button class="ntab" onclick="switchTab('today',this)"><span data-en="Today" data-fr="Aujourd'hui">Today</span></button>
+        <button class="ntab" onclick="switchTab('history',this)"><span data-en="History" data-fr="Historique">History</span></button>
     </div>
 
     {{-- Notification list --}}

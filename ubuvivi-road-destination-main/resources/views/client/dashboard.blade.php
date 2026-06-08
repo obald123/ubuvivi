@@ -174,10 +174,10 @@
     <div class="cd-topbar">
         <div class="cd-search">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search...">
+            <input type="text" placeholder="Search..." data-en="Search..." data-fr="Rechercher...">
         </div>
         <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
-            <i class="fas fa-plus"></i> New Booking
+            <i class="fas fa-plus"></i> <span data-en="New Booking" data-fr="Nouvelle réservation">New Booking</span>
         </a>
     </div>
 
@@ -185,28 +185,28 @@
     <div class="cd-stats-bar">
         <div class="cd-stat">
             <div>
-                <div class="cd-stat-label">Upcoming Bookings</div>
+                <div class="cd-stat-label" data-en="Upcoming Bookings" data-fr="À venir">Upcoming Bookings</div>
                 <div class="cd-stat-value">{{ $upcoming->count() }}</div>
             </div>
             <div class="cd-stat-icon si-blue"><i class="fas fa-calendar-alt"></i></div>
         </div>
         <div class="cd-stat">
             <div>
-                <div class="cd-stat-label">Active Bookings</div>
+                <div class="cd-stat-label" data-en="Active Bookings" data-fr="Actives">Active Bookings</div>
                 <div class="cd-stat-value">{{ $active->count() }}</div>
             </div>
             <div class="cd-stat-icon si-blue2"><i class="fas fa-calendar-check"></i></div>
         </div>
         <div class="cd-stat">
             <div>
-                <div class="cd-stat-label">Completed Bookings</div>
+                <div class="cd-stat-label" data-en="Completed Bookings" data-fr="Terminées">Completed Bookings</div>
                 <div class="cd-stat-value">{{ $completed->count() }}</div>
             </div>
             <div class="cd-stat-icon si-green"><i class="fas fa-calendar-check"></i></div>
         </div>
         <div class="cd-stat">
             <div>
-                <div class="cd-stat-label">Pending Bookings</div>
+                <div class="cd-stat-label" data-en="Pending Bookings" data-fr="En attente">Pending Bookings</div>
                 <div class="cd-stat-value">{{ $pending->count() }}</div>
             </div>
             <div class="cd-stat-icon si-yellow"><i class="fas fa-calendar-times"></i></div>
@@ -215,7 +215,7 @@
 
     {{-- ── Upcoming Bookings table ── --}}
     <div class="cd-panel">
-        <div class="cd-panel-title">Upcoming Bookings</div>
+        <div class="cd-panel-title" data-en="Upcoming Bookings" data-fr="Réservations à venir">Upcoming Bookings</div>
         @if($upcoming->count())
         <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
         <table class="cd-table">

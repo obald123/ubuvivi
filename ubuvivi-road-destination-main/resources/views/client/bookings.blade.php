@@ -77,41 +77,42 @@
     <div class="cd-topbar">
         <div class="cd-search">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search bookings..." id="searchInput" autocomplete="off">
+            <input type="text" placeholder="Search bookings..." id="searchInput" autocomplete="off"
+                   data-en="Search bookings..." data-fr="Rechercher...">
         </div>
         <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
-            <i class="fas fa-plus"></i> New Booking
+            <i class="fas fa-plus"></i> <span data-en="New Booking" data-fr="Nouvelle réservation">New Booking</span>
         </a>
     </div>
 
     {{-- Stats bar --}}
     <div class="cd-stats-bar">
         <div class="cd-stat">
-            <div><div class="cd-stat-label">Upcoming Bookings</div><div class="cd-stat-value">{{ $upcoming->count() }}</div></div>
+            <div><div class="cd-stat-label" data-en="Upcoming Bookings" data-fr="À venir">Upcoming Bookings</div><div class="cd-stat-value">{{ $upcoming->count() }}</div></div>
             <div class="cd-stat-icon si-blue"><i class="fas fa-calendar-alt"></i></div>
         </div>
         <div class="cd-stat">
-            <div><div class="cd-stat-label">Active Bookings</div><div class="cd-stat-value">{{ $active->count() }}</div></div>
+            <div><div class="cd-stat-label" data-en="Active Bookings" data-fr="Actives">Active Bookings</div><div class="cd-stat-value">{{ $active->count() }}</div></div>
             <div class="cd-stat-icon si-blue2"><i class="fas fa-calendar-check"></i></div>
         </div>
         <div class="cd-stat">
-            <div><div class="cd-stat-label">Completed Bookings</div><div class="cd-stat-value">{{ $completed->count() }}</div></div>
+            <div><div class="cd-stat-label" data-en="Completed Bookings" data-fr="Terminées">Completed Bookings</div><div class="cd-stat-value">{{ $completed->count() }}</div></div>
             <div class="cd-stat-icon si-green"><i class="fas fa-calendar-check"></i></div>
         </div>
         <div class="cd-stat">
-            <div><div class="cd-stat-label">Pending Bookings</div><div class="cd-stat-value">{{ $pending->count() }}</div></div>
+            <div><div class="cd-stat-label" data-en="Pending Bookings" data-fr="En attente">Pending Bookings</div><div class="cd-stat-value">{{ $pending->count() }}</div></div>
             <div class="cd-stat-icon si-yellow"><i class="fas fa-calendar-times"></i></div>
         </div>
     </div>
 
     {{-- Filter tabs --}}
     <div class="filter-tabs">
-        <button class="ftab active" onclick="filterTab('all',this)">All <span class="badge">{{ $all->count() }}</span></button>
-        <button class="ftab" onclick="filterTab('active',this)">Active <span class="badge">{{ $active->count() }}</span></button>
-        <button class="ftab" onclick="filterTab('upcoming',this)">Upcoming <span class="badge">{{ $upcoming->count() }}</span></button>
-        <button class="ftab" onclick="filterTab('completed',this)">Completed <span class="badge">{{ $completed->count() }}</span></button>
-        <button class="ftab" onclick="filterTab('pending',this)">Pending <span class="badge">{{ $pending->count() }}</span></button>
-        <button class="ftab" onclick="filterTab('rejected',this)">Rejected <span class="badge">{{ $rejected->count() }}</span></button>
+        <button class="ftab active" onclick="filterTab('all',this)"><span data-en="All" data-fr="Tous">All</span> <span class="badge">{{ $all->count() }}</span></button>
+        <button class="ftab" onclick="filterTab('active',this)"><span data-en="Active" data-fr="Actives">Active</span> <span class="badge">{{ $active->count() }}</span></button>
+        <button class="ftab" onclick="filterTab('upcoming',this)"><span data-en="Upcoming" data-fr="À venir">Upcoming</span> <span class="badge">{{ $upcoming->count() }}</span></button>
+        <button class="ftab" onclick="filterTab('completed',this)"><span data-en="Completed" data-fr="Terminées">Completed</span> <span class="badge">{{ $completed->count() }}</span></button>
+        <button class="ftab" onclick="filterTab('pending',this)"><span data-en="Pending" data-fr="En attente">Pending</span> <span class="badge">{{ $pending->count() }}</span></button>
+        <button class="ftab" onclick="filterTab('rejected',this)"><span data-en="Rejected" data-fr="Rejetées">Rejected</span> <span class="badge">{{ $rejected->count() }}</span></button>
     </div>
 
     {{-- Table --}}
@@ -121,8 +122,12 @@
         <table class="cd-table" id="bookingTable">
             <thead>
                 <tr>
-                    <th>Service</th><th>Type</th><th>Date</th>
-                    <th>Price</th><th>Status</th><th></th>
+                    <th><span data-en="Service" data-fr="Service">Service</span></th>
+                    <th><span data-en="Type" data-fr="Type">Type</span></th>
+                    <th><span data-en="Date" data-fr="Date">Date</span></th>
+                    <th><span data-en="Price" data-fr="Prix">Price</span></th>
+                    <th><span data-en="Status" data-fr="Statut">Status</span></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

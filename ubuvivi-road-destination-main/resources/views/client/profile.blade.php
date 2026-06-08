@@ -246,44 +246,43 @@
         </div>
 
         {{-- App Preferences --}}
-        <div class="pr-section-title">App preferences</div>
+        <div class="pr-section-title" data-en="App preferences" data-fr="Préférences">App preferences</div>
         <div class="pr-rows">
-            <div class="pr-row">
+            <div class="pr-row" style="cursor:default;">
                 <div class="pr-row-left">
                     <div class="pr-row-icon ri-blue"><i class="fas fa-globe"></i></div>
-                    <span class="pr-row-label">Language selection</span>
+                    <span class="pr-row-label" data-en="Language" data-fr="Langue">Language</span>
                 </div>
-                <div style="display:flex;align-items:center;gap:10px;">
-                    <span class="pr-row-value">English (USA)</span>
-                    <i class="fas fa-chevron-right pr-row-chevron"></i>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <button onclick="setLang('en')" id="lang-en-btn"
+                        style="border:1.5px solid #e0e0e0;border-radius:6px;padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:#1a1a2e;transition:all .2s;">
+                        EN
+                    </button>
+                    <button onclick="setLang('fr')" id="lang-fr-btn"
+                        style="border:1.5px solid #e0e0e0;border-radius:6px;padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:#1a1a2e;transition:all .2s;">
+                        FR
+                    </button>
                 </div>
             </div>
         </div>
 
         {{-- Support & About --}}
-        <div class="pr-section-title">Support &amp; about</div>
+        <div class="pr-section-title" data-en="Support &amp; about" data-fr="Support &amp; à propos">Support &amp; about</div>
         <div class="pr-rows">
-            <div class="pr-row">
+            <a href="mailto:ubuvivitours@gmail.com" class="pr-row" style="text-decoration:none;color:inherit;">
                 <div class="pr-row-left">
                     <div class="pr-row-icon ri-green"><i class="fas fa-question-circle"></i></div>
-                    <span class="pr-row-label">Contact support</span>
+                    <span class="pr-row-label" data-en="Contact support" data-fr="Contacter le support">Contact support</span>
                 </div>
                 <i class="fas fa-chevron-right pr-row-chevron"></i>
-            </div>
-            <div class="pr-row">
+            </a>
+            <a href="{{ route('terms.conditions') }}" class="pr-row" style="text-decoration:none;color:inherit;">
                 <div class="pr-row-left">
                     <div class="pr-row-icon ri-blue"><i class="fas fa-file-alt"></i></div>
-                    <span class="pr-row-label">Terms of services</span>
+                    <span class="pr-row-label" data-en="Terms of service" data-fr="Conditions d'utilisation">Terms of service</span>
                 </div>
                 <i class="fas fa-chevron-right pr-row-chevron"></i>
-            </div>
-            <div class="pr-row">
-                <div class="pr-row-left">
-                    <div class="pr-row-icon ri-yellow"><i class="fas fa-exclamation-triangle"></i></div>
-                    <span class="pr-row-label">Report a problem</span>
-                </div>
-                <i class="fas fa-chevron-right pr-row-chevron"></i>
-            </div>
+            </a>
         </div>
 
     </div>
