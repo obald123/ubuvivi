@@ -603,27 +603,20 @@ class GuestController extends Controller
         if (empty($booking)) {
             $error = true;
             $message = "We couldn't find this booking in our records";
+            return view("car.booking_view")->with(compact("booking", "vehicle", "message", "error"));
         }
 
-        if (empty($booking->vehicle) || $booking->vehicle->isEmpty()) {
-            $error = true;
-            $message = "We couldn't find any vehicle associated to your booking.";
-        } else {
+        // Vehicle is assigned later by admin — absence is not an error for transfers
+        if (!empty($booking->vehicle) && !$booking->vehicle->isEmpty()) {
             $vehicle = $booking->vehicle->first();
             if ($vehicle) {
                 $vehicle->images = $vehicle->images ?: [];
-            } else {
-                $error = true;
-                $message = "We couldn't find any vehicle associated to your booking.";
             }
         }
 
-        if (!$error) {
-            $booking->booking_type = 2;
-        }
+        $booking->booking_type = 2;
 
-
-        return view("car.booking_view")->with(compact("booking", "vehicle", "message", "error",));
+        return view("car.booking_view")->with(compact("booking", "vehicle", "message", "error"));
     }
 
 

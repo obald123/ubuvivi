@@ -1,250 +1,476 @@
 @extends('layouts.guest')
 @section('title')
-   {{ $vehicle->brand->name ?? 'Vehicle' }} {{ $vehicle->model->name ?? 'Vehicle' }} | Car Booking - Ubuvivi Car Rental
-@endsection
-
-@section('css')
-    <style>
-        .input_title {
-            font-size: 16px;
-            color: #ffffff;
-        }
-
-        .show_image {
-            display: none !important;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: var(--font-family-sans-serif) !important;
-            font-weight: bold;
-        }
-    </style>
+    @if($error)
+        Booking Error — Ubuvivi Car Rental
+    @elseif($booking->booking_type == 2)
+        Transfer Booking — {{ $booking->names }} | Ubuvivi Tours
+    @else
+        Car Rental Booking — {{ $booking->names }} | Ubuvivi Tours
+    @endif
 @endsection
 
 @section('content')
-    <section class="search_section sec_ptb_100 clearfix" data-bg-color="#161829"
-        style="background-color: rgb(22, 24, 41);padding-top: 40px">
-    </section>
-    <section class="px-4 py-5 clearfix" style="background-color: rgb(255, 245, 175)">
-        @if ($error)
-            <div class="container mb-5 py-5">
-                <div class="row justify-content-center align-items-center flex-column">
-                    <h4 class="mb-3 font-primary font-weight-bold">
-                        An Error Occured!
-                    </h4>
+@php
+    $isTransfer = isset($booking) && !$error && $booking->booking_type == 2;
+@endphp
 
-                    <h5 class="font-primary text-danger">
-                        {{ $message }}
-                    </h5>
+<style>
+    .bv-hero { background:#0D1F35; padding:50px 0 30px; }
+    .bv-hero-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border-radius:50px; font-size:13px; font-weight:700; margin-bottom:14px; }
+    .bv-hero-badge.pending  { background:#fff5cc; color:#92640a; }
+    .bv-hero-badge.approved { background:#d1fae5; color:#065f46; }
+    .bv-hero-badge.rejected { background:#fee2e2; color:#991b1b; }
+    .bv-hero h2 { color:#fff; font-size:26px; font-weight:800; margin-bottom:6px; }
+    .bv-hero p  { color:rgba(255,255,255,.6); font-size:14px; }
 
-                </div>
-            </div>
-        @else
-            <div class="container px-0">
-                <div class="row justify-content-between">
-                    <div class="col-12 col-md-6 mb-3 py-0">
-                        <h3 class="section-title py-2 mb-1">
-                            {{ $vehicle->brand->name ?? '' }}
-                            {{ $vehicle->model->name ?? '' }}
-                            {{ $vehicle->production_year ?? '' }}
-                        </h3>
-                        <div class="card border-0 shadow-none">
-                            <div class="card-body px-0">
-                                <div class="owl-carousel owl-theme">
-                                    @isset($vehicle->images)
-                                        @php
-                                            $images = is_string($vehicle->images) ? json_decode($vehicle->images, true) : $vehicle->images;
-                                            $images = is_array($images) ? $images : [];
-                                        @endphp
-                                        @if(count($images) > 0)
-                                            @foreach ($images as $image)
-                                                <div>
-                                                    <img class="rounded" style="max-height: 400px;object-fit: cover"
-                                                        alt="image" src="{{ $image }}">
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <div>
-                                                <img class="rounded" style="max-height: 400px;object-fit: cover"
-                                                    alt="image" src="{{ asset('/assets/images/vehicles/not_found.png') }}">
-                                            </div>
-                                        @endif
-                                    @else
-                                        <div>
-                                            <img class="rounded" style="max-height: 400px;object-fit: cover"
-                                                alt="image" src="{{ asset('/assets/images/vehicles/not_found.png') }}">
-                                        </div>
-                                    @endisset
-                                </div>
-                            </div>
-                            @if ($vehicle->description)
-                                <h4 class="px mt-3">Vehicle Details</h4>
-                                <div class="card-body px-0">
-                                    {{ $vehicle->description }}
-                                </div>
-                            @endif
-                            <div class="card-body px-0">
-                                <div class="row no-gutters">
-                                    <div class="col-12 col-xl-2 col-sm-2 col-md-4 border">
-                                        <div class="">
-                                            <h6 class="bg-primary font-primary text-truncate text-white p-2">Year</h6>
-                                            <p class="mb-1 font-15 px-2 font-primary"> {{ $vehicle->production_year }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-2 col-sm-2 col-md-4 border">
-                                        <div>
-                                            <h6 class="bg-primary font-primary text-truncate text-white p-2">Transmission
-                                            </h6>
-                                            <p class="mb-1 font-15 px-2 font-primary">
-                                                {{ $vehicle->transmission->name ?? 'N/A' }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-2 col-sm-2 col-md-4 border">
-                                        <div>
-                                            <h6 class="bg-primary font-primary text-truncate text-white p-2">Fuel Type</h6>
-                                            <p class="mb-1 font-15 px-2 font-primary">
-                                                {{ $vehicle->fuelType->name ?? 'N/A' }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-2 col-sm-2 col-md-4 border">
-                                        <div>
-                                            <h6 class="bg-primary font-primary text-truncate text-white p-2">Seats</h6>
-                                            <p class="mb-1 font-15 px-2 font-primary"> {{ $vehicle->seats ?? 'N/A' }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-2 col-sm-2 col-md-4 border">
-                                        <div>
-                                            <h6 class="bg-primary font-primary text-truncate text-white p-2">Price / Day
-                                            </h6>
-                                            <p class="mb-1 font-15 px-2 font-primary"> $ {{ $vehicle->price ?? 'N/A' }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-2 col-sm-2 col-md-4 border">
-                                        <div>
-                                            <h6 class="bg-primary font-primary text-truncate text-white p-2">Caution</h6>
-                                            <p class="mb-1 font-15 px-2 font-primary">
-                                                $ {{ $vehicle->one_day_caution ?? 'N/A' }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-5">
-                        <div class="py-3 px-3">
-                            <div class="row justify-content-start align-items-end flex-column no-gutters">
-                                <h3 class="font-primary font-weight-bold text-left ">
-                                    Status:
-                                    @if (null === $booking->approved)
-                                        <span class="text-warning">Booking Pending</span>
-                                    @elseif (true === $booking->approved)
-                                        <span class="text-success">Booking Approved</span>
-                                    @elseif (false === $booking->approved)
-                                        <span class="text-danger">Booking Disapproved</span>
-                                    @else
-                                        <span class="text-danger">Booking Cancelled</span>
-                                    @endif
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="bg-dark-1 py-4 rounded">
-                            <div class="row m-auto" style="max-width:600px">
-                                <!-- Name Field -->
-                                <div class="form-group col-sm-12">
-                                    <h4 class="input_title">Full names:</h4>
-                                    {!! Form::text('name', $booking->names, ['class' => 'form-control', 'placeholder' => 'Names', 'readonly' => true]) !!}
-                                </div>
+    .bv-body { background:#f5f6fa; padding:40px 0 60px; }
+    .bv-grid { display:grid; grid-template-columns:1fr 380px; gap:26px; align-items:start; }
 
-                                <div class="form-group col-sm-12">
-                                    <h4 class="input_title">Email Address:</h4>
-                                    {!! Form::text('email', $booking->email, ['class' => 'form-control', 'placeholder' => 'Email', 'readonly' => true]) !!}
-                                </div>
+    .bv-card { background:#fff; border-radius:16px; border:1px solid #e4e8f0; box-shadow:0 2px 12px rgba(13,31,53,.06); overflow:hidden; margin-bottom:20px; }
+    .bv-card:last-child { margin-bottom:0; }
+    .bv-card-head { background:#0D1F35; padding:18px 24px; display:flex; align-items:center; gap:12px; }
+    .bv-card-head h3 { color:#fff; font-size:16px; font-weight:700; margin:0; }
+    .bv-card-head i { color:#C85A2A; font-size:18px; }
+    .bv-card-body { padding:24px; }
 
-                                <div class="form-group col-sm-12">
-                                    <h4 class="input_title">Phone Number:</h4>
-                                    {!! Form::tel('phone_number', $booking->phone_number, ['class' => 'form-control', 'placeholder' => 'Email', 'readonly' => true]) !!}
-                                </div>
+    .bv-detail-row { display:flex; align-items:flex-start; padding:14px 0; border-bottom:1px solid #f4f4f4; gap:14px; }
+    .bv-detail-row:last-child { border-bottom:none; padding-bottom:0; }
+    .bv-detail-icon { width:34px; height:34px; background:#f0f5ff; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .bv-detail-icon i { color:#C85A2A; font-size:14px; }
+    .bv-detail-label { font-size:11px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:.5px; margin-bottom:3px; }
+    .bv-detail-value { font-size:15px; color:#1a1a2e; font-weight:600; }
 
-                                <div class="form-group col-sm-12">
-                                    <h4 class="input_title">Booking Type:</h4>
-                                    {!! Form::text('booking_type', $booking->booking_type == '1' ? 'Self Drive' : 'With Driver', ['class' => 'form-control', 'placeholder' => 'Email', 'readonly' => true]) !!}
-                                </div>
+    .bv-contact-field { margin-bottom:14px; }
+    .bv-contact-field label { display:block; font-size:11px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:.5px; margin-bottom:5px; }
+    .bv-contact-field .field-val { background:#f7f8fb; border:1px solid #e8e8e8; border-radius:8px; padding:10px 14px; font-size:14px; color:#333; }
 
-                                <div class="form-group col-12">
-                                    <h4 class="input_title">Location:</h4>
-                                    <div class="position-relative">
-                                        {!! Form::text('location', $booking->booking_type == '2' ? $booking->pickup_location : $booking->delivery_location, ['class' => 'form-control', 'placeholder' => 'KK 120 Kigali,Rwanda', 'readonly' => true]) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group col-12 col-sm-8">
-                                    <h4 class="input_title">Date:</h4>
-                                    <div class="position-relative">
-                                        {!! Form::date('date', $booking->booking_type == '2' ? $booking->pickup_date : $booking->delivery_date, ['class' => 'form-control', 'readonly' => true]) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group col-12 col-sm-4">
-                                    <h4 class="input_title">Time:</h4>
-                                    <div class="position-relative">
-                                        {!! Form::time('time', $booking->booking_type == '2' ? $booking->pickup_time : $booking->delivery_time, ['class' => 'form-control', 'readonly' => true]) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group col-12">
-                                    <h4 class="input_title">Number of Days:</h4>
-                                    <div class="position-relative">
-                                        {!! Form::number('number_of_days', $booking->number_of_days, ['class' => 'form-control', 'readonly' => true]) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group col-12">
-                                    <h4 class="input_title">Additional Message:</h4>
-                                    <div class="position-relative">
-                                        {!! Form::textarea('message', $booking->message, ['class' => 'form-control', 'rows' => 5, 'readonly' => true]) !!}
-                                    </div>
-                                </div>
-                                {{-- @if ($booking->approved)
-                                    <div class="form-group col-12">
-                                        <div class="position-relative">
-                                            <a href="{{ route($booking->booking_type == 1 ? 'car.booking.payment.form' : 'car.transfer.payment.form', $booking->id) }}"
-                                                class="btn btn-primary btn-block font-weight-bold">Pay</a>
-                                        </div>
-                                    </div>
-                                @endif --}}
+    .bv-ref-box { background:#f0f5ff; border:1px solid #dde7ff; border-radius:10px; padding:16px 18px; text-align:center; margin-bottom:18px; }
+    .bv-ref-box .ref-label { font-size:11px; color:#aaa; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+    .bv-ref-box .ref-value { font-size:22px; font-weight:800; color:#0D1F35; }
 
-                            </div>
-                        </div>
+    .status-pill { display:inline-flex; align-items:center; gap:7px; padding:8px 18px; border-radius:50px; font-size:14px; font-weight:700; }
+    .status-pill.pending  { background:#fff5cc; color:#92640a; border:1px solid #fde68a; }
+    .status-pill.approved { background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; }
+    .status-pill.rejected { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; }
+
+    .bv-meta-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:13px; color:#666; }
+    .bv-meta-row span:last-child { font-weight:600; color:#0D1F35; }
+
+    .bv-vehicle-img { width:100%; height:220px; object-fit:cover; border-radius:10px; border:1px solid #e4e8f0; margin-bottom:16px; }
+    .bv-vehicle-specs { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .bv-spec { background:#f7f8fb; border-radius:8px; padding:10px 12px; text-align:center; }
+    .bv-spec .spec-label { font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px; }
+    .bv-spec .spec-val { font-size:14px; font-weight:700; color:#0D1F35; }
+
+    .bv-pending-vehicle { background:#fffbeb; border:1px dashed #fbbf24; border-radius:10px; padding:14px 16px; display:flex; align-items:center; gap:10px; }
+    .bv-pending-vehicle i { color:#d97706; font-size:18px; flex-shrink:0; }
+    .bv-pending-vehicle p { margin:0; font-size:13px; color:#92640a; line-height:1.6; }
+
+    .bv-error { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 24px; text-align:center; }
+    .bv-error i { font-size:56px; color:#e74c3c; margin-bottom:20px; opacity:.7; }
+    .bv-error h3 { font-size:22px; font-weight:800; color:#1a1a2e; margin-bottom:10px; }
+    .bv-error p { font-size:15px; color:#666; max-width:420px; line-height:1.7; }
+
+    .owl-carousel .owl-item img { border-radius:10px; height:220px; object-fit:cover; }
+
+    @media (max-width: 991px) { .bv-grid { grid-template-columns:1fr; } }
+    @media (max-width: 576px) {
+        .bv-vehicle-specs { grid-template-columns:repeat(2,1fr); }
+        .bv-hero h2 { font-size:20px; }
+    }
+</style>
+
+@if($error)
+    {{-- Error state --}}
+    <div class="bv-hero">
+        <div class="container">
+            <div class="bv-hero-badge rejected"><i class="fas fa-times-circle"></i> Error</div>
+            <h2><i class="fas fa-car" style="color:#C85A2A;margin-right:10px"></i>Booking Not Found</h2>
+            <p>We were unable to load this booking.</p>
+        </div>
+    </div>
+    <div class="bv-body">
+        <div class="container">
+            <div class="bv-card">
+                <div class="bv-card-body">
+                    <div class="bv-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>An Error Occurred</h3>
+                        <p>{{ $message }}</p>
                     </div>
                 </div>
             </div>
-        @endif
-    </section>
+        </div>
+    </div>
+@else
+    {{-- Hero --}}
+    <div class="bv-hero">
+        <div class="container">
+            @if(null === $booking->approved)
+                <div class="bv-hero-badge pending"><i class="fas fa-clock"></i> Booking Pending</div>
+            @elseif(true === $booking->approved)
+                <div class="bv-hero-badge approved"><i class="fas fa-check-circle"></i> Booking Approved</div>
+            @else
+                <div class="bv-hero-badge rejected"><i class="fas fa-times-circle"></i> Booking Rejected</div>
+            @endif
+            <h2>
+                <i class="fas fa-{{ $isTransfer ? 'route' : 'car' }}" style="color:#C85A2A;margin-right:10px"></i>
+                {{ $isTransfer ? 'Transfer Booking Details' : 'Car Rental Booking Details' }}
+            </h2>
+            <p>Booking #{{ $booking->id }} &bull; Submitted {{ $booking->created_at?->format('M d, Y') }}</p>
+        </div>
+    </div>
+
+    {{-- Body --}}
+    <div class="bv-body">
+        <div class="container">
+            <div class="bv-grid">
+
+                {{-- Left column --}}
+                <div>
+                    @if($isTransfer)
+                        {{-- Transfer details card --}}
+                        <div class="bv-card">
+                            <div class="bv-card-head">
+                                <i class="fas fa-route"></i>
+                                <h3>Transfer Details</h3>
+                            </div>
+                            <div class="bv-card-body">
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Pickup Location</div>
+                                        <div class="bv-detail-value">{{ $booking->pickup_location }}</div>
+                                    </div>
+                                </div>
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-flag-checkered"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Destination</div>
+                                        <div class="bv-detail-value">{{ $booking->destination }}</div>
+                                    </div>
+                                </div>
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-calendar-alt"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Pickup Date</div>
+                                        <div class="bv-detail-value">
+                                            @php
+                                                try { $pd = \Carbon\Carbon::parse($booking->pickup_date); echo $pd->format('l, M d, Y'); } catch(\Throwable $e) { echo $booking->pickup_date; }
+                                            @endphp
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-clock"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Pickup Time</div>
+                                        <div class="bv-detail-value">{{ $booking->pickup_time ?: 'To be confirmed' }}</div>
+                                    </div>
+                                </div>
+                                @if($booking->number_of_days)
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-calendar-week"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Number of Days</div>
+                                        <div class="bv-detail-value">{{ $booking->number_of_days }} day{{ $booking->number_of_days != 1 ? 's' : '' }}</div>
+                                    </div>
+                                </div>
+                                @endif
+                                @if($booking->message)
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-comment"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Additional Notes</div>
+                                        <div class="bv-detail-value" style="font-weight:400;font-size:14px;color:#555;">{{ $booking->message }}</div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- Vehicle (if assigned) --}}
+                        @if($vehicle)
+                        <div class="bv-card">
+                            <div class="bv-card-head">
+                                <i class="fas fa-car"></i>
+                                <h3>Assigned Vehicle</h3>
+                            </div>
+                            <div class="bv-card-body">
+                                @php
+                                    $imgs = is_string($vehicle->images) ? json_decode($vehicle->images, true) : $vehicle->images;
+                                    $imgs = is_array($imgs) ? $imgs : [];
+                                @endphp
+                                @if(count($imgs))
+                                    <div class="owl-carousel owl-theme" style="margin-bottom:16px;">
+                                        @foreach($imgs as $img)
+                                            <div><img src="{{ $img }}" alt="Vehicle" onerror="this.src='{{ asset('/assets/images/vehicles/not_found.png') }}'"></div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <img src="{{ asset('/assets/images/vehicles/not_found.png') }}" class="bv-vehicle-img" alt="Vehicle">
+                                @endif
+                                <div class="bv-detail-row" style="padding-top:0;">
+                                    <div class="bv-detail-icon"><i class="fas fa-car"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Vehicle</div>
+                                        <div class="bv-detail-value">{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }}</div>
+                                    </div>
+                                </div>
+                                <div class="bv-vehicle-specs">
+                                    <div class="bv-spec"><div class="spec-label">Year</div><div class="spec-val">{{ $vehicle->production_year ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Transmission</div><div class="spec-val">{{ $vehicle->transmission->name ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Fuel</div><div class="spec-val">{{ $vehicle->fuelType->name ?? 'N/A' }}</div></div>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="bv-card">
+                            <div class="bv-card-head">
+                                <i class="fas fa-car"></i>
+                                <h3>Vehicle Assignment</h3>
+                            </div>
+                            <div class="bv-card-body">
+                                <div class="bv-pending-vehicle">
+                                    <i class="fas fa-hourglass-half"></i>
+                                    <p>A vehicle will be assigned to your transfer by our team. You will be contacted once confirmed.</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                    @else
+                        {{-- Car rental details card --}}
+                        @if($vehicle)
+                        <div class="bv-card">
+                            <div class="bv-card-head">
+                                <i class="fas fa-car"></i>
+                                <h3>Vehicle Information</h3>
+                            </div>
+                            <div class="bv-card-body">
+                                @php
+                                    $imgs = is_string($vehicle->images) ? json_decode($vehicle->images, true) : $vehicle->images;
+                                    $imgs = is_array($imgs) ? $imgs : [];
+                                @endphp
+                                @if(count($imgs))
+                                    <div class="owl-carousel owl-theme" style="margin-bottom:16px;">
+                                        @foreach($imgs as $img)
+                                            <div><img src="{{ $img }}" alt="Vehicle" onerror="this.src='{{ asset('/assets/images/vehicles/not_found.png') }}'"></div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <img src="{{ asset('/assets/images/vehicles/not_found.png') }}" class="bv-vehicle-img" alt="Vehicle">
+                                @endif
+                                <div class="bv-detail-row" style="padding-top:0;">
+                                    <div class="bv-detail-icon"><i class="fas fa-car"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Vehicle</div>
+                                        <div class="bv-detail-value">{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }}</div>
+                                    </div>
+                                </div>
+                                <div class="bv-vehicle-specs">
+                                    <div class="bv-spec"><div class="spec-label">Year</div><div class="spec-val">{{ $vehicle->production_year ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Transmission</div><div class="spec-val">{{ $vehicle->transmission->name ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Fuel</div><div class="spec-val">{{ $vehicle->fuelType->name ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Seats</div><div class="spec-val">{{ $vehicle->seats ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Price/Day</div><div class="spec-val">${{ $vehicle->price ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Caution</div><div class="spec-val">${{ $vehicle->one_day_caution ?? 'N/A' }}</div></div>
+                                </div>
+                                @if($vehicle->description)
+                                    <p style="margin-top:14px;font-size:13px;color:#666;line-height:1.7;">{{ $vehicle->description }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="bv-card">
+                            <div class="bv-card-head">
+                                <i class="fas fa-calendar-check"></i>
+                                <h3>Booking Details</h3>
+                            </div>
+                            <div class="bv-card-body">
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-steering-wheel"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Booking Type</div>
+                                        <div class="bv-detail-value">
+                                            @if($booking->booking_type === 'with_driver' || $booking->booking_type == 2)
+                                                With Driver
+                                            @else
+                                                Self Drive
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-calendar-alt"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Pickup Date</div>
+                                        <div class="bv-detail-value">
+                                            @php
+                                                try { $dd = \Carbon\Carbon::parse($booking->delivery_date); echo $dd->format('l, M d, Y'); } catch(\Throwable $e) { echo $booking->delivery_date; }
+                                            @endphp
+                                            @if($booking->delivery_time)
+                                                <span style="font-size:13px;color:#888;font-weight:400;margin-left:6px;">{{ $booking->delivery_time }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-calendar-times"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Return Date</div>
+                                        <div class="bv-detail-value">
+                                            @php
+                                                try { $rd = \Carbon\Carbon::parse($booking->return_date); echo $rd->format('l, M d, Y'); } catch(\Throwable $e) { echo $booking->return_date; }
+                                            @endphp
+                                            @if($booking->return_time)
+                                                <span style="font-size:13px;color:#888;font-weight:400;margin-left:6px;">{{ $booking->return_time }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-calendar-week"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Duration</div>
+                                        <div class="bv-detail-value">{{ $booking->number_of_days }} day{{ $booking->number_of_days != 1 ? 's' : '' }}</div>
+                                    </div>
+                                </div>
+                                @if($booking->delivery_location)
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Pickup Location</div>
+                                        <div class="bv-detail-value">{{ $booking->delivery_location }}</div>
+                                    </div>
+                                </div>
+                                @endif
+                                @if($booking->destination)
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-flag-checkered"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Destination</div>
+                                        <div class="bv-detail-value">{{ $booking->destination }}</div>
+                                    </div>
+                                </div>
+                                @endif
+                                @if($booking->price)
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-dollar-sign"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Total Price</div>
+                                        <div class="bv-detail-value">${{ number_format($booking->price, 2) }}</div>
+                                    </div>
+                                </div>
+                                @endif
+                                @if($booking->message)
+                                <div class="bv-detail-row">
+                                    <div class="bv-detail-icon"><i class="fas fa-comment"></i></div>
+                                    <div>
+                                        <div class="bv-detail-label">Additional Message</div>
+                                        <div class="bv-detail-value" style="font-weight:400;font-size:14px;color:#555;">{{ $booking->message }}</div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Status card --}}
+                    <div class="bv-card">
+                        <div class="bv-card-head">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>Booking Status</h3>
+                        </div>
+                        <div class="bv-card-body">
+                            <div style="margin-bottom:16px;">
+                                @if(null === $booking->approved)
+                                    <span class="status-pill pending"><i class="fas fa-clock"></i> Pending Review</span>
+                                    <p style="font-size:13px;color:#888;margin-top:10px;">Our team is reviewing your booking and will confirm within 24 hours.</p>
+                                @elseif(true === $booking->approved)
+                                    <span class="status-pill approved"><i class="fas fa-check-circle"></i> Approved</span>
+                                    <p style="font-size:13px;color:#065f46;margin-top:10px;">Your booking has been confirmed! Our team will contact you with further details.</p>
+                                @else
+                                    <span class="status-pill rejected"><i class="fas fa-times-circle"></i> Not Available</span>
+                                    <p style="font-size:13px;color:#991b1b;margin-top:10px;">Unfortunately this booking could not be confirmed. Please contact us for alternatives.</p>
+                                @endif
+                            </div>
+                            <div class="bv-meta-row"><span>Booking Reference</span><span>#{{ $booking->id }}</span></div>
+                            <div class="bv-meta-row"><span>Submitted</span><span>{{ $booking->created_at?->format('M d, Y h:i A') }}</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Right: Guest info --}}
+                <div>
+                    <div class="bv-card">
+                        <div class="bv-card-head">
+                            <i class="fas fa-user"></i>
+                            <h3>Guest Information</h3>
+                        </div>
+                        <div class="bv-card-body">
+                            <div class="bv-ref-box">
+                                <div class="ref-label">Booking Reference</div>
+                                <div class="ref-value">#{{ str_pad($booking->id, 5, '0', STR_PAD_LEFT) }}</div>
+                            </div>
+                            <div class="bv-contact-field">
+                                <label>Full Name</label>
+                                <div class="field-val">{{ $booking->names }}</div>
+                            </div>
+                            <div class="bv-contact-field">
+                                <label>Email Address</label>
+                                <div class="field-val">{{ $booking->email }}</div>
+                            </div>
+                            <div class="bv-contact-field">
+                                <label>Phone Number</label>
+                                <div class="field-val">{{ $booking->phone_number }}</div>
+                            </div>
+                            <div class="bv-contact-field">
+                                <label>Booking Date</label>
+                                <div class="field-val">{{ $booking->created_at?->format('M d, Y \a\t h:i A') }}</div>
+                            </div>
+
+                            <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f0f0f0;">
+                                <p style="font-size:12px;color:#aaa;text-align:center;line-height:1.7;">
+                                    <i class="fas fa-lock" style="color:#C85A2A;margin-right:4px"></i>
+                                    This page is private. Do not share this link with others.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px;background:#fff8f4;border:1px solid #f5d5c2;border-radius:12px;padding:16px 18px;">
+                        <p style="font-size:13px;color:#7a3815;line-height:1.7;margin:0;">
+                            <i class="fas fa-headset" style="color:#C85A2A;margin-right:6px"></i>
+                            <strong>Need help?</strong> Contact us at
+                            <a href="mailto:ubuvivitours@gmail.com" style="color:#C85A2A;font-weight:600;">ubuvivitours@gmail.com</a>
+                            or call <a href="tel:+250789044222" style="color:#C85A2A;font-weight:600;">+250 789 044 222</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+@endif
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $(".owl-carousel").owlCarousel({
-                center: true,
-                loop: true,
-                items: 1,
-                nav: false,
-                singleItem: true,
-                autoHeight: true,
-                dotsEach: true,
-                dots: true,
-                autoplay: true,
-                autoplayTimeout: 3000,
-            });
-
-            $('img').on("error", function() {
-                this.src = `{{ asset('/assets/images/vehicles/not_found.png') }}`;
-                this.style = this.style + "object-fit: contain; background-size: contain;"
-            })
+<script>
+    $(document).ready(function () {
+        $(".owl-carousel").owlCarousel({
+            center: true,
+            loop: false,
+            items: 1,
+            nav: false,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 3500,
         });
-    </script>
+        $('img').on('error', function () {
+            this.src = "{{ asset('/assets/images/vehicles/not_found.png') }}";
+        });
+    });
+</script>
 @endsection
