@@ -97,11 +97,17 @@
             <div class="notif-dot {{ $n['unread'] ? '' : 'read' }}"></div>
         </div>
         @empty
-        <div class="notif-empty">
+        <div class="notif-empty" id="notifEmpty">
             <i class="fas fa-bell-slash"></i>
             <span data-en="No notifications yet." data-fr="Aucune notification.">No notifications yet.</span>
         </div>
         @endforelse
+        @if($notifications->isNotEmpty())
+        <div class="notif-empty" id="notifEmpty" style="display:none;">
+            <i class="fas fa-bell-slash"></i>
+            <span data-en="No notifications in this category." data-fr="Aucune notification dans cette catégorie.">No notifications in this category.</span>
+        </div>
+        @endif
     </div>
 
 @endsection
@@ -120,11 +126,18 @@ function switchTab(tag, el) {
 function applyFilters() {
     var inp = document.getElementById('notifSearch');
     var q   = inp ? inp.value.trim().toLowerCase() : '';
+    var anyVisible = false;
     document.querySelectorAll('.notif-item').forEach(function(item) {
-        var matchTab    = (currentTab === 'all' || item.dataset.tag === currentTab);
+        var tag = item.dataset.tag;
+        var matchTab = currentTab === 'all' || tag === currentTab ||
+                       (currentTab === 'today' && tag === 'all' && item.classList.contains('unread'));
         var matchSearch = !q || item.textContent.toLowerCase().includes(q);
-        item.style.display = (matchTab && matchSearch) ? '' : 'none';
+        var show = matchTab && matchSearch;
+        item.style.display = show ? '' : 'none';
+        if (show) anyVisible = true;
     });
+    var empty = document.getElementById('notifEmpty');
+    if (empty) empty.style.display = anyVisible ? 'none' : '';
 }
 
 document.addEventListener('DOMContentLoaded', function () {

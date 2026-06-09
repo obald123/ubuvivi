@@ -269,7 +269,7 @@
         {{-- Support & About --}}
         <div class="pr-section-title" data-en="Support &amp; about" data-fr="Support &amp; à propos">Support &amp; about</div>
         <div class="pr-rows">
-            <a href="mailto:ubuvivitours@gmail.com" class="pr-row" style="text-decoration:none;color:inherit;">
+            <a href="{{ route('guest.contact') }}" class="pr-row" style="text-decoration:none;color:inherit;">
                 <div class="pr-row-left">
                     <div class="pr-row-icon ri-green"><i class="fas fa-question-circle"></i></div>
                     <span class="pr-row-label" data-en="Contact support" data-fr="Contacter le support">Contact support</span>
