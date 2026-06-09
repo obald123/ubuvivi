@@ -360,12 +360,14 @@
                 <div class="form-title-wrap">
                     <span class="form-title-bar"></span>
                     <h2 class="form-title">Quick Renting</h2>
-                    @if($vehicle->price)
-                        <div class="form-price-tag">
-                            <i class="fas fa-tag"></i>
+                    <div class="form-price-tag">
+                        <i class="fas fa-tag"></i>
+                        @if($vehicle->price)
                             $ {{ number_format($vehicle->price) }} / day
-                        </div>
-                    @endif
+                        @else
+                            Contact us for pricing
+                        @endif
+                    </div>
                 </div>
 
                 {!! Form::open(['route' => ['car.book', $vehicle->id], 'id' => 'quickRentingForm']) !!}

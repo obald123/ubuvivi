@@ -273,7 +273,7 @@
                                     <div class="bv-spec"><div class="spec-label">Transmission</div><div class="spec-val">{{ $vehicle->transmission->name ?? 'N/A' }}</div></div>
                                     <div class="bv-spec"><div class="spec-label">Fuel</div><div class="spec-val">{{ $vehicle->fuelType->name ?? 'N/A' }}</div></div>
                                     <div class="bv-spec"><div class="spec-label">Seats</div><div class="spec-val">{{ $vehicle->seats ?? 'N/A' }}</div></div>
-                                    <div class="bv-spec"><div class="spec-label">Price/Day</div><div class="spec-val">${{ $vehicle->price ?? 'N/A' }}</div></div>
+                                    <div class="bv-spec"><div class="spec-label">Price/Day</div><div class="spec-val">{{ $vehicle->price ? '$' . number_format($vehicle->price) : 'Contact for price' }}</div></div>
                                     <div class="bv-spec"><div class="spec-label">Caution</div><div class="spec-val">${{ $vehicle->one_day_caution ?? 'N/A' }}</div></div>
                                 </div>
                                 @if($vehicle->description)

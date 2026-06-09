@@ -539,8 +539,11 @@
                                 {{-- Footer: price + CTA --}}
                                 <div class="car-card-footer">
                                     <div class="car-price">
-                                        $ {{ number_format($vehicle->price ?? 0) }}
-                                        <span>/ day</span>
+                                        @if($vehicle->price)
+                                            $ {{ number_format($vehicle->price) }} <span>/ day</span>
+                                        @else
+                                            <span style="color:#E67E22;font-weight:600;">Contact for price</span>
+                                        @endif
                                     </div>
                                     <a href="{{ route('car.booking', $vehicle->id) }}" class="rent-car-btn">
                                         Rent Car
