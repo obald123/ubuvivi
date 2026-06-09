@@ -13,10 +13,14 @@
     .blog-hero {
         position: relative;
         height: 420px;
-        background: url('{{ asset("images/blog-hero.jpg") }}') center/cover no-repeat;
+        overflow: hidden;
         display: flex; align-items: center; justify-content: center; text-align: center;
     }
-    .blog-hero::after { content:''; position:absolute; inset:0; background:rgba(13,31,53,.68); }
+    .blog-hero-video {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        object-fit: cover; z-index: 0;
+    }
+    .blog-hero::after { content:''; position:absolute; inset:0; background:rgba(13,31,53,.68); z-index:1; }
     .blog-hero-content { position:relative; z-index:2; color:#fff; }
     .blog-hero-content h1 { font-size:clamp(32px,5vw,58px); font-weight:800; color:#fff !important; text-shadow:0 2px 16px rgba(0,0,0,.4); margin-bottom:12px; }
     .blog-hero-content p  { font-size:17px; color:rgba(255,255,255,.85); max-width:520px; margin:0 auto; }
@@ -121,6 +125,9 @@
 
     {{-- Hero --}}
     <section class="blog-hero">
+        <video class="blog-hero-video" autoplay muted loop playsinline>
+            <source src="{{ asset('videos/bloghero.mp4') }}" type="video/mp4">
+        </video>
         <div class="blog-hero-content">
             <h1>Our Blog</h1>
             <p>News, events, tours and travel stories from Rwanda.</p>

@@ -403,9 +403,6 @@
                     @endif
                 @endif
 
-                <div class="tour-booking-cta" style="margin-top: 38px;">
-                    <a href="{{ $bookingLink }}" class="tour-booking-btn">Book Now</a>
-                </div>
             </div>
         </div>
     </section>

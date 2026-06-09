@@ -89,58 +89,6 @@
         <h1><i class="fas fa-plane" style="color:#C85A2A;margin-right:12px"></i>Search Flights</h1>
         <p>Find the best flights worldwide and let our team handle your booking</p>
 
-        <div class="search-card">
-            <div class="trip-toggle">
-                <button type="button" class="trip-btn active" id="btn-oneway" onclick="setTripType('oneway')">
-                    <i class="fas fa-arrow-right" style="margin-right:6px"></i>One Way
-                </button>
-                <button type="button" class="trip-btn" id="btn-round" onclick="setTripType('round')">
-                    <i class="fas fa-exchange-alt" style="margin-right:6px"></i>Round Trip
-                </button>
-            </div>
-
-            <form action="{{ route('guest.flights.results') }}" method="GET" id="flightSearchForm">
-                <input type="hidden" name="trip_type" id="trip_type" value="oneway">
-
-                <div class="search-grid">
-                    <div class="sf">
-                        <label><i class="fas fa-plane-departure" style="color:#C85A2A;margin-right:4px"></i> From</label>
-                        <input type="text" name="from" placeholder="City or airport code, e.g. Kigali" required value="{{ old('from') }}">
-                    </div>
-                    <div class="sf">
-                        <label><i class="fas fa-plane-arrival" style="color:#C85A2A;margin-right:4px"></i> To</label>
-                        <input type="text" name="to" placeholder="City or airport code, e.g. London" required value="{{ old('to') }}">
-                    </div>
-                </div>
-
-                <div class="search-grid four">
-                    <div class="sf">
-                        <label><i class="fas fa-calendar-alt" style="color:#C85A2A;margin-right:4px"></i> Departure</label>
-                        <input type="date" name="depart_date" required min="{{ date('Y-m-d') }}" value="{{ old('depart_date') }}">
-                    </div>
-                    <div class="sf return-row" id="returnDateRow">
-                        <label><i class="fas fa-calendar-check" style="color:#C85A2A;margin-right:4px"></i> Return</label>
-                        <input type="date" name="return_date" id="return_date" min="{{ date('Y-m-d', strtotime('+1 day')) }}" value="{{ old('return_date') }}">
-                    </div>
-                    <div class="sf">
-                        <label><i class="fas fa-user" style="color:#C85A2A;margin-right:4px"></i> Adults</label>
-                        <input type="number" name="adults" min="1" max="9" value="{{ old('adults', 1) }}" required>
-                    </div>
-                    <div class="sf">
-                        <label><i class="fas fa-couch" style="color:#C85A2A;margin-right:4px"></i> Cabin Class</label>
-                        <select name="cabin_class">
-                            @foreach(['ECONOMY' => 'Economy', 'PREMIUM_ECONOMY' => 'Premium Economy', 'BUSINESS' => 'Business', 'FIRST' => 'First Class'] as $val => $label)
-                                <option value="{{ $val }}" {{ old('cabin_class','ECONOMY') === $val ? 'selected' : '' }}>{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-search-flight">
-                    <i class="fas fa-search" style="margin-right:8px"></i>Search Flights
-                </button>
-            </form>
-        </div>
 
         <div class="features-row">
             <div class="feature-card">

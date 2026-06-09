@@ -83,33 +83,6 @@
         <h1>Find Hotels Worldwide</h1>
         <p>Search thousands of hotels from Booking.com and book your perfect stay</p>
 
-        <div class="search-card">
-            <form action="{{ route('guest.hotels.results') }}" method="GET">
-                <div class="search-grid">
-                    <div class="search-field">
-                        <label><i class="fas fa-map-marker-alt" style="color:#C85A2A;margin-right:4px"></i> Destination</label>
-                        <input type="text" name="destination" placeholder="e.g. Kigali, Paris, Dubai..." required value="{{ old('destination') }}">
-                    </div>
-                    <div class="search-field">
-                        <label><i class="fas fa-calendar" style="color:#C85A2A;margin-right:4px"></i> Check-in</label>
-                        <input type="date" name="check_in" required min="{{ date('Y-m-d') }}" value="{{ old('check_in') }}">
-                    </div>
-                    <div class="search-field">
-                        <label><i class="fas fa-calendar-check" style="color:#C85A2A;margin-right:4px"></i> Check-out</label>
-                        <input type="date" name="check_out" required min="{{ date('Y-m-d', strtotime('+1 day')) }}" value="{{ old('check_out') }}">
-                    </div>
-                    <div class="search-field">
-                        <label><i class="fas fa-user" style="color:#C85A2A;margin-right:4px"></i> Adults</label>
-                        <input type="number" name="adults" min="1" max="30" value="{{ old('adults', 2) }}" required>
-                    </div>
-                </div>
-                <div style="margin-top:16px;">
-                    <button type="submit" class="btn-search">
-                        <i class="fas fa-search" style="margin-right:8px"></i>Search Hotels
-                    </button>
-                </div>
-            </form>
-        </div>
 
         <div class="search-info">
             <div class="search-info-grid">

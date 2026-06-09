@@ -176,7 +176,7 @@
         @else
         <div class="no-data">
             <i class="fas fa-suitcase" style="font-size:32px;display:block;margin-bottom:12px;color:#ddd;"></i>
-            No bookings found. <a href="{{ route('guest.all_services') }}" style="color:#4F9DE8;">Make your first booking</a>
+            <span data-en="No bookings found." data-fr="Aucune réservation trouvée.">No bookings found.</span>
         </div>
         @endif
     </div>

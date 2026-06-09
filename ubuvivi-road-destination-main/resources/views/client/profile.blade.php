@@ -140,7 +140,7 @@
             <input type="text" placeholder="Search...">
         </div>
         <a href="{{ route('guest.all_services') }}" class="cd-new-btn">
-            <i class="fas fa-plus"></i> New Booking
+            <i class="fas fa-plus"></i>&nbsp;<span data-en="New Booking" data-fr="Nouvelle réservation">New Booking</span>
         </a>
     </div>
 

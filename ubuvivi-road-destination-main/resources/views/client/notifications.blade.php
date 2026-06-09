@@ -99,7 +99,7 @@
         @empty
         <div class="notif-empty">
             <i class="fas fa-bell-slash"></i>
-            No notifications yet. <a href="{{ route('guest.all_services') }}" style="color:#4F9DE8;">Make your first booking</a>
+            <span data-en="No notifications yet." data-fr="Aucune notification.">No notifications yet.</span>
         </div>
         @endforelse
     </div>
