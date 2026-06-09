@@ -124,7 +124,7 @@ class ServiceController extends Controller
                         'production_year' => $request->year ?? date('Y'),
                         'plate_number'    => 'SVC-' . rand(1000, 9999),
                         'seats'           => 4,
-                        'price'           => (int) ($request->price ?? 100),
+                        'price'           => (int) ($request->price ?? 0),
                         'currency'        => 'USD',
                         'transmission_id' => $transmission->id,
                         'fuel_type_id'    => $fuelType->id,

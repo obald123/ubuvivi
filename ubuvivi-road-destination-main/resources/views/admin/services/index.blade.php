@@ -602,7 +602,13 @@
                     </label>
                 </div>
 
-                <div class="price-counter">
+                <div class="adm-form-group" style="margin-bottom:8px;">
+                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                        <input type="checkbox" id="carPriceOnRequest" onchange="toggleCarPrice(this)" style="width:16px;height:16px;accent-color:#0D1F35;">
+                        Price on request (no fixed price)
+                    </label>
+                </div>
+                <div class="price-counter" id="carPriceRow">
                     <span class="price-counter-label">Price per Day (dollars):</span>
                     <button type="button" class="btn-counter" onclick="changePrice('carPrice', -10)">&#8722;</button>
                     <span class="price-val" id="carPriceDisplay">100</span>
@@ -710,6 +716,15 @@ function toggleTourPrice(checkbox) {
     }
 }
 
+function toggleCarPrice(checkbox) {
+    var row = document.getElementById('carPriceRow');
+    row.style.display = checkbox.checked ? 'none' : '';
+    if (checkbox.checked) {
+        document.getElementById('carPrice').value = 0;
+        document.getElementById('carPriceDisplay').textContent = 0;
+    }
+}
+
 function changePrice(inputId, delta) {
     var inp = document.getElementById(inputId);
     var val = Math.max(0, (parseInt(inp.value) || 0) + delta);
@@ -799,6 +814,8 @@ function openCarModal() {
     document.getElementById('carExistingImages').value = '[]';
     document.getElementById('carExistingImageIds').value = '[]';
     clearImgArea('carImagesArea', 'carImgSlot');
+    document.getElementById('carPriceOnRequest').checked = false;
+    document.getElementById('carPriceRow').style.display = '';
     setPrice('carPrice', 100);
     document.getElementById('carModal').style.display = 'flex';
 }
@@ -815,7 +832,10 @@ function loadCarModal(data) {
     document.getElementById('carAvailable').checked = data.available || false;
     document.getElementById('carExistingImages').value = JSON.stringify(data.images || []);
     document.getElementById('carExistingImageIds').value = JSON.stringify(data.image_id || []);
-    setPrice('carPrice', data.price || 100);
+    var priceOnRequest = !data.price || data.price == 0;
+    document.getElementById('carPriceOnRequest').checked = priceOnRequest;
+    document.getElementById('carPriceRow').style.display = priceOnRequest ? 'none' : '';
+    setPrice('carPrice', priceOnRequest ? 0 : data.price);
 
     clearImgArea('carImagesArea', 'carImgSlot');
     (data.images || []).forEach(function (url, i) {

@@ -28,8 +28,10 @@ class HomeController extends Controller
         $tourBookings  = TourBooking::count();
         $totalBookings = $carBookings + $carTransfers + $tourBookings;
 
-        $vehicles      = Vehicle::count();
-        $activeServices = $vehicles;
+        $activeBookings = TourBooking::where('approved', true)->count()
+                        + CarBooking::where('approved', true)->count()
+                        + CarTransfer::where('approved', true)->count();
+        $activeServices = $activeBookings;
 
         $totalClients = User::where('role', 'client')->count();
 

@@ -362,7 +362,7 @@
         </article>
         <article class="stat-card">
             <div>
-                <div class="stat-label">Active Services</div>
+                <div class="stat-label">Active Bookings</div>
                 <div class="stat-value">{{ $activeServices }}</div>
             </div>
             <span class="stat-icon purple"><i class="fas fa-briefcase"></i></span>
