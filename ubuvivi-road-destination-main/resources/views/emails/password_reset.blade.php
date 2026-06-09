@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Confirmation - Ubuvivi Tours</title>
+    <title>Reset Your Password - Ubuvivi Tours</title>
     <style>
         body { margin:0; padding:0; background:#f0f2f5; font-family:'Helvetica Neue',Arial,sans-serif; color:#333; }
         .outer { padding:40px 16px; }
@@ -47,24 +47,31 @@
     <div class="header">
         <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" alt="Ubuvivi Tours">
         <div class="header-brand">Ubuvivi Tours &amp; Travel</div>
-        <div class="header-sub">Kigali, Rwanda</div>
+        <div class="header-sub">Password Reset</div>
     </div>
 
     <div class="body">
-        <div class="subject-line">Booking Received</div>
+        <div class="subject-line">Reset Your Password</div>
 
-        <p>Thank you for your booking. We have received your request and our team will review it and get back to you within <strong>24 hours</strong>.</p>
+        <p>Hello {{ $name }},</p>
 
-        <div class="highlight">
-            To view your booking details and track its status, click the button below. Keep this link &mdash; it is unique to your booking.
-        </div>
+        <p>We received a request to reset the password for your Ubuvivi Tours &amp; Safaris account. Click the button below to create a new password:</p>
 
         <div class="btn-wrap">
-            <a href="{{ $link }}" class="btn">View My Booking</a>
+            <a href="{{ $resetUrl }}" class="btn">Reset Password</a>
+        </div>
+
+        <div class="highlight">
+            This link will expire in <strong>60 minutes</strong>. If you did not request a password reset, no action is required — your account remains secure.
         </div>
 
         <hr class="divider">
 
+        <p style="font-size:13px;color:#aaa;">For security reasons, never share this link with anyone. Ubuvivi staff will never ask you for this link.</p>
+
+        <p style="font-size:13px;color:#aaa;">If the button above doesn't work, copy and paste this URL into your browser:<br>
+            <a href="{{ $resetUrl }}" style="color:#C85A2A;word-break:break-all;">{{ $resetUrl }}</a>
+        </p>
     </div>
 
     <div class="footer">
