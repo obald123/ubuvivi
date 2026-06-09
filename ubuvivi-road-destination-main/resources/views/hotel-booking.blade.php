@@ -225,49 +225,6 @@
         </div>
     </section>
 
-    {{-- ── Search Bar ── --}}
-    <div class="hb-search-bar">
-        <div class="container">
-            <div class="hb-inputs-row">
-                <div class="hb-input-group" style="flex:1.5;">
-                    <div class="hb-input-label"><i class="fas fa-map-marker-alt"></i> Destination</div>
-                    <input type="text" id="hotelDest" placeholder="City, hotel, or place" value="Kigali">
-                </div>
-                <div class="hb-input-group">
-                    <div class="hb-input-label"><i class="fas fa-calendar-alt"></i> Check-in</div>
-                    <input type="date" id="checkIn">
-                </div>
-                <div class="hb-input-group">
-                    <div class="hb-input-label"><i class="fas fa-calendar-alt"></i> Check-out</div>
-                    <input type="date" id="checkOut">
-                </div>
-                <div class="hb-input-group" style="flex:0 0 120px;">
-                    <div class="hb-input-label"><i class="fas fa-user-friends"></i> Guests</div>
-                    <select id="guestCount">
-                        <option>1 Guest</option>
-                        <option selected>2 Guests</option>
-                        <option>3 Guests</option>
-                        <option>4 Guests</option>
-                        <option>5+ Guests</option>
-                    </select>
-                </div>
-                <div class="hb-input-group" style="flex:0 0 110px;">
-                    <div class="hb-input-label"><i class="fas fa-door-open"></i> Rooms</div>
-                    <select id="roomCount">
-                        <option selected>1 Room</option>
-                        <option>2 Rooms</option>
-                        <option>3 Rooms</option>
-                        <option>4+ Rooms</option>
-                    </select>
-                </div>
-                <div class="hb-search-btn-wrap">
-                    <button class="hb-search-btn" onclick="searchHotels()">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- ── Popular Destinations ── --}}
     <section class="hb-destinations-section">

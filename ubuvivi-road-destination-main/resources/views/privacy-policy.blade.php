@@ -96,6 +96,12 @@
     .legal-content table th {
         min-width: 100px;
     }
+    .legal-content section[data-custom-class] {
+        width: 100% !important;
+        max-width: 100%;
+        overflow-x: auto;
+        box-sizing: border-box;
+    }
 
     /* ── Tablet landscape ── */
     @media (max-width: 1024px) {

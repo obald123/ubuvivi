@@ -283,69 +283,6 @@
         </div>
     </section>
 
-    {{-- ── Search Bar ── --}}
-    <div class="at-search-bar">
-        <div class="container">
-            {{-- Trip type toggle --}}
-            <div class="at-trip-toggle">
-                <button type="button" class="at-trip-btn active" id="btn-round" onclick="setTripType('round')">
-                    <i class="fas fa-exchange-alt"></i> Round Trip
-                </button>
-                <button type="button" class="at-trip-btn" id="btn-oneway" onclick="setTripType('oneway')">
-                    One Way
-                </button>
-            </div>
-
-            {{-- Inputs row --}}
-            <div class="at-inputs-row">
-                <div class="at-input-group" style="flex:1.4;">
-                    <div class="at-input-label"><i class="fas fa-plane-departure"></i> From</div>
-                    <input type="text" id="fromInput" placeholder="Departure city" value="Kigali">
-                </div>
-                <div class="at-swap-col">
-                    <button class="at-swap-btn" onclick="swapLocations()" title="Swap destinations">
-                        <i class="fas fa-exchange-alt"></i>
-                    </button>
-                </div>
-                <div class="at-input-group" style="flex:1.4;">
-                    <div class="at-input-label"><i class="fas fa-plane-arrival"></i> To</div>
-                    <input type="text" id="toInput" placeholder="Destination city" value="Paris">
-                </div>
-                <div class="at-input-group">
-                    <div class="at-input-label"><i class="fas fa-calendar-alt"></i> Depart</div>
-                    <input type="date" id="depDate">
-                </div>
-                <div class="at-input-group" id="retDateGroup">
-                    <div class="at-input-label"><i class="fas fa-calendar-alt"></i> Return</div>
-                    <input type="date" id="retDate">
-                </div>
-                <div class="at-input-group" style="flex:0 0 130px;">
-                    <div class="at-input-label"><i class="fas fa-user-friends"></i> Passengers</div>
-                    <select id="passSelect">
-                        <option value="1">1 Passenger</option>
-                        <option value="2">2 Passengers</option>
-                        <option value="3">3 Passengers</option>
-                        <option value="4">4 Passengers</option>
-                        <option value="5">5+ Passengers</option>
-                    </select>
-                </div>
-                <div class="at-input-group" style="flex:0 0 130px;">
-                    <div class="at-input-label"><i class="fas fa-chair"></i> Class</div>
-                    <select id="classSelect">
-                        <option>Economy</option>
-                        <option>Business</option>
-                        <option>First Class</option>
-                        <option>Premium Economy</option>
-                    </select>
-                </div>
-                <div class="at-search-btn-wrap">
-                    <button class="at-search-submit" onclick="searchFlights()">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- ── Popular Destinations ── --}}
     <section class="destinations-section">
