@@ -1,59 +1,59 @@
 @extends('layouts.auth_app')
-@section('title')
-    Reset Password
-@endsection
-@section('content')
-    <div class="card card-primary" style="border-radius: 15px">
-        <div class="card-header"><h4>Set a New Password</h4></div>
+@section('title', 'Reset Password')
 
-        <div class="card-body">
-            <form method="POST" action="{{ url('/password/reset') }}">
-                @csrf
-                @if ($errors->any())
-                    <div class="alert alert-danger p-0">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <input type="hidden" name="token" value="{{ $token }}">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           name="email" tabindex="1" value="{{ old('email') }}" autofocus required>
-                    <div class="invalid-feedback">
-                        {{ $errors->first('email') }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password" class="control-label">Password</label>
-                    <input id="password" type="password"
-                           class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" name="password"
-                           tabindex="2" required>
-                    <div class="invalid-feedback">
-                        {{ $errors->first('password') }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="password_confirmation" class="control-label">Confirm Password</label>
-                    <input id="password_confirmation" type="password"
-                           class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid': '' }}"
-                           name="password_confirmation" tabindex="2" required>
-                    <div class="invalid-feedback">
-                        {{ $errors->first('password_confirmation') }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                        Set a New Password
-                    </button>
-                </div>
-            </form>
+@section('content')
+
+    @if ($errors->any())
+        <div class="auth-errors">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-    </div>
-    <div class="mt-5 text-muted text-center">
-        Recalled your login info? <a class="bg-primary px-2 py-1 rounded text-light" href="{{ route('login') }}">Sign In</a>
-    </div>
+    @endif
+
+    <p class="auth-hint">
+        Choose a strong new password for your account.
+    </p>
+
+    <form method="POST" action="{{ url('/password/reset') }}">
+        @csrf
+        <input type="hidden" name="token" value="{{ $token }}">
+
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-envelope"></i></div>
+            <input type="email" name="email" placeholder="Email address"
+                value="{{ old('email') }}" required autofocus>
+        </div>
+
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-lock"></i></div>
+            <input type="password" name="password" placeholder="New password" required>
+        </div>
+
+        <div class="auth-field">
+            <div class="field-icon"><i class="far fa-lock"></i></div>
+            <input type="password" name="password_confirmation" placeholder="Confirm new password" required>
+        </div>
+
+        <button type="submit" class="auth-submit">Set New Password</button>
+    </form>
+
+    <p class="auth-footer-link">
+        Remembered your password? <a href="{{ route('login') }}">Sign In</a>
+    </p>
+
 @endsection
+
+@push('styles')
+<style>
+    .auth-hint {
+        color: rgba(255,255,255,.72);
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+</style>
+@endpush

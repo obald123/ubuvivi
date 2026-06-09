@@ -25,12 +25,12 @@
     .notif-item {
         display:flex; align-items:center; gap:16px;
         padding:16px 24px; border-bottom:1px solid #f5f5f5;
-        cursor:default; transition:background .15s;
-        position:relative;
+        cursor:pointer; transition:background .15s;
+        position:relative; text-decoration:none; color:inherit;
     }
     .notif-item:last-child { border-bottom:none; }
     .notif-item.unread { background:#f0f6ff; }
-    .notif-item:hover { background:#f7f8fa; }
+    .notif-item:hover { background:#f7f8fa; text-decoration:none; color:inherit; }
     .notif-icon {
         width:42px; height:42px; border-radius:50%;
         display:flex; align-items:center; justify-content:center;
@@ -85,7 +85,8 @@
     {{-- Notification list --}}
     <div class="notif-list" id="notifList">
         @forelse($notifications as $n)
-        <div class="notif-item {{ $n['unread'] ? 'unread' : '' }}" data-tag="{{ $n['tag'] }}">
+        <a class="notif-item {{ $n['unread'] ? 'unread' : '' }}" data-tag="{{ $n['tag'] }}"
+           href="{{ $n['url'] ?? '#' }}">
             <div class="notif-icon {{ $n['icon'] }}">
                 <i class="fas {{ $n['fa'] }}"></i>
             </div>
@@ -95,7 +96,7 @@
                 <div class="notif-ago">{{ $n['ago'] }}</div>
             </div>
             <div class="notif-dot {{ $n['unread'] ? '' : 'read' }}"></div>
-        </div>
+        </a>
         @empty
         <div class="notif-empty" id="notifEmpty">
             <i class="fas fa-bell-slash"></i>
@@ -129,8 +130,7 @@ function applyFilters() {
     var anyVisible = false;
     document.querySelectorAll('.notif-item').forEach(function(item) {
         var tag = item.dataset.tag;
-        var matchTab = currentTab === 'all' || tag === currentTab ||
-                       (currentTab === 'today' && tag === 'all' && item.classList.contains('unread'));
+        var matchTab = currentTab === 'all' || tag === currentTab;
         var matchSearch = !q || item.textContent.toLowerCase().includes(q);
         var show = matchTab && matchSearch;
         item.style.display = show ? '' : 'none';

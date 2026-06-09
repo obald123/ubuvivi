@@ -182,9 +182,11 @@ class ClientDashboardController extends Controller
             ->orderByDesc('tour_bookings.created_at')
             ->get();
 
+        $bookingsUrl = route('client.bookings');
+
         foreach ($tours as $b) {
             $label = $b->name ?? 'Tour';
-            $notifications->push($this->bookingNotification('Tour & Travel', $label, $b->date, $b->approved, $b->created_at, $today));
+            $notifications->push($this->bookingNotification('Tour & Travel', $label, $b->date, $b->approved, $b->created_at, $today, $bookingsUrl . '?type=tour&id=' . $b->id));
         }
 
         // Car bookings
@@ -195,7 +197,7 @@ class ClientDashboardController extends Controller
             ->get();
 
         foreach ($cars as $b) {
-            $notifications->push($this->bookingNotification('Car Rental', 'Car Rental', $b->date, $b->approved, $b->created_at, $today));
+            $notifications->push($this->bookingNotification('Car Rental', 'Car Rental', $b->date, $b->approved, $b->created_at, $today, $bookingsUrl . '?type=car&id=' . $b->id));
         }
 
         // Transfers
@@ -206,7 +208,7 @@ class ClientDashboardController extends Controller
             ->get();
 
         foreach ($transfers as $b) {
-            $notifications->push($this->bookingNotification('Transfer', $b->destination ?: 'Transfer', $b->date, $b->approved, $b->created_at, $today));
+            $notifications->push($this->bookingNotification('Transfer', $b->destination ?: 'Transfer', $b->date, $b->approved, $b->created_at, $today, $bookingsUrl . '?type=transfer&id=' . $b->id));
         }
 
         // Flight bookings
@@ -218,7 +220,7 @@ class ClientDashboardController extends Controller
 
         foreach ($flights as $b) {
             $label = trim(($b->departure_airport ?? '') . ' → ' . ($b->arrival_airport ?? '')) ?: 'Flight';
-            $notifications->push($this->bookingNotification('Air Ticketing', $label, $b->date, $b->approved, $b->created_at, $today));
+            $notifications->push($this->bookingNotification('Air Ticketing', $label, $b->date, $b->approved, $b->created_at, $today, $bookingsUrl . '?type=flight&id=' . $b->id));
         }
 
         // Hotel bookings
@@ -232,7 +234,7 @@ class ClientDashboardController extends Controller
 
         foreach ($hotelBookings as $b) {
             $label = $b->hotel_name ?: 'Hotel';
-            $notifications->push($this->bookingNotification('Hotel Booking', $label, $b->date, $b->approved, $b->created_at, $today));
+            $notifications->push($this->bookingNotification('Hotel Booking', $label, $b->date, $b->approved, $b->created_at, $today, $bookingsUrl . '?type=hotel&id=' . $b->id));
         }
 
         $notifications = $notifications->sortByDesc('created_at')->values();
@@ -240,40 +242,38 @@ class ClientDashboardController extends Controller
         return view('client.notifications', compact('notifications'));
     }
 
-    private function bookingNotification(string $service, string $label, $date, $approved, $createdAt, string $today): array
+    private function bookingNotification(string $service, string $label, $date, $approved, $createdAt, string $today, string $url = ''): array
     {
         $created = \Carbon\Carbon::parse($createdAt);
 
+        // Tag is based on when the notification was created, not the booking date
+        $tag = $created->isToday() ? 'today' : 'history';
+
         if ($approved === true || $approved == 1) {
             if ($date < $today) {
-                $title   = "{$service} Booking Completed";
-                $desc    = "Your booking for \"{$label}\" has been completed.";
-                $icon    = 'ni-green'; $fa = 'fa-check-circle';
-                $tag     = 'history';
+                $title  = "{$service} Booking Completed";
+                $desc   = "Your booking for \"{$label}\" has been completed.";
+                $icon   = 'ni-green'; $fa = 'fa-check-circle';
             } elseif ($date === $today) {
-                $title   = "{$service} Booking Active Today";
-                $desc    = "Your booking for \"{$label}\" is active today.";
-                $icon    = 'ni-blue'; $fa = 'fa-calendar-check';
-                $tag     = 'today';
+                $title  = "{$service} Booking Active Today";
+                $desc   = "Your booking for \"{$label}\" is active today.";
+                $icon   = 'ni-blue'; $fa = 'fa-calendar-check';
             } else {
-                $title   = "{$service} Booking Confirmed";
-                $desc    = "Your booking for \"{$label}\" on {$date} has been confirmed.";
-                $icon    = 'ni-green'; $fa = 'fa-check-circle';
-                $tag     = 'all';
+                $title  = "{$service} Booking Confirmed";
+                $desc   = "Your booking for \"{$label}\" on {$date} has been confirmed.";
+                $icon   = 'ni-green'; $fa = 'fa-check-circle';
             }
             $unread = false;
         } elseif ($approved === false || $approved == 0) {
-            $title   = "{$service} Booking Not Approved";
-            $desc    = "Your booking for \"{$label}\" was not approved.";
-            $icon    = 'ni-red'; $fa = 'fa-times-circle';
-            $tag     = 'history';
-            $unread  = false;
+            $title  = "{$service} Booking Not Approved";
+            $desc   = "Your booking for \"{$label}\" was not approved. Contact support for help.";
+            $icon   = 'ni-red'; $fa = 'fa-times-circle';
+            $unread = false;
         } else {
-            $title   = "{$service} Booking Pending";
-            $desc    = "Your booking for \"{$label}\" is awaiting approval.";
-            $icon    = 'ni-yellow'; $fa = 'fa-clock';
-            $tag     = $created->isToday() ? 'today' : 'all';
-            $unread  = $created->isToday();
+            $title  = "{$service} Booking Pending";
+            $desc   = "Your booking for \"{$label}\" is awaiting approval.";
+            $icon   = 'ni-yellow'; $fa = 'fa-clock';
+            $unread = $created->isToday();
         }
 
         return [
@@ -283,6 +283,7 @@ class ClientDashboardController extends Controller
             'desc'       => $desc,
             'unread'     => $unread,
             'tag'        => $tag,
+            'url'        => $url,
             'created_at' => $created,
             'ago'        => $created->locale('en')->diffForHumans(),
         ];
