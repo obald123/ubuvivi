@@ -204,6 +204,7 @@
 
     <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+    @stack('scripts')
     <script>
         window.addEventListener('scroll', function () {
             var nav = document.getElementById('mainNavbar');
