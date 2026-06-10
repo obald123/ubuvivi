@@ -240,7 +240,7 @@
     .double-underline .line-orange { width: 70px; height: 3px; background: #C85A2A; border-radius: 2px; }
     .double-underline .line-dark   { width: 70px; height: 3px; background: #1a1a1a; border-radius: 2px; }
 
-    /* Aim card — left bump mirrors Objective card right bump */
+    /* Mission card — circle on LEFT */
     .aim-card-wrap {
         position: relative;
         background: #F0F0F0;
@@ -266,6 +266,39 @@
     }
     .aim-card-wrap h3 { font-size: 26px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
     .aim-card-wrap p  { font-size: 15px; color: #555; line-height: 1.75; margin: 0; }
+
+    /* Vision card — circle on RIGHT (mirror of mission) */
+    .obj-card-wrap {
+        position: relative;
+        background: #F0F0F0;
+        border-radius: 20px 140px 140px 20px;
+        padding: 32px 220px 32px 36px;
+        overflow: hidden;
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .obj-circle {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 170px; height: 170px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .obj-card-wrap h3 { font-size: 26px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
+    .obj-card-wrap p  { font-size: 15px; color: #555; line-height: 1.75; margin: 0; }
+
+    @media (max-width: 767px) {
+        .aim-card-wrap { border-radius: 20px; padding: 100px 24px 24px; min-height: auto; }
+        .aim-circle { left: 50%; top: 20px; transform: translateX(-50%); width: 80px; height: 80px; }
+        .obj-card-wrap { border-radius: 20px; padding: 100px 24px 24px; min-height: auto; }
+        .obj-circle { right: auto; left: 50%; top: 20px; transform: translateX(-50%); width: 80px; height: 80px; }
+    }
 
     /* ── Services ── */
     .services-section { background: #fff; }
@@ -534,7 +567,7 @@
                     <div class="aim-card-wrap">
                         <div class="aim-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_10.jpg') }}')"></div>
                         <h3>Mission</h3>
-                        <p>To provide exceptional, affordable, and reliable travel and transport services that exceed client expectations — connecting people to Rwanda's most beautiful destinations with professionalism and care.</p>
+                        <p>To reveal the authentic heartbeat of Rwanda through immersive, sustainable, and transformative travel experiences that connect visitors with the country's breathtaking landscapes, resilient culture, and world-famous wildlife—while empowering local communities and preserving natural heritage for generations to come.</p>
                     </div>
                 </div>
             </div>
@@ -544,7 +577,7 @@
                 <div class="col-lg-9">
                     <div class="obj-card-wrap">
                         <h3>Vision</h3>
-                        <p>To be the leading travel and transport company in East Africa, recognized for outstanding service delivery, innovation, and contributing to sustainable tourism across the region.</p>
+                        <p>To become Rwanda's most trusted and innovative boutique tour operator—recognized globally for curating life-changing journeys that showcase the 'Land of a Thousand Hills' as a premier destination for conscious travelers seeking adventure, healing, and inspiration.</p>
                         <div class="obj-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_7.jpg') }}')"></div>
                     </div>
                 </div>
