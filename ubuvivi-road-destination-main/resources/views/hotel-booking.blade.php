@@ -147,6 +147,72 @@
     .hotel-card-img {
         width: 100%; height: 220px;
         background-size: cover; background-position: center;
+        position: relative;
+    }
+    .hotel-card-img.clickable { cursor: pointer; }
+    .hotel-photos-badge {
+        position: absolute; bottom: 10px; right: 10px;
+        background: rgba(0,0,0,.62); color: #fff;
+        padding: 4px 11px; border-radius: 50px;
+        font-size: 12px; font-weight: 600;
+        display: flex; align-items: center; gap: 5px;
+        backdrop-filter: blur(2px);
+    }
+    .hotel-photos-badge i { font-size: 11px; }
+
+    /* ── Photo gallery lightbox ── */
+    .hg-overlay {
+        display: none; position: fixed; inset: 0;
+        background: rgba(0,0,0,.92); z-index: 4000;
+        align-items: center; justify-content: center;
+    }
+    .hg-overlay.open { display: flex; }
+    .hg-stage {
+        position: relative; max-width: 90vw; max-height: 80vh;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .hg-main-img {
+        max-width: 90vw; max-height: 80vh;
+        border-radius: 10px; object-fit: contain;
+        box-shadow: 0 8px 40px rgba(0,0,0,.5);
+    }
+    .hg-close {
+        position: absolute; top: 22px; right: 26px;
+        background: none; border: none; color: #fff;
+        font-size: 38px; line-height: 1; cursor: pointer; z-index: 4002;
+    }
+    .hg-nav {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        background: rgba(255,255,255,.15); border: none; color: #fff;
+        width: 50px; height: 50px; border-radius: 50%;
+        font-size: 22px; cursor: pointer; display: flex;
+        align-items: center; justify-content: center;
+        transition: background .2s; z-index: 4002;
+    }
+    .hg-nav:hover { background: rgba(255,255,255,.32); }
+    .hg-prev { left: 18px; }
+    .hg-next { right: 18px; }
+    .hg-counter {
+        position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+        color: #fff; font-size: 14px; font-weight: 600;
+        background: rgba(0,0,0,.5); padding: 5px 16px; border-radius: 50px; z-index: 4002;
+    }
+    .hg-title {
+        position: absolute; top: 24px; left: 26px;
+        color: #fff; font-size: 16px; font-weight: 700; z-index: 4002;
+    }
+    .hg-thumbs {
+        position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+        display: flex; gap: 8px; max-width: 90vw; overflow-x: auto; padding: 4px;
+    }
+    .hg-thumbs img {
+        width: 60px; height: 44px; object-fit: cover; border-radius: 5px;
+        cursor: pointer; opacity: .5; border: 2px solid transparent; transition: opacity .2s, border-color .2s;
+    }
+    .hg-thumbs img.active { opacity: 1; border-color: var(--orange); }
+    @media (max-width: 576px) {
+        .hg-nav { width: 40px; height: 40px; font-size: 18px; }
+        .hg-thumbs { display: none; }
     }
     .hotel-card-body { padding: 20px 22px 24px; }
     .hotel-stars { color: #f5c518; font-size: 13px; margin-bottom: 8px; }
@@ -272,9 +338,15 @@
             <div class="row">
                 @foreach($hotels as $h)
                 <div class="col-md-6 col-lg-4 mb-4">
+                    @php $hImages = $h->images ?? []; @endphp
                     <div class="hotel-card">
                         @if($h->cover_image)
-                            <div class="hotel-card-img" style="background-image:url('{{ htmlspecialchars($h->cover_image, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"></div>
+                            <div class="hotel-card-img clickable" style="background-image:url('{{ htmlspecialchars($h->cover_image, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"
+                                 onclick="openGallery({{ $h->id }}, 0)">
+                                @if(count($hImages) > 1)
+                                    <span class="hotel-photos-badge"><i class="fas fa-images"></i> {{ count($hImages) }} photos</span>
+                                @endif
+                            </div>
                         @else
                             <div class="hotel-card-img" style="background:#e4e8f0;display:flex;align-items:center;justify-content:center;">
                                 <i class="fas fa-hotel" style="font-size:40px;color:#bbb;"></i>
@@ -395,15 +467,92 @@
         </div>
     </div>
 
+    {{-- ── Photo Gallery Lightbox ── --}}
+    <div class="hg-overlay" id="hotelGallery">
+        <button class="hg-close" onclick="closeGallery()">&times;</button>
+        <span class="hg-title" id="hgTitle"></span>
+        <button class="hg-nav hg-prev" onclick="galleryStep(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="hg-stage">
+            <img class="hg-main-img" id="hgMainImg" src="" alt="Hotel photo">
+        </div>
+        <button class="hg-nav hg-next" onclick="galleryStep(1)"><i class="fas fa-chevron-right"></i></button>
+        <div class="hg-thumbs" id="hgThumbs"></div>
+        <span class="hg-counter" id="hgCounter"></span>
+    </div>
+
 @endsection
 
+@php
+    $hotelGalleryData = $hotels->mapWithKeys(function ($h) {
+        return [$h->id => ['name' => $h->name, 'images' => $h->images ?? []]];
+    });
+@endphp
 @section('scripts')
 <script>
+var hotelGalleries = @json($hotelGalleryData);
+var hgCurrent = { id: null, idx: 0 };
+
+function openGallery(id, startIdx) {
+    var data = hotelGalleries[id];
+    if (!data || !data.images || !data.images.length) return;
+    hgCurrent.id = id;
+    hgCurrent.idx = startIdx || 0;
+    document.getElementById('hgTitle').textContent = data.name;
+    renderGallery();
+    document.getElementById('hotelGallery').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function renderGallery() {
+    var data = hotelGalleries[hgCurrent.id];
+    var imgs = data.images;
+    document.getElementById('hgMainImg').src = imgs[hgCurrent.idx];
+    document.getElementById('hgCounter').textContent = (hgCurrent.idx + 1) + ' / ' + imgs.length;
+
+    var thumbs = document.getElementById('hgThumbs');
+    thumbs.innerHTML = imgs.map(function (src, i) {
+        return '<img src="' + src + '" class="' + (i === hgCurrent.idx ? 'active' : '') + '" onclick="gotoGallery(' + i + ')">';
+    }).join('');
+
+    // Hide nav if single image
+    var single = imgs.length <= 1;
+    document.querySelector('.hg-prev').style.display = single ? 'none' : 'flex';
+    document.querySelector('.hg-next').style.display = single ? 'none' : 'flex';
+}
+
+function galleryStep(dir) {
+    var imgs = hotelGalleries[hgCurrent.id].images;
+    hgCurrent.idx = (hgCurrent.idx + dir + imgs.length) % imgs.length;
+    renderGallery();
+}
+
+function gotoGallery(i) { hgCurrent.idx = i; renderGallery(); }
+
+function closeGallery() {
+    document.getElementById('hotelGallery').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function (e) {
+    if (!document.getElementById('hotelGallery').classList.contains('open')) return;
+    if (e.key === 'Escape') closeGallery();
+    if (e.key === 'ArrowLeft') galleryStep(-1);
+    if (e.key === 'ArrowRight') galleryStep(1);
+});
+
 document.addEventListener('DOMContentLoaded', function () {
-    const ci = new Date(); ci.setDate(ci.getDate() + 3);
-    const co = new Date(); co.setDate(co.getDate() + 7);
-    document.getElementById('checkIn').valueAsDate  = ci;
-    document.getElementById('checkOut').valueAsDate = co;
+    document.getElementById('hotelGallery').addEventListener('click', function (e) {
+        if (e.target === this) closeGallery();
+    });
+
+    var ciEl = document.getElementById('checkIn');
+    var coEl = document.getElementById('checkOut');
+    if (ciEl && coEl) {
+        const ci = new Date(); ci.setDate(ci.getDate() + 3);
+        const co = new Date(); co.setDate(co.getDate() + 7);
+        ciEl.valueAsDate = ci;
+        coEl.valueAsDate = co;
+    }
 });
 
 function searchHotels() {
