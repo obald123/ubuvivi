@@ -16,7 +16,7 @@
     .eb-hero {
         position: relative;
         height: 380px;
-        background: url('{{ asset("assets/images/backgrounds/bg_01.jpg") }}') center center / cover no-repeat;
+        background: url('{{ asset("images/conference-planning.webp") }}') center center / cover no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;

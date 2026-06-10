@@ -567,7 +567,7 @@
                     <div class="aim-card-wrap">
                         <div class="aim-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_10.jpg') }}')"></div>
                         <h3>Mission</h3>
-                        <p>To reveal the authentic heartbeat of Rwanda through immersive, sustainable, and transformative travel experiences that connect visitors with the country's breathtaking landscapes, resilient culture, and world-famous wildlife—while empowering local communities and preserving natural heritage for generations to come.</p>
+                        <p>To share the true beauty of Rwanda through genuine travel experiences that bring visitors closer to its landscapes, culture, and wildlife — while supporting local communities and protecting what makes this country special.</p>
                     </div>
                 </div>
             </div>
@@ -577,7 +577,7 @@
                 <div class="col-lg-9">
                     <div class="obj-card-wrap">
                         <h3>Vision</h3>
-                        <p>To become Rwanda's most trusted and innovative boutique tour operator—recognized globally for curating life-changing journeys that showcase the 'Land of a Thousand Hills' as a premier destination for conscious travelers seeking adventure, healing, and inspiration.</p>
+                        <p>To be Rwanda's most trusted tour operator — known for creating memorable journeys that inspire travelers to discover the Land of a Thousand Hills and all it has to offer.</p>
                         <div class="obj-circle" style="background-image: url('{{ asset('assets/images/backgrounds/bg_7.jpg') }}')"></div>
                     </div>
                 </div>
