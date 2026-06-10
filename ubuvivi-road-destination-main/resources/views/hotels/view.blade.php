@@ -178,8 +178,8 @@
                 <div>
                     <div class="hd-book-card">
                         <div class="hd-price-block">
-                            <div class="hd-price-label">Starting from</div>
                             @if($hotel->price_per_night)
+                                <div class="hd-price-label">Starting from</div>
                                 <span class="hd-price">${{ number_format($hotel->price_per_night, 0) }}</span>
                                 <span class="hd-price-night">/ night</span>
                             @else

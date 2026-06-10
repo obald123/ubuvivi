@@ -307,8 +307,8 @@
                             </div>
                             <div class="hotel-footer">
                                 <div>
-                                    <div class="hotel-price-label">Starting from</div>
                                     @if($h->price_per_night)
+                                        <div class="hotel-price-label">Starting from</div>
                                         <span class="hotel-price">${{ number_format($h->price_per_night, 0) }}</span>
                                         <span class="hotel-price-night">/night</span>
                                     @else
