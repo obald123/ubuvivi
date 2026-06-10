@@ -197,6 +197,18 @@ class GuestController extends Controller
         return view("hotel-booking", compact('hotels'));
     }
 
+    public function hotel_view($id)
+    {
+        $hotel = \App\Models\Hotel::find($id);
+
+        if (empty($hotel)) {
+            Flash::error('Hotel not found');
+            return redirect()->route('guest.hotel_booking');
+        }
+
+        return view('hotels.view', compact('hotel'));
+    }
+
     public function hotel_booking_store(Request $request)
     {
         \Log::info('[HotelBooking] Form submitted', [

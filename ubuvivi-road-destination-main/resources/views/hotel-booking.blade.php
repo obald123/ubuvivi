@@ -159,61 +159,6 @@
         backdrop-filter: blur(2px);
     }
     .hotel-photos-badge i { font-size: 11px; }
-
-    /* ── Photo gallery lightbox ── */
-    .hg-overlay {
-        display: none; position: fixed; inset: 0;
-        background: rgba(0,0,0,.92); z-index: 4000;
-        align-items: center; justify-content: center;
-    }
-    .hg-overlay.open { display: flex; }
-    .hg-stage {
-        position: relative; max-width: 90vw; max-height: 80vh;
-        display: flex; align-items: center; justify-content: center;
-    }
-    .hg-main-img {
-        max-width: 90vw; max-height: 80vh;
-        border-radius: 10px; object-fit: contain;
-        box-shadow: 0 8px 40px rgba(0,0,0,.5);
-    }
-    .hg-close {
-        position: absolute; top: 22px; right: 26px;
-        background: none; border: none; color: #fff;
-        font-size: 38px; line-height: 1; cursor: pointer; z-index: 4002;
-    }
-    .hg-nav {
-        position: absolute; top: 50%; transform: translateY(-50%);
-        background: rgba(255,255,255,.15); border: none; color: #fff;
-        width: 50px; height: 50px; border-radius: 50%;
-        font-size: 22px; cursor: pointer; display: flex;
-        align-items: center; justify-content: center;
-        transition: background .2s; z-index: 4002;
-    }
-    .hg-nav:hover { background: rgba(255,255,255,.32); }
-    .hg-prev { left: 18px; }
-    .hg-next { right: 18px; }
-    .hg-counter {
-        position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
-        color: #fff; font-size: 14px; font-weight: 600;
-        background: rgba(0,0,0,.5); padding: 5px 16px; border-radius: 50px; z-index: 4002;
-    }
-    .hg-title {
-        position: absolute; top: 24px; left: 26px;
-        color: #fff; font-size: 16px; font-weight: 700; z-index: 4002;
-    }
-    .hg-thumbs {
-        position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
-        display: flex; gap: 8px; max-width: 90vw; overflow-x: auto; padding: 4px;
-    }
-    .hg-thumbs img {
-        width: 60px; height: 44px; object-fit: cover; border-radius: 5px;
-        cursor: pointer; opacity: .5; border: 2px solid transparent; transition: opacity .2s, border-color .2s;
-    }
-    .hg-thumbs img.active { opacity: 1; border-color: var(--orange); }
-    @media (max-width: 576px) {
-        .hg-nav { width: 40px; height: 40px; font-size: 18px; }
-        .hg-thumbs { display: none; }
-    }
     .hotel-card-body { padding: 20px 22px 24px; }
     .hotel-stars { color: #f5c518; font-size: 13px; margin-bottom: 8px; }
     .hotel-name { font-size: 18px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
@@ -272,11 +217,6 @@
         .hb-search-btn { width: 100%; justify-content: center; }
         .hb-guest-row { flex: unset; width: 100%; }
         .dest-slider-wrap { padding: 0 36px; }
-    }
-    @media (max-width: 576px) {
-        #hotelBookingModal > div { padding: 24px 18px 28px; border-radius: 18px 18px 0 0; }
-        #hotelBookingModal { align-items: flex-end !important; padding: 0; }
-        #hotelBookingModal > div > form [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
     }
 </style>
 @endsection
@@ -338,26 +278,25 @@
             <div class="row">
                 @foreach($hotels as $h)
                 <div class="col-md-6 col-lg-4 mb-4">
-                    @php $hImages = $h->images ?? []; @endphp
+                    @php $hImages = $h->images ?? []; $detailUrl = route('hotel.view', $h->id); @endphp
                     <div class="hotel-card">
                         @if($h->cover_image)
-                            <div class="hotel-card-img clickable" style="background-image:url('{{ htmlspecialchars($h->cover_image, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"
-                                 onclick="openGallery({{ $h->id }}, 0)">
+                            <a href="{{ $detailUrl }}" class="hotel-card-img clickable" style="background-image:url('{{ htmlspecialchars($h->cover_image, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;display:block;">
                                 @if(count($hImages) > 1)
                                     <span class="hotel-photos-badge"><i class="fas fa-images"></i> {{ count($hImages) }} photos</span>
                                 @endif
-                            </div>
+                            </a>
                         @else
-                            <div class="hotel-card-img" style="background:#e4e8f0;display:flex;align-items:center;justify-content:center;">
+                            <a href="{{ $detailUrl }}" class="hotel-card-img" style="background:#e4e8f0;display:flex;align-items:center;justify-content:center;">
                                 <i class="fas fa-hotel" style="font-size:40px;color:#bbb;"></i>
-                            </div>
+                            </a>
                         @endif
                         <div class="hotel-card-body">
                             <div class="hotel-stars">
                                 @for($i = 0; $i < $h->stars; $i++)<i class="fas fa-star"></i>@endfor
                                 @for($i = $h->stars; $i < 5; $i++)<i class="far fa-star" style="color:#ddd;"></i>@endfor
                             </div>
-                            <div class="hotel-name">{{ $h->name }}</div>
+                            <a href="{{ $detailUrl }}" class="hotel-name" style="color:inherit;text-decoration:none;display:block;">{{ $h->name }}</a>
                             <div class="hotel-location">
                                 <i class="fas fa-map-marker-alt"></i> {{ $h->location }}
                             </div>
@@ -376,9 +315,9 @@
                                         <span class="hotel-price" style="font-size:16px;color:#888;">Contact for price</span>
                                     @endif
                                 </div>
-                                <button class="hotel-book-btn" onclick="openBookingModal({{ $h->id }}, '{{ addslashes($h->name) }}')">
-                                    Book Now
-                                </button>
+                                <a href="{{ $detailUrl }}" class="hotel-book-btn" style="text-decoration:none;display:inline-block;">
+                                    View Details
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -395,166 +334,10 @@
         </div>
     </section>
 
-    {{-- ── Booking Modal ── --}}
-    <div id="hotelBookingModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:3000;align-items:center;justify-content:center;padding:16px;">
-        <div style="background:#fff;border-radius:20px;padding:32px 36px;max-width:600px;width:100%;max-height:92vh;overflow-y:auto;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;">
-                <h3 style="margin:0;font-size:20px;font-weight:700;color:#0D1F35;">Book <span id="modalHotelName"></span></h3>
-                <button onclick="closeBookingModal()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#aaa;line-height:1;">&times;</button>
-            </div>
-
-            @if($errors->any())
-                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#dc2626;">
-                    @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
-                </div>
-            @endif
-
-            <form action="{{ route('hotel.booking.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="hotel_id"   id="modalHotelId">
-                <input type="hidden" name="hotel_name" id="modalHotelNameHidden">
-
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-                    <div>
-                        <label class="hb-fl">Full Name <span style="color:#e74c3c">*</span></label>
-                        <input class="hb-fi" type="text" name="names" value="{{ old('names') }}" placeholder="Your full name" required>
-                    </div>
-                    <div>
-                        <label class="hb-fl">Email <span style="color:#e74c3c">*</span></label>
-                        <input class="hb-fi" type="email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required>
-                    </div>
-                </div>
-                <div style="margin-bottom:16px;">
-                    <label class="hb-fl">Phone Number <span style="color:#e74c3c">*</span></label>
-                    <input class="hb-fi" type="tel" name="phone_number" value="{{ old('phone_number') }}" placeholder="+250 7XX XXX XXX" required>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-                    <div>
-                        <label class="hb-fl">Check-in Date <span style="color:#e74c3c">*</span></label>
-                        <input class="hb-fi" type="date" name="check_in" value="{{ old('check_in') }}" min="{{ date('Y-m-d') }}" required>
-                    </div>
-                    <div>
-                        <label class="hb-fl">Check-out Date <span style="color:#e74c3c">*</span></label>
-                        <input class="hb-fi" type="date" name="check_out" value="{{ old('check_out') }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required>
-                    </div>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-                    <div>
-                        <label class="hb-fl">Number of Guests <span style="color:#e74c3c">*</span></label>
-                        <input class="hb-fi" type="number" name="number_of_guests" value="{{ old('number_of_guests', 1) }}" min="1" required>
-                    </div>
-                    <div>
-                        <label class="hb-fl">Room Type</label>
-                        <select class="hb-fi" name="room_type">
-                            <option value="">Select (optional)</option>
-                            <option value="Single">Single</option>
-                            <option value="Double">Double</option>
-                            <option value="Twin">Twin</option>
-                            <option value="Suite">Suite</option>
-                            <option value="Family">Family Room</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="margin-bottom:22px;">
-                    <label class="hb-fl">Special Requests</label>
-                    <textarea class="hb-fi" name="message" rows="3" placeholder="Any preferences or special requirements...">{{ old('message') }}</textarea>
-                </div>
-                <button type="submit" style="width:100%;background:#C85A2A;color:#fff;border:none;border-radius:50px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;">
-                    <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Submit Booking Request
-                </button>
-                <p style="text-align:center;font-size:13px;color:#999;margin-top:12px;">Our team will confirm availability and pricing shortly.</p>
-            </form>
-        </div>
-    </div>
-
-    {{-- ── Photo Gallery Lightbox ── --}}
-    <div class="hg-overlay" id="hotelGallery">
-        <button class="hg-close" onclick="closeGallery()">&times;</button>
-        <span class="hg-title" id="hgTitle"></span>
-        <button class="hg-nav hg-prev" onclick="galleryStep(-1)"><i class="fas fa-chevron-left"></i></button>
-        <div class="hg-stage">
-            <img class="hg-main-img" id="hgMainImg" src="" alt="Hotel photo">
-        </div>
-        <button class="hg-nav hg-next" onclick="galleryStep(1)"><i class="fas fa-chevron-right"></i></button>
-        <div class="hg-thumbs" id="hgThumbs"></div>
-        <span class="hg-counter" id="hgCounter"></span>
-    </div>
-
 @endsection
 
-@php
-    $hotelGalleryData = $hotels->mapWithKeys(function ($h) {
-        return [$h->id => ['name' => $h->name, 'images' => $h->images ?? []]];
-    });
-@endphp
 @section('scripts')
 <script>
-var hotelGalleries = @json($hotelGalleryData);
-var hgCurrent = { id: null, idx: 0 };
-
-function openGallery(id, startIdx) {
-    var data = hotelGalleries[id];
-    if (!data || !data.images || !data.images.length) return;
-    hgCurrent.id = id;
-    hgCurrent.idx = startIdx || 0;
-    document.getElementById('hgTitle').textContent = data.name;
-    renderGallery();
-    document.getElementById('hotelGallery').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-
-function renderGallery() {
-    var data = hotelGalleries[hgCurrent.id];
-    var imgs = data.images;
-    document.getElementById('hgMainImg').src = imgs[hgCurrent.idx];
-    document.getElementById('hgCounter').textContent = (hgCurrent.idx + 1) + ' / ' + imgs.length;
-
-    var thumbs = document.getElementById('hgThumbs');
-    thumbs.innerHTML = imgs.map(function (src, i) {
-        return '<img src="' + src + '" class="' + (i === hgCurrent.idx ? 'active' : '') + '" onclick="gotoGallery(' + i + ')">';
-    }).join('');
-
-    // Hide nav if single image
-    var single = imgs.length <= 1;
-    document.querySelector('.hg-prev').style.display = single ? 'none' : 'flex';
-    document.querySelector('.hg-next').style.display = single ? 'none' : 'flex';
-}
-
-function galleryStep(dir) {
-    var imgs = hotelGalleries[hgCurrent.id].images;
-    hgCurrent.idx = (hgCurrent.idx + dir + imgs.length) % imgs.length;
-    renderGallery();
-}
-
-function gotoGallery(i) { hgCurrent.idx = i; renderGallery(); }
-
-function closeGallery() {
-    document.getElementById('hotelGallery').classList.remove('open');
-    document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', function (e) {
-    if (!document.getElementById('hotelGallery').classList.contains('open')) return;
-    if (e.key === 'Escape') closeGallery();
-    if (e.key === 'ArrowLeft') galleryStep(-1);
-    if (e.key === 'ArrowRight') galleryStep(1);
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('hotelGallery').addEventListener('click', function (e) {
-        if (e.target === this) closeGallery();
-    });
-
-    var ciEl = document.getElementById('checkIn');
-    var coEl = document.getElementById('checkOut');
-    if (ciEl && coEl) {
-        const ci = new Date(); ci.setDate(ci.getDate() + 3);
-        const co = new Date(); co.setDate(co.getDate() + 7);
-        ciEl.valueAsDate = ci;
-        coEl.valueAsDate = co;
-    }
-});
-
 function searchHotels() {
     document.querySelector('.featured-hotels-section').scrollIntoView({ behavior: 'smooth' });
 }
@@ -569,30 +352,5 @@ function slideHotelDest(dir) {
     const slideW = track.querySelector('.dest-slide').offsetWidth;
     track.style.transform = 'translateX(-' + (hotelDestIdx * slideW) + 'px)';
 }
-
-function openBookingModal(id, name) {
-    document.getElementById('modalHotelId').value           = id;
-    document.getElementById('modalHotelNameHidden').value   = name;
-    document.getElementById('modalHotelName').textContent   = name;
-    document.getElementById('hotelBookingModal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeBookingModal() {
-    document.getElementById('hotelBookingModal').style.display = 'none';
-    document.body.style.overflow = '';
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Re-open modal on validation error
-    @if($errors->any() && old('hotel_id'))
-    openBookingModal({{ old('hotel_id') }}, '{{ addslashes(old("hotel_name", "")) }}');
-    @endif
-
-    // Close on backdrop click
-    document.getElementById('hotelBookingModal').addEventListener('click', function(e) {
-        if (e.target === this) closeBookingModal();
-    });
-});
 </script>
 @endsection

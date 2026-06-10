@@ -87,19 +87,6 @@
 
     @if($hotels->count())
     <div class="hotels-grid" id="hotelGrid">
-        @for($sk=0;$sk<3;$sk++)
-        <div class="skel-card-wrap">
-            <div class="skel-card">
-                <div class="skel skel-img"></div>
-                <div class="skel-body" style="padding:16px 18px 18px;">
-                    <div class="skel skel-line" style="width:75%;margin-bottom:8px;"></div>
-                    <div class="skel skel-line short" style="margin-bottom:12px;"></div>
-                    <div class="skel skel-line" style="width:50%;margin-bottom:6px;"></div>
-                    <div class="skel skel-btn" style="width:80px;height:28px;border-radius:7px;margin-top:18px;"></div>
-                </div>
-            </div>
-        </div>
-        @endfor
         @foreach($hotels as $hotel)
         <div class="hotel-adm-card hotel-item" data-searchable data-name="{{ strtolower($hotel->name) }} {{ strtolower($hotel->location) }}">
             @if($hotel->cover_image)
@@ -170,7 +157,11 @@
             <div class="adm-form-row">
                 <div class="adm-form-group">
                     <label>Price per Night (USD)</label>
-                    <input type="number" name="price_per_night" placeholder="0.00" min="0" step="0.01">
+                    <label style="display:flex;align-items:center;gap:7px;font-weight:400;font-size:12px;color:#666;margin-bottom:6px;cursor:pointer;">
+                        <input type="checkbox" id="addPriceOnRequest" onchange="togglePrice('addPrice', this)" style="width:15px;height:15px;accent-color:#0D1F35;">
+                        Price on request (leave blank)
+                    </label>
+                    <input type="number" id="addPrice" name="price_per_night" placeholder="0.00" min="0" step="0.01">
                 </div>
                 <div class="adm-form-group">
                     <label>Amenities <span style="font-weight:400;color:#999">(comma-separated)</span></label>
@@ -231,6 +222,10 @@
             <div class="adm-form-row">
                 <div class="adm-form-group">
                     <label>Price per Night (USD)</label>
+                    <label style="display:flex;align-items:center;gap:7px;font-weight:400;font-size:12px;color:#666;margin-bottom:6px;cursor:pointer;">
+                        <input type="checkbox" id="editPriceOnRequest" onchange="togglePrice('editPrice', this)" style="width:15px;height:15px;accent-color:#0D1F35;">
+                        Price on request (leave blank)
+                    </label>
                     <input type="number" name="price_per_night" id="editPrice" min="0" step="0.01">
                 </div>
                 <div class="adm-form-group">
@@ -266,7 +261,23 @@
 
 @section('scripts')
 <script>
-function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
+function openAddModal() {
+    document.getElementById('addPriceOnRequest').checked = false;
+    togglePrice('addPrice', { checked: false });
+    document.getElementById('addModal').style.display = 'flex';
+}
+
+function togglePrice(inputId, cb) {
+    var inp = document.getElementById(inputId);
+    if (cb.checked) {
+        inp.value = '';
+        inp.disabled = true;
+        inp.style.opacity = '.5';
+    } else {
+        inp.disabled = false;
+        inp.style.opacity = '1';
+    }
+}
 
 function openEditModal(id) {
     fetch('/admin/hotels/' + id + '/data')
@@ -277,6 +288,9 @@ function openEditModal(id) {
             document.getElementById('editLocation').value  = d.location || '';
             document.getElementById('editStars').value     = d.stars || 3;
             document.getElementById('editPrice').value     = d.price_per_night || '';
+            var noPrice = !d.price_per_night;
+            document.getElementById('editPriceOnRequest').checked = noPrice;
+            togglePrice('editPrice', { checked: noPrice });
             document.getElementById('editAmenities').value = d.amenities || '';
             document.getElementById('editDescription').value = d.description || '';
             document.getElementById('editAvail').checked   = d.available;

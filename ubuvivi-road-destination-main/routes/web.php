@@ -26,6 +26,8 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/hotel-booking", 'hotel_booking')->name("guest.hotel_booking");
 
+    Route::get("/hotel/{id}", 'hotel_view')->name("hotel.view")->whereNumber('id');
+
     Route::get("/tours-booking-options", 'tours_booking_options')->name("guest.tours_booking_options");
 
     Route::get("/tours-booking", 'tours_booking')->name("guest.tours_booking");
