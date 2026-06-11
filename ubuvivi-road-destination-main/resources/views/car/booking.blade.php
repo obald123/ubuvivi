@@ -278,6 +278,7 @@
     <section class="cars-hero">
         <div class="cars-hero-content">
             <h1>Find Your Perfect Car</h1>
+            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Cars', 'url' => url('/cars')]]])
         </div>
 
         <div class="search-bar-wrap">

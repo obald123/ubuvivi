@@ -59,7 +59,9 @@
     }
 
     /* ── Section ── */
-    .all-services-section { background: #f8f8f8; padding: 80px 0 100px; }
+    .all-services-section { background: #f8f8f8; padding: 80px 0 160px; }
+    /* add extra vertical gap between grid rows to avoid touching next section */
+    .all-services-section .row { row-gap: 1.75rem; }
 
     .section-label {
         display: inline-flex;
@@ -199,9 +201,11 @@
             @if($isPlanMode)
                 <h1>Plan Your Trip</h1>
                 <p>Choose your travel essentials — tours, flights, and hotels — all in one place.</p>
+                @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Trip Essentials']]])
             @else
                 <h1>What We Offer</h1>
                 <p>Explore our full range of travel, transport, and conference services across Rwanda.</p>
+                @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Services', 'url' => route('guest.all_services')]]])
             @endif
         </div>
     </section>

@@ -280,6 +280,7 @@
         <div class="at-hero-content">
             <h1>Air Ticketing</h1>
             <p>Book flights easily with assistance in finding the best routes, prices, and travel options.</p>
+            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Air Ticketing', 'url' => route('guest.air_ticketing')]]])
         </div>
     </section>
 
@@ -429,7 +430,6 @@
 
                     {{-- Passport Photos (dynamic) --}}
                     <div id="passportSection" style="margin-bottom:18px;">
-                        <label class="at-form-label">Passenger Passport Photos</label>
                         <div id="passportFields" class="at-form-row" style="margin-bottom:0;"></div>
                     </div>
 
@@ -500,7 +500,7 @@ function updatePassportFields() {
     for (var i = 1; i <= count; i++) {
         var div = document.createElement('div');
         div.innerHTML =
-            '<label class="at-form-label">Passenger ' + i + ' Passport Photo</label>' +
+            '<label class="at-form-label">Passenger ' + i + ' Photo</label>' +
             '<input type="file" name="passport_photos[]" accept="image/*" class="at-form-input" style="padding:7px 14px;">';
         container.appendChild(div);
     }

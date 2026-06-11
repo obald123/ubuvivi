@@ -210,6 +210,7 @@
         <div class="events-hero-content">
             <h1>Make Your Event Memorable</h1>
             <p>From idea to execution — we handle every detail.</p>
+            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Events', 'url' => route('guest.events')]]])
         </div>
     </section>
 
