@@ -226,6 +226,16 @@
         gap: 18px;
         margin-bottom: 18px;
     }
+    .at-form-row > div {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+    .at-form-row .at-form-input[type=file] {
+        min-height: 46px;
+        padding: 10px 14px;
+        box-sizing: border-box;
+    }
     .at-form-label {
         display: block;
         font-size: 13px;

@@ -303,6 +303,11 @@
     <section class="tour-detail-hero" style="background-image: url('{{ htmlspecialchars($heroImage ?? '', ENT_QUOTES, 'UTF-8') }}');">
         <div class="container">
             <div class="tour-detail-caption">
+                @include('partials.hero-breadcrumbs', ['breadcrumbs' => [
+                    ['label' => 'Home', 'url' => url('/')],
+                    ['label' => 'Tours', 'url' => route('tour.list')],
+                    ['label' => $tour->title]
+                ]])
                 <h1>{{ $tour->title }}</h1>
                 @if(!empty($tour->price) && $tour->price > 0)
                     <div class="tour-detail-price">${{ number_format($tour->price) }} / person</div>

@@ -13,6 +13,13 @@
 @section('content')
     <section class="search_section sec_ptb_100 clearfix" data-bg-color="#161829"
         style="background-color: rgb(22, 24, 41);padding-top: 40px">
+        <div class="container">
+            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [
+                ['label' => 'Home', 'url' => url('/')],
+                ['label' => 'Cars', 'url' => url('/cars')],
+                ['label' => ($vehicle->brand->name ?? '') . ' ' . ($vehicle->model->name ?? '')]
+            ]])
+        </div>
     </section>
     <div class="section-body clearfix py-5" style="background-color: rgb(255, 245, 175)">
         <div class="container">
