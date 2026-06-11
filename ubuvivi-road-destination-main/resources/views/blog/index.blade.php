@@ -12,7 +12,14 @@
     /* ── Hero ── */
     .blog-hero {
         position: relative;
-        height: 100vh;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        height: 65vh;
+        max-height: 720px;
+        min-height: 520px;
         overflow: hidden;
         display: flex; align-items: center; justify-content: center; text-align: center;
     }
