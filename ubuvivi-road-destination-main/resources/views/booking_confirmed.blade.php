@@ -99,7 +99,7 @@
         <h2>Request Submitted!</h2>
 
         <p class="sub">
-            Thank you{{ !empty($names) ? ', <strong>' . e($names) . '</strong>' : '' }}!
+            Thank you{!! !empty($names) ? ', <strong>' . e($names) . '</strong>' : '' !!}!
             Your booking request has been received. Our team will contact you shortly
             @if(!empty($email))
                 at <strong>{{ e($email) }}</strong>
