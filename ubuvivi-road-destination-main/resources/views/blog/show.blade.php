@@ -134,10 +134,10 @@
                     <span><i class="fas fa-calendar-alt"></i>{{ $post->published_at ? $post->published_at->format('F j, Y') : $post->created_at->format('F j, Y') }}</span>
                     <span><i class="fas fa-tag"></i>{{ $post->category_label }}</span>
                 </div>
-                @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Blog', 'url' => route('blog.index')], ['label' => $post->title]]])
             </div>
         </div>
     </section>
+    @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Blog', 'url' => route('blog.index')], ['label' => $post->title]]])
 
     {{-- Content --}}
     <section class="post-layout">

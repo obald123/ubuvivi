@@ -118,9 +118,9 @@
                 {{ $isTransfer ? 'Transfer Booking Details' : 'Car Rental Booking Details' }}
             </h2>
             <p>Booking #{{ $booking->id }} &bull; Submitted {{ $booking->created_at?->format('M d, Y') }}</p>
-            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Bookings', 'url' => route('carBookings.index')], ['label' => 'Booking #'.$booking->id]]])
         </div>
     </div>
+    @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Bookings', 'url' => route('carBookings.index')], ['label' => 'Booking #'.$booking->id]]])
 
     {{-- Body --}}
     <div class="bv-body">

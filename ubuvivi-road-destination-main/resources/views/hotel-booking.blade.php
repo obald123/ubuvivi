@@ -226,11 +226,11 @@
     {{-- ── Hero ── --}}
     <section class="hb-hero">
         <div class="hb-hero-content">
-            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Hotel Booking']]])
             <h1>Hotel Booking</h1>
             <p>Find and book the perfect accommodation across Rwanda and beyond with the best rates guaranteed.</p>
         </div>
     </section>
+    @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Hotel Booking']]])
 
 
     {{-- ── Popular Destinations ── --}}

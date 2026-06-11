@@ -77,9 +77,9 @@
             <span class="about-hero-tag">Our Story</span>
             <h1>Who We Are</h1>
             <p>Rwanda's leading car rental &amp; tour company — connecting you to unforgettable destinations since day one.</p>
-            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'About']]])
         </div>
     </section>
+    @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'About']]])
     <section style="background-color: #fff;" class="about">
         <section>
             <div class="container mb-4">

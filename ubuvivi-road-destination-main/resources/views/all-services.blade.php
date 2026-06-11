@@ -201,14 +201,17 @@
             @if($isPlanMode)
                 <h1>Plan Your Trip</h1>
                 <p>Choose your travel essentials — tours, flights, and hotels — all in one place.</p>
-                @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Trip Essentials']]])
             @else
                 <h1>What We Offer</h1>
                 <p>Explore our full range of travel, transport, and conference services across Rwanda.</p>
-                @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Services', 'url' => route('guest.all_services')]]])
             @endif
         </div>
     </section>
+    @if($isPlanMode)
+        @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Trip Essentials']]])
+    @else
+        @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Services', 'url' => route('guest.all_services')]]])
+    @endif
 
     {{-- ── Services Grid ── --}}
     <section class="all-services-section">

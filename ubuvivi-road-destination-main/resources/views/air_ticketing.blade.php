@@ -225,6 +225,18 @@
         grid-template-columns: 1fr 1fr;
         gap: 18px;
         margin-bottom: 18px;
+        align-items: start;
+    }
+    .passport-fields-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 8px;
+    }
+    .passport-fields-grid > div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
     }
     .at-form-row > div {
         display: flex;
@@ -290,9 +302,9 @@
         <div class="at-hero-content">
             <h1>Air Ticketing</h1>
             <p>Book flights easily with assistance in finding the best routes, prices, and travel options.</p>
-            @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Air Ticketing', 'url' => route('guest.air_ticketing')]]])
         </div>
     </section>
+    @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Air Ticketing', 'url' => route('guest.air_ticketing')]]])
 
 
     {{-- ── Popular Destinations ── --}}
@@ -427,20 +439,20 @@
                         </div>
                     </div>
 
-                    {{-- Flight Class --}}
-                    <div style="margin-bottom:18px;">
-                        <label class="at-form-label">Flight Class <span style="color:#e74c3c">*</span></label>
-                        <select class="at-form-input" name="flight_class" required>
-                            <option value="economy"  {{ old('flight_class','economy')=='economy'  ?'selected':'' }}>Economy</option>
-                            <option value="premium"  {{ old('flight_class')=='premium'  ?'selected':'' }}>Premium Economy</option>
-                            <option value="business" {{ old('flight_class')=='business' ?'selected':'' }}>Business Class</option>
-                            <option value="first"    {{ old('flight_class')=='first'    ?'selected':'' }}>First Class</option>
-                        </select>
-                    </div>
-
-                    {{-- Passport Photos (dynamic) --}}
-                    <div id="passportSection" style="margin-bottom:18px;">
-                        <div id="passportFields" class="at-form-row" style="margin-bottom:0;"></div>
+                    {{-- Flight Class + Passenger Photo --}}
+                    <div class="at-form-row">
+                        <div>
+                            <label class="at-form-label">Flight Class <span style="color:#e74c3c">*</span></label>
+                            <select class="at-form-input" name="flight_class" required>
+                                <option value="economy"  {{ old('flight_class','economy')=='economy'  ?'selected':'' }}>Economy</option>
+                                <option value="premium"  {{ old('flight_class')=='premium'  ?'selected':'' }}>Premium Economy</option>
+                                <option value="business" {{ old('flight_class')=='business' ?'selected':'' }}>Business Class</option>
+                                <option value="first"    {{ old('flight_class')=='first'    ?'selected':'' }}>First Class</option>
+                            </select>
+                        </div>
+                        <div id="passportSection" style="margin-bottom:18px;">
+                            <div id="passportFields" class="passport-fields-grid"></div>
+                        </div>
                     </div>
 
                     {{-- Additional Info --}}
@@ -511,7 +523,7 @@ function updatePassportFields() {
         var div = document.createElement('div');
         div.innerHTML =
             '<label class="at-form-label">Passenger ' + i + ' Photo</label>' +
-            '<input type="file" name="passport_photos[]" accept="image/*" class="at-form-input" style="padding:7px 14px;">';
+            '<input type="file" name="passport_photos[]" accept="image/*" class="at-form-input">';
         container.appendChild(div);
     }
 }
