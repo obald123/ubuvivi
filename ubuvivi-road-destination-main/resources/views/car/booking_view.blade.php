@@ -120,7 +120,9 @@
             <p>Booking #{{ $booking->id }} &bull; Submitted {{ $booking->created_at?->format('M d, Y') }}</p>
         </div>
     </div>
-    @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Bookings', 'url' => route('carBookings.index')], ['label' => 'Booking #'.$booking->id]]])
+    <a href="{{ url('/cars') }}" style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.9);font-weight:600;font-size:14px;text-decoration:none;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);padding:8px 20px;border-radius:50px;margin-top:14px;">
+        <i class="fas fa-arrow-left" style="font-size:12px;"></i> Go back to Cars
+    </a>
 
     {{-- Body --}}
     <div class="bv-body">
