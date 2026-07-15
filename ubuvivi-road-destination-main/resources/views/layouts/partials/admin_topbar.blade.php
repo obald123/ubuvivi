@@ -6,6 +6,26 @@
 @endphp
 
 <style>
+/* ── Topbar responsive ── */
+@media (max-width: 575px) {
+    .admin-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .admin-page-tools {
+        width: 100%;
+        gap: 8px;
+    }
+    .admin-page-search {
+        flex: 1;
+        min-width: 0;
+        width: auto !important;
+    }
+}
+</style>
+
+<style>
 /* ── Notification Bell ── */
 .notif-wrap {
     position: relative;

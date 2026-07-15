@@ -331,12 +331,14 @@ class ServiceController extends Controller
             case 'tour':
                 $rules['title'] = 'required|string|max:255';
                 $rules['description'] = 'required|string';
-                $rules['tour_images.*'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120';
+                $rules['tour_images'] = 'nullable|array';
+                $rules['tour_images.*'] = 'file|max:20480';
                 $rules['days'] = 'required|integer|min:1';
                 break;
             case 'car':
                 $rules['car_name'] = 'required|string|max:255';
-                $rules['vehicle_images.*'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120';
+                $rules['vehicle_images'] = 'nullable|array';
+                $rules['vehicle_images.*'] = 'file|max:20480';
                 $rules['transmission'] = 'required|string|max:50';
                 $rules['fuel_type'] = 'required|string|max:50';
                 $rules['year'] = 'required|integer|min:1900|max:' . (date('Y') + 1);

@@ -52,6 +52,9 @@
 @endphp
 
 <aside id="sidebar-wrapper" class="bg-dark">
+    <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+    </button>
     <div class="sidebar-brand">
         <a href="{{ route('home') }}" class="admin-sidebar-brand-link">
             <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" alt="Ubuvivi Tours" class="admin-sidebar-logo">

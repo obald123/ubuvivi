@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main/resources/views/car/**)"
+      "Read(//home/dtecsoft/ubuvivi.dtecsoftwaresolutions.com/ubuvivi-road-destination-main/resources/views/car/**)",
+      "Bash(grep -r \"packages\\\\\\\\.create\\\\|packages\\\\\\\\.index\\\\|packages\\\\\\\\.edit\" \"c:\\\\Users\\\\nicai\\\\Desktop\\\\ubuvivi\\\\ubuvivi-road-destination-main\\\\resources\")",
+      "Bash(xargs grep -l \"packages\")"
     ]
   }
 }

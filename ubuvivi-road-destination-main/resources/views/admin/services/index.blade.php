@@ -394,6 +394,29 @@
             'searchAriaLabel' => 'Search services',
         ])
 
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius:10px;">
+                <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.closest('.alert').remove()">×</button>
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius:10px;">
+                <i class="fas fa-exclamation-circle me-2"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.closest('.alert').remove()">×</button>
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger" style="border-radius:10px;">
+                <strong>Please fix the following errors:</strong>
+                <ul class="mb-0 mt-1">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="svc-toolbar">
             <div class="svc-tabbar">
                 <div class="svc-tabs">
@@ -507,8 +530,8 @@
 
                 <div class="adm-form-row">
                     <div class="adm-form-group">
-                        <label>Description</label>
-                        <textarea name="description" id="tourDesc" rows="3"></textarea>
+                        <label>Description <span style="color:#e74c3c">*</span></label>
+                        <textarea name="description" id="tourDesc" rows="3" required></textarea>
                     </div>
                     <div class="adm-form-group">
                         <label>Inclusions <span style="font-weight:400;color:#999">(comma separated)</span></label>
@@ -533,7 +556,7 @@
                 <div class="img-upload-area" id="tourImagesArea">
                     <label class="img-slot" id="tourImgSlot" title="Add image">
                         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        <input type="file" name="tour_images[]" id="tourImageInput" accept="image/*" multiple style="display:none" onchange="handleTourImages(this)">
+                        <input type="file" name="tour_images[]" id="tourImageInput" multiple style="display:none" onchange="handleTourImages(this)">
                     </label>
                 </div>
 
@@ -598,7 +621,7 @@
                 <div class="img-upload-area" id="carImagesArea">
                     <label class="img-slot" id="carImgSlot" title="Add image">
                         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        <input type="file" name="vehicle_images[]" id="carImageInput" accept="image/*" multiple style="display:none" onchange="handleCarImages(this)">
+                        <input type="file" name="vehicle_images[]" id="carImageInput" multiple style="display:none" onchange="handleCarImages(this)">
                     </label>
                 </div>
 
@@ -634,6 +657,11 @@
 <script>
 var activeTab = 'tours';
 var highlightIndex = 0;
+
+// Reopen the tour modal if validation failed on previous submission
+@if($errors->any())
+window.addEventListener('load', function () { openTourModal(); });
+@endif
 
 document.addEventListener('DOMContentLoaded', function () {
 

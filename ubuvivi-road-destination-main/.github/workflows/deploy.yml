@@ -1,15 +1,61 @@
-name: Deployment to Fly.io
+name: Deploy to cPanel
+
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+
 jobs:
   deploy:
-    name: Deployment runner
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          extensions: mbstring, pdo, pdo_pgsql, pdo_mysql, intl, gd, xml, curl
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+
+      - name: Build frontend assets
+        run: |
+          npm ci
+          npm run production
+
+      - name: Deploy files to cPanel via rsync
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avz --delete --exclude='.env' --exclude='.env.example' --exclude='.git' --exclude='.git*' --exclude='node_modules' --exclude='tests' --exclude='.github' --exclude='storage/app/public' --exclude='storage/logs' --exclude='storage/framework/sessions' --exclude='storage/framework/cache' --exclude='*.zip'
+          path: ./
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote_port: ${{ secrets.SSH_PORT }}
+
+      - name: Post-deploy (migrations, caches, permissions)
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan event:cache
+            chmod -R 775 storage bootstrap/cache
+            echo "Deployment completed successfully!"

@@ -767,55 +767,145 @@
             background: #e9ecef;
         }
 
+        /* ── Mobile topbar (hamburger bar) ── */
+        .mobile-topbar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            background: var(--admin-shell-bg);
+            z-index: 1030;
+            align-items: center;
+            padding: 0 16px;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.18);
+        }
+
+        .mob-hamburger {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,.9);
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            transition: background .18s;
+            min-height: 40px;
+            padding: 0;
+        }
+        .mob-hamburger:hover { background: rgba(255,255,255,.1); }
+
+        .mob-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex: 1;
+        }
+        .mob-brand img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,.15);
+        }
+        .mob-brand span {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -.02em;
+        }
+
+        /* ── Sidebar backdrop (mobile only) ── */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.48);
+            z-index: 1040;
+        }
+        .sidebar-overlay.active { display: block; }
+
+        /* ── Sidebar close button (mobile only) ── */
+        .sidebar-close-btn {
+            display: none;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,.7);
+            font-size: 20px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            transition: background .18s, color .18s;
+            min-height: 36px;
+            padding: 0;
+            z-index: 1;
+        }
+        .sidebar-close-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+
         @media (max-width: 991px) {
+            .mobile-topbar { display: flex; }
+
+            /* Sidebar becomes a fixed slide-in drawer */
+            .main-sidebar.main-sidebar-postion {
+                position: fixed !important;
+                top: 0; left: 0;
+                height: 100vh;
+                width: 260px !important;
+                min-width: 260px !important;
+                flex: none !important;
+                z-index: 1050;
+                transform: translateX(-100%);
+                transition: transform .28s cubic-bezier(.4,0,.2,1);
+            }
+
+            .main-sidebar.main-sidebar-postion.sidebar-open {
+                transform: translateX(0);
+            }
+
             #sidebar-wrapper {
                 position: relative;
                 width: 100%;
-                height: auto;
-                padding-bottom: 8px;
+                height: 100%;
+                min-height: 100vh;
+                padding-bottom: 20px;
             }
 
-            .main-sidebar.main-sidebar-postion {
-                width: 100%;
-                min-width: 0;
-                flex-basis: auto;
-            }
+            .sidebar-close-btn { display: flex; }
 
             .main-wrapper.main-wrapper-1 {
                 display: block;
             }
 
             .main-content {
-                margin-left: 0;
-                width: 100%;
-                border-radius: 28px 28px 0 0;
-                padding: 24px 18px 32px;
+                margin-left: 0 !important;
+                width: 100% !important;
+                border-radius: 0;
+                padding: 80px 18px 32px;
+                min-height: 100vh;
             }
 
-            .admin-page-tools {
-                width: 100%;
-            }
-
-            .admin-page-search {
-                width: 100%;
-            }
-
-            .sidebar-menu {
-                min-height: auto;
-            }
-
-            .logout-item {
-                margin-top: 8px;
-            }
-
-            .service-grid {
-                grid-template-columns: 1fr;
-            }
+            .admin-page-tools { width: 100%; }
+            .admin-page-search { width: 100%; }
+            .sidebar-menu { min-height: auto; }
+            .logout-item { margin-top: 8px; }
+            .service-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 767px) {
             .main-content {
-                padding: 16px 12px 24px;
+                padding: 72px 14px 28px;
                 border-radius: 0;
             }
 
@@ -830,7 +920,7 @@
 
         @media (max-width: 480px) {
             .main-content {
-                padding: 12px 10px 20px;
+                padding: 68px 10px 20px;
             }
 
             .admin-page-title {
@@ -884,9 +974,23 @@
 <body>
 <div id="page-bar"></div>
 
+    {{-- Mobile topbar (visible only on small screens) --}}
+    <div class="mobile-topbar" id="mobileTopbar">
+        <button class="mob-hamburger" id="sidebarToggle" aria-label="Open menu" aria-expanded="false" aria-controls="adminSidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a href="{{ route('home') }}" class="mob-brand">
+            <img src="{{ asset('img/android-chrome-512x512.png?v=1') }}" alt="Ubuvivi">
+            <span>UBUVIVI Tours</span>
+        </a>
+    </div>
+
+    {{-- Sidebar backdrop overlay (mobile) --}}
+    <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
-            <div class="main-sidebar main-sidebar-postion bg-dark pb-5">
+            <div class="main-sidebar main-sidebar-postion bg-dark pb-5" id="adminSidebar">
                 @include('layouts.sidebar')
             </div>
             <!-- Main Content -->
@@ -977,5 +1081,52 @@
 </script>
 
 @yield('scripts')
+
+<script>
+(function () {
+    var toggle  = document.getElementById('sidebarToggle');
+    var sidebar = document.getElementById('adminSidebar');
+    var overlay = document.getElementById('sidebarOverlay');
+    var closeBtn = document.getElementById('sidebarCloseBtn');
+
+    function openSidebar() {
+        sidebar.classList.add('sidebar-open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('sidebar-open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    if (toggle)  toggle.addEventListener('click', function () {
+        sidebar.classList.contains('sidebar-open') ? closeSidebar() : openSidebar();
+    });
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+
+    /* Close sidebar on nav link click (mobile navigation) */
+    if (sidebar) {
+        sidebar.querySelectorAll('a.nav-link').forEach(function (a) {
+            a.addEventListener('click', function () {
+                if (window.innerWidth < 992) closeSidebar();
+            });
+        });
+    }
+
+    /* Reset on resize to desktop */
+    window.addEventListener('resize', function () {
+        if (window.innerWidth >= 992) {
+            sidebar.classList.remove('sidebar-open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+})();
+</script>
 
 </html>
