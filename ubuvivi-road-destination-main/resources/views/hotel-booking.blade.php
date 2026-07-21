@@ -350,6 +350,7 @@ function searchHotels() {
 }
 
 var hotelDestIdx = 0;
+var hotelDestTimer = null;
 function slideHotelDest(dir) {
     const track = document.getElementById('hotelDestTrack');
     const slides = track.querySelectorAll('.dest-slide');
@@ -359,5 +360,21 @@ function slideHotelDest(dir) {
     const slideW = track.querySelector('.dest-slide').offsetWidth;
     track.style.transform = 'translateX(-' + (hotelDestIdx * slideW) + 'px)';
 }
+function autoSlideHotelDest() {
+    const track = document.getElementById('hotelDestTrack');
+    const slides = track.querySelectorAll('.dest-slide');
+    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
+    const maxIdx = Math.max(0, slides.length - visibleCount);
+    if (hotelDestIdx >= maxIdx) { hotelDestIdx = 0; } else { hotelDestIdx++; }
+    const slideW = track.querySelector('.dest-slide').offsetWidth;
+    track.style.transform = 'translateX(-' + (hotelDestIdx * slideW) + 'px)';
+}
+function startHotelDestAuto() { hotelDestTimer = setInterval(autoSlideHotelDest, 3000); }
+function stopHotelDestAuto() { clearInterval(hotelDestTimer); }
+document.addEventListener('DOMContentLoaded', function() {
+    startHotelDestAuto();
+    var wrap = document.getElementById('hotelDestSliderWrap');
+    if (wrap) { wrap.addEventListener('mouseenter', stopHotelDestAuto); wrap.addEventListener('mouseleave', startHotelDestAuto); }
+});
 </script>
 @endsection

@@ -506,6 +506,7 @@ function searchFlights() {
 }
 
 var destIdx = 0;
+var destTimer = null;
 function slideDest(dir) {
     const track = document.getElementById('destTrack');
     const slides = track.querySelectorAll('.dest-slide');
@@ -515,7 +516,17 @@ function slideDest(dir) {
     const slideW = track.querySelector('.dest-slide').offsetWidth;
     track.style.transform = 'translateX(-' + (destIdx * slideW) + 'px)';
 }
-
+function autoSlideDest() {
+    const track = document.getElementById('destTrack');
+    const slides = track.querySelectorAll('.dest-slide');
+    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
+    const maxIdx = Math.max(0, slides.length - visibleCount);
+    if (destIdx >= maxIdx) { destIdx = 0; } else { destIdx++; }
+    const slideW = track.querySelector('.dest-slide').offsetWidth;
+    track.style.transform = 'translateX(-' + (destIdx * slideW) + 'px)';
+}
+function startDestAuto() { destTimer = setInterval(autoSlideDest, 3000); }
+function stopDestAuto() { clearInterval(destTimer); }
 function toggleReturn(radio) {
     const wrap = document.getElementById('returnDateWrap');
     if (wrap) wrap.style.display = radio.value === 'oneway' ? 'none' : '';
@@ -536,6 +547,9 @@ function updatePassportFields() {
 
 document.addEventListener('DOMContentLoaded', function() {
     updatePassportFields();
+    startDestAuto();
+    var wrap = document.getElementById('destSliderWrap');
+    if (wrap) { wrap.addEventListener('mouseenter', stopDestAuto); wrap.addEventListener('mouseleave', startDestAuto); }
 });
 </script>
 @endsection
