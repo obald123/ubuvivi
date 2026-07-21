@@ -239,10 +239,10 @@
     </div>
 
 
-    {{-- ── Popular Destinations ── --}}
+    {{-- ── Destinations With Hotels ── --}}
     <section class="hb-destinations-section">
         <div class="container">
-            <h2 class="hb-section-h">Popular Destinations</h2>
+            <h2 class="hb-section-h">Destinations With Hotels</h2>
             <div class="hb-underline"></div>
             <div class="dest-slider-wrap" id="hotelDestSliderWrap">
                 <button class="slider-arrow-btn prev-btn" onclick="slideHotelDest(-1)">&#8249;</button>

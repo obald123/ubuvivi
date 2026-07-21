@@ -433,6 +433,12 @@
                         </div>
                     </div>
 
+                    {{-- Row 4b: Destination Country --}}
+                    <div style="margin-bottom:18px;">
+                        <label class="at-form-label">Country You Want to Go To <span style="color:#e74c3c">*</span></label>
+                        <input class="at-form-input" type="text" name="destination_country" value="{{ old('destination_country') }}" placeholder="e.g. France, United Arab Emirates" required>
+                    </div>
+
                     {{-- Row 5: Departure + Return Dates --}}
                     <div class="at-form-row">
                         <div>
@@ -467,8 +473,8 @@
                         <textarea class="at-form-input" name="additional_info" rows="4" placeholder="Any special requirements, connecting flights, or preferences...">{{ old('additional_info') }}</textarea>
                     </div>
 
-                    <button type="submit" style="width:100%;background:#C85A2A;color:#fff;border:none;border-radius:50px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:10px;">
-                        <i class="fas fa-paper-plane"></i> Submit Flight Request
+                    <button type="submit" id="atSubmitBtn" style="width:100%;background:#C85A2A;color:#fff;border:none;border-radius:50px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:10px;">
+                        <i class="fas fa-paper-plane"></i> <span id="atBtnText">Submit Flight Request</span>
                     </button>
                     <p style="text-align:center;font-size:13px;color:#999;margin-top:14px;">Our team will contact you with available options and pricing.</p>
                 </form>
@@ -550,6 +556,17 @@ document.addEventListener('DOMContentLoaded', function() {
     startDestAuto();
     var wrap = document.getElementById('destSliderWrap');
     if (wrap) { wrap.addEventListener('mouseenter', stopDestAuto); wrap.addEventListener('mouseleave', startDestAuto); }
+
+    var atForm = document.querySelector('form[action="{{ route("air.ticketing.store") }}"]');
+    if (atForm) {
+        atForm.addEventListener('submit', function() {
+            var btn = document.getElementById('atSubmitBtn');
+            var txt = document.getElementById('atBtnText');
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            txt.textContent = 'Submitting...';
+        });
+    }
 });
 </script>
 @endsection

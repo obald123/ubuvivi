@@ -118,6 +118,9 @@
                     <td>
                         <div style="font-size:13px;font-weight:600;">{{ $b->departure_airport }}</div>
                         <div style="font-size:12px;color:#888;"><i class="fas fa-arrow-right" style="font-size:10px;margin:0 3px;"></i>{{ $b->arrival_airport }}</div>
+                        @if($b->destination_country)
+                        <div style="font-size:11px;color:#aaa;">{{ $b->destination_country }}</div>
+                        @endif
                     </td>
                     <td><span style="font-size:13px;">{{ $b->flight_class_label }}</span></td>
                     <td style="text-align:center;">{{ $b->number_of_passengers }}</td>
@@ -173,6 +176,7 @@ $bookingsJson = $bookings->map(function($b) {
         'airline'              => $b->airline,
         'departure_airport'    => $b->departure_airport,
         'arrival_airport'      => $b->arrival_airport,
+        'destination_country'  => $b->destination_country,
         'trip_type'            => $b->trip_type,
         'flight_class_label'   => $b->flight_class_label,
         'number_of_passengers' => $b->number_of_passengers,
@@ -208,6 +212,7 @@ function viewBooking(id) {
         '<hr class="detail-divider">' +
         row('Airline', b.airline || 'Not specified') +
         row('Route', b.departure_airport + ' → ' + b.arrival_airport) +
+        row('Destination Country', b.destination_country || 'Not specified') +
         row('Trip Type', b.trip_type === 'round' ? 'Round Trip' : 'One Way') +
         row('Class', b.flight_class_label) +
         row('Passengers', b.number_of_passengers) +

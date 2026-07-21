@@ -78,6 +78,12 @@
                 <td>Route</td>
                 <td>{{ $booking->departure_airport ?? '' }} &rarr; {{ $booking->arrival_airport ?? '' }}</td>
             </tr>
+            @if($booking->destination_country ?? false)
+            <tr>
+                <td>Destination Country</td>
+                <td>{{ $booking->destination_country }}</td>
+            </tr>
+            @endif
             <tr>
                 <td>Departure</td>
                 <td>{{ \Carbon\Carbon::parse($booking->departure_date)->format('d M Y') }}</td>

@@ -102,6 +102,16 @@
                         </div>
                         @endif
 
+                        @if($booking->destination_country ?? false)
+                        <div class="bv-detail-row">
+                            <div class="bv-detail-icon"><i class="fas fa-globe-africa"></i></div>
+                            <div>
+                                <div class="bv-detail-label">Destination Country</div>
+                                <div class="bv-detail-value">{{ $booking->destination_country }}</div>
+                            </div>
+                        </div>
+                        @endif
+
                         <div class="bv-detail-row">
                             <div class="bv-detail-icon"><i class="fas fa-route"></i></div>
                             <div>

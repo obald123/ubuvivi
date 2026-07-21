@@ -319,6 +319,64 @@
     .service-img.round-tl { border-radius: 20px 60px 20px 20px; }
     .service-img.round-br { border-radius: 20px 20px 60px 20px; }
 
+    /* ── Our Partners ── */
+    .partners-section { background: #fff; overflow: hidden; }
+    .partners-track-wrap {
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    }
+    .partners-track {
+        display: flex;
+        align-items: center;
+        width: max-content;
+        animation: partnersSlide 22s linear infinite;
+    }
+    .partners-track:hover { animation-play-state: paused; }
+    .partner-logo-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 220px;
+        height: 110px;
+        margin: 0 14px;
+        background: #F7F7F7;
+        border-radius: 16px;
+        padding: 20px;
+        transition: transform .2s, box-shadow .2s;
+    }
+    .partner-logo-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+    .partner-logo-box img {
+        max-width: 100%;
+        max-height: 60px;
+        object-fit: contain;
+        filter: grayscale(100%);
+        opacity: .7;
+        transition: filter .2s, opacity .2s;
+    }
+    .partner-logo-box:hover img {
+        filter: grayscale(0%);
+        opacity: 1;
+    }
+    .partner-logo-box .partner-fallback {
+        color: #999;
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        letter-spacing: .5px;
+    }
+    @keyframes partnersSlide {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .partners-track { animation: none; }
+    }
+
     /* ── Contact Form ── */
     .contact-section {
         position: relative;
@@ -639,6 +697,29 @@
                 </div>
                 <div class="col-lg-6 order-lg-2" data-aos="fade-left">
                     <img src="{{ asset('images/transport-road.png') }}" alt="Private Transport" class="service-img round-tr">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ── Our Partners ── --}}
+    <section class="partners-section sec-pad-sm">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <span class="orange-dash" style="justify-content:center;">Who We Work With</span>
+                <h2 class="section-title-orange">Our Partners</h2>
+            </div>
+            <div class="partners-track-wrap mt-4" data-aos="fade-up">
+                @php
+                    $partners = ['GAIN', 'EU', 'Gofan', 'FCM'];
+                @endphp
+                <div class="partners-track">
+                    {{-- Rendered twice back-to-back so the marquee loops seamlessly --}}
+                    @foreach (array_merge($partners, $partners) as $partner)
+                        <div class="partner-logo-box">
+                            <span class="partner-fallback">{{ $partner }}</span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

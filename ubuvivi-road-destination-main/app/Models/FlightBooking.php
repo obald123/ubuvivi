@@ -12,7 +12,7 @@ class FlightBooking extends Model
 
     protected $fillable = [
         'names', 'email', 'phone_number', 'airline',
-        'departure_airport', 'arrival_airport',
+        'departure_airport', 'arrival_airport', 'destination_country',
         'trip_type', 'flight_class', 'number_of_passengers',
         'departure_date', 'return_date',
         'passport_photos', 'additional_info', 'approved', 'access_token',

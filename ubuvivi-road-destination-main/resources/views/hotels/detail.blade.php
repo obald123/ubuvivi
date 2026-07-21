@@ -265,8 +265,8 @@
                                 <textarea name="message" placeholder="Any special requests or preferences...">{{ old('message') }}</textarea>
                             </div>
 
-                            <button type="submit" class="btn-request">
-                                <i class="fas fa-paper-plane" style="margin-right:8px"></i>Request Booking
+                            <button type="submit" id="hbSubmitBtn" class="btn-request">
+                                <i class="fas fa-paper-plane" style="margin-right:8px"></i><span id="hbBtnText">Request Booking</span>
                             </button>
                         </form>
 
@@ -289,5 +289,18 @@ function switchPhoto(thumb, url) {
     document.querySelectorAll('.gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
     thumb.classList.add('active');
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var hbForm = document.querySelector('form[action="{{ route("guest.hotels.book.store") }}"]');
+    if (hbForm) {
+        hbForm.addEventListener('submit', function() {
+            var btn = document.getElementById('hbSubmitBtn');
+            var txt = document.getElementById('hbBtnText');
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            txt.textContent = 'Submitting...';
+        });
+    }
+});
 </script>
 @endsection
