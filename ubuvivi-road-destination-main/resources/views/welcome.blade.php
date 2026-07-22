@@ -354,13 +354,22 @@
         max-width: 100%;
         max-height: 60px;
         object-fit: contain;
-        filter: grayscale(100%);
-        opacity: .7;
-        transition: filter .2s, opacity .2s;
+        filter: brightness(0);
+        opacity: .75;
+        transition: filter .25s, opacity .25s, background-color .25s;
     }
     .partner-logo-box:hover img {
-        filter: grayscale(0%);
+        filter: none;
         opacity: 1;
+    }
+    /* Flag/full-colour badges (e.g. EU) should never be silhouetted */
+    .partner-logo-box.partner-no-invert img {
+        filter: none;
+        opacity: 1;
+    }
+    /* Logos whose real artwork is white need a dark backdrop to stay visible on hover */
+    .partner-logo-box.partner-dark-hover:hover {
+        background: var(--navy, #0D1F35);
     }
     .partner-logo-box .partner-fallback {
         color: #999;
@@ -644,6 +653,35 @@
         </div>
     </section>
 
+    {{-- ── Our Partners ── --}}
+    <section class="partners-section sec-pad-sm">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <span class="orange-dash" style="justify-content:center;">Who We Work With</span>
+                <h2 class="section-title-orange">Our Partners</h2>
+            </div>
+            <div class="partners-track-wrap mt-4" data-aos="fade-up">
+                @php
+                    $partners = [
+                        ['name' => 'GAIN',           'logo' => asset('assets/images/partners/logo-gain-health.svg')],
+                        ['name' => 'EU',             'logo' => asset('assets/images/partners/eu.png'), 'class' => 'partner-no-invert'],
+                        ['name' => 'Gofan',          'logo' => asset('assets/images/partners/Gofan-White-logo.png'), 'class' => 'partner-dark-hover'],
+                        ['name' => 'FCM',            'logo' => asset('assets/images/partners/fcm.svg')],
+                        ['name' => 'Umalimu SACCO',  'logo' => asset('assets/images/partners/umalimu-sacco-logo.png')],
+                    ];
+                @endphp
+                <div class="partners-track">
+                    {{-- Rendered twice back-to-back so the marquee loops seamlessly --}}
+                    @foreach (array_merge($partners, $partners) as $partner)
+                        <div class="partner-logo-box {{ $partner['class'] ?? '' }}">
+                            <img src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }}" loading="lazy">
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- ── Our Services ── --}}
     <section class="services-section">
         <div class="container">
@@ -697,29 +735,6 @@
                 </div>
                 <div class="col-lg-6 order-lg-2" data-aos="fade-left">
                     <img src="{{ asset('images/transport-road.png') }}" alt="Private Transport" class="service-img round-tr">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- ── Our Partners ── --}}
-    <section class="partners-section sec-pad-sm">
-        <div class="container">
-            <div class="text-center" data-aos="fade-up">
-                <span class="orange-dash" style="justify-content:center;">Who We Work With</span>
-                <h2 class="section-title-orange">Our Partners</h2>
-            </div>
-            <div class="partners-track-wrap mt-4" data-aos="fade-up">
-                @php
-                    $partners = ['GAIN', 'EU', 'Gofan', 'FCM'];
-                @endphp
-                <div class="partners-track">
-                    {{-- Rendered twice back-to-back so the marquee loops seamlessly --}}
-                    @foreach (array_merge($partners, $partners) as $partner)
-                        <div class="partner-logo-box">
-                            <span class="partner-fallback">{{ $partner }}</span>
-                        </div>
-                    @endforeach
                 </div>
             </div>
         </div>

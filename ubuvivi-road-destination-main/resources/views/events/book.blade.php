@@ -264,7 +264,6 @@
 
                 <form action="{{ route('event.book.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="package_label" value="{{ $package['label'] }}">
 
                     {{-- Row 1: Name + Email --}}
                     <div class="eb-form-row">
@@ -290,7 +289,7 @@
                         </div>
                     </div>
 
-                    {{-- Row 3: Service + Service Type (readonly) --}}
+                    {{-- Row 3: Service + Service Type --}}
                     <div class="eb-form-row">
                         <div class="eb-form-group">
                             <label>Service</label>
@@ -298,7 +297,7 @@
                         </div>
                         <div class="eb-form-group">
                             <label>Service Type</label>
-                            <input type="text" value="{{ $package['label'] }}" readonly>
+                            <input type="text" name="package_label" value="{{ old('package_label', $package['label']) }}">
                         </div>
                     </div>
 
