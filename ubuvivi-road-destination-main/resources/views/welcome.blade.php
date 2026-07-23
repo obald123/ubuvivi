@@ -354,21 +354,12 @@
         max-width: 100%;
         max-height: 60px;
         object-fit: contain;
-        filter: brightness(0);
-        opacity: .75;
+        filter: none;
+        opacity: 1;
         transition: filter .25s, opacity .25s, background-color .25s;
     }
-    .partner-logo-box:hover img {
-        filter: none;
-        opacity: 1;
-    }
-    /* Flag/full-colour badges (e.g. EU) should never be silhouetted */
-    .partner-logo-box.partner-no-invert img {
-        filter: none;
-        opacity: 1;
-    }
-    /* Logos whose real artwork is white need a dark backdrop to stay visible on hover */
-    .partner-logo-box.partner-dark-hover:hover {
+    /* Logos whose real artwork is white need a dark backdrop to stay visible */
+    .partner-logo-box.partner-dark-hover {
         background: var(--navy, #0D1F35);
     }
     .partner-logo-box .partner-fallback {
