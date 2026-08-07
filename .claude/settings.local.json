@@ -6,7 +6,8 @@
       "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/resources/views//**)",
       "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/app/Http/Controllers/Admin//**)",
       "Bash(grep -r \"width.*px\\\\|min-width\\\\|max-width\" /c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/resources/sass/stisla/override --include=\"*.scss\" -h | head -30)",
-      "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/resources/sass/stisla/override/**)"
+      "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/resources/sass/stisla/override/**)",
+      "Bash(xargs wc -l)"
     ]
   }
 }

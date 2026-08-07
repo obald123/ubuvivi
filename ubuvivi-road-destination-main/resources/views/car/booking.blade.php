@@ -1,11 +1,11 @@
 @extends('layouts.guest')
 
 @section('title')
-    {{ $vehicle->brand->name ?? 'Vehicle' }} {{ $vehicle->model->name ?? '' }} | Book This Car - Ubuvivi
+    {{ $vehicle->brand->name ?? 'Vehicle' }} {{ $vehicle->model->name ?? '' }} | Book This Car - Ubuvivi Tours & Travels
 @endsection
 
 @section('meta')
-    <meta name="description" content="Book {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }} - Ubuvivi Car Rental Rwanda">
+    <meta name="description" content="Book {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }} - Ubuvivi Tours & Travels Rwanda">
 @endsection
 
 @section('body-class', 'hero-page')

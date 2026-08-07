@@ -28,8 +28,6 @@ Route::controller(GuestController::class)->group(function () {
 
     Route::get("/hotel/{id}", 'hotel_view')->name("hotel.view")->whereNumber('id');
 
-    Route::get("/tours-booking-options", 'tours_booking_options')->name("guest.tours_booking_options");
-
     Route::get("/tours-booking", 'tours_booking')->name("guest.tours_booking");
 
     Route::get("/contact", 'contact')->name("guest.contact");
@@ -95,8 +93,6 @@ Route::controller(GuestController::class)->group(function () {
     Route::get("/car/transfer/{id}", 'car_transfer_view')->name("car.transfer.view");
 
     Route::get("/tour/booking/{id}", 'tour_booking_view')->name("tour.booking.view")->whereNumber('id');
-
-    Route::get("/tour/booking/{id}/account", 'tour_booking_account')->name("tour.booking.account")->whereNumber('id');
 
     Route::group(["prefix" => "booking"], function () {
         Route::get("/car/{id}", "car_booking")->name("car.booking")->whereNumber('id');

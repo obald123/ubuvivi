@@ -89,7 +89,7 @@
                             <h1 class="mb-3 text-center">Who We Are</h1>
                             <div>
                                 <p>
-                                    UBUVIVI car rental & Tours is the
+                                    UBUVIVI Tours  & travels is the
                                     best company in Rwanda offering
                                     excellent transport service. We are
                                     extremely professional at assessing
@@ -177,7 +177,7 @@
                         <div class="col" data-aos="fade-up" data-aos-delay="500">
                             <h2 class="mb-3">Car Rental</h2>
                             <div>
-                                UBUVIVI car rental & Tours is the
+                                UBUVIVI Tours  & travels is the
                                 best company in Rwanda offering
                                 excellent transport service. We are
                                 extremely professional at assessing
@@ -236,7 +236,7 @@
                         <div class="">
                             <h1 style="color:#C85A2A">Objective</h1>
                             <div>
-                                UBUVIVI Car Rental is created to solve
+                                UBUVIVI Tours  & travels is created to solve
                                 problems that people have of missing
                                 appropriate vehicles when in need of
                                 them. We offering them at affordable
@@ -250,8 +250,7 @@
                         <div class="">
                             <h1 style="color:#C85A2A">Aim</h1>
                             <div>
-                                UBUVIVI car Rental and UBUVIVI tours
-                                and travels aim at making our clients
+                                UBUVIVI Tours  & travels aim at making our clients
                                 smile as they enjoy the ride.
                             </div>
                         </div>

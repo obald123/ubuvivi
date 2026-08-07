@@ -1,11 +1,11 @@
 @extends('layouts.guest')
 @section('title')
     @if($error)
-        Booking Error — Ubuvivi Car Rental
+        Booking Error — Ubuvivi Tours & Travels
     @elseif($booking->booking_type == 2)
-        Transfer Booking — {{ $booking->names }} | Ubuvivi Tours
+        Transfer Booking — {{ $booking->names }} | Ubuvivi Tours & Travels
     @else
-        Car Rental Booking — {{ $booking->names }} | Ubuvivi Tours
+        Car Rental Booking — {{ $booking->names }} | Ubuvivi Tours & Travels
     @endif
 @endsection
 

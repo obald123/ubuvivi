@@ -289,16 +289,6 @@
     <!-- Hero Section -->
     <section class="tour-booking-hero">
         <div class="container">
-            @if(request()->get('type') == 'account')
-                <div class="booking-type-indicator">
-                    <i class="fas fa-user"></i> Account Booking
-                </div>
-            @else
-                <div class="booking-type-indicator">
-                    <i class="fas fa-user-secret"></i> Guest Booking
-                </div>
-            @endif
-            
             <h1>Book Your Dream Tour</h1>
             <p>Choose from our amazing destinations and create unforgettable memories</p>
         </div>
@@ -307,9 +297,9 @@
     <!-- Booking Form Section -->
     <section class="booking-form-section">
         <div class="container">
-            <a href="{{ route('guest.tours_booking_options') }}" class="back-link">
+            <a href="{{ url('/tours') }}" class="back-link">
                 <i class="fas fa-arrow-left"></i>
-                Back to Booking Options
+                Back to Tours
             </a>
 
             <div class="booking-form-container">

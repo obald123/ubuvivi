@@ -24,6 +24,7 @@ use App\Repositories\TourBookingRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
 use Paypack\Paypack;
 
@@ -193,10 +194,108 @@ class GuestController extends Controller
         ]);
     }
 
-    public function hotel_booking()
+    /**
+     * Destinations shown on the hotel booking page. "nearby" lists the closest
+     * other destinations, used to suggest alternatives when a location has no
+     * hotels of its own.
+     */
+    private function hotelDestinations()
     {
-        $hotels = \App\Models\Hotel::where('available', true)->latest()->get();
-        return view("hotel-booking", compact('hotels'));
+        return [
+            ['name' => 'Kigali',  'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/download (6).jpg', 'nearby' => ['Musanze', 'Huye', 'Akagera']],
+            ['name' => 'Musanze', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/download (7).jpg', 'nearby' => ['Rubavu', 'Kigali']],
+            ['name' => 'Rubavu',  'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/download (8).jpg', 'nearby' => ['Musanze', 'Karongi']],
+            ['name' => 'Karongi', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/images.jpg',       'nearby' => ['Rubavu', 'Nyungwe', 'Kigali']],
+            ['name' => 'Nyungwe', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/bg_7.jpg',         'nearby' => ['Huye', 'Karongi']],
+            ['name' => 'Akagera', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/bg_8.jpg',         'nearby' => ['Kigali']],
+            ['name' => 'Huye',    'tag' => 'Rwanda', 'img' => 'images/huye.jpg',                            'nearby' => ['Nyungwe', 'Kigali']],
+        ];
+    }
+
+    /**
+     * Available hotels whose free-text location contains the given place name.
+     * LOWER(...) LIKE keeps the match case-insensitive on PostgreSQL, where a
+     * plain LIKE would not match "Kigali" when the visitor clicked "kigali".
+     */
+    private function hotelsInLocation($location)
+    {
+        return \App\Models\Hotel::where('available', true)
+            ->whereRaw('LOWER(location) LIKE ?', ['%' . mb_strtolower($location) . '%'])
+            ->latest()
+            ->get();
+    }
+
+    /**
+     * Hotels from the destinations closest to $location, so a visitor who lands
+     * on an empty region still has somewhere to go. Falls back to scanning every
+     * destination when $location is not one we curate.
+     */
+    private function nearbyHotels($location, array $destinations)
+    {
+        $match = collect($destinations)->first(function ($dest) use ($location) {
+            return mb_strtolower($dest['name']) === mb_strtolower($location);
+        });
+
+        $candidates = $match ? $match['nearby'] : collect($destinations)->pluck('name')->all();
+
+        $hotels = collect();
+        $names  = [];
+
+        foreach ($candidates as $name) {
+            if ($hotels->count() >= 6) {
+                break;
+            }
+
+            if (mb_strtolower($name) === mb_strtolower($location)) {
+                continue;
+            }
+
+            $found = $this->hotelsInLocation($name);
+
+            if ($found->isNotEmpty()) {
+                $hotels  = $hotels->concat($found)->unique('id');
+                $names[] = $name;
+            }
+        }
+
+        return [$hotels->take(6)->values(), $names];
+    }
+
+    public function hotel_booking(Request $request)
+    {
+        $location     = Str::limit(trim((string) $request->query('location', '')), 40, '');
+        $destinations = $this->hotelDestinations();
+
+        // Show our own spelling ("Kigali") rather than whatever casing arrived.
+        $canonical = collect($destinations)->first(function ($dest) use ($location) {
+            return mb_strtolower($dest['name']) === mb_strtolower($location);
+        });
+
+        if ($canonical) {
+            $location = $canonical['name'];
+        }
+
+        $hotels = $location === ''
+            ? \App\Models\Hotel::where('available', true)->latest()->get()
+            : $this->hotelsInLocation($location);
+
+        // One lightweight query powers the "N hotels" badge on every card.
+        $locations = \App\Models\Hotel::where('available', true)->pluck('location');
+
+        foreach ($destinations as $i => $dest) {
+            $destinations[$i]['count'] = $locations->filter(function ($value) use ($dest) {
+                return mb_stripos((string) $value, $dest['name']) !== false;
+            })->count();
+        }
+
+        $nearbyHotels = collect();
+        $nearbyNames  = [];
+
+        if ($location !== '' && $hotels->isEmpty()) {
+            [$nearbyHotels, $nearbyNames] = $this->nearbyHotels($location, $destinations);
+        }
+
+        return view("hotel-booking", compact('hotels', 'location', 'destinations', 'nearbyHotels', 'nearbyNames'));
     }
 
     public function hotel_view($id)
@@ -299,22 +398,6 @@ class GuestController extends Controller
             'names'   => $request->names,
             'email'   => $request->email,
         ]);
-    }
-
-    public function tours_booking_options(Request $request)
-    {
-        $tour = null;
-        $tourId = $request->query('tour');
-
-        if ($tourId) {
-            $tour = Itinerary::find($tourId);
-
-            if ($tour) {
-                $tour = $this->normalizeTourContent($tour);
-            }
-        }
-
-        return view("tours_booking_options", compact('tour'));
     }
 
     public function tours_booking()
@@ -654,25 +737,6 @@ class GuestController extends Controller
         $tour = $this->normalizeTourContent($tour);
 
         return view("tours.view", compact("tour"));
-    }
-
-    public function tour_booking_account(Request $request, $id)
-    {
-        $tour = Itinerary::find($id);
-
-        if (empty($tour)) {
-            Flash::error('Tour not found');
-
-            return redirect()->back();
-        }
-
-        if (auth()->check()) {
-            return redirect()->route('tour.booking', ['id' => $id, 'type' => 'account']);
-        }
-
-        $request->session()->put('url.intended', route('tour.booking', ['id' => $id, 'type' => 'account']));
-
-        return redirect()->route('login');
     }
 
     public function tour_booking($id)

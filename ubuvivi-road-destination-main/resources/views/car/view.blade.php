@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 
 @section('title')
-    {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? 'Vehicle' }} - Ubuvivi Car Rental
+    {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? 'Vehicle' }} - Ubuvivi Tours & Travels
 @endsection
 
 @section('meta')

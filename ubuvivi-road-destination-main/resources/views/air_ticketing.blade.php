@@ -127,25 +127,28 @@
         width: 60px; height: 3px; background: var(--orange);
         margin: 0 auto 42px; border-radius: 2px;
     }
-    .dest-slider-wrap { position: relative; padding: 0 52px; overflow: hidden; }
-    .dest-track { display: flex; gap: 0; transition: transform .4s ease; will-change: transform; }
-    .slider-arrow-btn {
-        position: absolute; top: 50%; transform: translateY(-50%);
-        width: 40px; height: 40px; border-radius: 50%;
-        background: #fff; border: 1px solid #e0e0e0; color: #444;
-        display: flex; align-items: center; justify-content: center;
-        cursor: pointer; font-size: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,.1); z-index: 2;
-        transition: background .2s, color .2s;
+    .dest-slider-wrap {
+        position: relative; overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
     }
-    .slider-arrow-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
-    .slider-arrow-btn.prev-btn { left: 0; }
-    .slider-arrow-btn.next-btn { right: 0; }
+    .dest-track {
+        display: flex; align-items: stretch; width: max-content;
+        animation: destSlide 38s linear infinite;
+    }
+    .dest-track:hover { animation-play-state: paused; }
     .dest-slide {
-        flex: 0 0 25%; max-width: 25%; padding: 0 10px; box-sizing: border-box;
+        flex: 0 0 auto; width: 300px; padding: 0 10px; box-sizing: border-box;
     }
-    @media (max-width: 991px) { .dest-slide { flex: 0 0 50%; max-width: 50%; } }
-    @media (max-width: 575px) { .dest-slide { flex: 0 0 100%; max-width: 100%; } }
+    @media (max-width: 991px) { .dest-slide { width: 260px; } }
+    @media (max-width: 575px) { .dest-slide { width: 240px; } }
+    @keyframes destSlide {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .dest-track { animation: none; }
+    }
     .dest-card {
         background: #fff; border-radius: 14px; overflow: hidden;
         box-shadow: 0 2px 18px rgba(0,0,0,.08);
@@ -280,7 +283,6 @@
     }
     @media (max-width: 575px) {
         .at-input-group { flex: 0 0 100%; }
-        .dest-slider-wrap { padding: 0 36px; }
     }
     @media (max-width: 768px) {
         .flight-row { flex-direction: column; align-items: flex-start; gap: 12px; }
@@ -304,13 +306,7 @@
             <p>Book flights easily with assistance in finding the best routes, prices, and travel options.</p>
         </div>
     </section>
-    <div style="padding:16px 0 0;">
-        <div class="container">
-            <a href="{{ route('guest.all_services') }}" style="display:inline-flex;align-items:center;gap:8px;color:#0D1F35;font-weight:600;font-size:14px;text-decoration:none;background:#f0f4f8;border:1.5px solid #d0d9e4;padding:8px 20px;border-radius:50px;">
-                <i class="fas fa-arrow-left" style="font-size:12px;color:#C85A2A;"></i> Go back to Services
-            </a>
-        </div>
-    </div>
+    @include('partials.back-to-services')
 
 
     {{-- ── Popular Destinations ── --}}
@@ -318,21 +314,21 @@
         <div class="container">
             <h2 class="section-h">popular Destinations</h2>
             <div class="dest-underline"></div>
-            <div class="dest-slider-wrap" id="destSliderWrap">
-                <button class="slider-arrow-btn prev-btn" onclick="slideDest(-1)">&#8249;</button>
-                <div class="dest-track" id="destTrack">
-                    @php
-                    $destinations = [
-                        ['name' => 'Zanzibar',  'country' => 'Tanzania',      'img' => asset('assets/images/backgrounds/download (3).jpg')],
-                        ['name' => 'Istanbul',  'country' => 'Turkey',        'img' => asset('assets/images/backgrounds/download (5).jpg')],
-                        ['name' => 'Cairo',     'country' => 'Egypt',         'img' => asset('assets/images/backgrounds/unnamed.jpg')],
-                        ['name' => 'Paris',     'country' => 'France',        'img' => asset('assets/images/backgrounds/download (4).jpg')],
-                        ['name' => 'Dubai',     'country' => 'UAE',           'img' => asset('images/dubai.jpg')],
-                        ['name' => 'Nairobi',   'country' => 'Kenya',         'img' => asset('images/nairobi.jpg')],
-                        ['name' => 'New York',  'country' => 'United States', 'img' => asset('images/new-york.jpg')],
-                    ];
-                    @endphp
-                    @foreach($destinations as $dest)
+            @php
+            $destinations = [
+                ['name' => 'Zanzibar',  'country' => 'Tanzania',      'img' => asset('assets/images/backgrounds/download (3).jpg')],
+                ['name' => 'Istanbul',  'country' => 'Turkey',        'img' => asset('assets/images/backgrounds/download (5).jpg')],
+                ['name' => 'Cairo',     'country' => 'Egypt',         'img' => asset('assets/images/backgrounds/unnamed.jpg')],
+                ['name' => 'Paris',     'country' => 'France',        'img' => asset('assets/images/backgrounds/download (4).jpg')],
+                ['name' => 'Dubai',     'country' => 'UAE',           'img' => asset('images/dubai.jpg')],
+                ['name' => 'Nairobi',   'country' => 'Kenya',         'img' => asset('images/nairobi.jpg')],
+                ['name' => 'New York',  'country' => 'United States', 'img' => asset('images/new-york.jpg')],
+            ];
+            @endphp
+            <div class="dest-slider-wrap">
+                <div class="dest-track">
+                    {{-- Rendered twice back-to-back so the marquee loops seamlessly --}}
+                    @foreach(array_merge($destinations, $destinations) as $dest)
                     <div class="dest-slide">
                         <div class="dest-card">
                             <div class="dest-card-img" style="background-image: url('{{ $dest['img'] }}');"></div>
@@ -344,7 +340,6 @@
                     </div>
                     @endforeach
                 </div>
-                <button class="slider-arrow-btn next-btn" onclick="slideDest(1)">&#8250;</button>
             </div>
         </div>
     </section>
@@ -511,28 +506,6 @@ function searchFlights() {
     document.querySelector('.flights-section').scrollIntoView({ behavior: 'smooth' });
 }
 
-var destIdx = 0;
-var destTimer = null;
-function slideDest(dir) {
-    const track = document.getElementById('destTrack');
-    const slides = track.querySelectorAll('.dest-slide');
-    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
-    const maxIdx = Math.max(0, slides.length - visibleCount);
-    destIdx = Math.min(Math.max(destIdx + dir, 0), maxIdx);
-    const slideW = track.querySelector('.dest-slide').offsetWidth;
-    track.style.transform = 'translateX(-' + (destIdx * slideW) + 'px)';
-}
-function autoSlideDest() {
-    const track = document.getElementById('destTrack');
-    const slides = track.querySelectorAll('.dest-slide');
-    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
-    const maxIdx = Math.max(0, slides.length - visibleCount);
-    if (destIdx >= maxIdx) { destIdx = 0; } else { destIdx++; }
-    const slideW = track.querySelector('.dest-slide').offsetWidth;
-    track.style.transform = 'translateX(-' + (destIdx * slideW) + 'px)';
-}
-function startDestAuto() { destTimer = setInterval(autoSlideDest, 3000); }
-function stopDestAuto() { clearInterval(destTimer); }
 function toggleReturn(radio) {
     const wrap = document.getElementById('returnDateWrap');
     if (wrap) wrap.style.display = radio.value === 'oneway' ? 'none' : '';
@@ -553,9 +526,6 @@ function updatePassportFields() {
 
 document.addEventListener('DOMContentLoaded', function() {
     updatePassportFields();
-    startDestAuto();
-    var wrap = document.getElementById('destSliderWrap');
-    if (wrap) { wrap.addEventListener('mouseenter', stopDestAuto); wrap.addEventListener('mouseleave', startDestAuto); }
 
     var atForm = document.querySelector('form[action="{{ route("air.ticketing.store") }}"]');
     if (atForm) {

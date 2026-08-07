@@ -558,7 +558,7 @@
                 <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
                     <span class="orange-dash">Who We Are</span>
                     <p>
-                        UBUVIVI car rental &amp; Tours is the best company in Rwanda offering excellent transport service.
+                        UBUVIVI Tours  & travels is the best company in Rwanda offering excellent transport service.
                         We are extremely professional at assessing and providing the most appropriate vehicle for the task.
                     </p>
                     <p class="mt-3">
@@ -683,7 +683,7 @@
                 <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
                     <span class="orange-dash">Tours and travels</span>
                     <p class="mt-2">
-                        UBUVIVI Car Rental &amp; Tours offers guided trips across Rwanda's most beautiful destinations.
+                        UBUVIVI Tours  & travels offers guided trips across Rwanda's most beautiful destinations.
                         Explore lush hills, Lake Kivu, national parks, and unforgettable wildlife experiences.
                         Visit top locations like Volcanoes National Park, Akagera National Park, Nyungwe National Park,
                         Rubavu, and Karongi, and enjoy activities such as gorilla trekking and wildlife safaris.
@@ -700,7 +700,7 @@
                 <div class="col-lg-6 mb-4 mb-lg-0 order-lg-2" data-aos="fade-left">
                     <span class="orange-dash">Car Rental</span>
                     <p class="mt-2">
-                        UBUVIVI provides reliable and comfortable vehicles for travel across Rwanda. Choose between
+                        UBUVIVI Tours  & travels provides reliable and comfortable vehicles for travel across Rwanda. Choose between
                         self-drive cars or chauffeur-driven vehicles, all well-maintained and fully authorized.
                         Our experienced drivers know the best routes and destinations in Kigali and across Rwanda,
                         ensuring a smooth and convenient travel experience.
@@ -712,22 +712,6 @@
                 </div>
             </div>
 
-            {{-- Private Transport --}}
-            <div class="service-row row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-1" data-aos="fade-right">
-                    <span class="orange-dash">Private Transport</span>
-                    <p class="mt-2">
-                        UBUVIVI offers convenient private transport services across Rwanda. We provide pre-booked
-                        transportation for airport pickups, hotel transfers, and travel between cities or destinations.
-                        Our professional drivers ensure safe, comfortable, and timely journeys for travelers moving
-                        between airports, hotels, and tourist destinations.
-                    </p>
-                    <a href="{{ route('guest.transfer') }}" class="service-link mt-3 d-inline-block">Book Transport &raquo;</a>
-                </div>
-                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
-                    <img src="{{ asset('images/transport-road.png') }}" alt="Private Transport" class="service-img round-tr">
-                </div>
-            </div>
         </div>
     </section>
 

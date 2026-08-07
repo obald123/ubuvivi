@@ -17,7 +17,7 @@
         ? $galleryImages[0]
         : asset('assets/images/backgrounds/bg_11.jpg');
     $sectionImages = count($galleryImages) > 1 ? array_slice($galleryImages, 1) : [];
-    $bookingLink = route('guest.tours_booking_options', ['tour' => $tour->id]);
+    $bookingLink = route('tour.booking', ['id' => $tour->id]);
 
     // Decode JSON fields - handle both string and array formats
     $inclusions = $tour->inclusions ?? [];
@@ -342,7 +342,6 @@
                 <div class="tour-booking-cta">
                     <a href="{{ $bookingLink }}" class="tour-booking-btn">Book Now</a>
                 </div>
-                <p class="tour-booking-note">Choose your booking option on the next step and continue as guest or with an account.</p>
 
                 @if($agendaItems->isNotEmpty())
                     @foreach($agendaItems as $index => $agendaItem)

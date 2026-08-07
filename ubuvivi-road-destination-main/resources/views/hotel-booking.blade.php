@@ -9,33 +9,9 @@
     <meta name="keywords" content="hotel booking Rwanda, hotels Kigali, accommodation Rwanda, Ubuvivi hotels">
 @endsection
 
-@section('body-class', 'hero-page')
-
 @section('css')
 <style>
     :root { --orange: #C85A2A; --navy: #0D1F35; }
-
-    /* ── Hero ── */
-    .hb-hero {
-        position: relative; height: 480px;
-        background: url('{{ asset("assets/images/hotel-hero.png") }}') center/cover no-repeat;
-        display: flex; align-items: center; justify-content: center; text-align: center;
-    }
-    .hb-hero::after {
-        content: ''; position: absolute; inset: 0;
-        background: rgba(13,31,53,.65);
-    }
-    .hb-hero-content { position: relative; z-index: 2; color: #fff; }
-    .hb-hero-content h1 {
-        font-size: clamp(32px, 5vw, 58px);
-        font-weight: 800;
-        color: #fff !important;
-        margin-bottom: 14px;
-    }
-    .hb-hero-content p {
-        font-size: 16px; color: rgba(255,255,255,.85);
-        max-width: 560px; margin: 0 auto;
-    }
 
     /* ── Search Bar ── */
     .hb-search-bar { background: var(--navy); padding: 28px 0 32px; }
@@ -94,31 +70,67 @@
         width: 60px; height: 3px; background: var(--orange);
         margin: 0 auto 42px; border-radius: 2px;
     }
-    .dest-slider-wrap { position: relative; padding: 0 52px; overflow: hidden; }
-    .dest-track { display: flex; transition: transform .4s ease; will-change: transform; }
+    .dest-slider-wrap {
+        position: relative; overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    }
+    .dest-track {
+        display: flex; align-items: stretch; width: max-content;
+        animation: destSlide 38s linear infinite;
+    }
+    .dest-track:hover { animation-play-state: paused; }
     .dest-slide {
-        flex: 0 0 25%; max-width: 25%; padding: 0 10px; box-sizing: border-box;
+        flex: 0 0 auto; width: 300px; padding: 0 10px; box-sizing: border-box;
     }
-    @media (max-width: 991px) { .dest-slide { flex: 0 0 50%; max-width: 50%; } }
-    @media (max-width: 575px) { .dest-slide { flex: 0 0 100%; max-width: 100%; } }
-    .slider-arrow-btn {
-        position: absolute; top: 50%; transform: translateY(-50%);
-        width: 40px; height: 40px; border-radius: 50%;
-        background: #fff; border: 1px solid #e0e0e0; color: #444;
-        display: flex; align-items: center; justify-content: center;
-        cursor: pointer; font-size: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,.1); z-index: 2;
-        transition: background .2s, color .2s;
+    @media (max-width: 991px) { .dest-slide { width: 260px; } }
+    @media (max-width: 575px) { .dest-slide { width: 240px; } }
+    @keyframes destSlide {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
     }
-    .slider-arrow-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
-    .slider-arrow-btn.prev-btn { left: 0; }
-    .slider-arrow-btn.next-btn { right: 0; }
+    @media (prefers-reduced-motion: reduce) {
+        .dest-track { animation: none; }
+    }
+    a.dest-slide, a.dest-slide:hover { text-decoration: none; color: inherit; }
     .hb-dest-card {
         background: #fff; border-radius: 14px; overflow: hidden;
         box-shadow: 0 2px 18px rgba(0,0,0,.08);
         transition: transform .25s, box-shadow .25s; cursor: pointer;
+        border: 2px solid transparent;
     }
     .hb-dest-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,.14); }
+    .hb-dest-card.is-active {
+        border-color: var(--orange);
+        box-shadow: 0 8px 28px rgba(200,90,42,.22);
+    }
+
+    /* ── Location filter ── */
+    .hb-filter-chip-row {
+        display: flex; align-items: center; justify-content: center;
+        gap: 12px; flex-wrap: wrap; margin: -22px 0 34px;
+    }
+    .hb-filter-chip {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: #fff; border: 1.5px solid var(--orange); color: var(--orange);
+        padding: 7px 18px; border-radius: 50px; font-size: 14px; font-weight: 600;
+    }
+    .hb-filter-count {
+        background: var(--orange); color: #fff;
+        padding: 1px 10px; border-radius: 50px; font-size: 12px;
+    }
+    .hb-filter-clear {
+        display: inline-flex; align-items: center; gap: 7px;
+        color: #0D1F35; background: #f0f4f8; border: 1.5px solid #d0d9e4;
+        padding: 7px 18px; border-radius: 50px;
+        font-size: 14px; font-weight: 600; text-decoration: none;
+        transition: background .2s, border-color .2s;
+    }
+    .hb-filter-clear:hover { background: #e4ebf3; border-color: #b9c6d6; color: #0D1F35; text-decoration: none; }
+    .hb-empty-note { text-align: center; padding: 8px 20px 34px; }
+    .hb-empty-note i { font-size: 40px; color: #cfd8e3; display: block; margin-bottom: 12px; }
+    .hb-empty-title { font-size: 18px; font-weight: 700; color: #1a1a1a; margin: 0 0 4px; }
+    .hb-empty-sub { font-size: 15px; color: #777; margin: 0; }
     .hb-dest-img {
         width: 100%; height: 190px;
         background-size: cover; background-position: center; display: block;
@@ -216,27 +228,13 @@
         .hb-search-btn-wrap { padding: 8px; }
         .hb-search-btn { width: 100%; justify-content: center; }
         .hb-guest-row { flex: unset; width: 100%; }
-        .dest-slider-wrap { padding: 0 36px; }
     }
 </style>
 @endsection
 
 @section('content')
 
-    {{-- ── Hero ── --}}
-    <section class="hb-hero">
-        <div class="hb-hero-content">
-            <h1>Hotel Booking</h1>
-            <p>Find and book the perfect accommodation across Rwanda and beyond with the best rates guaranteed.</p>
-        </div>
-    </section>
-    <div style="padding:16px 0 0;">
-        <div class="container">
-            <a href="{{ route('guest.all_services') }}" style="display:inline-flex;align-items:center;gap:8px;color:#0D1F35;font-weight:600;font-size:14px;text-decoration:none;background:#f0f4f8;border:1.5px solid #d0d9e4;padding:8px 20px;border-radius:50px;">
-                <i class="fas fa-arrow-left" style="font-size:12px;color:#C85A2A;"></i> Go back to Services
-            </a>
-        </div>
-    </div>
+    @include('partials.back-to-services')
 
 
     {{-- ── Destinations With Hotels ── --}}
@@ -244,93 +242,104 @@
         <div class="container">
             <h2 class="hb-section-h">Destinations With Hotels</h2>
             <div class="hb-underline"></div>
-            <div class="dest-slider-wrap" id="hotelDestSliderWrap">
-                <button class="slider-arrow-btn prev-btn" onclick="slideHotelDest(-1)">&#8249;</button>
-                <div class="dest-track" id="hotelDestTrack">
-                    @php
-                    $hotelDests = [
-                        ['name' => 'Kigali',  'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/download (6).jpg')],
-                        ['name' => 'Musanze', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/download (7).jpg')],
-                        ['name' => 'Rubavu',  'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/download (8).jpg')],
-                        ['name' => 'Karongi', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/images.jpg')],
-                        ['name' => 'Nyungwe', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/bg_7.jpg')],
-                        ['name' => 'Akagera', 'tag' => 'Rwanda', 'img' => asset('assets/images/backgrounds/bg_8.jpg')],
-                        ['name' => 'Huye',    'tag' => 'Rwanda', 'img' => asset('images/huye.jpg')],
-                    ];
-                    @endphp
-                    @foreach($hotelDests as $d)
-                    <div class="dest-slide">
-                        <div class="hb-dest-card">
-                            <div class="hb-dest-img" style="background-image: url('{{ $d['img'] }}');"></div>
+            <div class="dest-slider-wrap">
+                <div class="dest-track">
+                    {{-- Rendered twice back-to-back so the marquee loops seamlessly --}}
+                    @foreach(array_merge($destinations, $destinations) as $d)
+                    @php $isActive = mb_strtolower($location) === mb_strtolower($d['name']); @endphp
+                    <a href="{{ route('guest.hotel_booking', ['location' => $d['name']]) }}#hotels"
+                       class="dest-slide"
+                       aria-label="Show hotels in {{ $d['name'] }}">
+                        <div class="hb-dest-card {{ $isActive ? 'is-active' : '' }}">
+                            <div class="hb-dest-img" style="background-image: url('{{ asset($d['img']) }}');"></div>
                             <div class="hb-dest-body">
                                 <div class="hb-dest-name">{{ $d['name'] }}</div>
-                                <div class="hb-dest-tag">{{ $d['tag'] }}</div>
+                                <div class="hb-dest-tag">
+                                    @if($d['count'] > 0)
+                                        {{ $d['count'] }} {{ Str::plural('hotel', $d['count']) }}
+                                    @else
+                                        {{ $d['tag'] }}
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     @endforeach
                 </div>
-                <button class="slider-arrow-btn next-btn" onclick="slideHotelDest(1)">&#8250;</button>
             </div>
         </div>
     </section>
 
     {{-- ── Featured Hotels ── --}}
-    <section class="featured-hotels-section">
+    <section class="featured-hotels-section" id="hotels">
         <div class="container">
-            <h2 class="fh-section-h">Available Hotels</h2>
+            <h2 class="fh-section-h">
+                @if($location !== '')
+                    Hotels in {{ $location }}
+                @else
+                    Available Hotels
+                @endif
+            </h2>
             <div class="fh-underline"></div>
+
+            @if($location !== '')
+                <div class="hb-filter-chip-row">
+                    <span class="hb-filter-chip">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ $location }}
+                        @if($hotels->count())
+                            <span class="hb-filter-count">{{ $hotels->count() }} {{ Str::plural('hotel', $hotels->count()) }}</span>
+                        @endif
+                    </span>
+                    <a href="{{ route('guest.hotel_booking') }}#hotels" class="hb-filter-clear">
+                        <i class="fas fa-times"></i> Show all hotels
+                    </a>
+                </div>
+            @endif
 
             @if($hotels->count())
             <div class="row">
                 @foreach($hotels as $h)
                 <div class="col-md-6 col-lg-4 mb-4">
-                    @php $hImages = $h->images ?? []; $detailUrl = route('hotel.view', $h->id); @endphp
-                    <div class="hotel-card">
-                        @if($h->cover_image)
-                            <a href="{{ $detailUrl }}" class="hotel-card-img clickable" style="background-image:url('{{ htmlspecialchars($h->cover_image, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;display:block;">
-                                @if(count($hImages) > 1)
-                                    <span class="hotel-photos-badge"><i class="fas fa-images"></i> {{ count($hImages) }} photos</span>
-                                @endif
-                            </a>
-                        @else
-                            <a href="{{ $detailUrl }}" class="hotel-card-img" style="background:#e4e8f0;display:flex;align-items:center;justify-content:center;">
-                                <i class="fas fa-hotel" style="font-size:40px;color:#bbb;"></i>
-                            </a>
-                        @endif
-                        <div class="hotel-card-body">
-                            <div class="hotel-stars">
-                                @for($i = 0; $i < $h->stars; $i++)<i class="fas fa-star"></i>@endfor
-                                @for($i = $h->stars; $i < 5; $i++)<i class="far fa-star" style="color:#ddd;"></i>@endfor
-                            </div>
-                            <a href="{{ $detailUrl }}" class="hotel-name" style="color:inherit;text-decoration:none;display:block;">{{ $h->name }}</a>
-                            <div class="hotel-location">
-                                <i class="fas fa-map-marker-alt"></i> {{ $h->location }}
-                            </div>
-                            <div class="hotel-features">
-                                @foreach(array_slice($h->amenities ?? [], 0, 4) as $am)
-                                    <span class="hotel-feature-tag">{{ $am }}</span>
-                                @endforeach
-                            </div>
-                            <div class="hotel-footer">
-                                <div>
-                                    @if($h->price_per_night)
-                                        <div class="hotel-price-label">Starting from</div>
-                                        <span class="hotel-price">${{ number_format($h->price_per_night, 0) }}</span>
-                                        <span class="hotel-price-night">/night</span>
-                                    @else
-                                        <span class="hotel-price" style="font-size:16px;color:#888;">Contact for price</span>
-                                    @endif
-                                </div>
-                                <a href="{{ $detailUrl }}" class="hotel-book-btn" style="text-decoration:none;display:inline-block;">
-                                    View Details
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @include('partials.hotel-card', ['hotel' => $h])
                 </div>
                 @endforeach
             </div>
+
+            @elseif($location !== '' && $nearbyHotels->count())
+            {{-- Nothing in this location, so offer the closest places that do have hotels --}}
+            <div class="hb-empty-note">
+                <i class="fas fa-map-signs"></i>
+                <p class="hb-empty-title">No hotels in {{ $location }} yet</p>
+                <p class="hb-empty-sub">
+                    @if(count($nearbyNames))
+                        Here's what we have nearby &mdash; in {{ collect($nearbyNames)->join(', ', ' and ') }}.
+                    @else
+                        Here's what we have nearby.
+                    @endif
+                </p>
+            </div>
+            <div class="row">
+                @foreach($nearbyHotels as $h)
+                <div class="col-md-6 col-lg-4 mb-4">
+                    @include('partials.hotel-card', ['hotel' => $h])
+                </div>
+                @endforeach
+            </div>
+            <div style="text-align:center;margin-top:10px;">
+                <a href="{{ route('guest.hotel_booking') }}#hotels" style="display:inline-block;background:#C85A2A;color:#fff;padding:10px 28px;border-radius:50px;font-weight:600;text-decoration:none;">View all hotels</a>
+            </div>
+
+            @elseif($location !== '')
+            <div style="text-align:center;padding:70px 20px;color:#aaa;">
+                <i class="fas fa-hotel" style="font-size:48px;display:block;margin-bottom:14px;"></i>
+                <p style="font-size:16px;">No hotels in {{ $location }} yet, and nothing nearby to suggest just now.</p>
+                <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                    <a href="{{ route('guest.hotel_booking') }}#hotels" style="display:inline-block;background:#C85A2A;color:#fff;padding:10px 28px;border-radius:50px;font-weight:600;text-decoration:none;">View all hotels</a>
+                    <a href="{{ route('guest.contact') }}" style="display:inline-block;background:#f0f4f8;border:1.5px solid #d0d9e4;color:#0D1F35;padding:10px 28px;border-radius:50px;font-weight:600;text-decoration:none;">Contact Us</a>
+                </div>
+            </div>
+
             @else
             <div style="text-align:center;padding:70px 20px;color:#aaa;">
                 <i class="fas fa-hotel" style="font-size:48px;display:block;margin-bottom:14px;"></i>
@@ -348,33 +357,5 @@
 function searchHotels() {
     document.querySelector('.featured-hotels-section').scrollIntoView({ behavior: 'smooth' });
 }
-
-var hotelDestIdx = 0;
-var hotelDestTimer = null;
-function slideHotelDest(dir) {
-    const track = document.getElementById('hotelDestTrack');
-    const slides = track.querySelectorAll('.dest-slide');
-    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
-    const maxIdx = Math.max(0, slides.length - visibleCount);
-    hotelDestIdx = Math.min(Math.max(hotelDestIdx + dir, 0), maxIdx);
-    const slideW = track.querySelector('.dest-slide').offsetWidth;
-    track.style.transform = 'translateX(-' + (hotelDestIdx * slideW) + 'px)';
-}
-function autoSlideHotelDest() {
-    const track = document.getElementById('hotelDestTrack');
-    const slides = track.querySelectorAll('.dest-slide');
-    const visibleCount = window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 4;
-    const maxIdx = Math.max(0, slides.length - visibleCount);
-    if (hotelDestIdx >= maxIdx) { hotelDestIdx = 0; } else { hotelDestIdx++; }
-    const slideW = track.querySelector('.dest-slide').offsetWidth;
-    track.style.transform = 'translateX(-' + (hotelDestIdx * slideW) + 'px)';
-}
-function startHotelDestAuto() { hotelDestTimer = setInterval(autoSlideHotelDest, 3000); }
-function stopHotelDestAuto() { clearInterval(hotelDestTimer); }
-document.addEventListener('DOMContentLoaded', function() {
-    startHotelDestAuto();
-    var wrap = document.getElementById('hotelDestSliderWrap');
-    if (wrap) { wrap.addEventListener('mouseenter', stopHotelDestAuto); wrap.addEventListener('mouseleave', startHotelDestAuto); }
-});
 </script>
 @endsection

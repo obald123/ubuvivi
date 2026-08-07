@@ -1,6 +1,6 @@
 @extends("layouts.guest")
 @section('title')
-    Check Payment - Ubuvivi Car Rental
+    Check Payment - Ubuvivi Tours & Travels
 @endsection
 
 @section('css')

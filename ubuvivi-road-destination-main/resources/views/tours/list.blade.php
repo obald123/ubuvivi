@@ -179,6 +179,8 @@
         </div>
     </section>
 
+    @include('partials.back-to-services')
+
     {{-- ── Tours Grid ── --}}
     <section class="tours-grid-section" id="tours-grid">
         <div class="container">
