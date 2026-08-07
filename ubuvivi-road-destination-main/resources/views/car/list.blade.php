@@ -135,6 +135,9 @@
         pointer-events: none;
         font-size: 12px;
     }
+    /* Nice Select (initialised on every select in custom.js) draws its own arrow
+       on the div it substitutes in, which would sit on top of .filter-chevron. */
+    .search-bar .filter-select.nice-select::after { display: none; }
     .search-bar .search-btn {
         background: #C85A2A;
         color: #fff;

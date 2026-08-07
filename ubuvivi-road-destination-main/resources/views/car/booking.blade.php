@@ -8,50 +8,16 @@
     <meta name="description" content="Book {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }} - Ubuvivi Tours & Travels Rwanda">
 @endsection
 
-@section('body-class', 'hero-page')
-
 @section('css')
 <style>
-    /* ── Hero ── */
-    .cars-hero {
-        position: relative;
-        height: 80vh;
-        min-height: 500px;
-        background: url('{{ asset("assets/images/backgrounds/bg_8.jpg") }}') center center / cover no-repeat;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-    .cars-hero::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(0,0,0,.55);
-    }
-    .cars-hero-content {
-        position: relative;
-        z-index: 2;
-        color: #fff;
-        padding-bottom: 80px;
-    }
-    .cars-hero-content h1 {
-        font-size: clamp(36px, 6vw, 64px);
-        font-weight: 800;
-        margin-bottom: 0;
-        text-shadow: 0 2px 16px rgba(0,0,0,.4);
-    }
-
     /* ── Search bar ── */
     .search-bar-wrap {
-        position: absolute;
-        bottom: -36px;
-        left: 50%;
-        transform: translateX(-50%);
+        position: relative;
         z-index: 10;
         width: 90%;
         max-width: 860px;
+        margin: 0 auto;
+        padding-top: 24px;
     }
     .search-bar {
         background: #fff;
@@ -64,53 +30,75 @@
         flex-wrap: wrap;
     }
     .search-bar .filter-group {
-        flex: 1;
+        flex: 1 1 160px;
         min-width: 160px;
-        position: relative;
+        display: flex;
     }
     .search-bar .filter-select {
         width: 100%;
+        height: 48px;
         appearance: none;
         -webkit-appearance: none;
+        -moz-appearance: none;
         border: 1.5px solid #e0e0e0;
         border-radius: 10px;
-        padding: 12px 36px 12px 14px;
+        /* No vertical padding: a fixed height centres the text on its own */
+        padding: 0 38px 0 14px;
         font-size: 14px;
         color: #444;
-        background: #f9f9f9;
+        text-overflow: ellipsis;
+        background-color: #f9f9f9;
+        /* Inline SVG chevron - the old pseudo-element asked for a Font Awesome
+           family this site does not ship, so it rendered a fallback glyph. */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23888' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 12px 8px;
         cursor: pointer;
         outline: none;
-        transition: border-color .2s;
+        transition: border-color .2s, box-shadow .2s, background-color .2s;
     }
-    .search-bar .filter-select:focus { border-color: #C85A2A; }
-    .search-bar .filter-group::after {
-        content: '\f107';
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #888;
-        pointer-events: none;
-        font-size: 13px;
+    /* custom.js runs $('select').niceSelect() site-wide. Nice Select swaps each
+       <select> for a <div> and copies the original classes onto it, so the rules
+       above style that div - and its own built-in arrow then stacks on top of
+       our chevron. Hide theirs, and restore vertical centring (their base rule
+       sets line-height:40px, which is short for our 48px field). */
+    .search-bar .filter-select.nice-select { line-height: 45px; }
+    .search-bar .filter-select.nice-select::after { display: none; }
+
+    .search-bar .filter-select:hover {
+        border-color: #cfd6de;
+        background-color: #fff;
+    }
+    .search-bar .filter-select:focus {
+        border-color: #C85A2A;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(200,90,42,.12);
     }
     .search-bar .search-btn {
         background: #0D1F35;
         color: #fff;
         border: none;
         border-radius: 10px;
-        padding: 12px 28px;
+        height: 48px;
+        padding: 0 28px;
         font-size: 14px;
         font-weight: 600;
         cursor: pointer;
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         transition: background .2s;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     .search-bar .search-btn:hover { background: #C85A2A; }
+    @media (max-width: 575px) {
+        .search-bar { padding: 16px; gap: 10px; }
+        .search-bar .filter-group { flex: 1 1 100%; }
+        .search-bar .search-btn { width: 100%; }
+    }
 
     /* ── Quick Renting Form ── */
     .quick-renting-section {
@@ -274,13 +262,6 @@
 
 @section('content')
 
-    {{-- Hero with filter --}}
-    <section class="cars-hero">
-        <div class="cars-hero-content">
-            <h1>Find Your Perfect Car</h1>
-        </div>
-
-    </section>
     @include('partials.hero-breadcrumbs', ['breadcrumbs' => [['label' => 'Home', 'url' => url('/')], ['label' => 'Cars', 'url' => url('/cars')]]])
 
         <div class="search-bar-wrap">
@@ -320,7 +301,6 @@
                 </div>
             </form>
         </div>
-    </section>
 
     {{-- Quick Renting Form --}}
     <section class="quick-renting-section">
