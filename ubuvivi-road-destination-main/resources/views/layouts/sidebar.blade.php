@@ -37,6 +37,12 @@
             'patterns' => ['admin/hotels*'],
         ],
         [
+            'label' => 'Destinations',
+            'route' => route('admin.destinations.index'),
+            'icon' => 'fas fa-map-marked-alt',
+            'patterns' => ['admin/destinations*'],
+        ],
+        [
             'label' => 'Newsletter',
             'route' => route('admin.subscribers.index'),
             'icon' => 'fas fa-envelope-open-text',

@@ -251,7 +251,7 @@
                        class="dest-slide"
                        aria-label="Show hotels in {{ $d['name'] }}">
                         <div class="hb-dest-card {{ $isActive ? 'is-active' : '' }}">
-                            <div class="hb-dest-img" style="background-image: url('{{ asset($d['img']) }}');"></div>
+                            <div class="hb-dest-img" style="background-image: url('{{ $d['img'] }}');"></div>
                             <div class="hb-dest-body">
                                 <div class="hb-dest-name">{{ $d['name'] }}</div>
                                 <div class="hb-dest-tag">

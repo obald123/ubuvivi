@@ -7,7 +7,10 @@
       "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/app/Http/Controllers/Admin//**)",
       "Bash(grep -r \"width.*px\\\\|min-width\\\\|max-width\" /c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/resources/sass/stisla/override --include=\"*.scss\" -h | head -30)",
       "Read(//c/Users/LENOVO/OneDrive/Desktop/ubuvivi-codebase/ubuvivi-road-destination-main/resources/sass/stisla/override/**)",
-      "Bash(xargs wc -l)"
+      "Bash(xargs wc -l)",
+      "Bash(php -r 'var_dump\\(ini_get\\(\"opcache.enable\"\\), ini_get\\(\"opcache.enable_cli\"\\)\\);')",
+      "Bash(php -r ' *)",
+      "Bash(vendor/bin/phpunit tests/Feature/TempDestinationTest.php --filter test_admin_can_create_destination_with_image)"
     ]
   }
 }

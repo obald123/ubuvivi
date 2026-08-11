@@ -167,6 +167,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/hotels/{id}', [App\Http\Controllers\Admin\HotelController::class, 'update'])->name('admin.hotels.update');
     Route::delete('/admin/hotels/{id}', [App\Http\Controllers\Admin\HotelController::class, 'destroy'])->name('admin.hotels.destroy');
 
+    // Hotel destinations (the cards on the hotel booking page)
+    Route::get('/admin/destinations', [App\Http\Controllers\Admin\DestinationController::class, 'index'])->name('admin.destinations.index');
+    Route::post('/admin/destinations', [App\Http\Controllers\Admin\DestinationController::class, 'store'])->name('admin.destinations.store');
+    Route::get('/admin/destinations/{id}/data', [App\Http\Controllers\Admin\DestinationController::class, 'getData'])->name('admin.destinations.getData');
+    Route::put('/admin/destinations/{id}', [App\Http\Controllers\Admin\DestinationController::class, 'update'])->name('admin.destinations.update');
+    Route::delete('/admin/destinations/{id}', [App\Http\Controllers\Admin\DestinationController::class, 'destroy'])->name('admin.destinations.destroy');
+
     // Newsletter Subscribers
     Route::get('/admin/subscribers', [App\Http\Controllers\Admin\SubscriberController::class, 'index'])->name('admin.subscribers.index');
     Route::delete('/admin/subscribers/{id}', [App\Http\Controllers\Admin\SubscriberController::class, 'destroy'])->name('admin.subscribers.destroy');

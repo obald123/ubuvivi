@@ -195,21 +195,32 @@ class GuestController extends Controller
     }
 
     /**
-     * Destinations shown on the hotel booking page. "nearby" lists the closest
-     * other destinations, used to suggest alternatives when a location has no
-     * hotels of its own.
+     * Destinations shown on the hotel booking page, managed from the admin.
+     * "nearby" is stored by id but flattened to names here, because the hotel
+     * lookup matches on the location text rather than on a foreign key.
      */
     private function hotelDestinations()
     {
-        return [
-            ['name' => 'Kigali',  'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/download (6).jpg', 'nearby' => ['Musanze', 'Huye', 'Akagera']],
-            ['name' => 'Musanze', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/download (7).jpg', 'nearby' => ['Rubavu', 'Kigali']],
-            ['name' => 'Rubavu',  'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/download (8).jpg', 'nearby' => ['Musanze', 'Karongi']],
-            ['name' => 'Karongi', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/images.jpg',       'nearby' => ['Rubavu', 'Nyungwe', 'Kigali']],
-            ['name' => 'Nyungwe', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/bg_7.jpg',         'nearby' => ['Huye', 'Karongi']],
-            ['name' => 'Akagera', 'tag' => 'Rwanda', 'img' => 'assets/images/backgrounds/bg_8.jpg',         'nearby' => ['Kigali']],
-            ['name' => 'Huye',    'tag' => 'Rwanda', 'img' => 'images/huye.jpg',                            'nearby' => ['Nyungwe', 'Kigali']],
-        ];
+        $rows = \App\Models\Destination::where('active', true)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+
+        $namesById = $rows->pluck('name', 'id');
+
+        return $rows->map(function ($destination) use ($namesById) {
+            return [
+                'id'     => $destination->id,
+                'name'   => $destination->name,
+                'tag'    => $destination->tag ?: 'Rwanda',
+                'img'    => $destination->image_url,
+                'nearby' => collect($destination->nearby ?? [])
+                    ->map(function ($id) use ($namesById) { return $namesById[$id] ?? null; })
+                    ->filter()
+                    ->values()
+                    ->all(),
+            ];
+        })->all();
     }
 
     /**

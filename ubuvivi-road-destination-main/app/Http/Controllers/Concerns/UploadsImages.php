@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Concerns;
 
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -72,7 +73,9 @@ trait UploadsImages
         $files = $request->file($fieldName);
         Log::info('Attempting multiple images upload for field: ' . $fieldName . ' (Count: ' . (is_array($files) ? count($files) : 1) . ')');
 
-        foreach ((array) $files as $file) {
+        // Arr::wrap, not (array): casting a single UploadedFile object to array
+        // yields its properties rather than a one-element list of the file.
+        foreach (Arr::wrap($files) as $file) {
             if (!$file || !($file instanceof UploadedFile) || !$file->isValid()) {
                 Log::warning('Invalid file encountered in uploadImages', ['file' => $file]);
                 continue;
