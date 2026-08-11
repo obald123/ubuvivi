@@ -354,12 +354,26 @@
         max-width: 100%;
         max-height: 60px;
         object-fit: contain;
-        filter: none;
-        opacity: 1;
+        filter: brightness(0);
+        opacity: .75;
         transition: filter .25s, opacity .25s, background-color .25s;
     }
-    /* Logos whose real artwork is white need a dark backdrop to stay visible */
-    .partner-logo-box.partner-dark-hover {
+    .partner-logo-box:hover img {
+        filter: none;
+        opacity: 1;
+    }
+    /* The EU mark is a filled flag rather than a transparent logo, so
+       brightness(0) would flatten it into a plain black rectangle and lose the
+       stars. Desaturating keeps the flag readable in the monochrome state. */
+    .partner-logo-box.partner-flag img {
+        filter: grayscale(100%);
+    }
+    .partner-logo-box.partner-flag:hover img {
+        filter: none;
+    }
+    /* Gofan's artwork is white: blacked out it reads fine on the light box, but
+       once its real colour returns on hover it needs a dark backdrop. */
+    .partner-logo-box.partner-dark-hover:hover {
         background: var(--navy, #0D1F35);
     }
     .partner-logo-box .partner-fallback {
@@ -655,7 +669,7 @@
                 @php
                     $partners = [
                         ['name' => 'GAIN',           'logo' => asset('assets/images/partners/logo-gain-health.svg')],
-                        ['name' => 'EU',             'logo' => asset('assets/images/partners/eu.png'), 'class' => 'partner-no-invert'],
+                        ['name' => 'EU',             'logo' => asset('assets/images/partners/eu.png'), 'class' => 'partner-flag'],
                         ['name' => 'Gofan',          'logo' => asset('assets/images/partners/Gofan-White-logo.png'), 'class' => 'partner-dark-hover'],
                         ['name' => 'FCM',            'logo' => asset('assets/images/partners/fcm.svg')],
                         ['name' => 'Umalimu SACCO',  'logo' => asset('assets/images/partners/umalimu-sacco-logo.png')],
