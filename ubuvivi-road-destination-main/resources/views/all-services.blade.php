@@ -185,6 +185,46 @@
     .service-card-search-link:hover { background: #C85A2A; color: #fff !important; text-decoration: none; }
     /* Make non-link cards still look clickable */
     .service-card-clickable { cursor: pointer; }
+
+    /* ── News & Upcoming Events ── */
+    .news-section { background: #fff; padding: 20px 0 90px; }
+    .news-card {
+        background: #f8f8f8;
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: transform .25s, box-shadow .25s;
+    }
+    .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,.10);
+        text-decoration: none;
+        color: inherit;
+    }
+    .news-card-img { width: 100%; height: 170px; object-fit: cover; display: block; }
+    .news-card-no-img {
+        width: 100%; height: 170px;
+        background: linear-gradient(135deg, #0D1F35, #1e3a5f);
+        display: flex; align-items: center; justify-content: center;
+    }
+    .news-card-no-img i { font-size: 30px; color: rgba(255,255,255,.25); }
+    .news-card-body { padding: 18px 20px 22px; flex: 1; display: flex; flex-direction: column; }
+    .news-card-tag {
+        display: inline-block; align-self: flex-start;
+        padding: 3px 12px; border-radius: 50px;
+        font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+        margin-bottom: 10px;
+    }
+    .news-card-tag.tag-news     { background: #e0f2fe; color: #0369a1; }
+    .news-card-tag.tag-event    { background: #ede9fe; color: #7c3aed; }
+    .news-card-tag.tag-tour     { background: #fff0e8; color: #C85A2A; }
+    .news-card-tag.tag-upcoming { background: #dcfce7; color: #16a34a; }
+    .news-card-title { font-size: 16px; font-weight: 700; color: #1a1a1a; line-height: 1.4; margin-bottom: auto; padding-bottom: 14px; }
+    .news-card-date { font-size: 12px; color: #999; }
 </style>
 @endsection
 
@@ -337,6 +377,46 @@
             @endif
         </div>
     </section>
+
+    {{-- ── News & Upcoming Events ── --}}
+    @if($newsPosts->count())
+    <section class="news-section">
+        <div class="container">
+            <div class="text-center mb-2">
+                <span class="section-label" style="justify-content:center;">Stay in the Loop</span>
+                <h2 class="section-heading">Latest News &amp; Upcoming Events</h2>
+                <p class="section-sub">See what's happening at Ubuvivi before you plan your trip.</p>
+            </div>
+
+            <div class="row g-4">
+                @foreach($newsPosts as $post)
+                <div class="col-md-6 col-lg-4">
+                    <a href="{{ route('blog.show', $post->slug) }}" class="news-card">
+                        @if($post->image)
+                            <img src="{{ $post->image }}" alt="{{ $post->title }}" class="news-card-img">
+                        @else
+                            <div class="news-card-no-img"><i class="fas fa-newspaper"></i></div>
+                        @endif
+                        <div class="news-card-body">
+                            <span class="news-card-tag tag-{{ $post->category }}">{{ $post->category_label }}</span>
+                            <div class="news-card-title">{{ $post->title }}</div>
+                            <span class="news-card-date">
+                                {{ ($post->published_at ?? $post->created_at)->format('M j, Y') }}
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{{ route('blog.index') }}" style="color:#C85A2A;font-size:14px;font-weight:600;text-decoration:none;">
+                    <i class="fas fa-newspaper" style="margin-right:6px;"></i>View All News &amp; Events
+                </a>
+            </div>
+        </div>
+    </section>
+    @endif
 
 @endsection
 

@@ -108,7 +108,15 @@ class GuestController extends Controller
 
     public function all_services()
     {
-        return view("all-services");
+        // "Event" and "upcoming" posts surface first so trip planners see what's
+        // coming up before older general news.
+        $newsPosts = BlogPost::where('published', true)
+            ->orderByRaw("category IN ('event', 'upcoming') DESC")
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+
+        return view("all-services", compact('newsPosts'));
     }
 
     public function services()
