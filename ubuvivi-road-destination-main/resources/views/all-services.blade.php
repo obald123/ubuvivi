@@ -63,6 +63,31 @@
     /* add extra vertical gap between grid rows to avoid touching next section */
     .all-services-section .row { row-gap: 1.75rem; }
 
+    /* ── Mobile: horizontal touch-swipe slider instead of a stacked grid ── */
+    @media (max-width: 767.98px) {
+        .services-slider {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            overflow-y: hidden;
+            row-gap: 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            margin-left: -4px;
+            margin-right: -4px;
+            padding: 4px 4px 14px;
+        }
+        .services-slider::-webkit-scrollbar { display: none; }
+        .services-slider > [class*="col-"] {
+            flex: 0 0 84%;
+            max-width: 84%;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+        }
+    }
+
     .section-label {
         display: inline-flex;
         align-items: center;
@@ -268,7 +293,7 @@
                 @endif
             </div>
 
-            <div class="row g-4">
+            <div class="row g-4 services-slider">
 
                 {{-- 1. Tours & Travel — always first --}}
                 <div class="col-md-6 col-lg-4">
