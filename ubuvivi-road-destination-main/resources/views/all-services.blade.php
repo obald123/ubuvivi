@@ -379,7 +379,7 @@
     </section>
 
     {{-- ── News & Upcoming Events ── --}}
-    @if($newsPosts->count())
+    @if($isPlanMode && $newsPosts->count())
     <section class="news-section">
         <div class="container">
             <div class="text-center mb-2">
@@ -426,7 +426,8 @@
     var videos = [
         "{{ asset('videos/giraffes.mp4') }}",
         "{{ asset('videos/Man_driving_car_in_Kigali_202605240630.mp4') }}",
-        "{{ asset('videos/Jet_soaring_through_clear_sky_202605240346.mp4') }}"
+        "{{ asset('videos/Jet_soaring_through_clear_sky_202605240346.mp4') }}",
+        "{{ asset('videos/hall.mp4') }}"
     ];
     var idx = 0;
     var vid = document.getElementById('servicesHeroVideo');

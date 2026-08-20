@@ -539,9 +539,11 @@
                 </a>
             </div>
 
-            {{-- Slide 5: Conference Planning — conference image --}}
+            {{-- Slide 5: Conference Planning — conference hall video --}}
             <div class="carousel-item" data-interval="8000">
-                <div class="slide-bg-img" style="background-image:url('{{ asset('images/conference-hero.webp') }}')"></div>
+                <video class="slide-bg-video" id="hero-vid-4" autoplay muted loop playsinline>
+                    <source src="{{ asset('videos/hall.mp4') }}" type="video/mp4">
+                </video>
                 <a href="{{ route('guest.events') }}" class="hero-slide">
                     <div class="hero-slide-content">
                         <h1>Professional Conferences<br>in Rwanda</h1>
@@ -795,7 +797,8 @@ $(document).ready(function () {
     var vid0 = document.getElementById('hero-vid-0');
     var vid1 = document.getElementById('hero-vid-1');
     var vid2 = document.getElementById('hero-vid-2');
-    var videoMap = { 0: vid0, 1: vid1, 2: vid2 };
+    var vid4 = document.getElementById('hero-vid-4');
+    var videoMap = { 0: vid0, 1: vid1, 2: vid2, 4: vid4 };
     var DEFAULT_MS = 8000;
 
     /* ── Set carousel interval from each video's natural duration ── */
@@ -804,24 +807,23 @@ $(document).ready(function () {
         function onMeta() {
             var ms = Math.max(3000, Math.round(video.duration * 1000));
             var $items = $carousel.find('.carousel-item');
-            /* video slides use their own duration; image slides match the longest video */
+            /* video slides use their own duration; image-only slide 3 matches the longest video */
             $items.eq(slideIdx).attr('data-interval', ms);
-            /* Apply same timing to image-only slides */
             $items.eq(3).attr('data-interval', ms);
-            $items.eq(4).attr('data-interval', ms);
         }
         if (video.readyState >= 1) { onMeta(); } else { video.addEventListener('loadedmetadata', onMeta); }
     }
     applyVideoDuration(vid0, 0);
     applyVideoDuration(vid1, 1);
     applyVideoDuration(vid2, 2);
+    applyVideoDuration(vid4, 4);
 
     /* ── Init carousel (Bootstrap picks up per-slide data-interval automatically) ── */
     $carousel.carousel({ ride: 'carousel' });
 
     /* ── Pause all videos before the slide animates away ── */
     $carousel.on('slide.bs.carousel', function (e) {
-        [vid0, vid1, vid2].forEach(function (v) { if (v) v.pause(); });
+        [vid0, vid1, vid2, vid4].forEach(function (v) { if (v) v.pause(); });
         /* Reset slide-up text animation */
         $(e.relatedTarget).find('.hero-slide-content').css('animation', 'none');
     });

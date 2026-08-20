@@ -10,7 +10,11 @@
       "Bash(xargs wc -l)",
       "Bash(php -r 'var_dump\\(ini_get\\(\"opcache.enable\"\\), ini_get\\(\"opcache.enable_cli\"\\)\\);')",
       "Bash(php -r ' *)",
-      "Bash(vendor/bin/phpunit tests/Feature/TempDestinationTest.php --filter test_admin_can_create_destination_with_image)"
+      "Bash(vendor/bin/phpunit tests/Feature/TempDestinationTest.php --filter test_admin_can_create_destination_with_image)",
+      "Bash(grep -n \"use App\\\\\\\\\\\\\\\\Models\\\\\\\\\\\\\\\\BlogPost\" app/Http/Controllers/GuestController.php)",
+      "Bash(php -l resources/views/all-services.blade.php)",
+      "Bash(curl -s -m 40 -o /dev/null -w \"final check /our-services: %{http_code}\\\\n\" http://127.0.0.1:8931/our-services)",
+      "Bash(curl -s -m 40 -o /dev/null -w \"final check /our-services?plan=1: %{http_code}\\\\n\" \"http://127.0.0.1:8931/our-services?plan=1\")"
     ]
   }
 }

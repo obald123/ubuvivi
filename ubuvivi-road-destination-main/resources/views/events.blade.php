@@ -18,17 +18,26 @@
         position: relative;
         height: 480px;
         min-height: 380px;
-        background: url('{{ asset("images/conference-hero.webp") }}') center center / cover no-repeat;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
+    }
+    .events-hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
     }
     .events-hero::after {
         content: '';
         position: absolute;
         inset: 0;
         background: rgba(13, 31, 53, 0.60);
+        z-index: 1;
     }
     .events-hero-content {
         position: relative;
@@ -207,6 +216,9 @@
 
     {{-- Hero --}}
     <section class="events-hero">
+        <video class="events-hero-video" autoplay muted loop playsinline>
+            <source src="{{ asset('videos/hall.mp4') }}" type="video/mp4">
+        </video>
         <div class="events-hero-content">
             <h1>Make Your Event Memorable</h1>
             <p>From idea to execution — we handle every detail.</p>
