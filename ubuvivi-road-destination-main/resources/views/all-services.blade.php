@@ -471,7 +471,7 @@
     if (!slider) return;
 
     var mq = window.matchMedia('(max-width: 767.98px)');
-    var AUTOPLAY_MS = 3500;
+    var AUTOPLAY_MS = 3000;
     var RESUME_DELAY_MS = 4000;
     var SNAP_BACK_MS = 500;
 

@@ -112,7 +112,7 @@
         }
 
         .ubu-footer .footer-subscribe-text h3 {
-            font-size: 24px;
+            font-size: clamp(20px, 5vw, 24px);
             font-weight: 700;
             margin: 0;
             color: #fff;
@@ -304,6 +304,22 @@
             .ubu-footer .footer-cols-row {
                 flex-direction: column;
                 gap: 24px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .ubu-footer .subscribe-form {
+                flex-direction: column;
+            }
+
+            .ubu-footer .subscribe-form input,
+            .ubu-footer .subscribe-form button {
+                width: 100%;
+                min-width: 100%;
+            }
+
+            .ubu-footer .subscribe-form button {
+                justify-content: center;
             }
         }
 
