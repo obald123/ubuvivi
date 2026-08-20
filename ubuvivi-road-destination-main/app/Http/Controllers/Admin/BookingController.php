@@ -162,25 +162,72 @@ class BookingController extends Controller
             'type' => $this->resolveTypeLabel($booking, $modelType),
             'status' => $this->getBookingStatus($booking),
             'date' => $this->formatBookingDate($date),
+            'booked_on' => $booking->created_at ? $booking->created_at->format('d F Y, h:i A') : 'N/A',
             'client' => $booking->names,
             'email' => $booking->email,
             'phone' => $booking->phone_number,
             'message' => $booking->message ?: ($booking->additional_info ?? 'No extra details provided.'),
             'price'   => $booking->price ?? null,
-        ] + ($modelType === 'FlightBooking' ? [
-            'location'       => $booking->departure_airport ?? null,
-            'destination'    => $booking->arrival_airport ?? null,
-            'number_of_people' => $booking->number_of_passengers ?? null,
-        ] : ($modelType === 'HotelBooking' ? [
-            'location'       => $booking->check_in  ? 'Check-in: '  . $booking->check_in->format('d M Y')  : null,
-            'destination'    => $booking->check_out ? 'Check-out: ' . $booking->check_out->format('d M Y') : null,
-            'number_of_people' => $booking->number_of_guests ?? null,
-        ] : [
-            'location'       => $booking->pickup_location ?? $booking->delivery_location ?? null,
-            'destination'    => $booking->destination ?? null,
-            'number_of_days' => $booking->number_of_days ?? null,
-            'number_of_people' => $booking->number_of_people ?? null,
-        ]));
+            'extra'   => $this->resolveExtraDetails($booking, $modelType),
+        ];
+    }
+
+    private function resolveExtraDetails($booking, string $modelType): array
+    {
+        $rows = [];
+
+        switch ($modelType) {
+            case 'TourBooking':
+                $rows[] = ['label' => 'Tour', 'value' => $booking->tour->title ?? null];
+                $rows[] = ['label' => 'People', 'value' => $booking->number_of_people ?? null];
+                break;
+
+            case 'CarBooking':
+                $vehicle = $booking->vehicle?->first();
+                $rows[] = ['label' => 'Vehicle', 'value' => $vehicle ? trim(($vehicle->brand->name ?? '') . ' ' . ($vehicle->model->name ?? '') . ' ' . ($vehicle->production_year ?? '')) : null];
+                $rows[] = ['label' => 'Booking Type', 'value' => $booking->booking_type ?? null];
+                $rows[] = ['label' => 'Delivery Location', 'value' => $booking->delivery_location ?? null];
+                $rows[] = ['label' => 'Delivery Date', 'value' => $booking->delivery_date ?? null];
+                $rows[] = ['label' => 'Delivery Time', 'value' => $booking->delivery_time ?? null];
+                $rows[] = ['label' => 'Return Date', 'value' => $booking->return_date ?? null];
+                $rows[] = ['label' => 'Return Time', 'value' => $booking->return_time ?? null];
+                $rows[] = ['label' => 'Destination', 'value' => $booking->destination ?? null];
+                $rows[] = ['label' => 'Number of Days', 'value' => $booking->number_of_days ?? null];
+                break;
+
+            case 'CarTransfer':
+                $vehicle = $booking->vehicle?->first();
+                $rows[] = ['label' => 'Vehicle', 'value' => $vehicle ? trim(($vehicle->brand->name ?? '') . ' ' . ($vehicle->model->name ?? '') . ' ' . ($vehicle->production_year ?? '')) : null];
+                $rows[] = ['label' => 'Pickup Location', 'value' => $booking->pickup_location ?? null];
+                $rows[] = ['label' => 'Pickup Date', 'value' => $booking->pickup_date ?? null];
+                $rows[] = ['label' => 'Pickup Time', 'value' => $booking->pickup_time ?? null];
+                $rows[] = ['label' => 'Destination', 'value' => $booking->destination ?? null];
+                $rows[] = ['label' => 'Number of Days', 'value' => $booking->number_of_days ?? null];
+                break;
+
+            case 'FlightBooking':
+                $rows[] = ['label' => 'Airline', 'value' => $booking->airline ?? null];
+                $rows[] = ['label' => 'Trip Type', 'value' => $booking->trip_type ? ucfirst($booking->trip_type) : null];
+                $rows[] = ['label' => 'Class', 'value' => $booking->flight_class_label ?? null];
+                $rows[] = ['label' => 'Departure Airport', 'value' => $booking->departure_airport ?? null];
+                $rows[] = ['label' => 'Arrival Airport', 'value' => $booking->arrival_airport ?? null];
+                $rows[] = ['label' => 'Destination Country', 'value' => $booking->destination_country ?? null];
+                $rows[] = ['label' => 'Departure Date', 'value' => optional($booking->departure_date)->format('d M Y')];
+                $rows[] = ['label' => 'Return Date', 'value' => optional($booking->return_date)->format('d M Y')];
+                $rows[] = ['label' => 'Passengers', 'value' => $booking->number_of_passengers ?? null];
+                break;
+
+            case 'HotelBooking':
+                $rows[] = ['label' => 'Hotel', 'value' => optional($booking->hotel)->name ?? $booking->booking_com_hotel_name ?? null];
+                $rows[] = ['label' => 'Room Type', 'value' => $booking->room_type ?? null];
+                $rows[] = ['label' => 'Check-in', 'value' => optional($booking->check_in)->format('d M Y')];
+                $rows[] = ['label' => 'Check-out', 'value' => optional($booking->check_out)->format('d M Y')];
+                $rows[] = ['label' => 'Guests', 'value' => $booking->number_of_guests ?? null];
+                $rows[] = ['label' => 'Source', 'value' => $booking->source ?? null];
+                break;
+        }
+
+        return array_values(array_filter($rows, fn ($row) => filled($row['value'])));
     }
 
     private function resolveServiceLabel(string $modelType): string

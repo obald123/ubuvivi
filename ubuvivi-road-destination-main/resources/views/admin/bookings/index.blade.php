@@ -631,11 +631,10 @@ function openBookingModal(data, mtype, mid) {
     activeModelType = mtype;
     activeModelId   = mid;
 
-    var optionalRows = '';
-    if (data.location)         optionalRows += '<div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">' + escapeHtml(data.location) + '</span></div>';
-    if (data.destination)      optionalRows += '<div class="detail-row"><span class="detail-label">Destination</span><span class="detail-value">' + escapeHtml(data.destination) + '</span></div>';
-    if (data.number_of_days)   optionalRows += '<div class="detail-row"><span class="detail-label">Days</span><span class="detail-value">' + escapeHtml(String(data.number_of_days)) + '</span></div>';
-    if (data.number_of_people) optionalRows += '<div class="detail-row"><span class="detail-label">People</span><span class="detail-value">' + escapeHtml(String(data.number_of_people)) + '</span></div>';
+    var extraRows = '';
+    (data.extra || []).forEach(function (row) {
+        extraRows += '<div class="detail-row"><span class="detail-label">' + escapeHtml(row.label) + '</span><span class="detail-value">' + escapeHtml(String(row.value)) + '</span></div>';
+    });
 
     body.innerHTML =
         '<div class="detail-section">' +
@@ -648,9 +647,11 @@ function openBookingModal(data, mtype, mid) {
             '<h3>Booking</h3>' +
             '<div class="detail-row"><span class="detail-label">Service</span><span class="detail-value">' + escapeHtml(data.service || 'N/A') + '</span></div>' +
             '<div class="detail-row"><span class="detail-label">Details</span><span class="detail-value">' + escapeHtml(data.type || 'N/A') + '</span></div>' +
-            '<div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">' + escapeHtml(data.date || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Booked On</span><span class="detail-value">' + escapeHtml(data.booked_on || 'N/A') + '</span></div>' +
+            '<div class="detail-row"><span class="detail-label">Travel Date</span><span class="detail-value">' + escapeHtml(data.date || 'N/A') + '</span></div>' +
             '<div class="detail-row"><span class="detail-label">Status</span><span class="detail-value" id="modalStatusLabel">' + escapeHtml(data.status || 'N/A') + '</span></div>' +
-            optionalRows +
+            (data.price ? '<div class="detail-row"><span class="detail-label">Price</span><span class="detail-value">' + escapeHtml(String(data.price)) + '</span></div>' : '') +
+            extraRows +
         '</div>' +
         (data.message ? '<div class="detail-section"><h3>Notes</h3><div class="detail-row"><span class="detail-value" style="text-align:left;">' + escapeHtml(data.message) + '</span></div></div>' : '');
 
