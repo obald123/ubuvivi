@@ -465,5 +465,156 @@
         });
     }
 })();
+
+(function() {
+    var slider = document.querySelector('.services-slider');
+    if (!slider) return;
+
+    var mq = window.matchMedia('(max-width: 767.98px)');
+    var AUTOPLAY_MS = 3500;
+    var RESUME_DELAY_MS = 4000;
+    var SNAP_BACK_MS = 500;
+
+    var autoplayId = null;
+    var resumeTimeoutId = null;
+    var snapBackTimeoutId = null;
+    var visualIndex = 0;
+    var cloneAdded = false;
+    var bound = false;
+
+    function items() {
+        return Array.prototype.slice.call(slider.children);
+    }
+
+    function addClone() {
+        if (cloneAdded) return;
+        var original = items();
+        if (original.length < 2) return;
+        var clone = original[0].cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        clone.classList.add('services-slider-clone');
+        slider.appendChild(clone);
+        cloneAdded = true;
+    }
+
+    function removeClone() {
+        var clone = slider.querySelector('.services-slider-clone');
+        if (clone) clone.remove();
+        cloneAdded = false;
+    }
+
+    function scrollToIndex(index, smooth) {
+        var target = items()[index];
+        if (!target) return;
+        var delta = target.getBoundingClientRect().left - slider.getBoundingClientRect().left;
+        slider.scrollTo({ left: slider.scrollLeft + delta, behavior: smooth ? 'smooth' : 'auto' });
+    }
+
+    function nearestIndex() {
+        var sliderLeft = slider.getBoundingClientRect().left;
+        var closest = 0;
+        var closestDist = Infinity;
+        items().forEach(function(item, i) {
+            var dist = Math.abs(item.getBoundingClientRect().left - sliderLeft);
+            if (dist < closestDist) { closestDist = dist; closest = i; }
+        });
+        return closest;
+    }
+
+    function stopAutoplay() {
+        if (autoplayId) { window.clearInterval(autoplayId); autoplayId = null; }
+    }
+
+    function startAutoplay() {
+        stopAutoplay();
+        autoplayId = window.setInterval(advance, AUTOPLAY_MS);
+    }
+
+    function advance() {
+        var total = items().length;
+        visualIndex++;
+        scrollToIndex(visualIndex, true);
+
+        var onLastSlot = cloneAdded && visualIndex === total - 1;
+        if (onLastSlot) {
+            snapBackTimeoutId = window.setTimeout(function() {
+                visualIndex = 0;
+                scrollToIndex(0, false);
+            }, SNAP_BACK_MS);
+        } else if (visualIndex >= total) {
+            visualIndex = 0;
+            scrollToIndex(0, true);
+        }
+    }
+
+    function pauseForInteraction() {
+        stopAutoplay();
+        if (resumeTimeoutId) window.clearTimeout(resumeTimeoutId);
+        if (snapBackTimeoutId) window.clearTimeout(snapBackTimeoutId);
+    }
+
+    function resumeAfterInteraction() {
+        if (resumeTimeoutId) window.clearTimeout(resumeTimeoutId);
+        resumeTimeoutId = window.setTimeout(function() {
+            var nearest = nearestIndex();
+            var total = items().length;
+            if (cloneAdded && nearest === total - 1) {
+                nearest = 0;
+                scrollToIndex(0, false);
+            }
+            visualIndex = nearest;
+            startAutoplay();
+        }, RESUME_DELAY_MS);
+    }
+
+    function bindInteractionEvents() {
+        if (bound) return;
+        slider.addEventListener('touchstart', pauseForInteraction, { passive: true });
+        slider.addEventListener('touchend', resumeAfterInteraction, { passive: true });
+        slider.addEventListener('pointerdown', pauseForInteraction, { passive: true });
+        slider.addEventListener('pointerup', resumeAfterInteraction, { passive: true });
+        bound = true;
+    }
+
+    function unbindInteractionEvents() {
+        if (!bound) return;
+        slider.removeEventListener('touchstart', pauseForInteraction);
+        slider.removeEventListener('touchend', resumeAfterInteraction);
+        slider.removeEventListener('pointerdown', pauseForInteraction);
+        slider.removeEventListener('pointerup', resumeAfterInteraction);
+        bound = false;
+    }
+
+    function enable() {
+        addClone();
+        visualIndex = 0;
+        scrollToIndex(0, false);
+        bindInteractionEvents();
+        startAutoplay();
+    }
+
+    function disable() {
+        stopAutoplay();
+        if (resumeTimeoutId) window.clearTimeout(resumeTimeoutId);
+        if (snapBackTimeoutId) window.clearTimeout(snapBackTimeoutId);
+        unbindInteractionEvents();
+        removeClone();
+    }
+
+    function evaluateBreakpoint() {
+        if (mq.matches) { enable(); } else { disable(); }
+    }
+
+    evaluateBreakpoint();
+    if (mq.addEventListener) {
+        mq.addEventListener('change', evaluateBreakpoint);
+    } else if (mq.addListener) {
+        mq.addListener(evaluateBreakpoint);
+    }
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) { stopAutoplay(); } else if (mq.matches) { startAutoplay(); }
+    });
+})();
 </script>
 @endsection
