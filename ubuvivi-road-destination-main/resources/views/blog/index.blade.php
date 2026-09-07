@@ -5,6 +5,10 @@
 <meta name="description" content="Latest news, events, and upcoming tours from Ubuvivi Tours & Safaris Rwanda.">
 @endsection
 
+@section('og_description')
+Latest news, events, and upcoming tours from Ubuvivi Tours & Safaris Rwanda.
+@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')

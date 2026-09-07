@@ -23,7 +23,7 @@ console_command = "php /var/www/html/artisan tinker"
   SESSION_DRIVER = "cookie"
   SESSION_SECURE_COOKIE = "true"
   PORT = "8080"
-  APP_URL = "https://ubuvivitours.com"
+  APP_URL = "https://ubuvivitoursandtravel.com"
 
 [[services]]
   internal_port = 8080

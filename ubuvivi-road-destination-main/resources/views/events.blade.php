@@ -9,6 +9,10 @@
     <meta name="keywords" content="ubuvivi, event planning Rwanda, conference planning Kigali, corporate events Rwanda, wedding planning Rwanda">
 @endsection
 
+@section('og_description')
+    Professional event planning services in Rwanda by Ubuvivi. From intimate gatherings to grand celebrations — we plan it all.
+@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')

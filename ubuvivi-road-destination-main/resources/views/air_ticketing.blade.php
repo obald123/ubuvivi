@@ -9,6 +9,10 @@
     <meta name="keywords" content="air ticketing Rwanda, flights from Kigali, book flights Rwanda, RwandaAir, Ubuvivi flights">
 @endsection
 
+@section('og_description')
+    Book flights with Ubuvivi Tours & Safaris. Find the best routes, prices, and travel options from Kigali worldwide.
+@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')

@@ -8,6 +8,7 @@
         Car Rental Booking — {{ $booking->names }} | Ubuvivi Tours & Travels
     @endif
 @endsection
+@section('meta')<meta name="robots" content="noindex, nofollow">@endsection
 
 @section('content')
 @php

@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 @section('title') {{ $detail['hotel_name'] ?? $cardData['hotel_name'] }} - Book Hotel - Ubuvivi Tours @endsection
+@section('meta')<meta name="robots" content="noindex, nofollow">@endsection
 
 @section('content')
 @php

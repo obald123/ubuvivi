@@ -5,6 +5,9 @@
 <meta name="description" content="{{ $post->excerpt ?? Str::limit(strip_tags($post->content), 160) }}">
 @endsection
 
+@section('og_description'){{ $post->excerpt ?? Str::limit(strip_tags($post->content), 200) }}@endsection
+@section('og_image'){{ $post->image ?? asset('images/blog-hero.jpg') }}@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')

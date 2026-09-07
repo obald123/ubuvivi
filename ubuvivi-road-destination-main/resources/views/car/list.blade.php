@@ -10,6 +10,10 @@
     <meta name="keywords" content="ubuvivi, Rwanda Cars for Rental, Car Rentals in Kigali, Kigali Car Rentals">
 @endsection
 
+@section('og_description')
+    The best car hire, 4x4 rentals, and self-drive services in Kigali, Rwanda — well-maintained vehicles at competitive rates.
+@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')

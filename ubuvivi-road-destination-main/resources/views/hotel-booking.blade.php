@@ -9,6 +9,10 @@
     <meta name="keywords" content="hotel booking Rwanda, hotels Kigali, accommodation Rwanda, Ubuvivi hotels">
 @endsection
 
+@section('og_description')
+    Find and book the best hotels in Rwanda and across Africa with Ubuvivi Tours & Safaris. Great rates, top locations.
+@endsection
+
 @section('css')
 <style>
     :root { --orange: #C85A2A; --navy: #0D1F35; }

@@ -53,6 +53,8 @@ class Kernel extends ConsoleKernel
             }
         )->everyMinute()->name("resolve_payments")
             ->withoutOverlapping();
+
+        $schedule->command('sitemap:generate')->daily()->name('generate_sitemap')->withoutOverlapping();
     }
 
     /**

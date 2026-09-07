@@ -224,6 +224,10 @@
                     <div class="contact-form-wrap">
                         <span class="section-label-white">Send a Message</span>
                         <h2>We'll get back to you<br>as soon as possible.</h2>
+                        @php
+                            $__contactFlashSuccess = collect(session('flash_notification', collect()))
+                                ->contains(fn ($m) => ($m['level'] ?? null) === 'success');
+                        @endphp
                         @include('flash::message')
                         <form action="{{ url('/contact') }}" method="POST">
                             @csrf
@@ -255,4 +259,14 @@
         </iframe>
     </section>
 
+@endsection
+
+@section('scripts')
+@if($__contactFlashSuccess ?? false)
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'contact_form_submit', { event_category: 'engagement' });
+    }
+</script>
+@endif
 @endsection

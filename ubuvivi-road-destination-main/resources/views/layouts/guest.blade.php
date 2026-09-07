@@ -6,9 +6,49 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,viewport-fit=cover">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@yield('title', 'Ubuvivi Tours & Safaris')</title>
+    @php
+        $__clean = fn ($s) => trim(preg_replace('/\s+/', ' ', (string) $s));
+        $__ogTitle = $__clean($__env->yieldContent('title', 'Ubuvivi Tours & Safaris'));
+        $__ogDescription = $__clean($__env->yieldContent('og_description', 'Rwanda tours, car rentals, airport transfers, flight bookings, hotel bookings, and conference planning — all handled by Ubuvivi Tours & Safaris.'));
+        $__ogImage = $__clean($__env->yieldContent('og_image', asset('images/services-hero.jpg')));
+    @endphp
+    <title>{{ $__ogTitle }}</title>
     @yield('meta')
-    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="canonical" href="{{ url(request()->path()) }}">
+
+    {{-- ── Open Graph / Twitter Card ── --}}
+    <meta property="og:site_name" content="Ubuvivi Tours & Safaris">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url(request()->path()) }}">
+    <meta property="og:title" content="{{ $__ogTitle }}">
+    <meta property="og:description" content="{{ $__ogDescription }}">
+    <meta property="og:image" content="{{ $__ogImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $__ogTitle }}">
+    <meta name="twitter:description" content="{{ $__ogDescription }}">
+    <meta name="twitter:image" content="{{ $__ogImage }}">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "Ubuvivi Tours & Safaris",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('img/android-chrome-512x512.png') }}",
+        "image": "{{ asset('images/services-hero.jpg') }}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Remera - Kisimenti KG11 Ave, Amahoro Stadium Road, Ikaze house, 3rd floor",
+            "addressLocality": "Kigali",
+            "addressCountry": "RW"
+        },
+        "sameAs": [
+            "https://www.facebook.com/profile.php?id=100077752760078",
+            "https://www.instagram.com/ubuvivitours/"
+        ]
+    }
+    </script>
+
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -527,14 +567,14 @@
             }
         });
     </script>
-    @yield('scripts')
-    <script defer="defer" async src="https://www.googletagmanager.com/gtag/js?id=G-NK2XGT17DH"></script>
+    <script defer="defer" async src="https://www.googletagmanager.com/gtag/js?id=G-RLLMLY38EP"></script>
     <script defer="defer">
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-NK2XGT17DH');
+        gtag('config', 'G-RLLMLY38EP');
     </script>
+    @yield('scripts')
     <script defer="defer">
         document.addEventListener('DOMContentLoaded', function() {
             var url = 'https://wati-integration-service.clare.ai/ShopifyWidget/shopifyWidget.js?41437';

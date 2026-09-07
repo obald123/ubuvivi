@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 @section('title') Flight Booking — {{ $booking->names }} - Ubuvivi Tours @endsection
+@section('meta')<meta name="robots" content="noindex, nofollow">@endsection
 
 @section('content')
 <style>

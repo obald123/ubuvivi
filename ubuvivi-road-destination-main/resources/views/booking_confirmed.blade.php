@@ -4,6 +4,10 @@
     Request Submitted - Ubuvivi
 @endsection
 
+@section('meta')
+    <meta name="robots" content="noindex, nofollow">
+@endsection
+
 @section('css')
 <style>
     .bc-section {
@@ -111,4 +115,15 @@
         <a href="{{ route('guest.home') }}" class="bc-back">← Back to Home</a>
     </div>
 </section>
+@endsection
+
+@section('scripts')
+<script>
+    if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+            event_category: 'booking',
+            service: @json($service ?? 'unknown')
+        });
+    }
+</script>
 @endsection

@@ -8,6 +8,7 @@
         Event Booking — {{ $booking->names }} | Ubuvivi Tours
     @endif
 @endsection
+@section('meta')<meta name="robots" content="noindex, nofollow">@endsection
 
 @section('content')
 

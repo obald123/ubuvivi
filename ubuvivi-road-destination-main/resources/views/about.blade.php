@@ -9,6 +9,10 @@
         content="UBUVIVI leading in Tour operators company in Rwanda, book your dream vacation today for ubuvivi safaris, ubuvivi EAC Safari, ubuvivi Gorillas tracking & ubuvivi Hotel booking">
 @endsection
 
+@section('og_description')
+    Learn about Ubuvivi Tours & Safaris — Rwanda's trusted travel partner for tours, transport, and hospitality bookings.
+@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')

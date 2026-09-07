@@ -1,3 +1,16 @@
 User-agent: *
-Disallow:
-sitemap: https://ubuvivitours.com/sitemap.xml
+Disallow: /admin/
+Disallow: /client/
+Disallow: /requests
+Disallow: /bookings
+Disallow: /booking/confirmed
+Disallow: /car/booking/
+Disallow: /car/transfer/
+Disallow: /tour/booking/
+Disallow: /hotels/search
+Disallow: /hotels/results
+Disallow: /hotels/book/
+Disallow: /flights/search
+Disallow: /flights/results
+
+Sitemap: https://ubuvivitoursandtravel.com/sitemap.xml

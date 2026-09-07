@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 @section('title') Flights: {{ $from_city }} → {{ $to_city }} - Ubuvivi Tours @endsection
+@section('meta')<meta name="robots" content="noindex, nofollow">@endsection
 
 @section('content')
 @php

@@ -1,5 +1,6 @@
 @extends('layouts.guest')
 @section('title') Hotels in {{ $destination }} - Ubuvivi Tours @endsection
+@section('meta')<meta name="robots" content="noindex, nofollow">@endsection
 
 @section('content')
 <style>

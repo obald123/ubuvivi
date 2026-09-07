@@ -9,6 +9,10 @@
     <meta name="keywords" content="ubuvivi services, Rwanda tours, car rental Rwanda, airport transport, conference planning Kigali">
 @endsection
 
+@section('og_description')
+    Explore all services offered by Ubuvivi Tours: Tours & Travel, Car Rentals, Transport Services, and Conference Planning in Rwanda.
+@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')

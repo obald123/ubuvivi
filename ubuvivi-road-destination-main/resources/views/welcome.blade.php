@@ -11,6 +11,10 @@
         content="ubuvivi, ubuvivi safaris, ubuvivi tours and safaris, ubuvivi tours & Safari, ubuvivi Hotel booking, ubuvivi safaris, ubuvivi tours, ubuvivi Gorillas tracking, ubuvivi EAC Safari, Rwanda Travel Agency, Best Transport Company in Rwanda">
 @endsection
 
+@section('og_description')
+    Rwanda's leading tour operator — gorilla trekking, EAC safaris, hotel booking, car rentals, and airport transfers, all in one place.
+@endsection
+
 @section('css')
 <style>
     /* ── Hero Carousel ── */

@@ -10,6 +10,10 @@
     <meta name="keywords" content="ubuvivi, Rwanda tourism services, Tour & Travels Agents Rwanda">
 @endsection
 
+@section('og_description')
+    Custom Rwanda tour packages with expert local guides — gorilla trekking, national parks, and cultural experiences.
+@endsection
+
 @section('body-class', 'hero-page')
 
 @section('css')
