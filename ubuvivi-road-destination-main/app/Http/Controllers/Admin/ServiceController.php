@@ -68,7 +68,8 @@ class ServiceController extends Controller
 
                 return response()->json([
                     'id'           => $vehicle->id,
-                    'car_name'     => trim(($vehicle->brand->name ?? '') . ' ' . ($vehicle->model->name ?? '')),
+                    'car_brand'    => $vehicle->brand->name ?? '',
+                    'car_model'    => $vehicle->model->name ?? '',
                     'year'         => $vehicle->production_year,
                     'transmission' => $vehicle->transmission->name ?? '',
                     'fuel_type'    => $vehicle->fuelType->name ?? '',
@@ -101,8 +102,8 @@ class ServiceController extends Controller
                         'title'            => $request->title,
                         'days'             => (int) ($request->days ?? 1),
                         'description'      => $request->description,
-                        'images'           => json_encode($images),
-                        'image_id'         => json_encode($imageIds),
+                        'images'           => $images,
+                        'image_id'         => $imageIds,
                         'highlights'       => json_encode($highlights),
                         'inclusions'       => json_encode($inclusions),
                         'exclusions'       => json_encode($exclusions),
@@ -113,10 +114,13 @@ class ServiceController extends Controller
 
                 case 'car':
                     [$images, $imageIds] = $this->uploadImages($request, 'vehicle_images');
+                    if ($request->hasFile('vehicle_images') && empty($images)) {
+                        return redirect()->route('services.index')->with('error', 'Car image upload failed. Please try again.');
+                    }
                     $transmission = Transmission::firstOrCreate(['name' => trim($request->transmission ?? 'Manual')]);
                     $fuelType     = FuelType::firstOrCreate(['name' => trim($request->fuel_type ?? 'Petrol')]);
-                    $brand        = VehicleBrand::firstOrCreate(['name' => trim($request->car_name ?? 'Unknown')]);
-                    $model        = VehicleModel::firstOrCreate(['name' => trim($request->car_name ?? 'Unknown'), 'brand_id' => $brand->id]);
+                    $brand        = VehicleBrand::firstOrCreate(['name' => trim($request->car_brand)]);
+                    $model        = VehicleModel::firstOrCreate(['name' => trim($request->car_model), 'brand_id' => $brand->id]);
 
                     Vehicle::create([
                         'brand_id'        => $brand->id,
@@ -128,9 +132,9 @@ class ServiceController extends Controller
                         'currency'        => 'USD',
                         'transmission_id' => $transmission->id,
                         'fuel_type_id'    => $fuelType->id,
-                        'description'     => $request->car_name ?? '',
-                        'images'          => json_encode($images),
-                        'image_id'        => json_encode($imageIds),
+                        'description'     => '',
+                        'images'          => $images,
+                        'image_id'        => $imageIds,
                         'one_day_caution' => 0,
                         'approved'        => true,
                         'for_sale'        => $request->has('available'),
@@ -201,8 +205,8 @@ class ServiceController extends Controller
                         'title'       => $request->title,
                         'days'        => (int) ($request->days ?? 1),
                         'description' => $request->description,
-                        'images'      => json_encode($allImages),
-                        'image_id'    => json_encode($allImageIds),
+                        'images'      => $allImages,
+                        'image_id'    => $allImageIds,
                         'highlights'  => json_encode($highlights),
                         'inclusions'  => json_encode($inclusions),
                         'exclusions'  => json_encode($exclusions),
@@ -213,6 +217,9 @@ class ServiceController extends Controller
                 case 'car':
                     $vehicle = Vehicle::findOrFail($id);
                     [$newImages, $newImageIds] = $this->uploadImages($request, 'vehicle_images');
+                    if ($request->hasFile('vehicle_images') && empty($newImages)) {
+                        return redirect()->route('services.index')->with('error', 'Car image upload failed. Please try again.');
+                    }
 
                     $existingImages = json_decode($request->existing_images ?? '[]', true) ?: [];
                     $existingIds    = json_decode($request->existing_image_ids ?? '[]', true) ?: [];
@@ -221,15 +228,18 @@ class ServiceController extends Controller
 
                     $transmission = Transmission::firstOrCreate(['name' => trim($request->transmission ?? 'Manual')]);
                     $fuelType     = FuelType::firstOrCreate(['name' => trim($request->fuel_type ?? 'Petrol')]);
+                    $brand        = VehicleBrand::firstOrCreate(['name' => trim($request->car_brand)]);
+                    $model        = VehicleModel::firstOrCreate(['name' => trim($request->car_model), 'brand_id' => $brand->id]);
 
                     $vehicle->update([
+                        'brand_id'        => $brand->id,
+                        'model_id'        => $model->id,
                         'production_year' => $request->year ?? $vehicle->production_year,
                         'transmission_id' => $transmission->id,
                         'fuel_type_id'    => $fuelType->id,
-                        'description'     => $request->car_name ?? $vehicle->description,
                         'price'           => (int) ($request->price ?? $vehicle->price),
-                        'images'          => json_encode($allImages),
-                        'image_id'        => json_encode($allImageIds),
+                        'images'          => $allImages,
+                        'image_id'        => $allImageIds,
                         'for_sale'        => $request->has('available'),
                     ]);
                     break;
@@ -336,9 +346,10 @@ class ServiceController extends Controller
                 $rules['days'] = 'required|integer|min:1';
                 break;
             case 'car':
-                $rules['car_name'] = 'required|string|max:255';
+                $rules['car_brand'] = 'required|string|max:255';
+                $rules['car_model'] = 'required|string|max:255';
                 $rules['vehicle_images'] = 'nullable|array';
-                $rules['vehicle_images.*'] = 'file|max:20480';
+                $rules['vehicle_images.*'] = 'image|max:20480';
                 $rules['transmission'] = 'required|string|max:50';
                 $rules['fuel_type'] = 'required|string|max:50';
                 $rules['year'] = 'required|integer|min:1900|max:' . (date('Y') + 1);

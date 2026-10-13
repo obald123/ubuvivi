@@ -31,7 +31,8 @@ class VehicleModel extends Model
 
 
     public $fillable = [
-        'name'
+        'name',
+        'brand_id',
     ];
 
     /**

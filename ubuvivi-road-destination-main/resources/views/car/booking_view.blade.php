@@ -218,7 +218,7 @@
                                     <div class="bv-detail-icon"><i class="fas fa-car"></i></div>
                                     <div>
                                         <div class="bv-detail-label">Vehicle</div>
-                                        <div class="bv-detail-value">{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }}</div>
+                                        <div class="bv-detail-value">{{ $vehicle->display_name }} {{ $vehicle->production_year ?? '' }}</div>
                                     </div>
                                 </div>
                                 <div class="bv-vehicle-specs">
@@ -269,7 +269,7 @@
                                     <div class="bv-detail-icon"><i class="fas fa-car"></i></div>
                                     <div>
                                         <div class="bv-detail-label">Vehicle</div>
-                                        <div class="bv-detail-value">{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }}</div>
+                                        <div class="bv-detail-value">{{ $vehicle->display_name }} {{ $vehicle->production_year ?? '' }}</div>
                                     </div>
                                 </div>
                                 <div class="bv-vehicle-specs">

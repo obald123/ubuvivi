@@ -74,8 +74,8 @@ class VehicleController extends AppBaseController
         $input = $request->all();
 
         [$urls, $ids] = $this->uploadImages($request, 'images', 'ubuvivi');
-        $input["images"]   = json_encode($urls);
-        $input['image_id'] = json_encode($ids);
+        $input["images"]   = $urls;
+        $input['image_id'] = $ids;
 
         $input["plate_number"] = "";
         $input["price"] = 0;
@@ -166,8 +166,8 @@ class VehicleController extends AppBaseController
         // Upload any newly submitted images (with Cloudinary → local fallback)
         [$newUrls, $newIds] = $this->uploadImages($request, 'images', 'ubuvivi');
 
-        $input["images"]   = json_encode(array_values(array_merge($existingUrls, $newUrls)));
-        $input['image_id'] = json_encode(array_values(array_merge($existingIds,  $newIds)));
+        $input["images"]   = array_values(array_merge($existingUrls, $newUrls));
+        $input['image_id'] = array_values(array_merge($existingIds,  $newIds));
         $input["plate_number"] = "";
         $input["for_sale"] = 0;
         $input["description"] = $input["description"] ?? "";

@@ -465,16 +465,16 @@
             <div class="svc-grid">
                 @foreach($vehicles as $vehicle)
                 @php
-                    $vImages = is_array($vehicle->images) ? $vehicle->images : [];
+                    $vImages = $vehicle->images;
                     $vImg = count($vImages) ? $vImages[0] : asset('assets/images/vehicles/not_found.png');
                 @endphp
                 <div class="car-svc-card">
                     <div class="car-card-header">
-                        <span class="car-card-name">{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}</span>
+                        <span class="car-card-name">{{ $vehicle->display_name }}</span>
                         <span class="car-card-year">{{ $vehicle->production_year ?? '' }}</span>
                     </div>
                     <div class="car-card-img-wrap">
-                        <img src="{{ $vImg }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}" onerror="this.onerror=null;this.src='{{ asset('assets/images/vehicles/not_found.png') }}'">
+                        <img src="{{ $vImg }}" alt="{{ $vehicle->display_name }}" onerror="this.onerror=null;this.src='{{ asset('assets/images/vehicles/not_found.png') }}'">
                     </div>
                     <div class="car-card-specs">
                         <div class="car-spec">
@@ -597,8 +597,12 @@
 
                 <div class="adm-form-row">
                     <div class="adm-form-group">
-                        <label>Car Name</label>
-                        <input type="text" name="car_name" id="carName" placeholder="" required>
+                        <label>Car Make</label>
+                        <input type="text" name="car_brand" id="carBrand" placeholder="e.g. Toyota" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>Car Model</label>
+                        <input type="text" name="car_model" id="carModel" placeholder="e.g. Land Cruiser Prado" required>
                     </div>
                     <div class="adm-form-group">
                         <label>Year</label>
@@ -834,7 +838,8 @@ function openCarModal() {
     document.getElementById('carModalTitle').textContent = 'Add Service';
     document.getElementById('carForm').action = '{{ route("services.store") }}';
     document.getElementById('carMethod').value = 'POST';
-    document.getElementById('carName').value = '';
+    document.getElementById('carBrand').value = '';
+    document.getElementById('carModel').value = '';
     document.getElementById('carYear').value = new Date().getFullYear();
     document.getElementById('carTransmission').value = '';
     document.getElementById('carFuelType').value = '';
@@ -853,7 +858,8 @@ function loadCarModal(data) {
     document.getElementById('carModalTitle').textContent = 'Edit Service';
     document.getElementById('carForm').action = '/services/' + data.id;
     document.getElementById('carMethod').value = 'PUT';
-    document.getElementById('carName').value = data.car_name || '';
+    document.getElementById('carBrand').value = data.car_brand || '';
+    document.getElementById('carModel').value = data.car_model || '';
     document.getElementById('carYear').value = data.year || new Date().getFullYear();
     document.getElementById('carTransmission').value = data.transmission || '';
     document.getElementById('carFuelType').value = data.fuel_type || '';

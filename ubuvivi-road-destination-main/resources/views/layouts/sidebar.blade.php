@@ -49,6 +49,12 @@
             'patterns' => ['admin/subscribers*'],
         ],
         [
+            'label' => 'Activity',
+            'route' => route('admin.activity.index'),
+            'icon' => 'fas fa-history',
+            'patterns' => ['admin/activity*'],
+        ],
+        [
             'label' => 'Profile',
             'route' => route('profile.index'),
             'icon' => 'fas fa-user',

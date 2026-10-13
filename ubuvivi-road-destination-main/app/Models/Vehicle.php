@@ -107,9 +107,44 @@ class Vehicle extends Model
 
     public function getImagesAttribute($value)
     {
-        if (is_string($value)) {
-            return json_decode($value, true) ?? [];
+        return $this->decodeArrayAttribute($value);
+    }
+
+    public function getImageIdAttribute($value)
+    {
+        return $this->decodeArrayAttribute($value);
+    }
+
+    public function getDisplayNameAttribute()
+    {
+        $brand = trim((string) ($this->brand->name ?? ''));
+        $model = trim((string) ($this->model->name ?? ''));
+
+        if ($brand === '') {
+            return $model !== '' ? $model : trim((string) $this->description);
         }
+
+        if ($model === '' || strcasecmp($brand, $model) === 0) {
+            return $brand;
+        }
+
+        if (stripos($model, $brand . ' ') === 0) {
+            return $model;
+        }
+
+        return trim($brand . ' ' . $model);
+    }
+
+    private function decodeArrayAttribute($value): array
+    {
+        while (is_string($value)) {
+            $decoded = json_decode($value, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return [];
+            }
+            $value = $decoded;
+        }
+
         return is_array($value) ? $value : [];
     }
 

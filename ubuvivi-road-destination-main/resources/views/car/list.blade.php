@@ -494,7 +494,7 @@
                                 {{-- Header: name + year --}}
                                 <div class="car-card-header">
                                     <h3 class="car-card-name">
-                                        {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}
+                                        {{ $vehicle->display_name }}
                                     </h3>
                                     @if($vehicle->production_year)
                                         <span class="car-year-badge">{{ $vehicle->production_year }}</span>
@@ -504,18 +504,18 @@
                                 {{-- Car image --}}
                                 <div class="car-card-img-wrap">
                                     @php
-                                        $vImages = is_array($vehicle->images) ? $vehicle->images : (is_string($vehicle->images) ? json_decode($vehicle->images, true) : []);
+                                        $vImages = $vehicle->images;
                                         $vImg = (count($vImages) && isset($vImages[0])) ? $vImages[0] : asset('assets/images/vehicles/not_found.png');
                                     @endphp
                                     @if(count($vImages) && isset($vImages[0]))
                                         <div class="img-bg" style="background-image: url('{{ htmlspecialchars($vImg, ENT_QUOTES, 'UTF-8') }}');background-size:cover;background-position:center;"></div>
                                     @else
-                                        <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}">
+                                        <img src="{{ asset('assets/images/vehicles/not_found.png') }}" alt="{{ $vehicle->display_name }}">
                                     @endif
                                 </div>
 
                                 {{-- Description --}}
-                                @if($vehicle->description)
+                                @if($vehicle->description && strcasecmp(trim($vehicle->description), trim($vehicle->display_name)) !== 0)
                                     <div style="padding: 0 18px 12px;">
                                         <p style="font-size: 14px; color: #666; line-height: 1.5; margin: 0;">
                                             {{ Str::limit($vehicle->description, 150) }}

@@ -134,8 +134,9 @@ Route::controller(GuestController::class)->group(function () {
 Auth::routes();
 
 // Admin dashboard (only for admin role)
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'admin.audit'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/admin/activity', [App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.activity.index');
     
     // New Admin Routes
     Route::get('/requests', [App\Http\Controllers\Admin\RequestController::class, 'index'])->name('requests.index');
@@ -202,12 +203,12 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::put('/client/profile/password', [\App\Http\Controllers\ClientDashboardController::class, 'updatePassword'])->name('client.profile.password');
 });
 
-Route::controller(deleteImageController::class)->group(function () {
+Route::middleware(['auth', 'admin', 'admin.audit'])->controller(deleteImageController::class)->group(function () {
     Route::post("/vehicle/image/delete", 'vehicle');
     Route::post("/itinerary/image/delete", 'itinerary');
 });
 
-Route::middleware("auth")->group(function () {
+Route::middleware(["auth", "admin.audit"])->group(function () {
     Route::resource('users', \App\Http\Controllers\UserController::class);
 
     Route::resource('vehicles', \App\Http\Controllers\VehicleController::class);

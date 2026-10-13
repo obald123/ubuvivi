@@ -1,7 +1,7 @@
 @if ($vehicle)
 <div class="col-12">
     <div class="section-body">
-        <h3 class="section-title mt-1 mb-4">{{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }}
+        <h3 class="section-title mt-1 mb-4">{{ $vehicle->display_name }}
             {{ $vehicle->production_year ?? '' }}</h3>
 
         <div class="row">

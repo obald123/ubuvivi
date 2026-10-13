@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 
 @section('title')
-    {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? 'Vehicle' }} - Ubuvivi Tours & Travels
+    {{ $vehicle->display_name ?: 'Vehicle' }} - Ubuvivi Tours & Travels
 @endsection
 
 @section('meta')
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="owl-carousel owl-theme">
                                 @php
-                                    $vImages = is_array($vehicle->images) ? $vehicle->images : (is_string($vehicle->images) ? json_decode($vehicle->images, true) : []);
+                                    $vImages = $vehicle->images;
                                 @endphp
                                 @if(count($vImages))
                                     @foreach ($vImages as $image)
@@ -54,10 +54,8 @@
                             <h4 class="font-sserif">Details</h4>
                         </div>
                         <div class="card-body py-0">
-                            <h6 class="font-sserif mb-3">Car Brand: <span
-                                    class="font-weight-normal">{{ $vehicle->brand->name ?? 'N/A' }}</span></h6>
-                            <h6 class="font-sserif mb-3">Car Model: <span
-                                    class="font-weight-normal">{{ $vehicle->model->name ?? 'N/A' }}</span></h6>
+                            <h6 class="font-sserif mb-3">Car: <span
+                                    class="font-weight-normal">{{ $vehicle->display_name ?: 'N/A' }}</span></h6>
                             <h6 class="font-sserif mb-3">Production Year: <span
                                     class="font-weight-normal">{{ $vehicle->production_year }}</span></h6>
                             <h6 class="font-sserif mb-3">Number of seats: <span

@@ -1,11 +1,11 @@
 @extends('layouts.guest')
 
 @section('title')
-    {{ $vehicle->brand->name ?? 'Vehicle' }} {{ $vehicle->model->name ?? '' }} | Book This Car - Ubuvivi Tours & Travels
+    {{ $vehicle->display_name ?: 'Vehicle' }} | Book This Car - Ubuvivi Tours & Travels
 @endsection
 
 @section('meta')
-    <meta name="description" content="Book {{ $vehicle->brand->name ?? '' }} {{ $vehicle->model->name ?? '' }} {{ $vehicle->production_year ?? '' }} - Ubuvivi Tours & Travels Rwanda">
+    <meta name="description"     content="Book {{ $vehicle->display_name }} {{ $vehicle->production_year ?? '' }} - Ubuvivi Tours & Travels Rwanda">
 @endsection
 
 @section('css')
@@ -330,7 +330,7 @@
                         <div class="car-banner-fallback"><i class="fas fa-car"></i></div>
                     @endif
                     <div class="car-banner-caption">
-                        <div class="name">{{ trim(($vehicle->brand->name ?? '') . ' ' . ($vehicle->model->name ?? '')) }}</div>
+                        <div class="name">{{ $vehicle->display_name }}</div>
                         <div class="meta">
                             {{ $vehicle->production_year ?? '' }}
                             @if($vehicle->transmission->name ?? null) · {{ $vehicle->transmission->name }} @endif
@@ -394,7 +394,7 @@
                         <div class="form-group">
                             <label for="car_type">Car Type</label>
                             <input type="text" id="car_type" name="car_type"
-                                   value="{{ trim(($vehicle->brand->name ?? '') . ' ' . ($vehicle->model->name ?? '') . ' ' . ($vehicle->production_year ?? '')) }}"
+                                   value="{{ trim($vehicle->display_name . ' ' . ($vehicle->production_year ?? '')) }}"
                                    readonly>
                         </div>
                     </div>
