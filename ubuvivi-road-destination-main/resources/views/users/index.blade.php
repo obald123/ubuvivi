@@ -7,7 +7,7 @@
         <div class="section-header">
             <h1>Users</h1>
             <div class="section-header-breadcrumb">
-                @if (Auth::user()->role == 'admin')
+                @if (Auth::user()->isSuperAdmin())
                     <a href="{{ route('users.create') }}" class="btn btn-primary form-btn">
                         User
                         <i class="fas fa-plus"></i>

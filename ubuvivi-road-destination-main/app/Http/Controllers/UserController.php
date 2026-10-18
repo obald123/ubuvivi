@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -65,7 +66,7 @@ class UserController extends AppBaseController
             return redirect(route('users.create'));
         }
         $input["password"] = Hash::make($input["password"]);
-        $input["role"] = "staff";
+        $input["role"] = $input["role"] ?? "staff";
 
         $user = $this->userRepository->create($input);
 
@@ -134,10 +135,19 @@ class UserController extends AppBaseController
 
         $input = $request->all();
 
-        if ($input['password'])   $input['password'] = Hash::make($input['password']);
+        if (!empty($input['password'])) {
+            $input['password'] = Hash::make($input['password']);
+        } else {
+            unset($input['password']);
+        }
 
-        $input["role"] = $input["role"] ?? "admin";
-
+        if (
+            $user->isSuperAdmin() &&
+            $input['role'] !== User::ROLE_SUPER_ADMIN &&
+            User::where('role', User::ROLE_SUPER_ADMIN)->count() <= 1
+        ) {
+            abort(403, 'You cannot demote the last super admin account.');
+        }
 
         $user = $this->userRepository->update($input, $id);
 
@@ -163,6 +173,14 @@ class UserController extends AppBaseController
             Flash::error('User not found');
 
             return redirect(route('users.index'));
+        }
+
+        if ($user->id === auth()->id()) {
+            abort(403, 'You cannot delete your own account.');
+        }
+
+        if ($user->isSuperAdmin() && User::where('role', User::ROLE_SUPER_ADMIN)->count() <= 1) {
+            abort(403, 'You cannot delete the last super admin account.');
         }
 
         $this->userRepository->delete($id);

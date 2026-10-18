@@ -12,8 +12,9 @@ class ProfileController extends Controller
     public function index()
     {
         $user  = auth()->user();
-        $users = User::orderBy('name')->get();
-        return view('admin.profile.index', compact('user', 'users'));
+        $canManageUsers = $user->isSuperAdmin();
+        $users = $canManageUsers ? User::orderBy('name')->get() : collect();
+        return view('admin.profile.index', compact('user', 'users', 'canManageUsers'));
     }
     
     public function update(Request $request)
@@ -50,11 +51,13 @@ class ProfileController extends Controller
 
     public function storeUser(Request $request)
     {
+        abort_unless(auth()->user()->isSuperAdmin(), 403);
+
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'role'     => 'required|in:admin,staff,client',
+            'role'     => 'required|in:super_admin,admin,staff,client',
             'phone'    => 'nullable|string|max:20',
         ]);
 
@@ -73,10 +76,16 @@ class ProfileController extends Controller
 
     public function destroyUser($id)
     {
+        abort_unless(auth()->user()->isSuperAdmin(), 403);
+
         $user = User::findOrFail($id);
 
         if ($user->id === auth()->id()) {
             return back()->with('error', 'You cannot delete your own account.');
+        }
+
+        if ($user->isSuperAdmin() && User::where('role', User::ROLE_SUPER_ADMIN)->count() <= 1) {
+            return back()->with('error', 'You cannot delete the last super admin account.');
         }
 
         $user->delete();

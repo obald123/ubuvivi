@@ -119,6 +119,17 @@
             font-weight: 700;
         }
 
+        .activity-details-heading {
+            min-width: 0;
+        }
+
+        .activity-details-subtitle {
+            margin: 3px 0 0;
+            color: #6b7280;
+            font-size: 12px;
+            overflow-wrap: anywhere;
+        }
+
         .activity-details-close {
             display: inline-flex;
             align-items: center;
@@ -135,14 +146,66 @@
 
         .activity-details-content {
             min-height: 0;
-            margin: 0;
-            padding: 20px;
             overflow: auto;
             background: #fbfcfe;
+            padding: 20px;
+        }
+
+        .activity-details-section + .activity-details-section {
+            margin-top: 22px;
+        }
+
+        .activity-details-section h3 {
+            margin: 0 0 10px;
+            color: #182b39;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .activity-details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .activity-detail-item {
+            min-width: 0;
+            padding: 12px 14px;
+            border: 1px solid #e6ebf1;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .activity-detail-label {
+            display: block;
+            margin-bottom: 4px;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .035em;
+        }
+
+        .activity-detail-value {
+            display: block;
             color: #263746;
-            font: 13px/1.6 Consolas, Monaco, monospace;
-            white-space: pre-wrap;
+            font-size: 13px;
+            line-height: 1.5;
             overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .activity-detail-value.is-status {
+            color: #147348;
+            font-weight: 600;
+        }
+
+        .activity-details-empty {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
         }
 
         .activity-pagination {
@@ -250,7 +313,15 @@
 
             .activity-details-content {
                 padding: 14px;
-                font-size: 12px;
+            }
+
+            .activity-details-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 8px;
+            }
+
+            .activity-detail-item {
+                padding: 10px 12px;
             }
         }
 
@@ -346,10 +417,13 @@
     <div class="activity-details-dialog" id="activityDetailsDialog" aria-hidden="true">
         <section class="activity-details-panel" role="dialog" aria-modal="true" aria-labelledby="activityDetailsTitle">
             <header class="activity-details-head">
-                <h2 id="activityDetailsTitle">Activity details</h2>
+                <div class="activity-details-heading">
+                    <h2 id="activityDetailsTitle">Activity details</h2>
+                    <p class="activity-details-subtitle" id="activityDetailsSubtitle"></p>
+                </div>
                 <button type="button" class="activity-details-close" aria-label="Close details">&times;</button>
             </header>
-            <pre class="activity-details-content" id="activityDetailsContent"></pre>
+            <div class="activity-details-content" id="activityDetailsContent"></div>
         </section>
     </div>
 @endsection
@@ -359,8 +433,89 @@
         (function () {
             var dialog = document.getElementById('activityDetailsDialog');
             var content = document.getElementById('activityDetailsContent');
+            var subtitle = document.getElementById('activityDetailsSubtitle');
             var closeButton = dialog.querySelector('.activity-details-close');
             var previousFocus = null;
+
+            function labelFor(key) {
+                var labels = {
+                    route_parameters: 'Record reference',
+                    response_status: 'Result',
+                    sort_order: 'Sort order',
+                    available: 'Availability',
+                    active: 'Active',
+                    nearby: 'Nearby destinations',
+                    ip_address: 'IP address',
+                    user_agent: 'Browser',
+                };
+
+                if (labels[key]) return labels[key];
+
+                return key
+                    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+                    .replace(/[_-]+/g, ' ')
+                    .replace(/\b\w/g, function (letter) { return letter.toUpperCase(); });
+            }
+
+            function formatValue(key, value) {
+                if (key === 'response_status') {
+                    return Number(value) < 400 ? 'Saved successfully' : 'Request failed (' + value + ')';
+                }
+
+                if (Array.isArray(value)) {
+                    if (value.length === 0) {
+                        return /image|photo|file/i.test(key) ? 'No new files uploaded' : 'None';
+                    }
+                    return value.map(function (item) {
+                        return typeof item === 'object' && item !== null
+                            ? JSON.stringify(item)
+                            : String(item);
+                    }).join(', ');
+                }
+
+                if (value === null || value === '') return 'Not provided';
+                if (value === 'on' || value === true) return 'Yes';
+                if (value === false) return 'No';
+                return String(value);
+            }
+
+            function appendSection(title, values) {
+                if (!values || typeof values !== 'object' || Array.isArray(values)) return;
+
+                var entries = Object.keys(values);
+                if (entries.length === 0) return;
+
+                var section = document.createElement('section');
+                section.className = 'activity-details-section';
+
+                var heading = document.createElement('h3');
+                heading.textContent = title;
+
+                var grid = document.createElement('div');
+                grid.className = 'activity-details-grid';
+
+                entries.forEach(function (key) {
+                    var item = document.createElement('div');
+                    item.className = 'activity-detail-item';
+
+                    var label = document.createElement('span');
+                    label.className = 'activity-detail-label';
+                    label.textContent = labelFor(key);
+
+                    var value = document.createElement('span');
+                    value.className = 'activity-detail-value';
+                    if (key === 'response_status') value.classList.add('is-status');
+                    value.textContent = formatValue(key, values[key]);
+
+                    item.appendChild(label);
+                    item.appendChild(value);
+                    grid.appendChild(item);
+                });
+
+                section.appendChild(heading);
+                section.appendChild(grid);
+                content.appendChild(section);
+            }
 
             function closeDialog() {
                 dialog.classList.remove('is-open');
@@ -373,7 +528,7 @@
                 button.addEventListener('click', function () {
                     var details;
                     try {
-                        details = JSON.parse(button.getAttribute('data-details') || 'null');
+                        details = JSON.parse(button.getAttribute('data-details') || '{}');
                     } catch (error) {
                         content.textContent = 'Unable to read the saved activity details.';
                         dialog.classList.add('is-open');
@@ -381,7 +536,23 @@
                         return;
                     }
 
-                    content.textContent = JSON.stringify(details, null, 2);
+                    while (content.firstChild) content.removeChild(content.firstChild);
+                    subtitle.textContent = button.closest('tr').querySelector('[data-label="Action"]').textContent
+                        + ' · ' + button.closest('tr').querySelector('[data-label="Target"]').textContent;
+
+                    appendSection('Record reference', details.route_parameters || {});
+                    appendSection('Submitted changes', details.input || {});
+                    if (details.response_status !== undefined) {
+                        appendSection('Request result', { response_status: details.response_status });
+                    }
+
+                    if (!content.childElementCount) {
+                        var emptyMessage = document.createElement('p');
+                        emptyMessage.className = 'activity-details-empty';
+                        emptyMessage.textContent = 'There are no additional details for this activity.';
+                        content.appendChild(emptyMessage);
+                    }
+
                     previousFocus = button;
                     dialog.classList.add('is-open');
                     dialog.setAttribute('aria-hidden', 'false');

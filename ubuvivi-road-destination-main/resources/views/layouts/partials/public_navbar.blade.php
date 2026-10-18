@@ -12,7 +12,7 @@
 
     $accountRoute = route('login');
     if (auth()->check()) {
-        $accountRoute = auth()->user()->role === 'admin'
+        $accountRoute = auth()->user()->isAdmin()
             ? route('home')
             : route('client.dashboard');
     }

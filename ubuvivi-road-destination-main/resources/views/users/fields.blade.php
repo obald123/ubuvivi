@@ -25,7 +25,7 @@
 <!-- Role Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('role', 'Role:') !!}
-    {!! Form::select('role', ['staff' => 'Staff', 'admin' => 'Admin'], null, ['class' => 'form-control', 'required' => true]) !!}
+    {!! Form::select('role', ['staff' => 'Staff', 'client' => 'Client', 'admin' => 'Admin', 'super_admin' => 'Super Admin'], null, ['class' => 'form-control', 'required' => true]) !!}
 </div>
 
 <!-- Submit Field -->

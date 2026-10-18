@@ -18,7 +18,7 @@ class ClientMiddleware
             return $next($request);
         }
 
-        if (isset($user->role) && $user->role === 'admin') {
+        if ($user->isAdmin()) {
             return redirect()->route('home');
         }
 

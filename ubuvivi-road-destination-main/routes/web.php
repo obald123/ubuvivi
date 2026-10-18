@@ -136,7 +136,7 @@ Auth::routes();
 // Admin dashboard (only for admin role)
 Route::middleware(['auth', 'admin', 'admin.audit'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/admin/activity', [App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.activity.index');
+    Route::middleware('super.admin')->get('/admin/activity', [App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.activity.index');
     
     // New Admin Routes
     Route::get('/requests', [App\Http\Controllers\Admin\RequestController::class, 'index'])->name('requests.index');
@@ -187,8 +187,10 @@ Route::middleware(['auth', 'admin', 'admin.audit'])->group(function () {
 
     Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/profile/users', [App\Http\Controllers\Admin\ProfileController::class, 'storeUser'])->name('profile.users.store');
-    Route::delete('/profile/users/{id}', [App\Http\Controllers\Admin\ProfileController::class, 'destroyUser'])->name('profile.users.destroy');
+    Route::middleware('super.admin')->group(function () {
+        Route::post('/profile/users', [App\Http\Controllers\Admin\ProfileController::class, 'storeUser'])->name('profile.users.store');
+        Route::delete('/profile/users/{id}', [App\Http\Controllers\Admin\ProfileController::class, 'destroyUser'])->name('profile.users.destroy');
+    });
 });
 
 // Client portal
@@ -208,8 +210,8 @@ Route::middleware(['auth', 'admin', 'admin.audit'])->controller(deleteImageContr
     Route::post("/itinerary/image/delete", 'itinerary');
 });
 
-Route::middleware(["auth", "admin.audit"])->group(function () {
-    Route::resource('users', \App\Http\Controllers\UserController::class);
+Route::middleware(["auth", "admin", "admin.audit"])->group(function () {
+    Route::middleware('super.admin')->resource('users', \App\Http\Controllers\UserController::class);
 
     Route::resource('vehicles', \App\Http\Controllers\VehicleController::class);
 

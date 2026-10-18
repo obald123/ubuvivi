@@ -23,7 +23,7 @@ class ResetPasswordController extends Controller
 
     protected function redirectTo()
     {
-        return Auth::check() && Auth::user()->role === 'admin'
+        return Auth::check() && Auth::user()->isAdmin()
             ? route('home')
             : route('client.dashboard');
     }

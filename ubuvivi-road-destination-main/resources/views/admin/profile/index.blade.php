@@ -15,7 +15,10 @@
         $activeTab = session('active_tab', request()->query('tab'));
     }
 
-    $activeTab = in_array($activeTab, ['profile', 'security', 'users'], true) ? $activeTab : 'users';
+    $activeTab = in_array($activeTab, ['profile', 'security', 'users'], true) ? $activeTab : ($canManageUsers ? 'users' : 'profile');
+    if (!$canManageUsers && $activeTab === 'users') {
+        $activeTab = 'profile';
+    }
 @endphp
 
 @section('css')
@@ -485,8 +488,9 @@
     <div class="profile-page">
         @include('layouts.partials.admin_topbar', [
             'title' => 'Profile',
-            'searchInputId' => 'profileSearch',
+            'searchInputId' => $canManageUsers ? 'profileSearch' : null,
             'searchAriaLabel' => 'Search users',
+            'showSearch' => $canManageUsers,
         ])
 
         <div class="profile-toolbar">
@@ -507,22 +511,26 @@
                     aria-selected="{{ $activeTab === 'security' ? 'true' : 'false' }}">
                     Security
                 </button>
-                <button
-                    type="button"
-                    class="profile-tab {{ $activeTab === 'users' ? 'is-active' : '' }}"
-                    data-pane="users"
-                    role="tab"
-                    aria-selected="{{ $activeTab === 'users' ? 'true' : 'false' }}">
-                    Users
-                </button>
+                @if($canManageUsers)
+                    <button
+                        type="button"
+                        class="profile-tab {{ $activeTab === 'users' ? 'is-active' : '' }}"
+                        data-pane="users"
+                        role="tab"
+                        aria-selected="{{ $activeTab === 'users' ? 'true' : 'false' }}">
+                        Users
+                    </button>
+                @endif
             </div>
 
-            <button
-                type="button"
-                class="profile-add-user{{ $activeTab !== 'users' ? ' d-none' : '' }}"
-                id="addUserButton">
-                <i class="fas fa-plus"></i> User
-            </button>
+            @if($canManageUsers)
+                <button
+                    type="button"
+                    class="profile-add-user{{ $activeTab !== 'users' ? ' d-none' : '' }}"
+                    id="addUserButton">
+                    <i class="fas fa-plus"></i> User
+                </button>
+            @endif
         </div>
 
         <section class="profile-pane {{ $activeTab === 'profile' ? 'is-active' : '' }}" id="pane-profile">
@@ -597,6 +605,7 @@
             </div>
         </section>
 
+        @if($canManageUsers)
         <section class="profile-pane {{ $activeTab === 'users' ? 'is-active' : '' }}" id="pane-users">
             <div class="users-card">
                 @if($users->count())
@@ -619,7 +628,7 @@
                                         <td>{{ $listedUser->name }}</td>
                                         <td>{{ $listedUser->email }}</td>
                                         <td>{{ $listedUser->phone_number ?: 'N/A' }}</td>
-                                        <td><span class="role-text">{{ ucfirst($listedUser->role ?: 'client') }}</span></td>
+                                        <td><span class="role-text">{{ ucwords(str_replace('_', ' ', $listedUser->role ?: 'client')) }}</span></td>
                                         <td>
                                             <div class="user-actions">
                                                 <button type="button" class="user-action-btn edit" title="Edit user">
@@ -640,8 +649,10 @@
                 @endif
             </div>
         </section>
+        @endif
     </div>
 
+    @if($canManageUsers)
     <div class="user-modal-overlay" id="addUserModal">
         <div class="user-modal">
             <div class="user-modal-head">
@@ -667,6 +678,7 @@
                     <div class="profile-field">
                         <label for="new-user-role">Role</label>
                         <select id="new-user-role" name="role" required>
+                            <option value="super_admin">Super Admin</option>
                             <option value="admin">Admin</option>
                             <option value="staff">Staff</option>
                             <option value="client">Client</option>
@@ -685,6 +697,7 @@
             </form>
         </div>
     </div>
+    @endif
 @endsection
 
 @section('scripts')
@@ -709,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pane.classList.toggle('is-active', pane.id === 'pane-' + name);
         });
 
-        addUserButton.classList.toggle('d-none', name !== 'users');
+        if (addUserButton) addUserButton.classList.toggle('d-none', name !== 'users');
         window.location.hash = name;
     }
 
@@ -721,7 +734,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (window.location.hash) {
         var hashTarget = window.location.hash.replace('#', '');
-        if (['profile', 'security', 'users'].indexOf(hashTarget) !== -1) {
+        if (['profile', 'security', 'users'].indexOf(hashTarget) !== -1 && document.querySelector('[data-pane="' + hashTarget + '"]')) {
             activatePane(hashTarget);
         }
     }
@@ -738,27 +751,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    addUserButton.addEventListener('click', function () {
-        addUserModal.style.display = 'flex';
-        document.getElementById('new-user-name').focus();
-    });
+    if (addUserButton && addUserModal) {
+        addUserButton.addEventListener('click', function () {
+            addUserModal.style.display = 'flex';
+            document.getElementById('new-user-name').focus();
+        });
 
-    closeAddUserModal.addEventListener('click', function () {
-        addUserModal.style.display = 'none';
-        document.getElementById('addUserForm').reset();
-    });
-
-    cancelAddUserModal.addEventListener('click', function () {
-        addUserModal.style.display = 'none';
-        document.getElementById('addUserForm').reset();
-    });
-
-    addUserModal.addEventListener('click', function (event) {
-        if (event.target === addUserModal) {
+        closeAddUserModal.addEventListener('click', function () {
             addUserModal.style.display = 'none';
             document.getElementById('addUserForm').reset();
-        }
-    });
+        });
+
+        cancelAddUserModal.addEventListener('click', function () {
+            addUserModal.style.display = 'none';
+            document.getElementById('addUserForm').reset();
+        });
+
+        addUserModal.addEventListener('click', function (event) {
+            if (event.target === addUserModal) {
+                addUserModal.style.display = 'none';
+                document.getElementById('addUserForm').reset();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && addUserModal.style.display === 'flex') {
+                addUserModal.style.display = 'none';
+                document.getElementById('addUserForm').reset();
+            }
+        });
+    }
 
     // Delete user with confirmation
     var deleteButtons = document.querySelectorAll('.user-action-btn.delete');
@@ -781,13 +803,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Escape key to close modal
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && addUserModal.style.display === 'flex') {
-            addUserModal.style.display = 'none';
-            document.getElementById('addUserForm').reset();
-        }
-    });
 });
 </script>
 @endsection

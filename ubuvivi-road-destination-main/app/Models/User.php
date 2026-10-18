@@ -31,6 +31,9 @@ class User extends Model implements UserContract, CanResetPassword
 {
     use Authenticatable, CanResetPasswordTrait, Notifiable, HasFactory;
 
+    const ROLE_ADMIN = 'admin';
+    const ROLE_SUPER_ADMIN = 'super_admin';
+
     public $table = 'users';
 
     const CREATED_AT = 'created_at';
@@ -81,7 +84,7 @@ class User extends Model implements UserContract, CanResetPassword
         'name' => 'required|string|max:255',
         'email' => 'required|string|max:255',
         'phone_number' => 'nullable|string|max:255',
-        'role' => 'nullable|string|max:255',
+        'role' => 'required|in:client,staff,admin,super_admin',
         'email_verified_at' => 'nullable',
         'password' => 'required|string|max:255',
         'two_factor_secret' => 'nullable|string',
@@ -91,6 +94,16 @@ class User extends Model implements UserContract, CanResetPassword
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_SUPER_ADMIN], true);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUPER_ADMIN;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

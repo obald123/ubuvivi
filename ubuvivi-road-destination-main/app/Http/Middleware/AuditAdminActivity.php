@@ -28,7 +28,7 @@ class AuditAdminActivity
 
         if (
             !$user ||
-            $user->role !== 'admin' ||
+            !$user->isAdmin() ||
             in_array($request->method(), ['GET', 'HEAD', 'OPTIONS'], true) ||
             $response->getStatusCode() >= 400 ||
             $request->session()->has('errors') ||

@@ -20,7 +20,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        return auth()->user()->role === 'admin'
+        return auth()->user()->isAdmin()
             ? '/home'
             : '/client/dashboard';
     }

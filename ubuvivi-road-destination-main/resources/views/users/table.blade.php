@@ -7,7 +7,7 @@
                 <th>Email</th>
                 <th>Phone Number</th>
                 <th>Role</th>
-                @if (Auth::user()->role == 'admin')
+                @if (Auth::user()->isSuperAdmin())
                     <th>Action</th>
                 @endif
             </tr>
@@ -28,8 +28,8 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone_number ?? 'N/A' }}</td>
-                        <td class="text-capitalize">{{ $user->role ?? 'N/A' }}</td>
-                        @if (Auth::user()->role == 'admin')
+                        <td class="text-capitalize">{{ ucwords(str_replace('_', ' ', $user->role ?? 'N/A')) }}</td>
+                        @if (Auth::user()->isSuperAdmin())
                             <td class=" text-center">
                                 {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
                                 <div class='btn-group'>
