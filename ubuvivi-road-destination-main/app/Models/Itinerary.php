@@ -89,18 +89,22 @@ class Itinerary extends Model
     // Accessors to ensure proper JSON decoding
     public function getImagesAttribute($value)
     {
-        if (is_string($value)) {
-            return json_decode($value, true) ?? [];
-        }
-        return $value ?? [];
+        return $this->decodeArrayAttribute($value);
+    }
+
+    public function setImagesAttribute($value)
+    {
+        $this->attributes['images'] = $this->encodeArrayAttribute($value);
     }
 
     public function getImageIdAttribute($value)
     {
-        if (is_string($value)) {
-            return json_decode($value, true) ?? [];
-        }
-        return $value ?? [];
+        return $this->decodeArrayAttribute($value);
+    }
+
+    public function setImageIdAttribute($value)
+    {
+        $this->attributes['image_id'] = $this->encodeArrayAttribute($value);
     }
 
     public function getHighlightsAttribute($value)
@@ -133,5 +137,30 @@ class Itinerary extends Model
             return json_decode($value, true) ?? [];
         }
         return $value ?? [];
+    }
+
+    private function decodeArrayAttribute($value): array
+    {
+        while (is_string($value)) {
+            $decoded = json_decode($value, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return [];
+            }
+            $value = $decoded;
+        }
+
+        return is_array($value) ? $value : [];
+    }
+
+    private function encodeArrayAttribute($value): string
+    {
+        if (is_string($value)) {
+            $decoded = json_decode($value, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $value = $decoded;
+            }
+        }
+
+        return json_encode(is_array($value) ? array_values($value) : []);
     }
 }

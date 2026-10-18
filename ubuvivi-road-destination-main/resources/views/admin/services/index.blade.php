@@ -556,7 +556,7 @@
                 <div class="img-upload-area" id="tourImagesArea">
                     <label class="img-slot" id="tourImgSlot" title="Add image">
                         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        <input type="file" name="tour_images[]" id="tourImageInput" multiple style="display:none" onchange="handleTourImages(this)">
+                        <input type="file" name="tour_images[]" id="tourImageInput" accept="image/*" multiple style="display:none" onchange="handleTourImages(this)">
                     </label>
                 </div>
 
@@ -625,7 +625,7 @@
                 <div class="img-upload-area" id="carImagesArea">
                     <label class="img-slot" id="carImgSlot" title="Add image">
                         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        <input type="file" name="vehicle_images[]" id="carImageInput" multiple style="display:none" onchange="handleCarImages(this)">
+                        <input type="file" name="vehicle_images[]" id="carImageInput" accept="image/*" multiple style="display:none" onchange="handleCarImages(this)">
                     </label>
                 </div>
 

@@ -94,6 +94,9 @@ class ServiceController extends Controller
             switch ($type) {
                 case 'tour':
                     [$images, $imageIds] = $this->uploadImages($request, 'tour_images');
+                    if ($request->hasFile('tour_images') && empty($images)) {
+                        return redirect()->route('services.index')->with('error', 'Tour image upload failed. Please try again.');
+                    }
                     $highlights = $this->processHighlights($request);
                     $inclusions = $this->processInclusions($request->inclusions ?? '');
                     $exclusions = $this->processInclusions($request->exclusions ?? '');
@@ -191,6 +194,9 @@ class ServiceController extends Controller
                 case 'tour':
                     $tour = Itinerary::findOrFail($id);
                     [$newImages, $newImageIds] = $this->uploadImages($request, 'tour_images');
+                    if ($request->hasFile('tour_images') && empty($newImages)) {
+                        return redirect()->route('services.index')->with('error', 'Tour image upload failed. Please try again.');
+                    }
 
                     $existingImages = json_decode($request->existing_images ?? '[]', true) ?: [];
                     $existingIds    = json_decode($request->existing_image_ids ?? '[]', true) ?: [];
@@ -342,7 +348,7 @@ class ServiceController extends Controller
                 $rules['title'] = 'required|string|max:255';
                 $rules['description'] = 'required|string';
                 $rules['tour_images'] = 'nullable|array';
-                $rules['tour_images.*'] = 'file|max:20480';
+                $rules['tour_images.*'] = 'image|max:20480';
                 $rules['days'] = 'required|integer|min:1';
                 break;
             case 'car':
